@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.20 Beta</title>
+<title>RackMate V1.21 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -60,7 +60,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <div class="name red"><input id="p1Input" value="Player 1"></div><button class="swap" id="swapBtn">⇄<br>SWAP SIDES</button><div class="name blue"><input id="p2Input" value="Player 2"></div>
 <div class="body">
 <div class="panel"><div class="label">GAME TYPE</div><div class="balls"><button class="ball b8 sel" data-game="8">8</button><button class="ball b9" data-game="9">9</button><button class="ball b10" data-game="10">10</button></div><div class="track"><div id="gameCue" class="cue pos8"></div></div><div class="label" style="margin-top:12px">BREAK FORMAT</div><div class="row"><button class="choice active" data-break="alternate">ALTERNATE BREAK</button><button class="choice" data-break="winner">WINNER BREAK</button></div></div>
-<div class="panel"><div class="label">MATCH LENGTH</div><div class="length"><div class="counter"><button id="raceDown">‹</button><div><small>RACE TO</small><b id="raceVal">7</b></div><button id="raceUp">›</button></div><div class="counter"><button id="bestDown">‹</button><div><small>BEST OF</small><b id="bestVal">13</b></div><button id="bestUp">›</button></div></div><div class="label" style="margin-top:18px">FIRST BREAK</div><div class="row"><button class="choice" data-first="lag">LAG</button><button class="choice" data-first="coin">COIN TOSS</button><button class="choice" data-first="manual">MANUAL</button></div></div>
+<div class="panel"><div class="label">MATCH LENGTH</div><div class="length"><div class="counter"><button id="raceDown">‹</button><div><small>RACE TO</small><b id="raceVal">7</b></div><button id="raceUp">›</button></div><div class="counter"><button id="bestDown">‹</button><div><small>BEST OF</small><b id="bestVal">13</b></div><button id="bestUp">›</button></div></div><div class="label" style="margin-top:18px">FIRST BREAK</div><div class="row"><button class="choice" data-first="lag">LAG</button><button class="choice" data-first="coin">COIN TOSS</button><button class="choice" data-first="manual">JUST PLAY</button></div></div>
 </div></div></section>
 
 <section id="playScreen" class="screen">
@@ -94,11 +94,11 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.20</div>
+<div class="version">V1.21</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const st={screen:'setup',game:8,race:7,best:13,breakFormat:'alternate',p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false};let helpReturn='setup';
+const st={screen:'setup',game:8,race:7,best:13,breakFormat:'alternate',p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false};let helpReturn='setup';
 function show(n){$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+n+'Screen').classList.add('active');st.screen=n;$('#screenTitle').textContent={setup:'MATCH SETUP',play:st.game+'-BALL',winner:'MATCH COMPLETE',help:'HELP'}[n];$('#settingsBtn').style.visibility=n==='play'?'visible':'hidden'}
 function snapCueToGame(game){
   const gc=$('#gameCue');
@@ -127,7 +127,7 @@ function sync(){
   $('#raceVal').textContent=st.race;
   $('#bestVal').textContent=st.best;
 }
-function play(){ $('#p1Name').textContent=st.p1;$('#p2Name').textContent=st.p2;$('#p1Score').textContent=st.score1;$('#p2Score').textContent=st.score2;$('#raceDisplay').textContent='RACE TO '+st.race;$('#frameDisplay').textContent='FRAME '+Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;$('#breakerText').textContent=(st.breaker===1?st.p1:st.p2)+' BREAKS';$('#breakerCue').className='breaker '+(st.breaker===1?'bp1':'bp2');$('#gameRep').className='ball b'+st.game;$('#gameRep').textContent=st.game;$('#gameText').textContent=st.game+'-BALL';const hh=st.score1===st.race-1&&st.score2===st.race-1;$('#p1Hill').textContent=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');$('#p2Hill').textContent=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'')}
+function play(){ $('#p1Name').textContent=st.p1;$('#p2Name').textContent=st.p2;$('#p1Score').textContent=st.score1;$('#p2Score').textContent=st.score2;$('#raceDisplay').textContent='RACE TO '+st.race;$('#frameDisplay').textContent='FRAME '+Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker';$('#breakerCue').style.transform='';}else{$('#breakerText').textContent=(st.breaker===1?st.p1:st.p2)+' BREAKS';$('#breakerCue').className='breaker '+(st.breaker===1?'bp1':'bp2');}$('#gameRep').className='ball b'+st.game;$('#gameRep').textContent=st.game;$('#gameText').textContent=st.game+'-BALL';const hh=st.score1===st.race-1&&st.score2===st.race-1;$('#p1Hill').textContent=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');$('#p2Hill').textContent=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'')}
 function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history]}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
@@ -144,12 +144,18 @@ function add(p){
     return;
   }
 
-  st.breaker = st.breakFormat==='alternate' ? (st.breaker===1?2:1) : p;
+  if(st.justPlay){
+    st.breaker = st.breakFormat==='alternate' ? (p===1?2:1) : p;
+    st.justPlay=false;
+  }else{
+    st.breaker = st.breakFormat==='alternate' ? (st.breaker===1?2:1) : p;
+  }
   play();
   toast((p===1?st.p1:st.p2)+' wins frame');
 }
 function remove(p){for(let i=st.history.length-1;i>=0;i--){if(st.history[i].player===p){restore(st.history[i].before);return}}}
 function start(p){
+  st.justPlay=false;
   const fromOpeningAssignment=st.lagAssign;
   st.lagAssign=false;
   st.openingBreakerEditable=fromOpeningAssignment;
@@ -166,6 +172,7 @@ function start(p){
 }
 
 function beginLagAssignment(){
+  st.justPlay=false;
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
   st.score1=0;st.score2=0;st.history=[];
@@ -271,6 +278,7 @@ $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sy
 $('#swapBtn').onclick=()=>{const a=$('#p1Input').value;$('#p1Input').value=$('#p2Input').value;$('#p2Input').value=a};
 
 function beginCoinToss(){
+  st.justPlay=false;
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
   st.score1=0;st.score2=0;st.history=[];
@@ -304,6 +312,14 @@ function endCoinTossToBreaker(p){
   play();
 }
 
+function beginJustPlay(){
+  st.p1=$('#p1Input').value.trim()||'Player 1';
+  st.p2=$('#p2Input').value.trim()||'Player 2';
+  st.score1=0;st.score2=0;st.history=[];
+  st.lagAssign=false;st.openingBreakerEditable=false;st.justPlay=true;
+  show('play');play();
+}
+
 $$('[data-first]').forEach(b=>b.onclick=()=>{
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
@@ -312,7 +328,7 @@ $$('[data-first]').forEach(b=>b.onclick=()=>{
   }else if(b.dataset.first==='lag'){
     beginLagAssignment();
   }else{
-    choose('Who breaks first?');
+    beginJustPlay();
   }
 });
 
