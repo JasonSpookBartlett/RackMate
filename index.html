@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.10 Beta</title>
+<title>RackMate V1.11 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -63,22 +63,82 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <div id="coinLayer" class="coinLayer"><div><div id="coinHint" class="coinHint">TOSS</div><div id="coin" class="coin">NZ</div><div id="coinResult" style="text-align:center;margin-top:10px">Tap the coin</div></div></div>
 </section>
 
+
+<section id="winnerScreen" class="screen">
+  <div style="position:absolute;inset:8% 10%;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:18px;align-items:center;text-align:center">
+    <div style="font-size:110px">🏆</div>
+    <div>
+      <div style="font-size:clamp(42px,6vw,88px);font-weight:900;color:var(--gold)">WINNER!</div>
+      <div id="winnerName" style="font-size:clamp(34px,4.5vw,64px);font-weight:900"></div>
+      <div id="winnerScore" style="font-size:50px;font-weight:900;color:var(--gold)"></div>
+      <div id="winnerMeta" style="margin-top:8px"></div>
+      <div id="winnerFrames" style="margin-top:10px"></div>
+    </div>
+    <div id="winnerBanter" style="background:#f6f0df;color:#111;border-radius:24px;padding:20px;font-family:'Comic Sans MS',cursive;font-size:clamp(17px,2vw,28px)"></div>
+    <div style="grid-column:1/4;display:flex;justify-content:center;gap:12px">
+      <button class="choice" id="rematchBtn">↶ REMATCH</button>
+      <button class="choice active" id="newMatchBtn">▶ NEW MATCH</button>
+    </div>
+  </div>
+</section>
+
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.10</div>
+<div class="version">V1.11</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const st={screen:'setup',game:8,race:7,best:13,breakFormat:'alternate',p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[]};let helpReturn='setup';
-function show(n){$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+n+'Screen').classList.add('active');st.screen=n;$('#screenTitle').textContent={setup:'MATCH SETUP',play:st.game+'-BALL',help:'HELP'}[n];$('#settingsBtn').style.visibility=n==='play'?'visible':'hidden'}
+function show(n){$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+n+'Screen').classList.add('active');st.screen=n;$('#screenTitle').textContent={setup:'MATCH SETUP',play:st.game+'-BALL',winner:'MATCH COMPLETE',help:'HELP'}[n];$('#settingsBtn').style.visibility=n==='play'?'visible':'hidden'}
 function sync(){ $('#p1Input').value=st.p1;$('#p2Input').value=st.p2;$$('[data-game]').forEach(b=>b.classList.toggle('sel',+b.dataset.game===st.game));$('#gameCue').className='cue pos'+st.game;$$('[data-break]').forEach(b=>b.classList.toggle('active',b.dataset.break===st.breakFormat));$('#raceVal').textContent=st.race;$('#bestVal').textContent=st.best}
 function play(){ $('#p1Name').textContent=st.p1;$('#p2Name').textContent=st.p2;$('#p1Score').textContent=st.score1;$('#p2Score').textContent=st.score2;$('#raceDisplay').textContent='RACE TO '+st.race;$('#frameDisplay').textContent='FRAME '+Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;$('#breakerText').textContent=(st.breaker===1?st.p1:st.p2)+' BREAKS';$('#breakerCue').className='breaker '+(st.breaker===1?'bp1':'bp2');$('#gameRep').className='ball b'+st.game;$('#gameRep').textContent=st.game;$('#gameText').textContent=st.game+'-BALL';const hh=st.score1===st.race-1&&st.score2===st.race-1;$('#p1Hill').textContent=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');$('#p2Hill').textContent=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'')}
 function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history]}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
-function add(p){const before=snap();st.history.push({before,player:p});p===1?st.score1++:st.score2++;st.breaker=st.breakFormat==='alternate'?(st.breaker===1?2:1):p;play();toast((p===1?st.p1:st.p2)+' wins frame')}
+function add(p){
+  if(st.screen!=='play' || $('#coinLayer').classList.contains('show')) return;
+  if(st.score1>=st.race || st.score2>=st.race) return;
+  const before=snap();
+  st.history.push({before,player:p});
+  if(p===1) st.score1++; else st.score2++;
+
+  if(st.score1>=st.race || st.score2>=st.race){
+    play();
+    finishMatch(p);
+    return;
+  }
+
+  st.breaker = st.breakFormat==='alternate' ? (st.breaker===1?2:1) : p;
+  play();
+  toast((p===1?st.p1:st.p2)+' wins frame');
+}
 function remove(p){for(let i=st.history.length-1;i>=0;i--){if(st.history[i].player===p){restore(st.history[i].before);return}}}
-function start(p){st.p1=$('#p1Input').value.trim()||'Player 1';st.p2=$('#p2Input').value.trim()||'Player 2';st.score1=st.score2=0;st.history=[];st.breaker=st.firstBreaker=p;show('play');play()}
+function start(p){
+  st.p1=$('#p1Input').value.trim()||'Player 1';
+  st.p2=$('#p2Input').value.trim()||'Player 2';
+  st.score1=0;st.score2=0;st.history=[];
+  st.breaker=st.firstBreaker=p;
+  show('play');play();
+}
+function finishMatch(p){
+  const w = p===1 ? st.p1 : st.p2;
+  const ws = p===1 ? st.score1 : st.score2;
+  const ls = p===1 ? st.score2 : st.score1;
+  $('#winnerName').textContent=w;
+  $('#winnerScore').textContent=ws+' - '+ls;
+  $('#winnerMeta').textContent=st.game+'-BALL • RACE TO '+st.race;
+  $('#winnerFrames').textContent='Won in '+(ws+ls)+' Frames';
+  const msgs=[
+    "Congratulations. Try to act like you’ve won before.",
+    "RackMate confirms it: the bragging rights are unfortunately legitimate.",
+    "Well played. Your opponent is delighted for you. Probably.",
+    "Winner confirmed. Humility remains optional.",
+    "Nice win. Clearly it was the chalk.",
+    "A win is a win. We won’t discuss how long that took."
+  ];
+  $('#winnerBanter').textContent=msgs[Math.floor(Math.random()*msgs.length)];
+  show('winner');
+}
 function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show')}
 function choose(t){modal(t,'<div class="row"><button class="choice" data-pick="1">'+st.p1+'</button><button class="choice" data-pick="2">'+st.p2+'</button></div>');$$('[data-pick]').forEach(b=>b.onclick=()=>{close();start(+b.dataset.pick)})}
 function swipe(el,p){let s=null,last=0;el.addEventListener('pointerdown',e=>{s={x:e.clientX,y:e.clientY}});el.addEventListener('pointerup',e=>{if(!s)return;const dy=s.y-e.clientY,dx=Math.abs(s.x-e.clientX);if(Math.abs(dy)>35&&Math.abs(dy)>dx){dy>0?add(p):remove(p);s=null;return}const n=Date.now();if(n-last<420)add(p);last=n;s=null})}
@@ -88,6 +148,8 @@ $('#swapBtn').onclick=()=>{const a=$('#p1Input').value;$('#p1Input').value=$('#p
 $$('[data-first]').forEach(b=>b.onclick=()=>{st.p1=$('#p1Input').value.trim()||'Player 1';st.p2=$('#p2Input').value.trim()||'Player 2';if(b.dataset.first==='coin'){show('play');play();$('#coinLayer').classList.add('show')}else choose(b.dataset.first==='lag'?'Who won the lag?':'Who breaks first?')});
 $('#undoBtn').onclick=()=>{const e=st.history.at(-1);if(e)restore(e.before)};$('#menuBtn').onclick=()=>{if(st.screen==='play'){modal('Match Menu','<div class="row"><button id="resumeBtn" class="choice">RESUME</button><button id="quitBtn" class="choice">QUIT MATCH</button></div>');$('#resumeBtn').onclick=close;$('#quitBtn').onclick=()=>{if(confirm('Quit this match?')){close();show('setup');sync()}}}else show('setup')};
 $('#helpBtn').onclick=()=>{helpReturn=st.screen;show('help')};$('#helpClose').onclick=()=>show(helpReturn);$('#modalCancel').onclick=close;$('#settingsBtn').onclick=()=>modal('Edit Match Settings','<p>Use V1.10 gameplay first; settings edit comes next patch.</p>');
+$('#rematchBtn').onclick=()=>{st.score1=0;st.score2=0;st.history=[];st.breaker=st.firstBreaker;show('play');play()};
+$('#newMatchBtn').onclick=()=>{st.score1=0;st.score2=0;st.history=[];show('setup');sync()};
 swipe($('#leftZone'),1);swipe($('#rightZone'),2);
 let flipped=false,drag=null;const coin=$('#coin');coin.onclick=()=>{if(flipped)return;flipped=true;const h=Math.random()<.5;coin.textContent=h?'H':'T';$('#coinHint').textContent=h?'HEADS':'TAILS';$('#coinResult').textContent='DRAG COIN TO WINNER'};coin.addEventListener('pointerdown',e=>{if(!flipped)return;drag={x:e.clientX,y:e.clientY}});coin.addEventListener('pointermove',e=>{if(drag)coin.style.transform=`translate(${e.clientX-drag.x}px,${e.clientY-drag.y}px)`});coin.addEventListener('pointerup',e=>{if(!drag)return;const r=document.querySelector('.table').getBoundingClientRect(),p=e.clientX<r.left+r.width/2?1:2;coin.style.transform='';drag=null;flipped=false;coin.textContent='NZ';$('#coinLayer').classList.remove('show');start(p)});
 if('serviceWorker'in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister()));if('caches'in window)caches.keys().then(ks=>ks.forEach(k=>caches.delete(k)))}sync();show('setup');
