@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.14 Beta</title>
+<title>RackMate V1.15 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -28,7 +28,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 .row{display:flex;gap:10px;justify-content:center}.choice{background:#111918;border:1px solid #6c7974;border-radius:10px;color:#fff;padding:11px 14px;font-weight:800}.choice.active{border-color:var(--gold);color:#ffe89b}
 .length{display:grid;grid-template-columns:1fr 1fr;gap:12px}.counter{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;background:#111918;border-radius:11px;padding:10px}.counter button{height:40px;border-radius:9px;border:1px solid #52625d;background:#15201d;color:#fff;font-size:24px}.counter div{text-align:center}.counter small{display:block;font-size:10px}.counter b{font-size:34px}
 .play{position:absolute;left:3.5%;right:3.5%;top:4.5%;bottom:7%;display:grid;grid-template-columns:1fr 220px 1fr;gap:16px}.side{display:flex;align-items:center;justify-content:center;flex-direction:column;border-radius:13px;touch-action:none;user-select:none;background:rgba(0,0,0,.08)}.left{border:2px solid var(--red)}.rightSide{border:2px solid var(--blue)}
-.pname{font-size:clamp(28px,4vw,58px);font-weight:900}.score{font-size:clamp(68px,9vw,128px);font-weight:900}.hill{height:26px;color:var(--gold);font-weight:900}.centre{background:rgba(0,0,0,.63);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}.race{font-size:24px;font-weight:900}.frame{font-size:17px;font-weight:800}.breaker{width:60px;height:60px;border-radius:50%;background:#fff;box-shadow:inset -10px -10px 16px #bbb;transition:transform .2s}.bp1{transform:translateX(-98px)}.bp2{transform:translateX(98px)}
+.pname{font-size:clamp(28px,4vw,58px);font-weight:900}.score{font-size:clamp(68px,9vw,128px);font-weight:900}.hill{height:26px;color:var(--gold);font-weight:900}.centre{background:rgba(0,0,0,.63);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}.race{font-size:24px;font-weight:900}.frame{font-size:17px;font-weight:800}.breaker{width:60px;height:60px;border-radius:50%;background:#fff;box-shadow:inset -10px -10px 16px #bbb;transition:transform .2s}.bp1{transform:translateX(-98px)}.bp2{transform:translateX(98px)}.breaker.lagAssign{transform:none!important;cursor:grab;touch-action:none;z-index:40;transition:none}
 .bottom{position:absolute;left:4%;right:4%;bottom:2.5%;display:flex;justify-content:space-between}.bottom button{background:#111918;border:1px solid #596862;color:#fff;border-radius:10px;padding:10px 16px;font-weight:800}
 .modalWrap{position:absolute;inset:0;background:rgba(0,0,0,.56);display:none;align-items:center;justify-content:center;z-index:50}.modalWrap.show{display:flex}.modal{width:min(620px,90%);background:#111918;border:1px solid #4b6259;border-radius:14px;padding:18px}.modal h2{margin-top:0}.modalActions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
@@ -85,11 +85,11 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.14</div>
+<div class="version">V1.15</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const st={screen:'setup',game:8,race:7,best:13,breakFormat:'alternate',p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[]};let helpReturn='setup';
+const st={screen:'setup',game:8,race:7,best:13,breakFormat:'alternate',p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false};let helpReturn='setup';
 function show(n){$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+n+'Screen').classList.add('active');st.screen=n;$('#screenTitle').textContent={setup:'MATCH SETUP',play:st.game+'-BALL',winner:'MATCH COMPLETE',help:'HELP'}[n];$('#settingsBtn').style.visibility=n==='play'?'visible':'hidden'}
 function snapCueToGame(game){
   const gc=$('#gameCue');
@@ -122,7 +122,7 @@ function play(){ $('#p1Name').textContent=st.p1;$('#p2Name').textContent=st.p2;$
 function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history]}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
-  if(st.screen!=='play' || $('#coinLayer').classList.contains('show')) return;
+  if(st.screen!=='play' || st.lagAssign || $('#coinLayer').classList.contains('show')) return;
   if(st.score1>=st.race || st.score2>=st.race) return;
   const before=snap();
   st.history.push({before,player:p});
@@ -140,12 +140,31 @@ function add(p){
 }
 function remove(p){for(let i=st.history.length-1;i>=0;i--){if(st.history[i].player===p){restore(st.history[i].before);return}}}
 function start(p){
+  st.lagAssign=false;
+  $('#breakerCue').classList.remove('lagAssign');
+  $('#breakerCue').style.transform='';
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
   st.score1=0;st.score2=0;st.history=[];
   st.breaker=st.firstBreaker=p;
   show('play');play();
 }
+
+function beginLagAssignment(){
+  st.p1=$('#p1Input').value.trim()||'Player 1';
+  st.p2=$('#p2Input').value.trim()||'Player 2';
+  st.score1=0;st.score2=0;st.history=[];
+  st.lagAssign=true;
+  show('play');
+  play();
+
+  const cue=$('#breakerCue');
+  cue.className='breaker lagAssign';
+  cue.style.transform='';
+  $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
+  $('#frameDisplay').textContent='FRAME 1 OF '+st.best;
+}
+
 function finishMatch(p){
   const w = p===1 ? st.p1 : st.p2;
   const ws = p===1 ? st.score1 : st.score2;
@@ -234,7 +253,67 @@ if(gameCue && gameTrack){
 }$$('[data-break]').forEach(b=>b.onclick=()=>{st.breakFormat=b.dataset.break;sync()});
 $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sync()};$('#raceUp').onclick=()=>{st.race++;st.best=st.race*2-1;sync()};$('#bestDown').onclick=()=>{st.best=Math.max(3,st.best-2);st.race=(st.best+1)/2;sync()};$('#bestUp').onclick=()=>{st.best+=2;st.race=(st.best+1)/2;sync()};
 $('#swapBtn').onclick=()=>{const a=$('#p1Input').value;$('#p1Input').value=$('#p2Input').value;$('#p2Input').value=a};
-$$('[data-first]').forEach(b=>b.onclick=()=>{st.p1=$('#p1Input').value.trim()||'Player 1';st.p2=$('#p2Input').value.trim()||'Player 2';if(b.dataset.first==='coin'){show('play');play();$('#coinLayer').classList.add('show')}else choose(b.dataset.first==='lag'?'Who won the lag?':'Who breaks first?')});
+$$('[data-first]').forEach(b=>b.onclick=()=>{
+  st.p1=$('#p1Input').value.trim()||'Player 1';
+  st.p2=$('#p2Input').value.trim()||'Player 2';
+  if(b.dataset.first==='coin'){
+    show('play');play();$('#coinLayer').classList.add('show');
+  }else if(b.dataset.first==='lag'){
+    beginLagAssignment();
+  }else{
+    choose('Who breaks first?');
+  }
+});
+
+let lagDrag=null;
+const breakerCue=$('#breakerCue');
+
+breakerCue.addEventListener('pointerdown',e=>{
+  if(!st.lagAssign) return;
+  lagDrag={id:e.pointerId,x:e.clientX,y:e.clientY};
+  breakerCue.style.cursor='grabbing';
+  try{breakerCue.setPointerCapture(e.pointerId)}catch(_){}
+  e.preventDefault();
+});
+
+breakerCue.addEventListener('pointermove',e=>{
+  if(!st.lagAssign || !lagDrag) return;
+  const dx=e.clientX-lagDrag.x;
+  const dy=e.clientY-lagDrag.y;
+  breakerCue.style.transform=`translate(${dx}px,${dy}px)`;
+});
+
+function finishLagDrag(e){
+  if(!st.lagAssign || !lagDrag) return;
+
+  const left=$('#leftZone').getBoundingClientRect();
+  const right=$('#rightZone').getBoundingClientRect();
+  const inside=(r,x,y)=>x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
+
+  let p=0;
+  if(inside(left,e.clientX,e.clientY)) p=1;
+  else if(inside(right,e.clientX,e.clientY)) p=2;
+
+  lagDrag=null;
+  breakerCue.style.cursor='grab';
+
+  if(!p){
+    breakerCue.style.transform='';
+    $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
+    return;
+  }
+
+  start(p);
+}
+
+breakerCue.addEventListener('pointerup',finishLagDrag);
+breakerCue.addEventListener('pointercancel',()=>{
+  if(!st.lagAssign) return;
+  lagDrag=null;
+  breakerCue.style.transform='';
+  breakerCue.style.cursor='grab';
+});
+
 $('#undoBtn').onclick=()=>{const e=st.history.at(-1);if(e)restore(e.before)};$('#menuBtn').onclick=()=>{if(st.screen==='play'){modal('Match Menu','<div class="row"><button id="resumeBtn" class="choice">RESUME</button><button id="quitBtn" class="choice">QUIT MATCH</button></div>');$('#resumeBtn').onclick=close;$('#quitBtn').onclick=()=>{if(confirm('Quit this match?')){close();show('setup');sync()}}}else show('setup')};
 $('#helpBtn').onclick=()=>{helpReturn=st.screen;show('help')};$('#helpClose').onclick=()=>show(helpReturn);$('#modalCancel').onclick=close;$('#settingsBtn').onclick=()=>modal('Edit Match Settings','<p>Use V1.10 gameplay first; settings edit comes next patch.</p>');
 $('#rematchBtn').onclick=()=>{st.score1=0;st.score2=0;st.history=[];st.breaker=st.firstBreaker;show('play');play()};
