@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.16 Beta</title>
+<title>RackMate V1.17 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -85,7 +85,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.16</div>
+<div class="version">V1.17</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -145,6 +145,9 @@ function start(p){
   st.lagAssign=false;
   st.openingBreakerEditable=fromOpeningAssignment;
   $('#breakerCue').classList.remove('lagAssign');
+  $('#breakerCue').style.position='';
+  $('#breakerCue').style.left='';
+  $('#breakerCue').style.top='';
   $('#breakerCue').style.transform='';
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
@@ -276,11 +279,19 @@ breakerCue.addEventListener('pointerdown',e=>{
   if(st.openingBreakerEditable && st.history.length===0 && st.score1===0 && st.score2===0){
     st.lagAssign=true;
     breakerCue.classList.add('lagAssign');
-    breakerCue.style.transform='';
-    $('#breakerText').textContent='DRAG CUE BALL TO FIRST BREAKER';
   }
   if(!st.lagAssign) return;
-  lagDrag={id:e.pointerId,x:e.clientX,y:e.clientY};
+
+  const r=breakerCue.getBoundingClientRect();
+  lagDrag={
+    id:e.pointerId,
+    x:e.clientX,
+    y:e.clientY,
+    startLeft:r.left,
+    startTop:r.top,
+    moved:false
+  };
+
   breakerCue.style.cursor='grabbing';
   try{breakerCue.setPointerCapture(e.pointerId)}catch(_){}
   e.preventDefault();
@@ -288,28 +299,48 @@ breakerCue.addEventListener('pointerdown',e=>{
 
 breakerCue.addEventListener('pointermove',e=>{
   if(!st.lagAssign || !lagDrag) return;
+
   const dx=e.clientX-lagDrag.x;
   const dy=e.clientY-lagDrag.y;
-  breakerCue.style.transform=`translate(${dx}px,${dy}px)`;
+
+  if(Math.abs(dx)>2 || Math.abs(dy)>2) lagDrag.moved=true;
+
+  // Move visually with the pointer from its CURRENT rendered position.
+  breakerCue.style.position='fixed';
+  breakerCue.style.left=(lagDrag.startLeft+dx)+'px';
+  breakerCue.style.top=(lagDrag.startTop+dy)+'px';
+  breakerCue.style.transform='none';
 });
 
 function finishLagDrag(e){
   if(!st.lagAssign || !lagDrag) return;
 
+  const moved=lagDrag.moved;
   const left=$('#leftZone').getBoundingClientRect();
   const right=$('#rightZone').getBoundingClientRect();
   const inside=(r,x,y)=>x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;
 
   let p=0;
-  if(inside(left,e.clientX,e.clientY)) p=1;
-  else if(inside(right,e.clientX,e.clientY)) p=2;
+  if(moved && inside(left,e.clientX,e.clientY)) p=1;
+  else if(moved && inside(right,e.clientX,e.clientY)) p=2;
 
   lagDrag=null;
   breakerCue.style.cursor='grab';
 
+  // A simple click does NOTHING: no bounce to centre, no text change.
+  if(!moved){
+    return;
+  }
+
+  // Invalid drag: restore the normal displayed breaker position.
+  breakerCue.style.position='';
+  breakerCue.style.left='';
+  breakerCue.style.top='';
+
   if(!p){
-    breakerCue.style.transform='';
-    $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
+    st.lagAssign=false;
+    breakerCue.classList.remove('lagAssign');
+    play();
     return;
   }
 
