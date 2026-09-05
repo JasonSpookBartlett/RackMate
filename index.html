@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.26 Beta</title>
+<title>RackMate V1.27 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -104,7 +104,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.26</div>
+<div class="version">V1.27</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -454,6 +454,8 @@ breakerCue.addEventListener('pointercancel',()=>{
 
 $('#undoBtn').onclick=()=>{const e=st.history.at(-1);if(e)restore(e.before)};
 $('#menuBtn').onclick=()=>{
+  const restoreCancel=()=>{$('#modalCancel').style.display='inline-block';};
+
   if(st.screen==='play'){
     modal('Match Menu',
       '<div class="row" style="flex-wrap:wrap">'+
@@ -465,15 +467,18 @@ $('#menuBtn').onclick=()=>{
     );
     $('#modalCancel').style.display='none';
 
-    const restoreCancel=()=>{$('#modalCancel').style.display='inline-block';};
-
     $('#resumeBtn').onclick=()=>{restoreCancel();close();};
     $('#p1ConcedeBtn').onclick=()=>{restoreCancel();close();finishMatch(2,'concede');};
     $('#p2ConcedeBtn').onclick=()=>{restoreCancel();close();finishMatch(1,'concede');};
 
     $('#abandonBtn').onclick=()=>{
+      const hasScore=st.score1>0||st.score2>0;
       modal('Abandon Match?',
-        '<p style="margin:0 0 12px">No winner will be recorded and the current score will be discarded.</p>'+
+        '<p style="margin:0 0 12px">'+
+        (hasScore
+          ? '<b>WHAT? Quitting already? WIMPS!</b><br>Abandoning the match records no winner and discards the current score.'
+          : 'No winner will be recorded and the current score will be discarded.')+
+        '</p>'+
         '<div class="row">'+
         '<button id="keepPlayingBtn" class="choice">KEEP PLAYING</button>'+
         '<button id="confirmAbandonBtn" class="choice active">ABANDON MATCH</button>'+
@@ -492,11 +497,29 @@ $('#menuBtn').onclick=()=>{
         sync();
       };
     };
-  }else{
-    show('setup');
+    return;
   }
-};
-$('#helpBtn').onclick=()=>{helpReturn=st.screen;show('help')};$('#helpClose').onclick=()=>show(helpReturn);$('#modalCancel').onclick=close;
+
+  if(st.screen==='setup'||st.screen==='winner'){
+    modal('RackMate Menu',
+      '<div class="row" style="justify-content:center">'+
+      '<button id="exitAppBtn" class="choice active">EXIT APP</button>'+
+      '</div>'
+    );
+    $('#exitAppBtn').onclick=()=>{
+      modal('Exit RackMate',
+        '<p style="margin:0 0 12px">You can close RackMate now.</p>'+
+        '<div class="row" style="justify-content:center">'+
+        '<button id="exitDoneBtn" class="choice active">OK</button>'+
+        '</div>'
+      );
+      $('#modalCancel').style.display='none';
+      $('#exitDoneBtn').onclick=()=>{restoreCancel();close();};
+      // Packaged Android builds can replace the message above with a native app exit/background action.
+    };
+    return;
+  }
+};$('#helpBtn').onclick=()=>{helpReturn=st.screen;show('help')};$('#helpClose').onclick=()=>show(helpReturn);$('#modalCancel').onclick=close;
 
 function openEditMatchSettings(){
   if(st.screen!=='play') return;
