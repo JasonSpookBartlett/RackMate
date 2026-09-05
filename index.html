@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.21 Beta</title>
+<title>RackMate V1.22 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -31,6 +31,16 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 .pname{font-size:clamp(28px,4vw,58px);font-weight:900}.score{font-size:clamp(68px,9vw,128px);font-weight:900}.hill{height:26px;color:var(--gold);font-weight:900}.centre{background:rgba(0,0,0,.63);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}.race{font-size:24px;font-weight:900}.frame{font-size:17px;font-weight:800}.breaker{width:60px;height:60px;border-radius:50%;background:#fff;box-shadow:inset -10px -10px 16px #bbb;transition:transform .2s}.bp1{transform:translateX(-98px)}.bp2{transform:translateX(98px)}.breaker.lagAssign{transform:none!important;cursor:grab;touch-action:none;z-index:40;transition:none}
 .bottom{position:absolute;left:4%;right:4%;bottom:2.5%;display:flex;justify-content:space-between}.bottom button{background:#111918;border:1px solid #596862;color:#fff;border-radius:10px;padding:10px 16px;font-weight:800}
 .modalWrap{position:absolute;inset:0;background:rgba(0,0,0,.56);display:none;align-items:center;justify-content:center;z-index:50}.modalWrap.show{display:flex}.modal{width:min(620px,90%);background:#111918;border:1px solid #4b6259;border-radius:14px;padding:18px}.modal h2{margin-top:0}.modalActions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+.editGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+.editField{display:flex;flex-direction:column;gap:6px}
+.editField label{font-size:12px;font-weight:900;letter-spacing:.08em;color:#b9d2c7}
+.editField input{background:#0c1211;border:1px solid #52675f;border-radius:9px;color:#fff;padding:10px 12px;font-size:18px;font-weight:800;min-width:0}
+.editWide{grid-column:1/-1}
+.editChoices{display:flex;gap:8px;flex-wrap:wrap}
+.editChoices .choice{flex:1;min-width:130px}
+.editReadout{background:#0c1211;border:1px solid #52675f;border-radius:9px;padding:10px 12px;font-size:18px;font-weight:900;text-align:center}
+.editError{min-height:20px;color:#ffd27a;font-weight:800;margin-top:10px}
+@media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 .coinLayer{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:35;pointer-events:none}
 .coinLayer.show{display:flex}
@@ -94,7 +104,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.21</div>
+<div class="version">V1.22</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -435,7 +445,112 @@ breakerCue.addEventListener('pointercancel',()=>{
 });
 
 $('#undoBtn').onclick=()=>{const e=st.history.at(-1);if(e)restore(e.before)};$('#menuBtn').onclick=()=>{if(st.screen==='play'){modal('Match Menu','<div class="row"><button id="resumeBtn" class="choice">RESUME</button><button id="quitBtn" class="choice">QUIT MATCH</button></div>');$('#resumeBtn').onclick=close;$('#quitBtn').onclick=()=>{if(confirm('Quit this match?')){close();show('setup');sync()}}}else show('setup')};
-$('#helpBtn').onclick=()=>{helpReturn=st.screen;show('help')};$('#helpClose').onclick=()=>show(helpReturn);$('#modalCancel').onclick=close;$('#settingsBtn').onclick=()=>modal('Edit Match Settings','<p>Use V1.10 gameplay first; settings edit comes next patch.</p>');
+$('#helpBtn').onclick=()=>{helpReturn=st.screen;show('help')};$('#helpClose').onclick=()=>show(helpReturn);$('#modalCancel').onclick=close;
+
+function openEditMatchSettings(){
+  if(st.screen!=='play') return;
+
+  const justPlayOpening=st.justPlay && st.score1===0 && st.score2===0;
+  const body=`
+    <div class="editGrid">
+      <div class="editField">
+        <label>PLAYER 1</label>
+        <input id="editP1" maxlength="24" value="${st.p1.replace(/"/g,'&quot;')}">
+      </div>
+      <div class="editField">
+        <label>PLAYER 2</label>
+        <input id="editP2" maxlength="24" value="${st.p2.replace(/"/g,'&quot;')}">
+      </div>
+
+      <div class="editField">
+        <label>RACE TO</label>
+        <input id="editRace" type="number" min="2" step="1" value="${st.race}">
+      </div>
+      <div class="editField">
+        <label>BEST OF</label>
+        <div id="editBest" class="editReadout">${st.best}</div>
+      </div>
+
+      <div class="editField editWide">
+        <label>BREAK FORMAT</label>
+        <div class="editChoices">
+          <button type="button" class="choice ${st.breakFormat==='alternate'?'active':''}" data-edit-break="alternate">ALTERNATE BREAK</button>
+          <button type="button" class="choice ${st.breakFormat==='winner'?'active':''}" data-edit-break="winner">WINNER BREAK</button>
+        </div>
+      </div>
+
+      <div class="editField editWide">
+        <label>${justPlayOpening?'CURRENT BREAKER — UNASSIGNED FOR FRAME 1':'CURRENT BREAKER'}</label>
+        <div class="editChoices">
+          <button type="button" class="choice ${!justPlayOpening&&st.breaker===1?'active':''}" data-edit-breaker="1">${st.p1}</button>
+          <button type="button" class="choice ${!justPlayOpening&&st.breaker===2?'active':''}" data-edit-breaker="2">${st.p2}</button>
+        </div>
+      </div>
+    </div>
+    <div id="editError" class="editError"></div>`;
+
+  modal('Edit Match Settings',body,true);
+
+  let chosenFormat=st.breakFormat;
+  let chosenBreaker=justPlayOpening ? 0 : st.breaker;
+
+  const raceInput=$('#editRace');
+  const bestReadout=$('#editBest');
+  const refreshBest=()=>{
+    let r=parseInt(raceInput.value,10);
+    bestReadout.textContent=Number.isFinite(r)&&r>=2 ? (r*2-1) : '—';
+  };
+  raceInput.addEventListener('input',refreshBest);
+
+  $$('[data-edit-break]').forEach(b=>b.onclick=()=>{
+    chosenFormat=b.dataset.editBreak;
+    $$('[data-edit-break]').forEach(x=>x.classList.toggle('active',x===b));
+  });
+
+  $$('[data-edit-breaker]').forEach(b=>b.onclick=()=>{
+    chosenBreaker=+b.dataset.editBreaker;
+    $$('[data-edit-breaker]').forEach(x=>x.classList.toggle('active',x===b));
+  });
+
+  $('#modalSave').onclick=()=>{
+    const err=$('#editError');
+    const newRace=parseInt(raceInput.value,10);
+    const maxScore=Math.max(st.score1,st.score2);
+
+    if(!Number.isFinite(newRace) || newRace<2){
+      err.textContent='Race To must be 2 or higher.';
+      return;
+    }
+    if(newRace<=maxScore){
+      err.textContent='Race To must be higher than the current leading score ('+maxScore+').';
+      return;
+    }
+
+    const newP1=$('#editP1').value.trim()||'Player 1';
+    const newP2=$('#editP2').value.trim()||'Player 2';
+
+    st.p1=newP1;
+    st.p2=newP2;
+    st.race=newRace;
+    st.best=newRace*2-1;
+    st.breakFormat=chosenFormat;
+
+    if(chosenBreaker===1 || chosenBreaker===2){
+      st.breaker=chosenBreaker;
+      // If the user deliberately assigns a breaker while Just Play is still at 0-0,
+      // that becomes an explicit assignment and the neutral opening state ends.
+      if(justPlayOpening) st.justPlay=false;
+    }
+
+    close();
+    play();
+    sync();
+    toast('Match settings updated');
+  };
+}
+
+$('#settingsBtn').onclick=openEditMatchSettings;
+$('#editBtn').onclick=openEditMatchSettings;
 $('#rematchBtn').onclick=()=>{st.score1=0;st.score2=0;st.history=[];st.breaker=st.firstBreaker;show('play');play()};
 $('#newMatchBtn').onclick=()=>{st.score1=0;st.score2=0;st.history=[];show('setup');sync()};
 swipe($('#leftZone'),1);swipe($('#rightZone'),2);
