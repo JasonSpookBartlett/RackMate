@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.11 Beta</title>
+<title>RackMate V1.12 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -85,7 +85,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.11</div>
+<div class="version">V1.12</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -142,7 +142,69 @@ function finishMatch(p){
 function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show')}
 function choose(t){modal(t,'<div class="row"><button class="choice" data-pick="1">'+st.p1+'</button><button class="choice" data-pick="2">'+st.p2+'</button></div>');$$('[data-pick]').forEach(b=>b.onclick=()=>{close();start(+b.dataset.pick)})}
 function swipe(el,p){let s=null,last=0;el.addEventListener('pointerdown',e=>{s={x:e.clientX,y:e.clientY}});el.addEventListener('pointerup',e=>{if(!s)return;const dy=s.y-e.clientY,dx=Math.abs(s.x-e.clientX);if(Math.abs(dy)>35&&Math.abs(dy)>dx){dy>0?add(p):remove(p);s=null;return}const n=Date.now();if(n-last<420)add(p);last=n;s=null})}
-$$('[data-game]').forEach(b=>b.onclick=()=>{st.game=+b.dataset.game;sync()});$$('[data-break]').forEach(b=>b.onclick=()=>{st.breakFormat=b.dataset.break;sync()});
+$$('[data-game]').forEach(b=>b.onclick=()=>{st.game=+b.dataset.game;sync()});
+
+const gameCue=$('#gameCue');
+const gameTrack=gameCue ? gameCue.parentElement : null;
+let gameCueDrag=null;
+
+function selectGameFromCueX(clientX){
+  if(!gameTrack) return;
+  const r=gameTrack.getBoundingClientRect();
+  const x=Math.max(0,Math.min(r.width,clientX-r.left));
+  const stops=[
+    {game:8,x:r.width*0.13},
+    {game:9,x:r.width*0.50},
+    {game:10,x:r.width*0.87}
+  ];
+  let nearest=stops[0];
+  for(const s of stops){
+    if(Math.abs(s.x-x)<Math.abs(nearest.x-x)) nearest=s;
+  }
+  st.game=nearest.game;
+  sync();
+}
+
+if(gameCue && gameTrack){
+  gameCue.style.touchAction='none';
+  gameCue.style.cursor='grab';
+
+  gameCue.addEventListener('pointerdown',e=>{
+    gameCueDrag={id:e.pointerId};
+    gameCue.style.cursor='grabbing';
+    try{gameCue.setPointerCapture(e.pointerId)}catch(_){}
+    e.preventDefault();
+  });
+
+  gameCue.addEventListener('pointermove',e=>{
+    if(!gameCueDrag) return;
+    const r=gameTrack.getBoundingClientRect();
+    const cueW=gameCue.offsetWidth || 31;
+    let left=e.clientX-r.left-cueW/2;
+    left=Math.max(0,Math.min(r.width-cueW,left));
+    gameCue.style.left=left+'px';
+    gameCue.classList.remove('pos8','pos9','pos10');
+  });
+
+  function finishCueDrag(e){
+    if(!gameCueDrag) return;
+    selectGameFromCueX(e.clientX);
+    gameCueDrag=null;
+    gameCue.style.cursor='grab';
+  }
+
+  gameCue.addEventListener('pointerup',finishCueDrag);
+  gameCue.addEventListener('pointercancel',()=>{
+    gameCueDrag=null;
+    gameCue.style.cursor='grab';
+    sync();
+  });
+
+  gameTrack.addEventListener('pointerdown',e=>{
+    if(e.target===gameCue) return;
+    selectGameFromCueX(e.clientX);
+  });
+}$$('[data-break]').forEach(b=>b.onclick=()=>{st.breakFormat=b.dataset.break;sync()});
 $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sync()};$('#raceUp').onclick=()=>{st.race++;st.best=st.race*2-1;sync()};$('#bestDown').onclick=()=>{st.best=Math.max(3,st.best-2);st.race=(st.best+1)/2;sync()};$('#bestUp').onclick=()=>{st.best+=2;st.race=(st.best+1)/2;sync()};
 $('#swapBtn').onclick=()=>{const a=$('#p1Input').value;$('#p1Input').value=$('#p2Input').value;$('#p2Input').value=a};
 $$('[data-first]').forEach(b=>b.onclick=()=>{st.p1=$('#p1Input').value.trim()||'Player 1';st.p2=$('#p2Input').value.trim()||'Player 2';if(b.dataset.first==='coin'){show('play');play();$('#coinLayer').classList.add('show')}else choose(b.dataset.first==='lag'?'Who won the lag?':'Who breaks first?')});
