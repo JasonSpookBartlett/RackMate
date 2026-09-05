@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.23 Beta</title>
+<title>RackMate V1.24 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -104,7 +104,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.23</div>
+<div class="version">V1.24</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -198,15 +198,23 @@ function beginLagAssignment(){
   $('#frameDisplay').textContent='FRAME 1 OF '+st.best;
 }
 
-function finishMatch(p){
+function finishMatch(p,reason='score'){
   const w = p===1 ? st.p1 : st.p2;
+  const loser = p===1 ? st.p2 : st.p1;
   const ws = p===1 ? st.score1 : st.score2;
   const ls = p===1 ? st.score2 : st.score1;
   $('#winnerName').textContent=w;
   $('#winnerScore').textContent=ws+' - '+ls;
   $('#winnerMeta').textContent=st.game+'-BALL • RACE TO '+st.race;
-  $('#winnerFrames').textContent='Won in '+(ws+ls)+' Frames';
-  const msgs=[
+  $('#winnerFrames').textContent=reason==='concede'
+    ? 'WINNER BY CONCESSION • '+loser+' CONCEDED'
+    : 'Won in '+(ws+ls)+' Frames';
+  const msgs=reason==='concede' ? [
+    "Winner by concession. RackMate promises not to ask what happened.",
+    "That'll do it. The other player has conceded.",
+    "Winner by concession. Bragging rights come with an asterisk, but they still count.",
+    "Concession accepted. RackMate has closed the case."
+  ] : [
     "Congratulations. Try to act like you’ve won before.",
     "RackMate confirms it: the bragging rights are unfortunately legitimate.",
     "Well played. Your opponent is delighted for you. Probably.",
@@ -217,7 +225,7 @@ function finishMatch(p){
   $('#winnerBanter').textContent=msgs[Math.floor(Math.random()*msgs.length)];
   show('winner');
 }
-function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show')}
+function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalCancel').style.display='inline-block';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show')}
 function choose(t){modal(t,'<div class="row"><button class="choice" data-pick="1">'+st.p1+'</button><button class="choice" data-pick="2">'+st.p2+'</button></div>');$$('[data-pick]').forEach(b=>b.onclick=()=>{close();start(+b.dataset.pick)})}
 function swipe(el,p){let s=null,last=0;el.addEventListener('pointerdown',e=>{s={x:e.clientX,y:e.clientY}});el.addEventListener('pointerup',e=>{if(!s)return;const dy=s.y-e.clientY,dx=Math.abs(s.x-e.clientX);if(Math.abs(dy)>35&&Math.abs(dy)>dx){dy>0?add(p):remove(p);s=null;return}const n=Date.now();if(n-last<420)add(p);last=n;s=null})}
 $$('[data-game]').forEach(b=>b.onclick=()=>{st.game=+b.dataset.game;sync();requestAnimationFrame(()=>snapCueToGame(st.game));});
@@ -444,7 +452,25 @@ breakerCue.addEventListener('pointercancel',()=>{
   play();
 });
 
-$('#undoBtn').onclick=()=>{const e=st.history.at(-1);if(e)restore(e.before)};$('#menuBtn').onclick=()=>{if(st.screen==='play'){modal('Match Menu','<div class="row"><button id="resumeBtn" class="choice">RESUME</button><button id="quitBtn" class="choice">QUIT MATCH</button></div>');$('#resumeBtn').onclick=close;$('#quitBtn').onclick=()=>{if(confirm('Quit this match?')){close();show('setup');sync()}}}else show('setup')};
+$('#undoBtn').onclick=()=>{const e=st.history.at(-1);if(e)restore(e.before)};
+$('#menuBtn').onclick=()=>{
+  if(st.screen==='play'){
+    modal('Match Menu',
+      '<div class="row" style="flex-wrap:wrap">'+
+      '<button id="resumeBtn" class="choice">RESUME</button>'+
+      '<button id="p1ConcedeBtn" class="choice">'+st.p1+' CONCEDES</button>'+
+      '<button id="p2ConcedeBtn" class="choice">'+st.p2+' CONCEDES</button>'+
+      '</div>'
+    );
+    // The modal's generic CANCEL button duplicates Resume here, so hide it for Match Menu.
+    $('#modalCancel').style.display='none';
+    $('#resumeBtn').onclick=()=>{ $('#modalCancel').style.display='inline-block'; close(); };
+    $('#p1ConcedeBtn').onclick=()=>{ $('#modalCancel').style.display='inline-block'; close(); finishMatch(2,'concede'); };
+    $('#p2ConcedeBtn').onclick=()=>{ $('#modalCancel').style.display='inline-block'; close(); finishMatch(1,'concede'); };
+  }else{
+    show('setup');
+  }
+};
 $('#helpBtn').onclick=()=>{helpReturn=st.screen;show('help')};$('#helpClose').onclick=()=>show(helpReturn);$('#modalCancel').onclick=close;
 
 function openEditMatchSettings(){
