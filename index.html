@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.13 Beta</title>
+<title>RackMate V1.14 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -85,21 +85,35 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.13</div>
+<div class="version">V1.14</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const st={screen:'setup',game:8,race:7,best:13,breakFormat:'alternate',p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[]};let helpReturn='setup';
 function show(n){$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+n+'Screen').classList.add('active');st.screen=n;$('#screenTitle').textContent={setup:'MATCH SETUP',play:st.game+'-BALL',winner:'MATCH COMPLETE',help:'HELP'}[n];$('#settingsBtn').style.visibility=n==='play'?'visible':'hidden'}
+function snapCueToGame(game){
+  const gc=$('#gameCue');
+  const track=gc ? gc.parentElement : null;
+  const ball=$(`[data-game="${game}"]`);
+  if(!gc || !track || !ball) return;
+
+  const trackRect=track.getBoundingClientRect();
+  const ballRect=ball.getBoundingClientRect();
+  const cueW=gc.offsetWidth || 31;
+
+  // Align cue-ball centre exactly under selected object-ball centre.
+  let left=(ballRect.left + ballRect.width/2) - trackRect.left - cueW/2;
+  left=Math.max(0,Math.min(trackRect.width-cueW,left));
+
+  gc.className='cue';
+  gc.style.left=left+'px';
+}
+
 function sync(){
   $('#p1Input').value=st.p1;
   $('#p2Input').value=st.p2;
   $$('[data-game]').forEach(b=>b.classList.toggle('sel',+b.dataset.game===st.game));
-  const gc=$('#gameCue');
-  if(gc){
-    gc.style.left='';
-    gc.className='cue pos'+st.game;
-  }
+  requestAnimationFrame(()=>snapCueToGame(st.game));
   $$('[data-break]').forEach(b=>b.classList.toggle('active',b.dataset.break===st.breakFormat));
   $('#raceVal').textContent=st.race;
   $('#bestVal').textContent=st.best;
@@ -154,26 +168,26 @@ function finishMatch(p){
 function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show')}
 function choose(t){modal(t,'<div class="row"><button class="choice" data-pick="1">'+st.p1+'</button><button class="choice" data-pick="2">'+st.p2+'</button></div>');$$('[data-pick]').forEach(b=>b.onclick=()=>{close();start(+b.dataset.pick)})}
 function swipe(el,p){let s=null,last=0;el.addEventListener('pointerdown',e=>{s={x:e.clientX,y:e.clientY}});el.addEventListener('pointerup',e=>{if(!s)return;const dy=s.y-e.clientY,dx=Math.abs(s.x-e.clientX);if(Math.abs(dy)>35&&Math.abs(dy)>dx){dy>0?add(p):remove(p);s=null;return}const n=Date.now();if(n-last<420)add(p);last=n;s=null})}
-$$('[data-game]').forEach(b=>b.onclick=()=>{st.game=+b.dataset.game;sync()});
+$$('[data-game]').forEach(b=>b.onclick=()=>{st.game=+b.dataset.game;sync();requestAnimationFrame(()=>snapCueToGame(st.game));});
 
 const gameCue=$('#gameCue');
 const gameTrack=gameCue ? gameCue.parentElement : null;
 let gameCueDrag=null;
 
 function selectGameFromCueX(clientX){
-  if(!gameTrack) return;
-  const r=gameTrack.getBoundingClientRect();
-  const x=Math.max(0,Math.min(r.width,clientX-r.left));
-  const stops=[
-    {game:8,x:r.width*0.13},
-    {game:9,x:r.width*0.50},
-    {game:10,x:r.width*0.87}
-  ];
-  let nearest=stops[0];
-  for(const s of stops){
-    if(Math.abs(s.x-x)<Math.abs(nearest.x-x)) nearest=s;
+  const buttons=$$('[data-game]');
+  if(!buttons.length) return;
+
+  let nearest=buttons[0];
+  let best=Infinity;
+  for(const b of buttons){
+    const r=b.getBoundingClientRect();
+    const cx=r.left+r.width/2;
+    const d=Math.abs(clientX-cx);
+    if(d<best){best=d;nearest=b;}
   }
-  st.game=nearest.game;
+
+  st.game=+nearest.dataset.game;
   sync();
 }
 
@@ -194,8 +208,8 @@ if(gameCue && gameTrack){
     const cueW=gameCue.offsetWidth || 31;
     let left=e.clientX-r.left-cueW/2;
     left=Math.max(0,Math.min(r.width-cueW,left));
+    gameCue.className='cue';
     gameCue.style.left=left+'px';
-    gameCue.classList.remove('pos8','pos9','pos10');
   });
 
   function finishCueDrag(e){
@@ -203,6 +217,7 @@ if(gameCue && gameTrack){
     selectGameFromCueX(e.clientX);
     gameCueDrag=null;
     gameCue.style.cursor='grab';
+    requestAnimationFrame(()=>snapCueToGame(st.game));
   }
 
   gameCue.addEventListener('pointerup',finishCueDrag);
