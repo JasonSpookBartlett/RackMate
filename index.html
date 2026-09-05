@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b0c">
-<title>RackMate V1.22 Beta</title>
+<title>RackMate V1.23 Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -104,7 +104,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.22</div>
+<div class="version">V1.23</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -468,7 +468,7 @@ function openEditMatchSettings(){
       </div>
       <div class="editField">
         <label>BEST OF</label>
-        <div id="editBest" class="editReadout">${st.best}</div>
+        <input id="editBest" type="number" min="3" step="2" value="${st.best}">
       </div>
 
       <div class="editField editWide">
@@ -495,12 +495,28 @@ function openEditMatchSettings(){
   let chosenBreaker=justPlayOpening ? 0 : st.breaker;
 
   const raceInput=$('#editRace');
-  const bestReadout=$('#editBest');
-  const refreshBest=()=>{
-    let r=parseInt(raceInput.value,10);
-    bestReadout.textContent=Number.isFinite(r)&&r>=2 ? (r*2-1) : '—';
-  };
-  raceInput.addEventListener('input',refreshBest);
+  const bestInput=$('#editBest');
+  let linkingLength=false;
+
+  raceInput.addEventListener('input',()=>{
+    if(linkingLength) return;
+    const r=parseInt(raceInput.value,10);
+    if(Number.isFinite(r) && r>=2){
+      linkingLength=true;
+      bestInput.value=r*2-1;
+      linkingLength=false;
+    }
+  });
+
+  bestInput.addEventListener('input',()=>{
+    if(linkingLength) return;
+    const b=parseInt(bestInput.value,10);
+    if(Number.isFinite(b) && b>=3 && b%2===1){
+      linkingLength=true;
+      raceInput.value=(b+1)/2;
+      linkingLength=false;
+    }
+  });
 
   $$('[data-edit-break]').forEach(b=>b.onclick=()=>{
     chosenFormat=b.dataset.editBreak;
@@ -515,10 +531,19 @@ function openEditMatchSettings(){
   $('#modalSave').onclick=()=>{
     const err=$('#editError');
     const newRace=parseInt(raceInput.value,10);
+    const newBest=parseInt(bestInput.value,10);
     const maxScore=Math.max(st.score1,st.score2);
 
     if(!Number.isFinite(newRace) || newRace<2){
       err.textContent='Race To must be 2 or higher.';
+      return;
+    }
+    if(!Number.isFinite(newBest) || newBest<3 || newBest%2===0){
+      err.textContent='Best Of must be an odd number of 3 or higher.';
+      return;
+    }
+    if(newBest!==newRace*2-1){
+      err.textContent='Race To and Best Of do not match.';
       return;
     }
     if(newRace<=maxScore){
