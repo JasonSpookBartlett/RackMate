@@ -1,31 +1,28 @@
-RACKMATE V1.38 PWA INSTALL
+RACKMATE V1.40 — STABILITY REBUILD
 
-Upload ALL of these to the ROOT of the GitHub RackMate repo:
-- index.html
-- manifest.webmanifest
-- sw.js
-- icons/icon-192.png
-- icons/icon-512.png
+Rebuilt from the known-good V1.33 PWA baseline.
 
-Keep the icons folder as a folder.
+FIXES
+- No autofocus or keyboard on launch.
+- Player 1 / Player 2 are placeholders, avoiding fragile scripted text selection.
+- Tap Player 1 normally; Android owns the keyboard lifecycle.
+- NEXT moves to Player 2.
+- DONE dismisses the keyboard.
+- Changing game type, race length, break format or settings no longer rewrites names.
+- New Match restores blank fields with Player 1 / Player 2 placeholders.
+- Service worker now prefers the live network during beta and explicitly checks for updates.
+- Exit App remains the safe PWA fallback because Chrome/Android does not guarantee that an installed PWA may terminate its own task.
 
-After GitHub Pages updates:
-1. Open https://jasonspookbartlett.github.io/RackMate/ in Chrome on Android.
-2. Reload and confirm the screen says V1.38.
-3. Chrome ⋮ menu -> Install app (or Add to Home screen).
-4. Launch RackMate from the new Home Screen icon.
-5. It should open standalone in landscape without Chrome's address bar.
+UPLOAD ALL FILES/FOLDERS TO THE REPO ROOT:
+index.html
+manifest.webmanifest
+sw.js
+icons/
 
-If you already made an older RackMate shortcut, remove it before installing this build.
-
-V1.37 replaces the temporary RackMate icon with the approved pool-table / 8-ball RackMate icon.
-
-V1.37 fixes Setup player names being reset when changing game type and adds mobile NEXT/DONE keyboard flow for the two player-name fields.
-
-V1.37: Setup opens with no player field focused; tapping a player name selects its text. Player 1 Next still moves to Player 2; Player 2 Done dismisses the keyboard.
-
-V1.37: mobile-safe player-name selection; Exit App now attempts close and gives an honest Android PWA fallback when the OS blocks self-termination.
-
-V1.37 repairs a JavaScript syntax error in the V1.36 Exit App fallback text and retains the mobile-safe player-name focus flow.
-
-V1.38 normalises the current build/version references and adds a central APP_VERSION constant for easier verification.
+PHONE TEST
+1. Open app: no keyboard.
+2. Tap Player 1: keyboard stays open.
+3. Type name and press NEXT.
+4. Type Player 2 and press DONE.
+5. Change 8/9/10-ball, Race, Best Of and Break Format: names stay unchanged.
+6. Open/close App Settings: names stay unchanged and keyboard stays closed.

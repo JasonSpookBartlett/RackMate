@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.39 PWA Beta</title>
+<title>RackMate V1.40 PWA Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -25,7 +25,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 .tl{left:-20px;top:-20px}.tm{left:50%;top:-25px;transform:translateX(-50%)}.tr{right:-20px;top:-20px}.bl{left:-20px;bottom:-20px}.bm{left:50%;bottom:-25px;transform:translateX(-50%)}.br{right:-20px;bottom:-20px}
 .screen{position:absolute;inset:0;display:none}.screen.active{display:block}
 .setup{position:absolute;left:5%;right:5%;top:11%;bottom:9%;display:grid;grid-template-columns:1fr 130px 1fr;grid-template-rows:70px 1fr;gap:16px}
-.name{border-radius:11px;background:#101515;border:3px solid;display:flex}.name input{width:100%;border:0;background:transparent;color:#fff;text-align:center;font-size:clamp(18px,2.2vw,34px);font-weight:900;outline:0}.red{border-color:var(--red)}.blue{border-color:var(--blue)}
+.name{border-radius:11px;background:#101515;border:3px solid;display:flex}.name input{width:100%;border:0;background:transparent;color:#fff;text-align:center;font-size:clamp(18px,2.2vw,34px);font-weight:900;outline:0}.name input::placeholder{color:#fff;opacity:1}.red{border-color:var(--red)}.blue{border-color:var(--blue)}
 .swap{border:1px solid #66736d;border-radius:11px;background:#111918;color:#fff;font-weight:800}.body{grid-column:1/4;display:grid;grid-template-columns:1.05fr .95fr;gap:20px}
 .panel{background:rgba(7,18,14,.76);border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:14px 18px;display:flex;flex-direction:column;justify-content:center}
 .label{text-align:center;font-size:12px;letter-spacing:.18em;font-weight:900;margin-bottom:12px}.balls{display:flex;justify-content:center;gap:19px}.ball{width:58px;height:58px;border-radius:50%;border:3px solid #eee;display:grid;place-items:center;font-size:23px;font-weight:900;box-shadow:inset 0 -10px 16px rgba(0,0,0,.3)}
@@ -126,7 +126,7 @@ body{
 
 <section id="setupScreen" class="screen active">
 <div class="setup">
-<div class="name red"><input id="p1Input" type="text" value="Player 1" maxlength="24" inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="words" spellcheck="false"></div><button class="swap" id="swapBtn">⇄<br>SWAP SIDES</button><div class="name blue"><input id="p2Input" type="text" value="Player 2" maxlength="24" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
+<div class="name red"><input id="p1Input" type="text" value="" placeholder="Player 1" maxlength="24" inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="words" spellcheck="false"></div><button class="swap" id="swapBtn">⇄<br>SWAP SIDES</button><div class="name blue"><input id="p2Input" type="text" value="" placeholder="Player 2" maxlength="24" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
 <div class="body">
 <div class="panel"><div class="label">GAME TYPE</div><div class="balls"><button class="ball b8 sel" data-game="8">8</button><button class="ball b9" data-game="9">9</button><button class="ball b10" data-game="10">10</button></div><div class="track"><div id="gameCue" class="cue pos8"></div></div><div class="label" style="margin-top:12px">BREAK FORMAT</div><div class="row"><button class="choice active" data-break="alternate">ALTERNATE BREAK</button><button class="choice" data-break="winner">WINNER BREAK</button></div></div>
 <div class="panel"><div class="label">MATCH LENGTH</div><div class="length"><div class="counter"><button id="raceDown">‹</button><div><small>RACE TO</small><b id="raceVal">7</b></div><button id="raceUp">›</button></div><div class="counter"><button id="bestDown">‹</button><div><small>BEST OF</small><b id="bestVal">13</b></div><button id="bestUp">›</button></div></div><div class="label" style="margin-top:18px">FIRST BREAK</div><div class="row"><button class="choice" data-first="lag">LAG</button><button class="choice" data-first="coin">COIN TOSS</button><button class="choice" data-first="manual">JUST PLAY</button></div></div>
@@ -163,10 +163,10 @@ body{
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.39</div>
+<div class="version">V1.40</div>
 </div></div></div>
 <script>
-const APP_VERSION = 'V1.39';
+const APP_VERSION='V1.40';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -225,8 +225,6 @@ function snapCueToGame(game){
 }
 
 function sync(){
-  $('#p1Input').value=st.p1;
-  $('#p2Input').value=st.p2;
   $$('[data-game]').forEach(b=>b.classList.toggle('sel',+b.dataset.game===st.game));
   requestAnimationFrame(()=>snapCueToGame(st.game));
   $$('[data-break]').forEach(b=>b.classList.toggle('active',b.dataset.break===st.breakFormat));
@@ -452,71 +450,44 @@ if(gameCue && gameTrack){
   });
 }$$('[data-break]').forEach(b=>b.onclick=()=>{st.breakFormat=b.dataset.break;sync()});
 $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sync()};$('#raceUp').onclick=()=>{st.race++;st.best=st.race*2-1;sync()};$('#bestDown').onclick=()=>{st.best=Math.max(3,st.best-2);st.race=(st.best+1)/2;sync()};$('#bestUp').onclick=()=>{st.best+=2;st.race=(st.best+1)/2;sync()};
-// Keep the live Setup names in state so other Setup controls can safely call sync()
-// without overwriting what the user has just typed.
-$('#p1Input').addEventListener('input',e=>{st.p1=e.target.value});
-$('#p2Input').addEventListener('input',e=>{st.p2=e.target.value});
 
-// Mobile-safe player-name editing.
-// Do not run selection logic from focus itself: some Android IMEs can dismiss
-// the keyboard or leave pointer input in a bad state when selection is changed
-// during the focus lifecycle. Instead, the first deliberate pointer tap selects
-// the current value after the native focus has completed.
-function armNameField(el){
-  let firstTapAfterBlur=true;
+const p1Input=$('#p1Input');
+const p2Input=$('#p2Input');
 
-  el.addEventListener('blur',()=>{ firstTapAfterBlur=true; });
-
-  el.addEventListener('pointerup',()=>{
-    if(!firstTapAfterBlur) return;
-    firstTapAfterBlur=false;
-    requestAnimationFrame(()=>{
-      if(document.activeElement!==el) return;
-      try{ el.setSelectionRange(0,el.value.length); }catch(_){}
-    });
-  });
+function resolvedName(input,fallback){
+  return input.value.trim() || fallback;
 }
-armNameField($('#p1Input'));
-armNameField($('#p2Input'));
-
-function commitPlayerNames(){
-  st.p1=$('#p1Input').value;
-  st.p2=$('#p2Input').value;
+function keepLiveNames(){
+  st.p1=resolvedName(p1Input,'Player 1');
+  st.p2=resolvedName(p2Input,'Player 2');
 }
 
-// Android keyboards normally emit Enter for the IME action. Keep this handler
-// minimal and never call sync()/show() while a keyboard is open.
-$('#p1Input').addEventListener('keydown',e=>{
+p1Input.addEventListener('input',keepLiveNames);
+p2Input.addEventListener('input',keepLiveNames);
+p1Input.addEventListener('change',keepLiveNames);
+p2Input.addEventListener('change',keepLiveNames);
+
+p1Input.addEventListener('keydown',e=>{
   if(e.key!=='Enter') return;
   e.preventDefault();
-  st.p1=e.currentTarget.value;
-  const p2=$('#p2Input');
-  p2.focus({preventScroll:true});
-  requestAnimationFrame(()=>{
-    if(document.activeElement===p2){
-      try{ p2.setSelectionRange(0,p2.value.length); }catch(_){}
-    }
-  });
+  keepLiveNames();
+  p2Input.focus({preventScroll:true});
 });
 
-$('#p2Input').addEventListener('keydown',e=>{
+p2Input.addEventListener('keydown',e=>{
   if(e.key!=='Enter') return;
   e.preventDefault();
-  st.p2=e.currentTarget.value;
-  e.currentTarget.blur();
+  keepLiveNames();
+  p2Input.blur();
 });
-
-// Keep state current if the IME commits text without a key event.
-$('#p1Input').addEventListener('change',commitPlayerNames);
-$('#p2Input').addEventListener('change',commitPlayerNames);
 
 $('#swapBtn').onclick=()=>{
-  const a=$('#p1Input').value;
-  $('#p1Input').value=$('#p2Input').value;
-  $('#p2Input').value=a;
-  st.p1=$('#p1Input').value;
-  st.p2=$('#p2Input').value;
+  const a=p1Input.value;
+  p1Input.value=p2Input.value;
+  p2Input.value=a;
+  keepLiveNames();
 };
+
 
 function beginCoinToss(){
   st.justPlay=false;
@@ -731,22 +702,15 @@ $('#menuBtn').onclick=()=>{
       '</div>'
     );
     $('#exitAppBtn').onclick=()=>{
-      // Browsers do not normally permit a PWA to terminate its own Android app task.
-      // Try the standards-compatible close call first (works only in environments that allow it),
-      // then show an honest fallback rather than pretending RackMate has closed.
-      try{ window.close(); }catch(_){}
-      setTimeout(()=>{
-        if(document.visibilityState==='visible'){
-          modal('Exit RackMate',
-            '<p style="margin:0 0 12px">Android will not let an installed web app close itself. Tap your phone\'s <b>Home</b> control or swipe RackMate away from Recent Apps.</p>'+
-            '<div class="row" style="justify-content:center">'+
-            '<button id="exitDoneBtn" class="choice active">OK</button>'+
-            '</div>'
-          );
-          $('#modalCancel').style.display='none';
-          $('#exitDoneBtn').onclick=()=>{restoreCancel();close();};
-        }
-      },180);
+      modal('Exit RackMate',
+        '<p style="margin:0 0 12px">You can close RackMate now.</p>'+
+        '<div class="row" style="justify-content:center">'+
+        '<button id="exitDoneBtn" class="choice active">OK</button>'+
+        '</div>'
+      );
+      $('#modalCancel').style.display='none';
+      $('#exitDoneBtn').onclick=()=>{restoreCancel();close();};
+      // Packaged Android builds can replace the message above with a native app exit/background action.
     };
     return;
   }
@@ -994,8 +958,6 @@ function openAppSettings(){
   $('#settingsDone').onclick=()=>{
     $('#modalCancel').style.display='inline-block';
     close();
-    // Return to Setup without forcing the phone keyboard back open.
-    if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
   };
 
   refresh();
@@ -1016,8 +978,14 @@ $('#rematchBtn').onclick=()=>{
     beginJustPlay();
   }
 };
-$('#newMatchBtn').onclick=()=>{st.score1=0;st.score2=0;st.history=[];st.openingMethod=null;st.p1='Player 1';st.p2='Player 2';applyDefaultMatchSetup();show('setup');
-requestAnimationFrame(()=>{ if(document.activeElement instanceof HTMLInputElement) document.activeElement.blur(); });sync()};
+$('#newMatchBtn').onclick=()=>{
+  st.score1=0;st.score2=0;st.history=[];st.openingMethod=null;
+  st.p1='Player 1';st.p2='Player 2';
+  p1Input.value='';p2Input.value='';
+  applyDefaultMatchSetup();
+  show('setup');
+  sync();
+};
 swipe($('#leftZone'),1);swipe($('#rightZone'),2);
 let coinFlipped=false;
 let coinDragging=null;
@@ -1130,10 +1098,14 @@ coin.addEventListener('pointercancel',()=>{
   resetCoinDragVisual();
 });
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+  window.addEventListener('load',async()=>{
+    try{
+      const reg=await navigator.serviceWorker.register('./sw.js?v=1.40',{updateViaCache:'none'});
+      await reg.update();
+    }catch(_){}
+  });
 }
 applyDefaultMatchSetup();show('setup');
-requestAnimationFrame(()=>{ if(document.activeElement instanceof HTMLInputElement) document.activeElement.blur(); });
 })();
 </script>
 </body></html>
