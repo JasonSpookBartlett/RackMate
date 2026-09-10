@@ -1,4 +1,4 @@
-RACKMATE V1.40 — STABILITY REBUILD
+RACKMATE V1.41 — STABILITY REBUILD
 
 Rebuilt from the known-good V1.33 PWA baseline.
 
@@ -26,3 +26,5 @@ PHONE TEST
 4. Type Player 2 and press DONE.
 5. Change 8/9/10-ball, Race, Best Of and Break Format: names stay unchanged.
 6. Open/close App Settings: names stay unchanged and keyboard stays closed.
+
+V1.41: CSS-only UI refinement — Player 1 / Player 2 placeholders are now pale (48% opacity) so they clearly read as prompts rather than entered names. No mobile keyboard/focus logic changed.
