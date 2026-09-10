@@ -1,4 +1,4 @@
-const CACHE='rackmate-v1.42';
+const CACHE='rackmate-v1.43';
 const APP_SHELL=['./','./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
 
 self.addEventListener('install',event=>{
