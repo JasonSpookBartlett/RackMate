@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.35 PWA Beta</title>
+<title>RackMate V1.36 PWA Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -163,7 +163,7 @@ body{
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.35</div>
+<div class="version">V1.36</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -461,8 +461,12 @@ $('#p2Input').addEventListener('input',e=>{st.p2=e.target.value});
 // When a player-name field is deliberately tapped/focused, select the existing
 // placeholder/current name so typing immediately replaces it. A second tap while
 // already focused behaves normally and allows cursor positioning.
-$('#p1Input').addEventListener('focus',e=>setTimeout(()=>e.target.select(),0));
-$('#p2Input').addEventListener('focus',e=>setTimeout(()=>e.target.select(),0));
+function selectPlayerNameOnFocus(e){
+  const el=e.target;
+  try{ el.setSelectionRange(0,el.value.length); }catch(_){}
+}
+$('#p1Input').addEventListener('focus',selectPlayerNameOnFocus);
+$('#p2Input').addEventListener('focus',selectPlayerNameOnFocus);
 
 // Mobile keyboard flow: Player 1 = NEXT to Player 2, Player 2 = DONE and dismiss keyboard.
 $('#p1Input').addEventListener('keydown',e=>{
@@ -471,7 +475,7 @@ $('#p1Input').addEventListener('keydown',e=>{
     st.p1=e.target.value;
     const p2=$('#p2Input');
     p2.focus();
-    p2.select();
+    try{p2.setSelectionRange(0,p2.value.length);}catch(_){}
   }
 });
 $('#p2Input').addEventListener('keydown',e=>{
@@ -703,15 +707,22 @@ $('#menuBtn').onclick=()=>{
       '</div>'
     );
     $('#exitAppBtn').onclick=()=>{
-      modal('Exit RackMate',
-        '<p style="margin:0 0 12px">You can close RackMate now.</p>'+
-        '<div class="row" style="justify-content:center">'+
-        '<button id="exitDoneBtn" class="choice active">OK</button>'+
-        '</div>'
-      );
-      $('#modalCancel').style.display='none';
-      $('#exitDoneBtn').onclick=()=>{restoreCancel();close();};
-      // Packaged Android builds can replace the message above with a native app exit/background action.
+      // Browsers do not normally permit a PWA to terminate its own Android app task.
+      // Try the standards-compatible close call first (works only in environments that allow it),
+      // then show an honest fallback rather than pretending RackMate has closed.
+      try{ window.close(); }catch(_){}
+      setTimeout(()=>{
+        if(document.visibilityState==='visible'){
+          modal('Exit RackMate',
+            '<p style="margin:0 0 12px">Android will not let an installed web app close itself. Tap your phone's <b>Home</b> control or swipe RackMate away from Recent Apps.</p>'+
+            '<div class="row" style="justify-content:center">'+
+            '<button id="exitDoneBtn" class="choice active">OK</button>'+
+            '</div>'
+          );
+          $('#modalCancel').style.display='none';
+          $('#exitDoneBtn').onclick=()=>{restoreCancel();close();};
+        }
+      },180);
     };
     return;
   }
