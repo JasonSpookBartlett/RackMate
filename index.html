@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.34 PWA Beta</title>
+<title>RackMate V1.35 PWA Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -163,7 +163,7 @@ body{
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.34</div>
+<div class="version">V1.35</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -204,7 +204,8 @@ function show(n){
   $('#screenTitle').textContent={setup:'MATCH SETUP',play:st.game+'-BALL',winner:'MATCH COMPLETE',help:'HELP'}[n];
   $('#settingsBtn').style.visibility=n==='setup'?'visible':'hidden';
   updateWakeLock();
-  if(n==='setup') setTimeout(()=>{const i=$('#p1Input');if(i){i.focus();i.select();}},80);
+  // Setup intentionally opens with no text field focused so mobile keyboards stay hidden.
+  if(n==='setup' && document.activeElement && document.activeElement.blur) document.activeElement.blur();
 }
 function snapCueToGame(game){
   const gc=$('#gameCue');
@@ -456,6 +457,12 @@ $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sy
 // without overwriting what the user has just typed.
 $('#p1Input').addEventListener('input',e=>{st.p1=e.target.value});
 $('#p2Input').addEventListener('input',e=>{st.p2=e.target.value});
+
+// When a player-name field is deliberately tapped/focused, select the existing
+// placeholder/current name so typing immediately replaces it. A second tap while
+// already focused behaves normally and allows cursor positioning.
+$('#p1Input').addEventListener('focus',e=>setTimeout(()=>e.target.select(),0));
+$('#p2Input').addEventListener('focus',e=>setTimeout(()=>e.target.select(),0));
 
 // Mobile keyboard flow: Player 1 = NEXT to Player 2, Player 2 = DONE and dismiss keyboard.
 $('#p1Input').addEventListener('keydown',e=>{
@@ -952,7 +959,8 @@ function openAppSettings(){
   $('#settingsDone').onclick=()=>{
     $('#modalCancel').style.display='inline-block';
     close();
-    setTimeout(()=>{const i=$('#p1Input');if(i){i.focus();i.select();}},80);
+    // Return to Setup without forcing the phone keyboard back open.
+    if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
   };
 
   refresh();
