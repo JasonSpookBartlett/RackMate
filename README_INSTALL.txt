@@ -1,4 +1,4 @@
-RACKMATE V1.48 — STABILITY REBUILD
+RACKMATE V1.50 — STABILITY REBUILD
 
 Rebuilt from the known-good V1.33 PWA baseline.
 
@@ -27,18 +27,18 @@ PHONE TEST
 5. Change 8/9/10-ball, Race, Best Of and Break Format: names stay unchanged.
 6. Open/close App Settings: names stay unchanged and keyboard stays closed.
 
-V1.48: CSS-only UI refinement — Player 1 / Player 2 placeholders are now pale (48% opacity) so they clearly read as prompts rather than entered names. No mobile keyboard/focus logic changed.
+V1.50: CSS-only UI refinement — Player 1 / Player 2 placeholders are now pale (48% opacity) so they clearly read as prompts rather than entered names. No mobile keyboard/focus logic changed.
 
-V1.48: Player-name placeholder opacity reduced from 48% to 25%. CSS-only refinement; input/focus logic unchanged.
+V1.50: Player-name placeholder opacity reduced from 48% to 25%. CSS-only refinement; input/focus logic unchanged.
 
-V1.48: Added small v1.43 test label beside RackMate in top-left header. No app/input logic changed.
+V1.50: Added small v1.43 test label beside RackMate in top-left header. No app/input logic changed.
 
-V1.48: Header version label enlarged to the same size as the RackMate app name for easy beta-build identification. No app logic changed.
+V1.50: Header version label enlarged to the same size as the RackMate app name for easy beta-build identification. No app logic changed.
 
-V1.48: Replaced the short placeholder Help screen with the complete approved RackMate Help text. Added Help-only heading/list formatting for readability. No scoring, keyboard, breaker, match or settings logic changed.
+V1.50: Replaced the short placeholder Help screen with the complete approved RackMate Help text. Added Help-only heading/list formatting for readability. No scoring, keyboard, breaker, match or settings logic changed.
 
-V1.48: Hardened Help navigation. Help can no longer become its own return destination, the Help button is hidden while Help is open, Help reopens at the top, and CLOSE always falls back safely to Setup if needed. No scoring, breaker, keyboard, match or settings logic changed.
+V1.50: Hardened Help navigation. Help can no longer become its own return destination, the Help button is hidden while Help is open, Help reopens at the top, and CLOSE always falls back safely to Setup if needed. No scoring, breaker, keyboard, match or settings logic changed.
 
-V1.48: Wake Lock reliability fix. RackMate now tracks whether a screen wake lock is actually required, requests it during active gameplay, re-acquires it after visibility/focus/pageshow changes or browser-initiated release, and releases it when gameplay ends or Keep Screen Awake is disabled. No scoring, breaker, keyboard, Help or match logic changed.
+V1.50: Clean post-QA baseline rebuilt from V1.46. Wake Lock diagnostics and the unnecessary V1.47/V1.48 experimental wake-lock changes are not included. Confirmed intended behavior: Keep Screen Awake applies during active Gameplay only, not Setup. Full Help screen and repeated Help CLOSE fix retained.
 
-V1.48: Wake Lock diagnostic build. Gameplay now displays a live status badge showing IDLE / REQUESTING / ACTIVE / RELEASED / REJECTED / UNSUPPORTED and any browser error details. Intended only to diagnose Android/PWA wake-lock behavior. No scoring, breaker, keyboard, Help, match or settings logic changed.
+V1.50: Removed the redundant transient '<player> wins frame' popup after a frame is awarded. Scoring and all other match behavior remain unchanged.

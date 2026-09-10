@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.48 PWA Beta</title>
+<title>RackMate V1.50 PWA Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -111,23 +111,6 @@ body{
 .settingsFooter{grid-column:1/3;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:2px}
 @media(max-width:760px){.appSettings{grid-template-columns:1fr}.settingsFooter{grid-column:1}}
 
-
-.wakeDiag{
-  position:absolute;
-  top:46px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:30;
-  padding:4px 9px;
-  border-radius:8px;
-  background:rgba(0,0,0,.64);
-  border:1px solid rgba(255,255,255,.18);
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:.03em;
-  white-space:nowrap;
-  pointer-events:none;
-}
 .headerVersion{font-size:1em;font-weight:700;opacity:.65;margin-left:7px;vertical-align:middle;letter-spacing:.02em;white-space:nowrap}.help{position:absolute;inset:6% 8%;overflow:auto;background:rgba(7,18,14,.84);border-radius:14px;padding:18px 24px 24px}
 .help h2{color:#ffe492;margin:0 0 14px}
 .help h3{color:#ffe492;margin:18px 0 6px;font-size:1.05em}
@@ -142,7 +125,7 @@ body{
 <body>
 <div class="app">
 <header class="header">
-<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.48</span></div></div>
+<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.50</span></div></div>
 <div class="title"><h1 id="screenTitle">MATCH SETUP</h1><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
@@ -158,7 +141,6 @@ body{
 </div></div></section>
 
 <section id="playScreen" class="screen">
-  <div id="wakeDiag" class="wakeDiag">WAKE LOCK: IDLE</div>
 <div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1Hill" class="hill"></div></div>
 <div class="centre"><div id="raceDisplay" class="race">RACE TO 7</div><div id="frameDisplay" class="frame">FRAME 1 OF 13</div><div id="breakerCue" class="breaker bp1"></div><div id="breakerText">Player 1 BREAKS</div><div id="gameRep" class="ball b8">8</div><div id="gameText">8-BALL</div></div>
 <div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2Hill" class="hill"></div></div></div>
@@ -342,10 +324,10 @@ body{
 </section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.48</div>
+<div class="version">V1.50</div>
 </div></div></div>
 <script>
-const APP_VERSION='V1.48';
+const APP_VERSION='V1.50';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -367,103 +349,16 @@ try{
 
 const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null};let helpReturn='setup';
 let wakeLock=null;
-let wakeLockWanted=false;
-let wakeLockRequestPending=false;
-let wakeLockStatus='IDLE';
-let wakeLockDetail='';
-
-function setWakeDiag(status,detail=''){
-  wakeLockStatus=status;
-  wakeLockDetail=detail || '';
-  const el=$('#wakeDiag');
-  if(!el) return;
-  el.textContent='WAKE LOCK: '+status+(wakeLockDetail ? ' • '+wakeLockDetail : '');
-}
-
-async function requestRackMateWakeLock(){
-  if(!wakeLockWanted || wakeLock || wakeLockRequestPending) return;
-
-  if(!('wakeLock' in navigator)){
-    setWakeDiag('UNSUPPORTED');
-    return;
-  }
-
-  if(document.visibilityState!=='visible'){
-    setWakeDiag('WAITING','APP NOT VISIBLE');
-    return;
-  }
-
-  wakeLockRequestPending=true;
-  setWakeDiag('REQUESTING');
-
-  try{
-    const sentinel=await navigator.wakeLock.request('screen');
-
-    if(!wakeLockWanted || st.screen!=='play' || !appSettings.keepAwake){
-      try{ await sentinel.release(); }catch(_){}
-      setWakeDiag('IDLE');
-      return;
-    }
-
-    wakeLock=sentinel;
-    setWakeDiag('ACTIVE');
-
-    sentinel.addEventListener('release',()=>{
-      if(wakeLock===sentinel) wakeLock=null;
-      setWakeDiag('RELEASED');
-
-      if(wakeLockWanted && document.visibilityState==='visible'){
-        setTimeout(requestRackMateWakeLock,250);
-      }
-    });
-  }catch(err){
-    wakeLock=null;
-    const name=(err && err.name) ? err.name : 'ERROR';
-    const msg=(err && err.message) ? err.message : '';
-    setWakeDiag('REJECTED', name + (msg ? ': '+msg : ''));
-  }finally{
-    wakeLockRequestPending=false;
-  }
-}
-
 async function updateWakeLock(){
-  wakeLockWanted=!!(appSettings.keepAwake && st.screen==='play');
-
-  if(wakeLockWanted){
-    if(!wakeLock) await requestRackMateWakeLock();
-    else setWakeDiag('ACTIVE');
-    return;
-  }
-
-  if(wakeLock){
-    const sentinel=wakeLock;
-    wakeLock=null;
-    try{ await sentinel.release(); }catch(_){}
-  }
-  setWakeDiag(appSettings.keepAwake ? 'IDLE' : 'OFF');
+  try{
+    if(appSettings.keepAwake && st.screen==='play' && 'wakeLock' in navigator){
+      if(!wakeLock) wakeLock=await navigator.wakeLock.request('screen');
+    }else if(wakeLock){
+      await wakeLock.release();
+      wakeLock=null;
+    }
+  }catch(_){wakeLock=null;}
 }
-
-document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible'){
-    setWakeDiag('VISIBLE');
-    updateWakeLock();
-  }else{
-    setWakeDiag('HIDDEN');
-    if(wakeLock) wakeLock=null;
-  }
-});
-
-window.addEventListener('pageshow',()=>{
-  setWakeDiag('PAGE SHOWN');
-  updateWakeLock();
-});
-
-window.addEventListener('focus',()=>{
-  if(document.visibilityState==='visible'){
-    setWakeDiag('FOCUSED');
-    updateWakeLock();
-  }
-});
 function show(n){
   $$('.screen').forEach(x=>x.classList.remove('active'));
   $('#'+n+'Screen').classList.add('active');
@@ -471,7 +366,6 @@ function show(n){
   $('#screenTitle').textContent={setup:'MATCH SETUP',play:st.game+'-BALL',winner:'MATCH COMPLETE',help:'HELP'}[n];
   $('#settingsBtn').style.visibility=n==='setup'?'visible':'hidden';
   $('#helpBtn').style.visibility=n==='help'?'hidden':'visible';
-  $('#wakeDiag').style.display=n==='play'?'block':'none';
   updateWakeLock();
 }
 function snapCueToGame(game){
@@ -559,7 +453,6 @@ function add(p){
     st.breaker = st.breakFormat==='alternate' ? (st.breaker===1?2:1) : p;
   }
   play();
-  toast((p===1?st.p1:st.p2)+' wins frame');
 }
 function removeFrameNow(p){
   for(let i=st.history.length-1;i>=0;i--){
