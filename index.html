@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.46 PWA Beta</title>
+<title>RackMate V1.47 PWA Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -125,7 +125,7 @@ body{
 <body>
 <div class="app">
 <header class="header">
-<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.46</span></div></div>
+<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.47</span></div></div>
 <div class="title"><h1 id="screenTitle">MATCH SETUP</h1><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
@@ -324,10 +324,10 @@ body{
 </section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.46</div>
+<div class="version">V1.47</div>
 </div></div></div>
 <script>
-const APP_VERSION='V1.46';
+const APP_VERSION='V1.47';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -349,16 +349,70 @@ try{
 
 const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null};let helpReturn='setup';
 let wakeLock=null;
-async function updateWakeLock(){
+let wakeLockWanted=false;
+let wakeLockRequestPending=false;
+
+async function requestRackMateWakeLock(){
+  if(!wakeLockWanted || wakeLock || wakeLockRequestPending) return;
+  if(!('wakeLock' in navigator) || document.visibilityState!=='visible') return;
+
+  wakeLockRequestPending=true;
   try{
-    if(appSettings.keepAwake && st.screen==='play' && 'wakeLock' in navigator){
-      if(!wakeLock) wakeLock=await navigator.wakeLock.request('screen');
-    }else if(wakeLock){
-      await wakeLock.release();
-      wakeLock=null;
+    const sentinel=await navigator.wakeLock.request('screen');
+
+    // The user may have left gameplay while the asynchronous request was pending.
+    if(!wakeLockWanted || st.screen!=='play' || !appSettings.keepAwake){
+      try{ await sentinel.release(); }catch(_){}
+      return;
     }
-  }catch(_){wakeLock=null;}
+
+    wakeLock=sentinel;
+    sentinel.addEventListener('release',()=>{
+      if(wakeLock===sentinel) wakeLock=null;
+
+      // Android/Chrome can release a Wake Lock when the page loses visibility,
+      // the device changes power state, or the app is briefly backgrounded.
+      // Re-acquire it when RackMate is still actively scoring a match.
+      if(wakeLockWanted && document.visibilityState==='visible'){
+        setTimeout(requestRackMateWakeLock,250);
+      }
+    });
+  }catch(_){
+    wakeLock=null;
+  }finally{
+    wakeLockRequestPending=false;
+  }
 }
+
+async function updateWakeLock(){
+  wakeLockWanted=!!(appSettings.keepAwake && st.screen==='play');
+
+  if(wakeLockWanted){
+    await requestRackMateWakeLock();
+    return;
+  }
+
+  if(wakeLock){
+    const sentinel=wakeLock;
+    wakeLock=null;
+    try{ await sentinel.release(); }catch(_){}
+  }
+}
+
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'){
+    updateWakeLock();
+  }else if(wakeLock){
+    // Browsers normally release it automatically when hidden. Clearing our
+    // reference guarantees that returning to RackMate requests a fresh lock.
+    wakeLock=null;
+  }
+});
+
+window.addEventListener('pageshow',()=>updateWakeLock());
+window.addEventListener('focus',()=>{
+  if(document.visibilityState==='visible') updateWakeLock();
+});
 function show(n){
   $$('.screen').forEach(x=>x.classList.remove('active'));
   $('#'+n+'Screen').classList.add('active');
