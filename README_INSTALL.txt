@@ -1,4 +1,4 @@
-RACKMATE V1.37 PWA INSTALL
+RACKMATE V1.38 PWA INSTALL
 
 Upload ALL of these to the ROOT of the GitHub RackMate repo:
 - index.html
@@ -11,7 +11,7 @@ Keep the icons folder as a folder.
 
 After GitHub Pages updates:
 1. Open https://jasonspookbartlett.github.io/RackMate/ in Chrome on Android.
-2. Reload and confirm the screen says V1.37.
+2. Reload and confirm the screen says V1.38.
 3. Chrome ⋮ menu -> Install app (or Add to Home screen).
 4. Launch RackMate from the new Home Screen icon.
 5. It should open standalone in landscape without Chrome's address bar.
@@ -27,3 +27,5 @@ V1.37: Setup opens with no player field focused; tapping a player name selects i
 V1.37: mobile-safe player-name selection; Exit App now attempts close and gives an honest Android PWA fallback when the OS blocks self-termination.
 
 V1.37 repairs a JavaScript syntax error in the V1.36 Exit App fallback text and retains the mobile-safe player-name focus flow.
+
+V1.38 normalises the current build/version references and adds a central APP_VERSION constant for easier verification.

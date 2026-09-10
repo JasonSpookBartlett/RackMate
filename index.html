@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.37 PWA Beta</title>
+<title>RackMate V1.38 PWA Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -163,9 +163,10 @@ body{
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.37</div>
+<div class="version">V1.38</div>
 </div></div></div>
 <script>
+const APP_VERSION = 'V1.38';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
