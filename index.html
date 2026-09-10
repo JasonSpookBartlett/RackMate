@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.33 PWA Beta</title>
+<title>RackMate V1.34 PWA Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -126,7 +126,7 @@ body{
 
 <section id="setupScreen" class="screen active">
 <div class="setup">
-<div class="name red"><input id="p1Input" value="Player 1"></div><button class="swap" id="swapBtn">⇄<br>SWAP SIDES</button><div class="name blue"><input id="p2Input" value="Player 2"></div>
+<div class="name red"><input id="p1Input" value="Player 1" enterkeyhint="next" autocomplete="off" autocapitalize="words"></div><button class="swap" id="swapBtn">⇄<br>SWAP SIDES</button><div class="name blue"><input id="p2Input" value="Player 2" enterkeyhint="done" autocomplete="off" autocapitalize="words"></div>
 <div class="body">
 <div class="panel"><div class="label">GAME TYPE</div><div class="balls"><button class="ball b8 sel" data-game="8">8</button><button class="ball b9" data-game="9">9</button><button class="ball b10" data-game="10">10</button></div><div class="track"><div id="gameCue" class="cue pos8"></div></div><div class="label" style="margin-top:12px">BREAK FORMAT</div><div class="row"><button class="choice active" data-break="alternate">ALTERNATE BREAK</button><button class="choice" data-break="winner">WINNER BREAK</button></div></div>
 <div class="panel"><div class="label">MATCH LENGTH</div><div class="length"><div class="counter"><button id="raceDown">‹</button><div><small>RACE TO</small><b id="raceVal">7</b></div><button id="raceUp">›</button></div><div class="counter"><button id="bestDown">‹</button><div><small>BEST OF</small><b id="bestVal">13</b></div><button id="bestUp">›</button></div></div><div class="label" style="margin-top:18px">FIRST BREAK</div><div class="row"><button class="choice" data-first="lag">LAG</button><button class="choice" data-first="coin">COIN TOSS</button><button class="choice" data-first="manual">JUST PLAY</button></div></div>
@@ -163,7 +163,7 @@ body{
 <section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.33</div>
+<div class="version">V1.34</div>
 </div></div></div>
 <script>
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -452,7 +452,36 @@ if(gameCue && gameTrack){
   });
 }$$('[data-break]').forEach(b=>b.onclick=()=>{st.breakFormat=b.dataset.break;sync()});
 $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sync()};$('#raceUp').onclick=()=>{st.race++;st.best=st.race*2-1;sync()};$('#bestDown').onclick=()=>{st.best=Math.max(3,st.best-2);st.race=(st.best+1)/2;sync()};$('#bestUp').onclick=()=>{st.best+=2;st.race=(st.best+1)/2;sync()};
-$('#swapBtn').onclick=()=>{const a=$('#p1Input').value;$('#p1Input').value=$('#p2Input').value;$('#p2Input').value=a};
+// Keep the live Setup names in state so other Setup controls can safely call sync()
+// without overwriting what the user has just typed.
+$('#p1Input').addEventListener('input',e=>{st.p1=e.target.value});
+$('#p2Input').addEventListener('input',e=>{st.p2=e.target.value});
+
+// Mobile keyboard flow: Player 1 = NEXT to Player 2, Player 2 = DONE and dismiss keyboard.
+$('#p1Input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    st.p1=e.target.value;
+    const p2=$('#p2Input');
+    p2.focus();
+    p2.select();
+  }
+});
+$('#p2Input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    st.p2=e.target.value;
+    e.target.blur();
+  }
+});
+
+$('#swapBtn').onclick=()=>{
+  const a=$('#p1Input').value;
+  $('#p1Input').value=$('#p2Input').value;
+  $('#p2Input').value=a;
+  st.p1=$('#p1Input').value;
+  st.p2=$('#p2Input').value;
+};
 
 function beginCoinToss(){
   st.justPlay=false;
