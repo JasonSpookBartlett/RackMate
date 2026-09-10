@@ -1,4 +1,4 @@
-RACKMATE V1.44 — STABILITY REBUILD
+RACKMATE V1.45 — STABILITY REBUILD
 
 Rebuilt from the known-good V1.33 PWA baseline.
 
@@ -27,10 +27,12 @@ PHONE TEST
 5. Change 8/9/10-ball, Race, Best Of and Break Format: names stay unchanged.
 6. Open/close App Settings: names stay unchanged and keyboard stays closed.
 
-V1.44: CSS-only UI refinement — Player 1 / Player 2 placeholders are now pale (48% opacity) so they clearly read as prompts rather than entered names. No mobile keyboard/focus logic changed.
+V1.45: CSS-only UI refinement — Player 1 / Player 2 placeholders are now pale (48% opacity) so they clearly read as prompts rather than entered names. No mobile keyboard/focus logic changed.
 
-V1.44: Player-name placeholder opacity reduced from 48% to 25%. CSS-only refinement; input/focus logic unchanged.
+V1.45: Player-name placeholder opacity reduced from 48% to 25%. CSS-only refinement; input/focus logic unchanged.
 
-V1.44: Added small v1.43 test label beside RackMate in top-left header. No app/input logic changed.
+V1.45: Added small v1.43 test label beside RackMate in top-left header. No app/input logic changed.
 
-V1.44: Header version label enlarged to the same size as the RackMate app name for easy beta-build identification. No app logic changed.
+V1.45: Header version label enlarged to the same size as the RackMate app name for easy beta-build identification. No app logic changed.
+
+V1.45: Replaced the short placeholder Help screen with the complete approved RackMate Help text. Added Help-only heading/list formatting for readability. No scoring, keyboard, breaker, match or settings logic changed.

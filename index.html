@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.44 PWA Beta</title>
+<title>RackMate V1.45 PWA Beta</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -111,13 +111,21 @@ body{
 .settingsFooter{grid-column:1/3;display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:2px}
 @media(max-width:760px){.appSettings{grid-template-columns:1fr}.settingsFooter{grid-column:1}}
 
-.headerVersion{font-size:1em;font-weight:700;opacity:.65;margin-left:7px;vertical-align:middle;letter-spacing:.02em;white-space:nowrap}.help{position:absolute;inset:6% 8%;overflow:auto;background:rgba(7,18,14,.84);border-radius:14px;padding:18px 24px}.help h2{color:#ffe492}.version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
+.headerVersion{font-size:1em;font-weight:700;opacity:.65;margin-left:7px;vertical-align:middle;letter-spacing:.02em;white-space:nowrap}.help{position:absolute;inset:6% 8%;overflow:auto;background:rgba(7,18,14,.84);border-radius:14px;padding:18px 24px 24px}
+.help h2{color:#ffe492;margin:0 0 14px}
+.help h3{color:#ffe492;margin:18px 0 6px;font-size:1.05em}
+.help h4{color:#d9efe4;margin:12px 0 4px;font-size:.96em}
+.help p{margin:5px 0 8px;line-height:1.42}
+.help ul{margin:5px 0 10px 22px;padding:0}
+.help li{margin:4px 0;line-height:1.38}
+.help .helpEnd{margin-top:16px;font-weight:700}
+.version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="header">
-<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.44</span></div></div>
+<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.45</span></div></div>
 <div class="title"><h1 id="screenTitle">MATCH SETUP</h1><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
@@ -160,13 +168,166 @@ body{
   </div>
 </section>
 
-<section id="helpScreen" class="screen"><div class="help"><h2>RackMate Help</h2><p>Swipe up on a player's half to add a frame. Swipe down to remove that player's latest frame. On a computer, click-drag up/down; double-click also adds a frame.</p><p>The white cue ball in the centre moves toward the current breaker. Use ☰ to quit a match.</p><button class="choice" id="helpClose">CLOSE</button></div></section>
+<section id="helpScreen" class="screen">
+  <div class="help">
+    <h2>RackMate Help</h2>
+
+    <h3>WELCOME TO RACKMATE</h3>
+    <p>RackMate is a simple pool match scorer for two players at the table. Set up your race, decide the opening break, then let RackMate keep track of the score and who breaks next.</p>
+    <p>RackMate is designed for social matches - not tournaments, leagues or paperwork. Set it up, put the phone down beside the table and play pool.</p>
+
+    <h3>SETTING UP A MATCH</h3>
+    <p>Enter the two player names, choose the game, set the match length and select the break format.</p>
+
+    <h4>Game</h4>
+    <p>Choose 8-Ball, 9-Ball or 10-Ball by tapping the required object ball.</p>
+
+    <h4>Race To / Best Of</h4>
+    <p>Race To is the number of frames a player must win to win the match. Best Of shows the equivalent maximum number of frames.</p>
+    <p>Changing either value automatically updates the other. Best Of must be an odd number of 3 or higher.</p>
+
+    <h4>Break Format</h4>
+    <ul>
+      <li><strong>Alternate Break</strong> - the break alternates between players after every completed frame, regardless of who won it.</li>
+      <li><strong>Winner Break</strong> - the winner of the previous frame breaks the next frame.</li>
+    </ul>
+
+    <h3>CHOOSING THE OPENING BREAK</h3>
+    <p>Choose one of the three opening methods at the bottom of Setup. Tapping the method starts the match.</p>
+
+    <h4>Lag</h4>
+    <p>Lag at the table as normal. On the 0-0 gameplay screen, drag the white cue ball from the centre to the player who won the lag. RackMate will use that player as the first breaker.</p>
+    <p>Before the first frame is scored, you can drag the cue ball to the other player if the opening breaker was assigned incorrectly.</p>
+
+    <h4>Coin Toss</h4>
+    <p>Call Heads or Tails verbally, then tap the coin to toss it. Once the result is shown, drag the coin to the player who won the toss.</p>
+    <p>RackMate then assigns that player as the opening breaker. Before the first frame is scored, the breaker can still be corrected if necessary.</p>
+
+    <h4>Just Play</h4>
+    <p>Don't care who breaks first? Choose Just Play.</p>
+    <p>RackMate starts at 0-0 with a neutral cue ball and deliberately does not record who broke Frame 1. Once Frame 1 is completed, RackMate takes over the breaker sequence from Frame 2 according to the selected break format.</p>
+
+    <h3>SCORING A FRAME</h3>
+    <p>Each player's half of the table is a scoring area.</p>
+    <ul>
+      <li>Swipe <strong>UP</strong> on a player's side to award that player the frame.</li>
+      <li>Swipe <strong>DOWN</strong> on a player's side to remove the most recently credited frame when appropriate.</li>
+    </ul>
+    <p>The score changes immediately. RackMate then updates the frame number, hill status and next breaker.</p>
+    <p>On a computer during testing, click-dragging up or down performs the same actions. Double-clicking a player's side can also award a frame.</p>
+
+    <h3>THE BREAKER INDICATOR</h3>
+    <p>The white cue ball in the centre area shows who should break the next frame.</p>
+    <ul>
+      <li><strong>Alternate Break</strong> - RackMate switches the breaker after each completed frame.</li>
+      <li><strong>Winner Break</strong> - RackMate moves the breaker to the winner of the previous frame.</li>
+    </ul>
+    <p>After Frame 1 has been scored, the normal breaker sequence is locked to the match history.</p>
+
+    <h3>UNDO</h3>
+    <p>UNDO reverses the most recent scoring action and restores the match to the state it was in before that frame was entered. This includes the score, frame number, hill status and breaker.</p>
+    <p>If Undo returns a Lag or Coin Toss match to 0-0, the original opening breaker is retained. You do not repeat the lag or coin toss.</p>
+    <p>In a Just Play match, Undoing Frame 1 back to 0-0 restores the neutral centre cue because RackMate did not record the original Frame 1 breaker.</p>
+
+    <h3>EDIT MATCH SETTINGS</h3>
+    <p>Tap EDIT MATCH SETTINGS during a match if something needs correcting.</p>
+    <p>You can change:</p>
+    <ul>
+      <li>Player names</li>
+      <li>Race To / Best Of</li>
+      <li>Break format</li>
+      <li>Current breaker</li>
+    </ul>
+    <p>The existing score and match history are preserved.</p>
+    <p>RackMate will not allow the Race To value to be reduced to a number that is already reached or exceeded by the current score.</p>
+    <p>The game type and original opening method cannot be changed once the match has started.</p>
+
+    <h3>MATCH MENU</h3>
+    <p>Open the match menu when you need to pause, concede or abandon the current match.</p>
+
+    <h4>Resume</h4>
+    <p>Closes the menu and returns to the match.</p>
+
+    <h4>Player Concedes</h4>
+    <p>Use P1 CONCEDES or P2 CONCEDES when a player concedes the match. The current score is preserved and RackMate records the other player as the winner by concession.</p>
+
+    <h4>Abandon Match</h4>
+    <p>Use ABANDON MATCH when the match is being stopped without a result.</p>
+    <p>An abandoned match records no winner and discards the current score and match history. RackMate asks for confirmation before abandoning the match.</p>
+
+    <h3>HILL AND HILL-HILL</h3>
+    <p>When a player needs one more frame to win, RackMate displays ON THE HILL.</p>
+    <p>When both players need one more frame, RackMate displays HILL-HILL MATCH. The next frame decides the match.</p>
+
+    <h3>WINNING THE MATCH</h3>
+    <p>When a player reaches the Race To target, scoring stops and RackMate displays the Winner screen.</p>
+    <p>From there you can choose:</p>
+    <ul>
+      <li><strong>Rematch</strong> - play the same match setup again. A Lag or Coin Toss match performs a fresh opening Lag or Coin Toss. Just Play starts again with a neutral opening cue.</li>
+      <li><strong>New Match</strong> - return to Setup with fresh player-name fields and your saved default match settings.</li>
+    </ul>
+
+    <h3>APP SETTINGS</h3>
+    <p>Tap the gear icon on the Setup screen to open RackMate Settings.</p>
+
+    <h4>RackMate Settings</h4>
+    <ul>
+      <li><strong>Banter</strong> - turns RackMate's smart-arse comments on or off.</li>
+      <li><strong>Sound</strong> - turns RackMate sound effects on or off.</li>
+      <li><strong>Haptic</strong> - turns supported phone vibration feedback on or off.</li>
+      <li><strong>Keep Screen Awake</strong> - attempts to prevent the phone from sleeping while a match is active.</li>
+      <li><strong>Frame Win Animation</strong> - turns the planned frame-win ball animation on or off.</li>
+    </ul>
+
+    <h4>Default Match Setup</h4>
+    <p>You can also choose the default game, Race To, break format, opening method and score-removal method used when starting a new match.</p>
+    <p>RESTORE SYSTEM DEFAULTS returns RackMate's settings to their original values.</p>
+
+    <h3>SCORE REMOVAL</h3>
+    <p>RackMate can remove a score in one of two ways, selected in Settings:</p>
+    <ul>
+      <li><strong>Direct</strong> - the score is removed immediately.</li>
+      <li><strong>Confirm</strong> - RackMate asks for confirmation before removing the score.</li>
+    </ul>
+
+    <h3>BANTER, SOUND AND HAPTICS</h3>
+    <p>RackMate has a personality, but you don't have to live with it.</p>
+    <p>Banter can be switched off without affecting normal match information. Sound and haptic feedback can also be disabled independently in Settings.</p>
+
+    <h3>KEEPING THE SCREEN AWAKE</h3>
+    <p>When Keep Screen Awake is enabled, RackMate requests that supported devices keep the display awake while you are using the app. Device and browser power-saving rules may still override this in some circumstances.</p>
+
+    <h3>LANDSCAPE MODE</h3>
+    <p>RackMate is designed to be used in landscape orientation. Turn the phone sideways before playing for the intended table layout and controls.</p>
+
+    <h3>EXITING RACKMATE</h3>
+    <p>EXIT APP is available from the menu on the Setup and Winner screens.</p>
+    <p>When RackMate is running as an installed web app, Android or the browser may not allow RackMate itself to forcibly close the app. If necessary, simply leave or close RackMate using the normal phone controls.</p>
+
+    <h3>QUICK MATCH CHECK</h3>
+    <p>Before the first break, have a quick look at the screen:</p>
+    <ul>
+      <li>Correct player names?</li>
+      <li>Correct game?</li>
+      <li>Correct Race To?</li>
+      <li>Alternate Break or Winner Break?</li>
+      <li>Correct opening-break method?</li>
+    </ul>
+    <p>Then put the phone somewhere safe, preferably where an enthusiastic cue, ball or beer can't test its impact resistance.</p>
+
+    <h3>THAT'S IT</h3>
+    <p class="helpEnd">RackMate keeps score. You play pool.</p>
+    <p>And if the score is wrong, RackMate will naturally assume it was operator error.</p>
+
+    <button class="choice" id="helpClose">CLOSE</button>
+  </div>
+</section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.44</div>
+<div class="version">V1.45</div>
 </div></div></div>
 <script>
-const APP_VERSION='V1.44';
+const APP_VERSION='V1.45';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
