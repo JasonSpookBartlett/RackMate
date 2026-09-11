@@ -1,44 +1,94 @@
-RACKMATE V1.50 — STABILITY REBUILD
+RACKMATE BETA v1.51 — V3 BANTER ENGINE
 
-Rebuilt from the known-good V1.33 PWA baseline.
+BASELINE
+Built directly from the clean V1.50 functional baseline.
+The existing scoring, breaker, Help, PWA, input and Wake Lock behaviour is retained unless noted below.
 
-FIXES
-- No autofocus or keyboard on launch.
-- Player 1 / Player 2 are placeholders, avoiding fragile scripted text selection.
-- Tap Player 1 normally; Android owns the keyboard lifecycle.
-- NEXT moves to Player 2.
-- DONE dismisses the keyboard.
-- Changing game type, race length, break format or settings no longer rewrites names.
-- New Match restores blank fields with Player 1 / Player 2 placeholders.
-- Service worker now prefers the live network during beta and explicitly checks for updates.
-- Exit App remains the safe PWA fallback because Chrome/Android does not guarantee that an installed PWA may terminate its own task.
+WHAT IS NEW
+- V3 RackMate banter library implemented as a separate message layer.
+- Large central RackMate speech bubble.
+- Bubble tail points diagonally toward the RackMate name in the top-left header.
+- Speech bubbles are non-modal and do not block touch/swipe scoring.
+- Frame-win banter is score-aware and appears after every non-terminal awarded frame.
+- Match-win banter is score-aware.
+- Banter avoids immediately repeating the same line from a category where practical.
+- New Voice Banter setting sits underneath RackMate Banter.
+- Voice Banter uses the device/browser speech voice and prefers NZ/AU/UK English when available.
+- Voice Banter defaults OFF; RackMate Banter remains ON by default.
+- Turning RackMate Banter OFF suppresses all personality bubbles while leaving factual UI intact.
+- Pointless Undo pool includes the two approved LOCKED lines:
+  "UNDO WHAT? … Take the cloth off the bloody table or something?"
+  "UNDO WHAT? We haven't bloody started yet!"
 
-UPLOAD ALL FILES/FOLDERS TO THE REPO ROOT:
-index.html
-manifest.webmanifest
-sw.js
-icons/
+SCORE-AWARE FRAME EVENTS
+RackMate can distinguish, among other things:
+- opening frame
+- routine lead extension
+- score levelled
+- new leader
+- leader pulling away
+- trailing player finally getting on the board
+- still well behind
+- comeback underway
+- comeback completed / score levelled
+- on the hill
+- Hill-Hill
 
-PHONE TEST
-1. Open app: no keyboard.
-2. Tap Player 1: keyboard stays open.
-3. Type name and press NEXT.
-4. Type Player 2 and press DONE.
-5. Change 8/9/10-ball, Race, Best Of and Break Format: names stay unchanged.
-6. Open/close App Settings: names stay unchanged and keyboard stays closed.
+SCORE-AWARE MATCH EVENTS
+RackMate can distinguish, among other things:
+- Hill-Hill / narrow win
+- close win
+- comfortable win
+- hiding / near-whitewash
+- whitewash
+- comeback win / blown big lead
+- unusually long match
+- concession
 
-V1.50: CSS-only UI refinement — Player 1 / Player 2 placeholders are now pale (48% opacity) so they clearly read as prompts rather than entered names. No mobile keyboard/focus logic changed.
+OPENING BREAK BANTER
+- Lag: attempting to score before assigning the lag winner is rejected and can trigger banter.
+- Coin Toss: attempting to score before tossing/assigning the coin is rejected and can trigger banter.
+- Invalid coin drop triggers banter and snaps back.
+- Opening-breaker correction before Frame 1 has its own banter pool.
+- Just Play retains its own opening line.
 
-V1.50: Player-name placeholder opacity reduced from 48% to 25%. CSS-only refinement; input/focus logic unchanged.
+UNDO
+- Successful Undo / frame removal has its own banter pool.
+- Undo at 0-0 triggers the Pointless Undo pool.
 
-V1.50: Added small v1.43 test label beside RackMate in top-left header. No app/input logic changed.
+SMALL LOGIC HARDENING
+- An invalid/cancelled initial Lag cue drag now remains in Lag-assignment mode, so Frame 1 cannot accidentally be scored before the opening breaker is assigned.
 
-V1.50: Header version label enlarged to the same size as the RackMate app name for easy beta-build identification. No app logic changed.
+UPLOAD TO EXISTING GITHUB REPO ROOT
+Replace these files:
+- index.html
+- sw.js
 
-V1.50: Replaced the short placeholder Help screen with the complete approved RackMate Help text. Added Help-only heading/list formatting for readability. No scoring, keyboard, breaker, match or settings logic changed.
+README_INSTALL.txt is for reference only.
+Leave the existing manifest.webmanifest and icons/ folder in place.
 
-V1.50: Hardened Help navigation. Help can no longer become its own return destination, the Help button is hidden while Help is open, Help reopens at the top, and CLOSE always falls back safely to Setup if needed. No scoring, breaker, keyboard, match or settings logic changed.
+CACHE / VERSION
+- Header should display: RackMate v1.51
+- Bottom test version should display: BETA v1.51
+- Service-worker cache: rackmate-v1.51
+- Service-worker registration query: v=1.51
 
-V1.50: Clean post-QA baseline rebuilt from V1.46. Wake Lock diagnostics and the unnecessary V1.47/V1.48 experimental wake-lock changes are not included. Confirmed intended behavior: Keep Screen Awake applies during active Gameplay only, not Setup. Full Help screen and repeated Help CLOSE fix retained.
+SUGGESTED QA
+1. Confirm app opens normally and header reads v1.51.
+2. Settings: Banter ON; Voice Banter visible beneath it; Voice defaults OFF.
+3. Turn Voice Banter ON and confirm the test/settings banter is spoken.
+4. Turn Banter OFF and confirm Voice Banter becomes disabled.
+5. Start Lag; try to score before assigning lag winner: score must remain 0-0 and RackMate should speak/show banter.
+6. Drag lag cue somewhere invalid: Lag assignment must remain active.
+7. Assign lag winner; correct it before Frame 1: correction banter should appear.
+8. Start Coin Toss; attempt to score before toss and after toss-before-assignment: both must be rejected with appropriate banter.
+9. Drop coin somewhere invalid: coin snaps back and banter appears.
+10. Score several frames and watch for score-aware speech bubbles every non-terminal frame.
+11. Undo a frame: Undo banter appears.
+12. Undo at 0-0: Pointless Undo banter appears.
+13. Run a short Race To 2 or 3 through to completion and confirm Winner screen receives score-aware match banter.
+14. Confirm Banter OFF leaves scoring and factual UI completely functional.
+15. Confirm Keep Screen Awake still applies only during active Gameplay.
 
-V1.50: Removed the redundant transient '<player> wins frame' popup after a frame is awarded. Scoring and all other match behavior remain unchanged.
+NOTE
+The wording is deliberately isolated in the BANTER message library inside index.html. Messages can be added, deleted or rewritten later without altering the scoring rules.

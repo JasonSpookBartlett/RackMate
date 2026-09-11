@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate V1.50 PWA Beta</title>
+<title>RackMate BETA v1.51</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -48,6 +48,15 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 .editError{min-height:20px;color:#ffd27a;font-weight:800;margin-top:10px}
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
+
+/* BETA v1.51 RackMate Banter */
+.banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
+.banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
+.banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
+.banterBubble.show{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.settingRow.subSetting{margin-left:18px;padding-left:12px;border-left:2px solid rgba(242,196,77,.38)}
+.settingRow.subSetting.disabled{opacity:.42}
+.settingRow.subSetting button:disabled{cursor:not-allowed}
 .coinLayer{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:35;pointer-events:none}
 .coinLayer.show{display:flex}
 .coinStage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:220px;pointer-events:auto}
@@ -125,7 +134,7 @@ body{
 <body>
 <div class="app">
 <header class="header">
-<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.50</span></div></div>
+<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.51</span></div></div>
 <div class="title"><h1 id="screenTitle">MATCH SETUP</h1><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
@@ -160,7 +169,7 @@ body{
       <div id="winnerMeta" style="margin-top:8px"></div>
       <div id="winnerFrames" style="margin-top:10px"></div>
     </div>
-    <div id="winnerBanter" style="background:#f6f0df;color:#111;border-radius:24px;padding:20px;font-family:'Comic Sans MS',cursive;font-size:clamp(17px,2vw,28px)"></div>
+    <div id="winnerBanter" style="display:none"></div>
     <div style="grid-column:1/4;display:flex;justify-content:center;gap:12px">
       <button class="choice" id="rematchBtn">↶ REMATCH</button>
       <button class="choice active" id="newMatchBtn">▶ NEW MATCH</button>
@@ -273,6 +282,7 @@ body{
     <h4>RackMate Settings</h4>
     <ul>
       <li><strong>Banter</strong> - turns RackMate's smart-arse comments on or off.</li>
+      <li><strong>Voice Banter</strong> - when Banter is on, optionally reads RackMate's speech bubbles aloud using the device voice.</li>
       <li><strong>Sound</strong> - turns RackMate sound effects on or off.</li>
       <li><strong>Haptic</strong> - turns supported phone vibration feedback on or off.</li>
       <li><strong>Keep Screen Awake</strong> - attempts to prevent the phone from sleeping while a match is active.</li>
@@ -292,7 +302,7 @@ body{
 
     <h3>BANTER, SOUND AND HAPTICS</h3>
     <p>RackMate has a personality, but you don't have to live with it.</p>
-    <p>Banter can be switched off without affecting normal match information. Sound and haptic feedback can also be disabled independently in Settings.</p>
+    <p>Banter can be switched off without affecting normal match information. Voice Banter sits underneath Banter and can read the same speech bubble aloud. Sound and haptic feedback can also be disabled independently in Settings.</p>
 
     <h3>KEEPING THE SCREEN AWAKE</h3>
     <p>When Keep Screen Awake is enabled, RackMate requests that supported devices keep the display awake while you are using the app. Device and browser power-saving rules may still override this in some circumstances.</p>
@@ -324,13 +334,15 @@ body{
 </section>
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
-<div class="version">V1.50</div>
+<div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
+<div class="version">BETA v1.51</div>
 </div></div></div>
 <script>
-const APP_VERSION='V1.50';
+const APP_VERSION='BETA v1.51';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
+  voiceBanter:false,
   sound:true,
   haptics:true,
   keepAwake:true,
@@ -347,7 +359,7 @@ try{
   if(saved&&typeof saved==='object') appSettings={...SYSTEM_SETTINGS,...saved};
 }catch(_){}
 
-const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null};let helpReturn='setup';
+const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0};let helpReturn='setup';
 let wakeLock=null;
 async function updateWakeLock(){
   try{
@@ -428,11 +440,368 @@ function sound(kind='score'){
   }catch(_){}
 }
 
+
+const BANTER={
+  names:[
+    "No names? Fine. Player 1 and Player 2 it is.",
+    "This isn't Pool Players Anonymous! Who's playing?",
+    "MI6 is in the room. 007 versus 008 it is then."
+  ],
+  lagUnassigned:[
+    "I don't care who scored first, who won the lag?",
+    "Pick your lag winner first, mate.",
+    "Cue ball's still homeless. Give it to the lag winner."
+  ],
+  coinNotTossed:[
+    "Heads or freakin' Tails, man. Come on!",
+    "Coin first, frames second.",
+    "Finish the toss first, champ. Then we can play pool."
+  ],
+  coinNotAssigned:[
+    "I don't care who scored first, who called that?",
+    "Lovely toss. Now tell me who bloody won it.",
+    "Don't admire the coin all day — drag it to the winner."
+  ],
+  invalidCoin:[
+    "Close enough ain't good enough, you know that, aye!",
+    "Nope. That's not a player.",
+    "Nice throw. Wrong target."
+  ],
+  justPlay:["No paperwork, no ceremony. Get on with it."],
+  openingBreakerCorrected:[
+    "Oh, come on, make your mind up. Who's breaking?",
+    "Geez, if you're not sure, man, say so!",
+    "Righto — breaker changed. Try not to argue about it now."
+  ],
+  frameOpening:[
+    "Well done, champ. Only the rest of the match to go.",
+    "One-nil. Try not to peak too early.",
+    "Look at you, straight out of the blocks.",
+    "First blood. I'm sure that was all part of the plan.",
+    "One frame! Somebody alert the press.",
+    "Nice start. Don't worry, there's still plenty of time to ruin it."
+  ],
+  frameRoutine:[
+    "That'll count.",
+    "Another one. You're making this look almost deliberate.",
+    "Nice. Don't get cocky.",
+    "Frame banked. Try to look surprised.",
+    "Well then. Somebody came to play.",
+    "Keep that up and people might think you know what you're doing.",
+    "Another frame. Even a broken clock is right twice a day.",
+    "Look at that — competence!"
+  ],
+  frameLevel:[
+    "Oh good. All that work and we're back where we started.",
+    "Level again. Nobody's achieved anything.",
+    "All square. You two really enjoy making this difficult, don't you?",
+    "Back to even. Congratulations on accomplishing absolutely nothing.",
+    "Righto, reset the bragging rights to zero.",
+    "Tied up. This is taking longer than necessary."
+  ],
+  frameLead:[
+    "Well, well. Look who's in front now.",
+    "Plot twist! We have a new leader.",
+    "Careful — someone's getting ideas above their station.",
+    "Lead stolen. Try not to look smug.",
+    "Oh, that's awkward. The scoreboard has changed sides."
+  ],
+  framePullAway:[
+    "You gonna let them play at some point?",
+    "This is starting to look a little one-sided.",
+    "Steady on. They're going to need counselling.",
+    "Another one? Leave some self-esteem for the drive home.",
+    "You're not being very hospitable, are you?",
+    "At least pretend this is competitive."
+  ],
+  frameFirstReply:[
+    "HE'S ALIVE!",
+    "There we go! I was starting to worry.",
+    "A frame! Quick, somebody write down the date.",
+    "Well done. The scoreboard now acknowledges your existence.",
+    "Look at that — both players have a number now!",
+    "The comeback starts here. Probably."
+  ],
+  frameStillBehind:[
+    "Nice frame. Only a small miracle required now.",
+    "Good work. Just do that several more times without stuffing up.",
+    "One back. The mountain remains.",
+    "That's the spirit. Delusion is important in sport.",
+    "Excellent. Now repeat until the maths stops laughing at you.",
+    "A journey of a thousand miles begins with one frame, apparently."
+  ],
+  frameComeback:[
+    "Hang on… this is getting interesting.",
+    "Well this wasn't in the script.",
+    "Careful. Somebody's remembered how to play.",
+    "Oh dear. That comfortable lead isn't looking so comfortable now.",
+    "Keep going and we may have to call this a comeback.",
+    "Someone's getting nervous. I can almost hear it."
+  ],
+  frameComebackLevel:[
+    "Well this got awkward.",
+    "All square! Somebody has absolutely bottled a lead.",
+    "And just like that, your lovely lead is gone.",
+    "Level. I'd avoid eye contact if I were the former leader.",
+    "That lead aged well.",
+    "Congratulations — you've successfully turned a comfortable match into a crisis."
+  ],
+  frameHill:[
+    "On the hill. No pressure. Absolutely none.",
+    "One more. Try not to think about it.",
+    "On the hill! Now comes the traditional overthinking.",
+    "Nearly there. This is usually where people get creative and ruin everything.",
+    "One away. Surely you can't mess this up. Surely."
+  ],
+  frameHillHill:[
+    "HILL-HILL. Righto, nobody blink.",
+    "Oh good. One frame to decide all that nonsense.",
+    "Hill-Hill. RackMate recommends pretending you're calm.",
+    "All that pool just to make it a race to one.",
+    "Hill-Hill. Beautiful. Completely unnecessary, but beautiful.",
+    "One frame. No pressure — apart from all of it."
+  ],
+  undo:[
+    "Whoops — that frame never happened.",
+    "That's the ticket, hide the evidence.",
+    "RackMate has deleted the evidence.",
+    "Fine. We'll pretend none of us saw it.",
+    "Ah yes, the traditional 'that didn't count' manoeuvre.",
+    "Gone. History has been rewritten."
+  ],
+  pointlessUndo:[
+    "UNDO WHAT? … Take the cloth off the bloody table or something?",
+    "UNDO WHAT? We haven't bloody started yet!",
+    "Mate… it's already 0–0.",
+    "I can't go into negative numbers, pal.",
+    "What, you mean go home and try again!",
+    "I'm taking a nap while you work this out."
+  ],
+  breakerCorrected:[
+    "Righto — breaker changed. Try not to argue about it now.",
+    "Breaker updated. RackMate will take the blame.",
+    "Fine. New breaker. I'm staying out of the argument."
+  ],
+  breakFormatChanged:[
+    "Break format changed. Hope both players were listening.",
+    "New break format locked in. Arguments may now resume.",
+    "Righto, new break rules. Nobody say I didn't tell you."
+  ],
+  rematch:[
+    "Again? Clearly somebody has something to prove.",
+    "Same two, same setup, fresh excuses.",
+    "Rematch it is. Settle this properly.",
+    "Couldn't leave it alone, could you?",
+    "Righto. Best behaviour this time. Or don't."
+  ],
+  concession:[
+    "Winner by concession. Try not to look too pleased about it.",
+    "Victory by surrender. Still counts, mate.",
+    "The other player has chosen discretion over further suffering.",
+    "White flag accepted. A win's a win.",
+    "Apparently we've seen enough. Winner by concession."
+  ],
+  matchHillHill:[
+    "That was close. Somebody check the loser's pulse.",
+    "Hill-Hill and you survived. Brag carefully.",
+    "One frame in it. Try not to act like it was comfortable.",
+    "Congratulations. You were marginally less terrible at the important moment.",
+    "Well done. Nothing like waiting until the last possible frame.",
+    "A win by the thickness of a coat of chalk.",
+    "You won. Technically. Let's not overstate it.",
+    "That could've gone either way. Unfortunately, it went yours."
+  ],
+  matchClose:[
+    "Congratulations. Try to act like you've won before.",
+    "The bragging rights are unfortunately legitimate.",
+    "Nice win. Clearly it was the chalk.",
+    "Close enough to be exciting, far enough to be annoying.",
+    "Well played. I hate to encourage you, but that wasn't bad.",
+    "A proper match. How inconveniently respectable.",
+    "You won without completely humiliating anyone. Very mature.",
+    "Solid win. Don't let it go to your head — there's limited room."
+  ],
+  matchComfortable:[
+    "Comfortable. Almost suspiciously comfortable.",
+    "Strong win. Try not to make eye contact while they pack up.",
+    "Well, that got away from them quickly.",
+    "Nice work. Your opponent contributed by turning up.",
+    "Congratulations. You made that look easier than it probably was.",
+    "Good win. Very considerate of you to let them have a few frames.",
+    "Dominant enough to brag, not dominant enough to be unbearable. Perfect.",
+    "RackMate confirms the result: one player played pool."
+  ],
+  matchHiding:[
+    "That wasn't a match. That was a supervised visit.",
+    "Well, at least they got a frame. Participation certificate is in the mail.",
+    "You only entered Player 2's name to make this look good, aye!",
+    "That scoreline needs a mercy rule and a cup of tea.",
+    "I'd say 'good game', but lying is ugly.",
+    "Congratulations. Please return your opponent's confidence on the way out.",
+    "Somewhere in there was a competitive match. I must've missed it.",
+    "RackMate recommends deleting the screenshot before their friends see it."
+  ],
+  matchWhitewash:[
+    "That wasn't a match. That was a demonstration.",
+    "Clean sweep. Please avoid saying 'good game' with a straight face.",
+    "You only entered Player 2's name to make this look good, aye!",
+    "ZERO? Mate, even RackMate feels a little uncomfortable.",
+    "Well done. You successfully prevented the other player from participating.",
+    "That's not a scoreline, that's a cry for help.",
+    "RackMate has classified this match as 'character building' for one participant.",
+    "Maybe let them break next time. Or bring a cue. Either might help.",
+    "I hope you bought them dinner first.",
+    "Brutal. Efficient. Socially questionable."
+  ],
+  matchComeback:[
+    "Well this got awkward.",
+    "From dead and buried to winner. Somebody owes somebody an apology.",
+    "That comeback was rude. I approve.",
+    "You had them. You actually had them. And then… that.",
+    "Congratulations. You turned impending embarrassment into their embarrassment.",
+    "That lead disappeared faster than free beer.",
+    "What a comeback. The former leader may need a quiet moment.",
+    "Apparently being nearly beaten was just part of the strategy.",
+    "Never in doubt. Except for most of the match."
+  ],
+  matchBlewLead:[
+    "Oh dear. We are never mentioning that lead again, are we?",
+    "You were cruising. Then you drove directly into a ditch.",
+    "That, my friend, is what we call snatching defeat from the jaws of victory.",
+    "Beautiful lead you had there. Shame about the ending.",
+    "I'd ask what happened, but the scoreboard has already testified.",
+    "From comfortable to catastrophic. Impressive range.",
+    "The good news: you proved you could build a lead. The bad news is everything after that."
+  ],
+  matchLong:[
+    "A win is a win. We won't discuss how long that took.",
+    "Wow, it took less time to invent the wheel!",
+    "Match complete. Civilization may now resume.",
+    "Congratulations. Several geological eras have passed.",
+    "Good news: you won. Bad news: the car park is probably locked.",
+    "That wasn't a race, it was a long-term relationship.",
+    "RackMate would like to thank everyone for their patience.",
+    "I aged three software versions during that match."
+  ],
+  banterOn:[
+    "Excellent. I was getting bored being professional.",
+    "Banter on. You asked for this.",
+    "Oh good. Personality restored."
+  ],
+  banterOff:[
+    "Righto. Serious mode. How terribly grown-up.",
+    "Banter off. I'll keep my opinions to myself.",
+    "Fine. Enjoy your emotionally supportive scoreboard."
+  ],
+  voiceOn:[
+    "Oh good. Now I get to say it out loud.",
+    "Voice Banter on. The pool hall has been warned.",
+    "Excellent. Silent judgement was getting boring."
+  ],
+  voiceOff:[
+    "Fine. I'll judge you silently.",
+    "Voice off. The speech bubbles still have plenty to say.",
+    "Muted? Fair. Some people can't handle constructive criticism."
+  ],
+  raceTooLow:[
+    "Bit late to shorten the race now, pal.",
+    "Nice try. You can't move the finish line behind the leader.",
+    "Just concede, it's easier!"
+  ]
+};
+let banterUsed={};
+let banterTimer=null;
+function resetBanterHistory(){banterUsed={};}
+function pickBanter(key){
+  const pool=BANTER[key]||[];
+  if(!pool.length) return '';
+  let used=banterUsed[key]||[];
+  let available=pool.map((_,i)=>i).filter(i=>!used.includes(i));
+  if(!available.length){used=[];available=pool.map((_,i)=>i);}
+  const idx=available[Math.floor(Math.random()*available.length)];
+  used.push(idx);banterUsed[key]=used;
+  return pool[idx];
+}
+function speakBanter(text){
+  if(!appSettings.banter || !appSettings.voiceBanter || !('speechSynthesis' in window)) return;
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-NZ';u.rate=1.04;u.pitch=.96;
+    const voices=speechSynthesis.getVoices ? speechSynthesis.getVoices() : [];
+    const v=voices.find(x=>/^en-NZ/i.test(x.lang)) || voices.find(x=>/^en-AU/i.test(x.lang)) || voices.find(x=>/^en-GB/i.test(x.lang));
+    if(v) u.voice=v;
+    speechSynthesis.speak(u);
+  }catch(_){}
+}
+function showBanter(text,{force=false,speak=true}={}){
+  if(!text || (!appSettings.banter && !force)) return;
+  const b=$('#banterBubble');
+  if(!b) return;
+  clearTimeout(banterTimer);
+  b.textContent=text;
+  b.classList.add('show');
+  if(speak && (appSettings.banter || force)) speakBanter(text);
+  const ms=Math.max(2500,Math.min(6500,1700+text.length*48));
+  banterTimer=setTimeout(()=>b.classList.remove('show'),ms);
+}
+function banter(key,opts){showBanter(pickBanter(key),opts);}
+function bigLeadThreshold(){return Math.max(2,Math.ceil(st.race*.4));}
+function maxDeficitFor(player){
+  let max=0;
+  const states=st.history.map(h=>h.before).concat([{score1:st.score1,score2:st.score2}]);
+  for(const q of states){
+    const own=player===1?q.score1:q.score2, opp=player===1?q.score2:q.score1;
+    max=Math.max(max,opp-own);
+  }
+  return max;
+}
+function selectFrameBanter(before,p){
+  const ownBefore=p===1?before.score1:before.score2;
+  const oppBefore=p===1?before.score2:before.score1;
+  const ownAfter=p===1?st.score1:st.score2;
+  const oppAfter=p===1?st.score2:st.score1;
+  const deficitSeen=maxDeficitFor(p);
+  const big=bigLeadThreshold();
+  if(st.score1===st.race-1 && st.score2===st.race-1) return 'frameHillHill';
+  if(ownAfter===st.race-1 && ownBefore!==st.race-1) return 'frameHill';
+  if(deficitSeen>=big && ownAfter===oppAfter) return 'frameComebackLevel';
+  if(ownAfter===oppAfter) return 'frameLevel';
+  if(ownBefore===0 && oppBefore>=2) return 'frameFirstReply';
+  if(deficitSeen>=big && ownBefore<oppBefore && ownAfter<oppAfter) return 'frameComeback';
+  if(oppAfter-ownAfter>=big) return 'frameStillBehind';
+  if(ownAfter-oppAfter>=big) return 'framePullAway';
+  if(ownBefore<=oppBefore && ownAfter>oppAfter) return 'frameLead';
+  if(before.score1===0 && before.score2===0) return 'frameOpening';
+  return 'frameRoutine';
+}
+function selectMatchBanter(winner,reason){
+  if(reason==='concede') return 'concession';
+  const ws=winner===1?st.score1:st.score2;
+  const ls=winner===1?st.score2:st.score1;
+  const deficit=maxDeficitFor(winner);
+  const big=bigLeadThreshold();
+  const elapsed=st.matchStartedAt?Date.now()-st.matchStartedAt:0;
+  const longThreshold=Math.max(35*60*1000,st.race*5*60*1000);
+  if(ls===0) return 'matchWhitewash';
+  if(deficit>=big) return Math.random()<.5?'matchComeback':'matchBlewLead';
+  if(ls===st.race-1) return 'matchHillHill';
+  if(ls<=Math.max(1,Math.floor(st.race*.25))) return 'matchHiding';
+  if(elapsed>=longThreshold && ws+ls>=st.race+2) return 'matchLong';
+  if(ws-ls>=Math.max(3,Math.ceil(st.race*.35))) return 'matchComfortable';
+  return 'matchClose';
+}
+
 function play(){ $('#p1Name').textContent=st.p1;$('#p2Name').textContent=st.p2;$('#p1Score').textContent=st.score1;$('#p2Score').textContent=st.score2;$('#raceDisplay').textContent='RACE TO '+st.race;$('#frameDisplay').textContent='FRAME '+Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker';$('#breakerCue').style.transform='';}else{$('#breakerText').textContent=(st.breaker===1?st.p1:st.p2)+' BREAKS';$('#breakerCue').className='breaker '+(st.breaker===1?'bp1':'bp2');}$('#gameRep').className='ball b'+st.game;$('#gameRep').textContent=st.game;$('#gameText').textContent=st.game+'-BALL';const hh=st.score1===st.race-1&&st.score2===st.race-1;$('#p1Hill').textContent=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');$('#p2Hill').textContent=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'')}
 function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
-  if(st.screen!=='play' || st.lagAssign || $('#coinLayer').classList.contains('show')) return;
+  if(st.screen!=='play') return;
+  if(st.lagAssign){banter('lagUnassigned');return;}
+  if($('#coinLayer').classList.contains('show')){
+    banter(coinFlipped?'coinNotAssigned':'coinNotTossed');
+    return;
+  }
   st.openingBreakerEditable=false;
   if(st.score1>=st.race || st.score2>=st.race) return;
   const before=snap();
@@ -453,26 +822,28 @@ function add(p){
     st.breaker = st.breakFormat==='alternate' ? (st.breaker===1?2:1) : p;
   }
   play();
+  banter(selectFrameBanter(before,p));
 }
 function removeFrameNow(p){
   for(let i=st.history.length-1;i>=0;i--){
     if(st.history[i].player===p){
       restore(st.history[i].before);
-      haptic(12);sound('undo');
+      haptic(12);sound('undo');banter('undo');
       return true;
     }
   }
+  banter('pointlessUndo');
   return false;
 }
 function remove(p){
   const hasFrame=st.history.some(x=>x.player===p);
-  if(!hasFrame) return;
+  if(!hasFrame){banter('pointlessUndo');return;}
   if(appSettings.scoreRemoveMethod==='confirm'){
     modal('Remove Frame?',
-      '<p style="margin:0 0 12px">Remove '+(p===1?st.p1:st.p2)+'\'s most recently credited frame?</p>'+
+      '<p style="margin:0 0 12px">Remove '+(p===1?st.p1:st.p2)+'\'s most recently credited frame?</p>'+ 
       '<div class="row">'+
-      '<button id="keepScoreBtn" class="choice">KEEP SCORE</button>'+
-      '<button id="removeScoreBtn" class="choice active">REMOVE FRAME</button>'+
+      '<button id="keepScoreBtn" class="choice">KEEP SCORE</button>'+ 
+      '<button id="removeScoreBtn" class="choice active">REMOVE FRAME</button>'+ 
       '</div>'
     );
     $('#modalCancel').style.display='none';
@@ -494,7 +865,7 @@ function start(p){
   $('#breakerCue').style.transform='';
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
-  st.score1=0;st.score2=0;st.history=[];
+  st.score1=0;st.score2=0;st.history=[];st.matchStartedAt=Date.now();resetBanterHistory();
   st.breaker=st.firstBreaker=p;
   show('play');play();
 }
@@ -503,7 +874,7 @@ function beginLagAssignment(){
   st.justPlay=false;
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
-  st.score1=0;st.score2=0;st.history=[];
+  st.score1=0;st.score2=0;st.history=[];st.matchStartedAt=Date.now();resetBanterHistory();
   st.lagAssign=true;
   st.openingBreakerEditable=false;
   show('play');
@@ -527,21 +898,13 @@ function finishMatch(p,reason='score'){
   $('#winnerFrames').textContent=reason==='concede'
     ? 'WINNER BY CONCESSION • '+loser+' CONCEDED'
     : 'Won in '+(ws+ls)+' Frames';
-  const msgs=reason==='concede' ? [
-    "Winner by concession. RackMate promises not to ask what happened.",
-    "That'll do it. The other player has conceded.",
-    "Winner by concession. Bragging rights come with an asterisk, but they still count.",
-    "Concession accepted. RackMate has closed the case."
-  ] : [
-    "Congratulations. Try to act like you’ve won before.",
-    "RackMate confirms it: the bragging rights are unfortunately legitimate.",
-    "Well played. Your opponent is delighted for you. Probably.",
-    "Winner confirmed. Humility remains optional.",
-    "Nice win. Clearly it was the chalk.",
-    "A win is a win. We won’t discuss how long that took."
-  ];
-  $('#winnerBanter').textContent=msgs[Math.floor(Math.random()*msgs.length)];
+  $('#winnerBanter').textContent='';
   show('winner');
+  setTimeout(()=>{
+    const key=selectMatchBanter(p,reason);
+    const text=pickBanter(key).replace(/Player 2/g,loser);
+    showBanter(text);
+  },180);
 }
 function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalCancel').style.display='inline-block';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show')}
 function choose(t){modal(t,'<div class="row"><button class="choice" data-pick="1">'+st.p1+'</button><button class="choice" data-pick="2">'+st.p2+'</button></div>');$$('[data-pick]').forEach(b=>b.onclick=()=>{close();start(+b.dataset.pick)})}
@@ -654,7 +1017,7 @@ function beginCoinToss(){
   st.justPlay=false;
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
-  st.score1=0;st.score2=0;st.history=[];
+  st.score1=0;st.score2=0;st.history=[];st.matchStartedAt=Date.now();resetBanterHistory();
   st.openingBreakerEditable=false;
   show('play');
   play();
@@ -688,12 +1051,13 @@ function endCoinTossToBreaker(p){
 function beginJustPlay(){
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
-  st.score1=0;st.score2=0;st.history=[];
+  st.score1=0;st.score2=0;st.history=[];st.matchStartedAt=Date.now();resetBanterHistory();
   st.lagAssign=false;st.openingBreakerEditable=false;st.justPlay=true;
-  show('play');play();
+  show('play');play();banter('justPlay');
 }
 
 $$('[data-first]').forEach(b=>b.onclick=()=>{
+  const namesBlank=!$('#p1Input').value.trim() || !$('#p2Input').value.trim();
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
   st.openingMethod=b.dataset.first;
@@ -704,6 +1068,7 @@ $$('[data-first]').forEach(b=>b.onclick=()=>{
   }else{
     beginJustPlay();
   }
+  if(namesBlank) setTimeout(()=>banter('names'),120);
 });
 
 let lagDrag=null;
@@ -784,31 +1149,44 @@ function finishOpeningBreakerDrag(e){
 
   clearBreakerDragInline();
 
-  // Invalid drop: restore whichever breaker was already displayed.
+  // Invalid drop: initial Lag assignment stays locked; a correction simply snaps back.
   if(!p){
-    st.lagAssign=false;
+    const stillAssigning=st.lagAssign;
     play();
+    if(stillAssigning){
+      st.lagAssign=true;
+      breakerCue.className='breaker lagAssign';
+      $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
+    }
     return;
   }
 
   // Assign/reassign the opening breaker WITHOUT restarting/resetting the match.
+  const wasInitialAssignment=st.lagAssign;
+  const oldBreaker=st.breaker;
   st.breaker=p;
   st.firstBreaker=p;
   st.lagAssign=false;
   st.openingBreakerEditable=true;
   play();
+  if(!wasInitialAssignment && oldBreaker!==p) banter('openingBreakerCorrected');
 }
 
 breakerCue.addEventListener('pointerup',finishOpeningBreakerDrag);
 breakerCue.addEventListener('pointercancel',()=>{
   if(!lagDrag) return;
+  const stillAssigning=st.lagAssign;
   lagDrag=null;
   clearBreakerDragInline();
-  st.lagAssign=false;
   play();
+  if(stillAssigning){
+    st.lagAssign=true;
+    breakerCue.className='breaker lagAssign';
+    $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
+  }
 });
 
-$('#undoBtn').onclick=()=>{const e=st.history.at(-1);if(e)restore(e.before)};
+$('#undoBtn').onclick=()=>{const e=st.history.at(-1);if(e){restore(e.before);haptic(12);sound('undo');banter('undo');}else banter('pointlessUndo');};
 $('#menuBtn').onclick=()=>{
   const restoreCancel=()=>{$('#modalCancel').style.display='inline-block';};
 
@@ -932,6 +1310,8 @@ function openEditMatchSettings(){
 
   modal('Edit Match Settings',body,true);
 
+  const originalFormat=st.breakFormat;
+  const originalBreaker=justPlayOpening ? 0 : st.breaker;
   let chosenFormat=st.breakFormat;
   let chosenBreaker=justPlayOpening ? 0 : st.breaker;
 
@@ -989,6 +1369,7 @@ function openEditMatchSettings(){
     }
     if(newRace<=maxScore){
       err.textContent='Race To must be higher than the current leading score ('+maxScore+').';
+      banter('raceTooLow');
       return;
     }
 
@@ -1011,7 +1392,8 @@ function openEditMatchSettings(){
     close();
     play();
     sync();
-    toast('Match settings updated');
+    if((chosenBreaker===1||chosenBreaker===2) && originalBreaker && chosenBreaker!==originalBreaker) banter('breakerCorrected');
+    else if(chosenFormat!==originalFormat) banter('breakFormatChanged');
   };
 }
 
@@ -1027,6 +1409,7 @@ function openAppSettings(){
       <div class="settingsCard">
         <h3>RACKMATE</h3>
         ${onOff('banter','RackMate Banter','RackMate reactions appear as speech bubbles.')}
+        <div id="voiceBanterSlot">${onOff('voiceBanter','Voice Banter','Reads RackMate speech bubbles aloud.')}</div>
         ${onOff('sound','Sound Effects')}
         ${onOff('haptics','Haptic Feedback')}
         ${onOff('keepAwake','Keep Screen Awake','Keeps the display awake during gameplay.')}
@@ -1093,6 +1476,11 @@ function openAppSettings(){
       const key=b.dataset.toggle;
       b.classList.toggle('active',!!appSettings[key]);
       b.textContent=appSettings[key]?'ON':'OFF';
+      if(key==='voiceBanter'){
+        const row=b.closest('.settingRow');
+        if(row){row.classList.add('subSetting');row.classList.toggle('disabled',!appSettings.banter);}
+        b.disabled=!appSettings.banter;
+      }
     });
     $$('[data-setting-game]').forEach(b=>b.classList.toggle('active',+b.dataset.settingGame===+appSettings.defaultGame));
     $$('[data-setting-break]').forEach(b=>b.classList.toggle('active',b.dataset.settingBreak===appSettings.defaultBreakFormat));
@@ -1103,8 +1491,15 @@ function openAppSettings(){
 
   $$('[data-toggle]').forEach(b=>b.onclick=()=>{
     const key=b.dataset.toggle;
+    if(key==='voiceBanter' && !appSettings.banter) return;
+    const was=!!appSettings[key];
+    if(key==='banter' && was) showBanter(pickBanter('banterOff'),{force:true,speak:false});
+    if((key==='banter'||key==='voiceBanter') && was && 'speechSynthesis' in window){try{speechSynthesis.cancel();}catch(_){}}
     appSettings[key]=!appSettings[key];
     saveAppSettings();refresh();updateWakeLock();
+    if(key==='banter' && !was) banter('banterOn');
+    if(key==='voiceBanter' && !was) banter('voiceOn');
+    if(key==='voiceBanter' && was) banter('voiceOff');
   });
   $$('[data-setting-game]').forEach(b=>b.onclick=()=>{
     appSettings.defaultGame=+b.dataset.settingGame;saveAppSettings();refresh();applyDefaultMatchSetup();
@@ -1149,6 +1544,7 @@ $('#rematchBtn').onclick=()=>{
   }else{
     beginJustPlay();
   }
+  setTimeout(()=>banter('rematch'),180);
 };
 $('#newMatchBtn').onclick=()=>{
   st.score1=0;st.score2=0;st.history=[];st.openingMethod=null;
@@ -1253,7 +1649,7 @@ function finishCoinDrag(e){
   resetCoinDragVisual();
 
   // Invalid drop: coin returns to centre and remains ready to drag again.
-  if(!p) return;
+  if(!p){banter('invalidCoin');return;}
 
   coinFlipped=false;
   coinResultSide=null;
@@ -1272,7 +1668,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=1.40',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=1.51',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
