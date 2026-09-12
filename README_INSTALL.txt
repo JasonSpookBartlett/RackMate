@@ -1,4 +1,4 @@
-RACKMATE BETA v1.51 — V3 BANTER ENGINE
+RACKMATE BETA v1.52 — V3 BANTER ENGINE
 
 BASELINE
 Built directly from the clean V1.50 functional baseline.
@@ -68,13 +68,13 @@ README_INSTALL.txt is for reference only.
 Leave the existing manifest.webmanifest and icons/ folder in place.
 
 CACHE / VERSION
-- Header should display: RackMate v1.51
-- Bottom test version should display: BETA v1.51
-- Service-worker cache: rackmate-v1.51
+- Header should display: RackMate v1.52
+- Bottom test version should display: BETA v1.52
+- Service-worker cache: rackmate-v1.52
 - Service-worker registration query: v=1.51
 
 SUGGESTED QA
-1. Confirm app opens normally and header reads v1.51.
+1. Confirm app opens normally and header reads v1.52.
 2. Settings: Banter ON; Voice Banter visible beneath it; Voice defaults OFF.
 3. Turn Voice Banter ON and confirm the test/settings banter is spoken.
 4. Turn Banter OFF and confirm Voice Banter becomes disabled.

@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate BETA v1.51</title>
+<title>RackMate BETA v1.52</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -41,6 +41,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 .editField{display:flex;flex-direction:column;gap:6px}
 .editField label{font-size:12px;font-weight:900;letter-spacing:.08em;color:#b9d2c7}
 .editField input{background:#0c1211;border:1px solid #52675f;border-radius:9px;color:#fff;padding:10px 12px;font-size:18px;font-weight:800;min-width:0}
+.editField input.editName{color:rgba(255,255,255,.30);transition:color .15s,border-color .15s,background .15s}.editField input.editName:focus{color:#fff;border-color:#9fb8ae;background:#101816}
 .editWide{grid-column:1/-1}
 .editChoices{display:flex;gap:8px;flex-wrap:wrap}
 .editChoices .choice{flex:1;min-width:130px}
@@ -49,7 +50,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 
-/* BETA v1.51 RackMate Banter */
+/* BETA v1.52 RackMate Banter */
 .banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
 .banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
 .banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
@@ -134,7 +135,7 @@ body{
 <body>
 <div class="app">
 <header class="header">
-<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.51</span></div></div>
+<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.52</span></div></div>
 <div class="title"><h1 id="screenTitle">MATCH SETUP</h1><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
@@ -335,10 +336,10 @@ body{
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.51</div>
+<div class="version">BETA v1.52</div>
 </div></div></div>
 <script>
-const APP_VERSION='BETA v1.51';
+const APP_VERSION='BETA v1.52';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -1274,20 +1275,20 @@ function openEditMatchSettings(){
     <div class="editGrid">
       <div class="editField">
         <label>PLAYER 1</label>
-        <input id="editP1" maxlength="24" value="${st.p1.replace(/"/g,'&quot;')}">
+        <input id="editP1" class="editName" type="text" maxlength="24" value="${st.p1.replace(/"/g,'&quot;')}" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false">
       </div>
       <div class="editField">
         <label>PLAYER 2</label>
-        <input id="editP2" maxlength="24" value="${st.p2.replace(/"/g,'&quot;')}">
+        <input id="editP2" class="editName" type="text" maxlength="24" value="${st.p2.replace(/"/g,'&quot;')}" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false">
       </div>
 
       <div class="editField">
         <label>RACE TO</label>
-        <input id="editRace" type="number" min="2" step="1" value="${st.race}">
+        <input id="editRace" type="number" min="2" step="1" value="${st.race}" inputmode="numeric" enterkeyhint="done">
       </div>
       <div class="editField">
         <label>BEST OF</label>
-        <input id="editBest" type="number" min="3" step="2" value="${st.best}">
+        <input id="editBest" type="number" min="3" step="2" value="${st.best}" inputmode="numeric" enterkeyhint="done">
       </div>
 
       <div class="editField editWide">
@@ -1309,6 +1310,29 @@ function openEditMatchSettings(){
     <div id="editError" class="editError"></div>`;
 
   modal('Edit Match Settings',body,true);
+
+  // Edit Match Settings deliberately opens with no text field focused.
+  // Tapping a name selects the existing name so typing replaces it immediately.
+  // Every editable field uses DONE to dismiss the keyboard; moving to another field is deliberate.
+  const editInputs=$$('#modalBody input');
+  editInputs.forEach(inp=>{
+    inp.setAttribute('enterkeyhint','done');
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        e.preventDefault();
+        inp.blur();
+      }
+    });
+  });
+  ['#editP1','#editP2'].forEach(sel=>{
+    const inp=$(sel);
+    inp.addEventListener('focus',()=>{
+      // setTimeout lets mobile browsers finish opening the keyboard before selection.
+      setTimeout(()=>{ try{ inp.select(); }catch(e){} },0);
+    });
+  });
+  // Guard against browser/modal focus restoration opening a keyboard on entry.
+  if(document.activeElement && document.activeElement.matches && document.activeElement.matches('#modalBody input')) document.activeElement.blur();
 
   const originalFormat=st.breakFormat;
   const originalBreaker=justPlayOpening ? 0 : st.breaker;
