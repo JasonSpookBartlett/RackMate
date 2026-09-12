@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate BETA v1.52</title>
+<title>RackMate BETA v1.53</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -50,7 +50,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 
-/* BETA v1.52 RackMate Banter */
+/* BETA v1.53 RackMate Banter */
 .banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
 .banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
 .banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
@@ -63,7 +63,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 .coinStage{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:220px;pointer-events:auto}
 .coinHint{text-align:center;font-size:27px;font-weight:900;margin-bottom:18px;letter-spacing:.08em}
 .coin{width:105px;height:105px;border-radius:50%;background:radial-gradient(circle,#ffe89c,#c98c1c 67%,#80500a);border:5px solid #f4d17c;display:grid;place-items:center;color:#674000;font-size:42px;font-weight:900;touch-action:none;cursor:pointer;user-select:none;will-change:transform}
-.coin.flipping{animation:coinFlip .65s ease-in-out}
+.coin.flipping{animation:coinFlip 3s ease-in-out}
 @keyframes coinFlip{0%{transform:rotateY(0) scale(1)}25%{transform:rotateY(180deg) scale(1.12)}50%{transform:rotateY(360deg) scale(.92)}75%{transform:rotateY(540deg) scale(1.08)}100%{transform:rotateY(720deg) scale(1)}}
 .coinMode .centre>*{visibility:hidden}
 .coinMode .bottom{visibility:hidden}
@@ -135,7 +135,7 @@ body{
 <body>
 <div class="app">
 <header class="header">
-<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.52</span></div></div>
+<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.53</span></div></div>
 <div class="title"><h1 id="screenTitle">MATCH SETUP</h1><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
@@ -336,10 +336,10 @@ body{
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.52</div>
+<div class="version">BETA v1.53</div>
 </div></div></div>
 <script>
-const APP_VERSION='BETA v1.52';
+const APP_VERSION='BETA v1.53';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -1614,7 +1614,7 @@ coin.addEventListener('click',e=>{
       $('#coinHint').textContent='DRAG COIN TO WINNER';
       coin.style.cursor='grab';
     },450);
-  },650);
+  },3000);
 });
 
 coin.addEventListener('pointerdown',e=>{
