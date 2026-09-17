@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate BETA v1.57</title>
+<title>RackMate BETA v1.58</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -146,7 +146,7 @@ body{
 <body>
 <div class="app">
 <header class="header">
-<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.57</span></div></div>
+<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.58</span></div></div>
 <div class="title"><div class="titleRow"><h1 id="screenTitle">MATCH SETUP</h1><button id="pauseBtn" class="pauseBtn" type="button" aria-label="Pause match timer" title="Pause match timer">⏸</button></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
@@ -350,10 +350,10 @@ body{
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.57</div>
+<div class="version">BETA v1.58</div>
 </div></div></div>
 <script>
-const APP_VERSION='BETA v1.57';
+const APP_VERSION='BETA v1.58';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -510,7 +510,7 @@ function startMatchClock(){
     st.paused=false;
     st.pausedAt=0;
   }
-  if(!st.frameStartedAt) st.frameStartedAt=Date.now();
+  if(!st.frameStartedAt) st.frameStartedAt=Date.now();resetLiveBanterClock();
   st.matchEndedAt=0;st.finalFrameMs=0;
   updateMatchClock();
   $('#pauseBtn').classList.add('show');
@@ -561,261 +561,682 @@ function resetMatchClock(){
 
 
 const BANTER={
-  names:[
-    "No names? Fine. Player 1 and Player 2 it is.",
-    "This isn't Pool Players Anonymous! Who's playing?",
-    "MI6 is in the room. 007 versus 008 it is then."
+  frameOpening: [
+    "It’s only the first frame! No time for building statues of yourself.",
+    "One–nil. A commanding lead if the match ends unexpectedly now.",
+    "One ball at a time, one frame at a time, don’t leave before the miracle.",
+    "Well done. You’ve successfully won the smallest possible portion of the match.",
+    "One frame and already walking taller. Adorable.",
+    "That’s one. I’d hold off on the victory speech.",
+    "Early days, champ. Even I can count to one.",
+    "One–nil. Next you’ll be challenging Ronnie O’Sulliavn.",
+    "Ok, ok, so you can play.",
+    "It’s only the first frame, stop eyeballing the freakin’ trophy.",
+    "Oh look, you got one on the board. Try not to peak too early.",
+    "First frame and suddenly we’ve got that ‘Bully’ swagger going on.",
+    "Opening frame secure. At least somebody remembered why we’re here.",
+    "WOW, you could win from here aye.",
+    "Congratulations on completing the tutorial.",
+    "That’s the first one. Plenty of time to mess this up.",
+    "Nice start. You’re a long way from making history though.",
+    "It’s only frame one. Only the rest of the bloody match to go.",
+    "Good start. Now comes the difficult bit: doing it again.",
+    "One frame in and already carrying yourself like the poster boy. Settle down."
   ],
-  lagUnassigned:[
-    "I don't care who scored first, who won the lag?",
-    "Pick your lag winner first, mate.",
-    "Cue ball's still homeless. Give it to the lag winner."
+  frameRoutine: [
+    "Another frame. Steady on, we’re not writing history.",
+    "Nicely done. Almost looked deliberate.",
+    "Ahead one more, Brag a little, just a little though.",
+    "It’s a frame, not a knighthood.",
+    "Sometimes the pool God’s simply feel sorry for us aye.",
+    "That’ll do. Go on, one lap of the table.",
+    "Another little step toward unbearable confidence.",
+    "Frame secured. Ego inflation detected.",
+    "That’s better. For a moment I thought I’d have to help.",
+    "Frame won. Get those shots from Mark Williams huh?",
+    "Competent. Disturbingly competent.",
+    "So, Hendry was right huh?  Safety is over-rated.",
+    "Another one gone. Keep this up and I may have to stop mocking you.",
+    "Frame won. There’s still plenty of time to embarrass yourself.",
+    "Another frame. Look at you, doing the minimum required with confidence.",
+    "One more on the board. Try not to develop a sponsorship deal in your head.",
+    "That counted. Your opponent will be devastated to learn you can count as well.",
+    "Another frame. Keep that chest in; there’s still a match going on.",
+    "Nice one. Almost enough to justify all that chalking.",
+    "Frame yours. Please enjoy your brief promotion to 'quite competent'."
   ],
-  coinNotTossed:[
-    "Heads or freakin' Tails, man. Come on!",
+  frameLevel: [
+    "Scores tied. Congratulations, we’re back where we bloody started.",
+    "Back together again. How touching.",
+    "All square. Try not to celebrate the achievement of being equal.",
+    "Level again. One of you could try staying ahead.",
+    "And you pull it back, let’s see if you can run with it this time.",
+    "Level again. We could have started here and saved ourselves some time.",
+    "Scores tied. Now kindly separate yourselves.",
+    "Back level. Brilliant — you’ve both worked hard to get nowhere.",
+    "You pulled it level. Congratulations — all that potting just to stand beside them again.",
+    "Nice rack. You’ve fought your way all the way back to exactly even.",
+    "You levelled it. Try not to celebrate equality like you just ran a five-pack.",
+    "The rack is yours and we’re square. Now see if you can actually keep the next lead.",
+    "You dragged it back level. Good work — your reward is starting over.",
+    "All square because of you. Very nice. Now perhaps try getting in front for a change.",
+    "Nice rack. You’ve levelled the score — all that work just to become equally average again.",
+    "Rack won, scores level. That little comeback swagger is permitted for one trip around the table.",
+    "You pulled it back. Even the cue ball looks relieved you remembered how to win.",
+    "Level again. Nice rack — shame it only bought you equality.",
+    "You pulled it level. Congratulations — all that potting just to stand beside them again.",
+    "Rack Won, scores square. Congratulations, you’ve successfully caught someone who was standing right there."
+  ],
+  frameLead: [
+    "New leader! Try not to get altitude sickness.",
+    "Lead changed hands. Keep the receipt; you may need to return it.",
+    "New leader. Your opponent would like their confidence back.",
+    "You’ve pinched the lead. Don’t get attached.",
+    "New leader. That smug expression is premature but understandable.",
+    "Now ahead. Let’s see how efficiently you can throw it away.",
+    "Well, that changes things. Slightly.",
+    "New leader. I’d congratulate you, but we’ve seen how temporary these things are.",
+    "You’re in front now. Enjoy the view while it lasts.",
+    "You’ve taken the lead. Don’t get too attached; pool leads have abandonment issues.",
+    "You’re in front now. Try not to look like you’ve conquered Europe.",
+    "Lead changed. Somebody’s swagger just changed sides too.",
+    "The rack is yours and now you’re in front. Try carrying the lead without dropping it.",
+    "You’ve pinched the lead. That smug little chalk-up was immediate, wasn’t it?",
+    "New leader: you. Please refrain from developing a professional walk-on routine.",
+    "In front now. Let’s see how long before you hand it back.",
+    "Lead change. The smug chair has a new occupant.",
+    "You’re ahead. That little grin is doing a lot of work.",
+    "New leader. No, this does not make you Fedor Gorst.",
+    "Nice rack — you’ve gone ahead. Now comes the advanced skill: staying there."
+  ],
+  framePullAway: [
+    "That gap’s getting uncomfortable. For one of you, anyway.",
+    "Starting to pull away now. Try not to look too pleased with yourself.",
+    "Another one. Your opponent may want to consider participating.",
+    "That lead’s growing. Someone appears to have misplaced the handbrake.",
+    "Another frame clear. Careful, confidence is a dangerous substance.",
+    "Gap widening. One player is playing pool; the other is apparently observing.",
+    "You’re building a lead. Please resist the urge to become inspirational.",
+    "Lead growing. Your opponent might want to check which end of the cue to use.",
+    "Starting to look comfortable. That’s usually when humans do something stupid.",
+    "The gap grows. I assume this was the plan?",
+    "Pulling away now. Don’t worry, there’s still time to completely cock it up.",
+    "Another one clear. Your opponent is becoming more of a witness than a participant.",
+    "The gap’s growing. Try not to start giving lessons yet.",
+    "Another rack yours. You’re opening a gap — try not to turn confidence into stupid shot selection.",
+    "Another frame. This is starting to look less competitive and more educational.",
+    "Lead extended. Your opponent’s plan appears to involve patience and prayer.",
+    "The gap grows. Keep smiling; complacency loves that look.",
+    "Another clear. Don’t get cocky — you’re still perfectly capable of ruining this.",
+    "You’re pulling away now. Keep the cue moving and the ego parked.",
+    "Another one clear. Your opponent is starting to look like part of the furniture."
+  ],
+  frameFirstReply: [
+    "There we go! So, you do have a pulse.",
+    "A frame back. Good, I was about to check the batteries.",
+    "Finally! Somebody remembered this was a two-player match.",
+    "That’s one in reply. Try not to exhaust yourself.",
+    "Signs of life! Alert the authorities.",
+    "A frame back. Efren Reyes comeback comparisons remain wildly premature.",
+    "Reply delivered. Took your bloody time.",
+    "One back. Your opponent may now have to pay attention again.",
+    "That’s better. I was starting to think you were decorative.",
+    "Finally on the move. Baby steps.",
+    "One back. Don’t call it a comeback until you’ve done something useful.",
+    "That frame says, 'I’m still here.' Barely, but still.",
+    "A frame in reply. Pride has been temporarily located.",
+    "That’s one back. Now repeat until the score stops looking embarrassing.",
+    "A reply at last. I knew there had to be two cues here somewhere.",
+    "Oh! A frame! I was beginning to think you were here as to spectate.",
+    "There you are. We’d nearly sent someone to look for you.",
+    "A reply at last. Don’t overdo it — sudden success can be disorienting.",
+    "Well done. You’ve interrupted the beating.",
+    "One back. The comeback committee will review your application shortly."
+  ],
+  frameStillBehind: [
+    "Nice frame. You’re still behind, but nice frame.",
+    "One back. The mountain remains annoyingly mountain-shaped.",
+    "That helps. It does not, however, make you the leader.",
+    "One closer. Still not close enough to become smug.",
+    "That’s progress. Tiny, adorable progress.",
+    "Another one back. Continue until dignity improves.",
+    "Nice response. Sadly, numbers remain numbers.",
+    "One closer. Don’t stop now; you’ve only just made it interesting.",
+    "Good frame. Now about those several others you misplaced...",
+    "Another rack yours. Lovely. You’re still chasing, so keep the victory lap microscopic.",
+    "Good frame. Shame about all the ones before it.",
+    "You pulled one back. The deficit noticed, but it isn’t frightened yet.",
+    "Nice. The deficit has been upgraded from awful to merely embarrassing.",
+    "Nice rack. Keep that cue working; you’re still looking at the back of their head.",
+    "Progress. Slow, painful, mathematically valid progress.",
+    "One closer. Don’t start swaggering — you’re still the one doing the chasing.",
+    "Rack yours. Good. Now repeat that until the score stops patronising you.",
+    "Another frame back. Dignity is now within commuting distance.",
+    "That helps. Don’t look at the whole score; enjoy the little number you just changed.",
+    "Nice reply. Still second place in a two-person race."
+  ],
+  frameComeback: [
+    "Hang on — this is starting to look like an actual comeback.",
+    "Well now. The gap is disappearing rather quickly.",
+    "That’s another. Your opponent may wish to stop being generous.",
+    "Comeback gathering steam. Try not to frighten it away.",
+    "Another back. Efren Reyes would at least approve of the direction of travel.",
+    "Comeback mode engaged. About bloody time.",
+    "You’re making a match of it now. How inconsiderate.",
+    "Comeback building. Jayson Shaw-style swagger is not yet authorised.",
+    "Gap shrinking. Confidence changing owners by the minute.",
+    "Another one back. The leader’s smile is becoming noticeably less natural.",
+    "Another rack back. Now you’re close enough for your opponent to start hearing footsteps.",
+    "Try not to mistake this win for success, yet.",
+    "Another rack back. Look at you — suddenly remembering which end of the cue does the work.",
+    "You’re closing the gap. Very inconsiderate after letting them get comfortable.",
+    "That comeback is becoming irritatingly believable. You read the instructions again?",
+    "You’ve taken another bite out of the lead. Don’t choke on the momentum.",
+    "Rack yours. Keep this up and that early hiding becomes a very funny story.",
+    "Another one back. Careful, champ, two good racks and you’ll start believing the comeback was planned.",
+    "Nice rack. Your opponent’s lead is shrinking faster than their confidence now.",
+    "You’re closing fast. Try not to trip over the momentum you finally found."
+  ],
+  frameComebackLevel: [
+    "Back from the dead and level. That’s annoyingly impressive.",
+    "Comeback complete — for now. We’re level.",
+    "You dragged yourself all the way back. Try not to immediately fall over again.",
+    "Back to even. The smugness has officially changed rooms.",
+    "Comeback completed. Now you merely have to win the bloody match.",
+    "All square. That was a lot of work just to reach zero difference.",
+    "All square. Now please don't make me watch the whole comeback twice.",
+    "You’ve dragged it level. Excellent recovery from a problem you personally helped create.",
+    "The rack is yours and we’re square. That hole you dug has officially been filled in.",
+    "You completed the comeback. Congratulations; your prize is needing to win again.",
+    "Comeback complete. Now try not to celebrate being merely equal.",
+    "Back level because of you. Try not to look too smug about repairing your own earlier mess.",
+    "You’ve tied it. That’s a proper recovery — now keep the cue out of self-destruct mode.",
+    "Rack yours, scores level. Very nice — you’ve finally repaired the mess you made earlier.",
+    "You made it back. Excellent. Now stop admiring the comeback and go take the lead.",
+    "All square. You’ve earned a little swagger — emphasis on little.",
+    "You’ve completed the comeback. Well done — next time perhaps skip the bit where you nearly lose.",
+    "You’re level again. Nicely recovered; terribly inefficient.",
+    "Level again. You climbed out of the hole; please stop digging now.",
+    "You’ve dragged it all the way back to level. Nice work — now try not to waste the comeback."
+  ],
+  frameHill: [
+    "On the hill. One more and you can start looking pleased with yourself.",
+    "One away. Suddenly every little mistake is going to feel enormous.",
+    "On the hill. Your opponent may wish to begin bargaining with higher powers.",
+    "One away from the match. This is where confidence starts making funny noises.",
+    "On the hill. Finish it, or give me material for the comeback jokes.",
+    "Match point territory. Don’t trip over your own ego.",
+    "One more needed. Joshua Filler intensity is optional; potting balls is not.",
+    "One away. This would be a convenient time to avoid stupidity.",
+    "One more. Either finish it or prepare to be mocked.",
+    "One frame from glory — well, local bragging rights anyway.",
+    "On the hill. One more — try not to turn your hands into decorative paddles.",
+    "Rack yours — you’re on the hill. But I still ain’t heard no fat lady.",
+    "Jack and Jill went up the hill and Holy Shit, you’re here!",
+    "Over reaching really does pay off sometimes aye.",
+    "On the hill. Look calm if you can manage the acting.",
+    "One rack away. The cue still works exactly the same, despite what your hands are about to tell you.",
+    "Rack yours — on the hill. One more, so don’t suddenly become an artist.",
+    "One more required. Please resist becoming philosophical over every shot.",
+    "On the hill. You wanted pressure; congratulations, here it is.",
+    "You’re one away. Keep the stroke loose and the brain out of the way."
+  ],
+  frameHillHill: [
+    "Hill-hill. Excellent. Neither of you was capable of making this easy.",
+    "Decider. After all that, it comes down to one bloody frame.",
+    "Hill-hill. I don't think I can watch — but apparently I have to.",
+    "One frame for the lot. Try not to suddenly forget how pool works.",
+    "Decider time. Ronnie O’Sullivan-level composure would be useful. Good luck with that.",
+    "Final frame. Somebody gets bragging rights; somebody gets excuses.",
+    "Hill-hill. This is where the room gets quieter and the sphincters get tighter.",
+    "Decider. Every earlier frame was apparently just an elaborate warm-up.",
+    "Deciding frame. Somebody is about to remember this fondly; somebody else, repeatedly at 3 a.m.",
+    "Hill-hill. Remember to breathe, in both directions, in and out.",
+    "Decider. Right then — which one of you is going to forget to chalk for the money ball?",
+    "Hill-hill. One frame left to decide who tells the better story later.",
+    "Decider. All those frames just to manufacture one enormous opportunity to bottle it.",
+    "You won that rack and dragged us to hill-hill. Apparently you enjoy unnecessary pressure.",
+    "Final frame. The loser gets character; the winner gets unbearable.",
+    "You won that rack and forced hill-hill. Apparently normal blood pressure bored you.",
+    "Hill-hill. Somewhere, your calm confident self has left the building.",
+    "Rack yours — decider. Nice of you to compress the whole evening into one rack.",
+    "Nice rack. You’ve earned one final opportunity to become unbearable.",
+    "You made it hill-hill. I still haven’t heard the fat lady yet."
+  ],
+  frameHiding: [
+    "This is becoming less of a match and more of a demonstration.",
+    "That lead is getting embarrassing. I’m starting to avoid eye contact.",
+    "Another one. Has the other player considered trying something different?",
+    "This is turning into a proper hiding.",
+    "Another frame clear. Is your opponent actually here?",
+    "Big lead now. Please stop looking so delighted with yourself.",
+    "This has gone beyond 'comfortable' and entered 'awkward.'",
+    "That gap is rude enough to require an apology.",
+    "Lead extended. Someone check whether the opposition signed their DNR.",
+    "Another one gone. The comeback now requires planning permission.",
+    "Another frame clear. At least somebody is enjoying themselves.",
+    "And I bet you told them you aren’t that good.",
+    "Rack yours again. Try not to explain what they did wrong — the scoreboard has it covered.",
+    "The rack is yours, again. The scoreboard is starting to look like your personal highlight reel.",
+    "Another one. You’re making this look easy, which is deeply suspicious.",
+    "You’re handing out a proper hiding. Keep the victory grin below professional-wanker level.",
+    "This isn’t the WNT, you can let them have a turn aye.",
+    "You’re handing out a proper lesson. Shame nobody booked one.",
+    "That scoreline is beginning to require tact, if you have any that is.",
+    "Another rack. The score is getting rude enough without you smiling like that."
+  ],
+  frameNearWhitewash: [
+    "Has the other player actually gone home?",
+    "Could somebody check whether the trailing player is still awake?",
+    "Just checking — there are still two people playing, right?",
+    "At this point I’m considering putting out a missing-person notice.",
+    "Perhaps explain that they’re allowed to win one.",
+    "Someone check the car park. I think we’ve lost a player.",
+    "One player is playing pool. The other appears to be on annual leave.",
+    "At this stage, winning one frame would qualify as a plot twist.",
+    "Are you really that cruel, let them at least have a shot, even one would be nice.",
+    "Have we checked under the table for the second player?",
+    "Another rack yours and that zero is still pristine. Why invite people to play and not let them.",
+    "You’re nearly home and they’re still on zero. Maybe let them chalk your cue so they feel involved.",
+    "Someone tap the trailing player. I’m not convinced they’re connected.",
+    "This is less 'race to' and more 'escort to the finish'.",
+    "Rack yours again. Their zero is so untouched I’m starting to think it’s laminated.",
+    "You’re one step closer to the donut. Try not to lick your lips.",
+    "Another rack yours. They’re still on zero — maybe let them break next time just for the experience.",
+    "Don’t get too comfortable, comebacks hurt.",
+    "You’ve kept the donut alive. Try not to look hungry.",
+    "Rack yours. Their score button has entered power-saving mode."
+  ],
+  matchClose: [
+    "Match over. That was close enough to shorten everybody’s life expectancy.",
+    "Done! One winner, one person already rewriting history.",
+    "That was tight. Brag carefully.",
+    "Match won. The margin was small; the ego will not be.",
+    "Close one. You may now pretend they were always in control.",
+    "Match won by the narrow route. Very considerate of you to create suspense.",
+    "Match over. Tiny margin, enormous future storytelling.",
+    "Winner decided. Please keep the gloating within local noise regulations.",
+    "That was tight enough to need a warning label.",
+    "Match complete. Congratulations. Try to be unbearable in moderation.",
+    "Match over. The winner may now claim it was never in doubt. Nobody will believe them.",
+    "Done. That was close enough for both of you to lie about being calm.",
+    "Winner decided. One frame of difference and approximately six months of future bragging.",
+    "You won it. Barely. Keep the victory lap to one lap of the table.",
+    "Match yours by the skin of the 8-ball. Try not to retell it as a demolition.",
+    "That was tight. Somewhere in there, both of you nearly knew what you were doing.",
+    "Match done. The margin was tiny; the retelling will not be.",
+    "Winner. Barely. Try to keep the victory lap proportionate.",
+    "Close one. The loser may now begin with 'If that one ball had…'",
+    "Finished. One winner, one expert in hypothetical outcomes."
+  ],
+  matchComfortable: [
+    "Match over. Comfortable enough to make the handshake awkward.",
+    "Done. That was less a nail-biter and more a gentle filing.",
+    "Comfortable win. Try to look surprised.",
+    "Comfortable. The loser’s 'nearly had you' speech may require imagination.",
+    "Match done. One player played; one player provided context.",
+    "Please resist explaining every frame to the loser immediately.",
+    "That was decisive. Diplomacy optional.",
+    "Comfortable victory. Try not to ask, 'Want some tips?'",
+    "Done. That score won’t need much explaining.",
+    "Comfortable win. Please don’t ruin it by offering helpful advice.",
+    "You won comfortably. I guess breaking their cue helped huh?",
+    "Done. That was convincing enough to make the rematch negotiations delicate.",
+    "Comfortable. You may gloat, but keep it below professional-wanker level. (I really like this one)",
+    "Match yours. That was tidy enough to make fake humility difficult.",
+    "Comfortable win. Smile nicely and resist the urge to demonstrate the shots they should’ve played.",
+    "Efran once said, ‘I got lucky’. You know that feeling aye.",
+    "You won that comfortably. Go on, Say it, I wasn’t even playing that well’, see what happens.",
+    "You handled that comfortably. Your opponent already knows; no presentation required.",
+    "Winner. Convincingly. Leave now before they insert your cue where you don’t want it.",
+    "Comfortable enough. No need to sign the cue afterwards."
+  ],
+  matchWhitewash: [
+    "Whitewash. Somebody may want to check whether the loser was informed the match had started.",
+    "That’s a donut. Brutal.",
+    "Match over without the other side troubling the scoreboard. Ouch.",
+    "Clean sweep. Even the scoreboard looks embarrassed.",
+    "Match over. The losing score has remained beautifully preserved.",
+    "Zero frames won. Statistically consistent.",
+    "That was savage. Try and at least almost feel bad for them. Almost.",
+    "Whitewash. Please allow the loser several minutes before saying 'same again?'",
+    "Clean sweep. The second player has been located and is believed to be unharmed.",
+    "Whitewash complete. You won every rack; perhaps don’t ask which one they enjoyed most.",
+    "Clean sweep. Lovely work — now try to locate a sympathetic facial expression.",
+    "Tying your opponent to their chair doesn’t count, you know that aye.",
+    "Whitewash. Please avoid saying 'Good Game, Thanks’.",
+    "Donut delivered. Brutal. Please keep the ‘good game’ reasonably believable.",
+    "Whitewash yours. At least let them put the balls in the triangle so they can claim an assist.",
+    "Whitewash complete. Somebody’s going to hear about this for years.",
+    "You won every rack. Excellent. Now try saying ‘good game’ without sounding like a complete prick.",
+    "Clean sweep. Even the cue rack put up more resistance.",
+    "As you prance around the table like ‘Bully’ chanting, ‘and look what ya could’ve won..’",
+    "Donut delivered. Beautifully ruthless — now go find your sympathetic face before the handshake."
+  ],
+  matchComeback: [
+    "Match won from behind! Fine, I’ll admit that was a proper comeback.",
+    "You actually pulled it off. I had your obituary half written.",
+    "It’s easy when you break their cue aye.",
+    "From behind to done. Very dramatic of you.",
+    "Comeback winner. The other player’s confidence has requested privacy.",
+    "You survived your own earlier incompetence. Congratulations.",
+    "Match won from behind. That requires two victory laps of the table.",
+    "That was a theft conducted in full view of the victim.",
+    "Talk about taking the scenic route. At least you got there aye.",
+    "From losing to gloating. Nature is healing.",
+    "You won it from behind. Very impressive once we overlook the part where you created the emergency.",
+    "Comeback complete. You made a simple victory unnecessarily cinematic.",
+    "You won it from behind. Nice recovery — perhaps next match don’t give yourself so much bloody work.",
+    "Winner from behind. Apparently the early deficit was just for dramatic effect.",
+    "Comeback complete. Apparently you needed to be losing before the cue started working.",
+    "You won from behind. Nice recovery — dreadful route planning.",
+    "Match yours from behind. Dramatic, impressive, and completely unnecessary.",
+    "You stole it back. Their early confidence is now available in the lost property box.",
+    "Match won. You made that far harder than necessary, which seems on brand.",
+    "Match yours. You turned ‘in trouble’ into ‘insufferable’ remarkably quickly."
+  ],
+  matchLong: [
+    "Match over. I’ve aged several software versions since the first break.",
+    "Finished. I assume breakfast is next.",
+    "That wasn’t a race; it was an endurance event.",
+    "Finally. I’d forgotten what the setup screen looked like.",
+    "Done! Even the cloth has faded through 40 shades.",
+    "At last. I was considering adding meal breaks to the rules.",
+    "Match complete. Congratulations to the winner and condolences to everyone’s evening.",
+    "Finally. I was about to ask whether this match needed building consent.",
+    "You finally won it. I’ve seen shorter careers.",
+    "Match yours at last. Your cue deserves a pension and I deserve counselling.",
+    "Finished. I’ve seen shorter renovations.",
+    "You won the marathon. Congratulations — your cue now qualifies for long-service recognition.",
+    "Oh my God, we can finally go home, anyone remember where that is?",
+    "Finally, a winner. I can barely remember which one of you broke first.",
+    "You got there. Your bragging rights now qualify as a long-term investment.",
+    "Match over. This started as recreation and became a residency.",
+    "Match yours. You took the scenic route, stopped for lunch, and still somehow arrived.",
+    "Winner at last. Please notify your family that the search can be called off.",
+    "You survived the match and apparently won it too. Efficient was never the brief, was it?",
+    "A quick game of pool they said, it’ll be fun they said….who am I again, please, somebody."
+  ],
+  liveTable: [
+    "Stop chalking the cue and take the shot!",
+    "I know there’s no shot clock, but come on!",
+    "Are you two still awake? I’m bored.",
+    "Someone make the pockets too small, huh?",
+    "Take your time. I’ve got absolutely nowhere else to be.",
+    "Has somebody lost the cue ball?",
+    "You know you’re allowed to actually hit the white ball, right?",
+    "Should I dim the lights and put some soft on some background music instead?",
+    "At this rate the cloth will need replacing before the frame finishes.",
+    "Still playing? Excellent. I thought the app had frozen.",
+    "Snails root faster than you two play!",
+    "Is this a tactical safety battle or have you both forgotten whose shot it is?",
+    "Do either of you need me to book tomorrow off as well?",
+    "Take the shot. The pockets aren’t getting any bigger while you stare at them.",
+    "I’m starting to miss the exciting part where nothing happened five minutes ago.",
+    "Someone poke the player with the cue. Gently. We need signs of life.",
+    "The balls have got dust on them, please, play the bloody game already.",
+    "The cue is for hitting balls, not leaning on while you contemplate your existence.",
+    "I’m not saying hurry up, but the spiders have started a league on the next table.",
+    "Are we playing pool or waiting for planning permission?"
+  ],
+  pointlessUndo: [
+    "UNDO WHAT? Take the cloth off the bloody table or something?",
+    "UNDO WHAT? We haven’t bloody started yet!",
+    "Mate… it’s already 0–0.",
+    "I can’t go into negative numbers, pal.",
+    "What, you mean go home and try again?",
+    "I’m taking a nap while you work this out.",
+    "Undo zero? Ambitious.",
+    "There is literally nothing behind us.",
+    "You’d like me to remove a frame that does not exist. Excellent.",
+    "Score’s 0–0. I’ve checked twice.",
+    "Even the scoreboard is confused by that request.",
+    "Undo what — the decision to come out tonight?",
+    "I admire the optimism, but zero minus one is not a pool score.",
+    "Nothing to undo. Plenty to reconsider.",
+    "We haven’t started and already you want a second chance.",
+    "That button works better after somebody wins something.",
+    "Would you like me to un-rack the balls too?",
+    "0–0. This is as undone as a match gets.",
+    "Nice try. You can’t erase embarrassment before it happens.",
+    "Ask again after somebody has achieved literally anything."
+  ],
+  raceTooLow: [
+    "Bit late to shorten the race now, pal.",
+    "Just Concede, it’s easier!",
+    "You can’t move the finish line behind the leader. Nice try though.",
+    "The score has already passed your new race. Time travel is not installed.",
+    "Changing the race because you’re losing is adorable.",
+    "You can raise the bar, not bury it under the current score.",
+    "That target is already in the rear-view mirror.",
+    "Try a number the match hasn’t already reached.",
+    "If you want out that badly, concession is literally in the menu."
+  ],
+  names: [
+    "This isn’t Pool Players Anonymous! Who’s Playing?",
+    "MI6 is in the room, 007 vs 008, ok.",
+    "Two mystery guests. Very exclusive.",
+    "Names would help. I’m good, but I’m not psychic.",
+    "Player 1 versus Player 2? Riveting billing.",
+    "Anonymous pool. Very underground.",
+    "Who’s playing — Witness A and Witness B?",
+    "I can score the match, but I’d quite like to know who I’m insulting.",
+    "The CIA called. Even they think this is excessive secrecy.",
+    "Two blanks walk into a pool hall…",
+    "I need names before I can personalise the disappointment.",
+    "Names first. Embarrassment later.",
+    "Who am I judging tonight?"
+  ],
+  lagUnassigned: [
+    "Pick your lag winner first, mate. Then we can start keeping score.",
+    "Cue ball's still homeless. Give it to the lag winner.",
+    "I don’t care who scored first, who won the lag?",
+    "Lovely score attempt. Tiny problem: nobody has won the lag yet.",
+    "Assign the lag winner before you start rewriting history.",
+    "The cue ball is waiting for an owner. Sort it out.",
+    "No breaker, no Frame 1. Even chaos needs an order.",
+    "Pick the lag winner. I’ll wait. Apparently.",
+    "Someone won the lag. Point at them.",
+    "Before the scoring heroics, tell me who breaks.",
+    "You’re trying to score a match that hasn’t officially started. Ambitious.",
+    "Give the cue ball to the lag winner and we can all move on.",
+    "Lag winner, please. Before I grow old.",
+    "Someone drag the cue ball to the correct human."
+  ],
+  coinNotTossed: [
+    "Heads or freakin’ Tails man, Come On!",
     "Coin first, frames second.",
-    "Finish the toss first, champ. Then we can play pool."
+    "Flip the coin, Nostradamus. I’m not predicting it.",
+    "The coin is right there. Give it a job.",
+    "Toss first, heroic scoring second.",
+    "The match is waiting on twenty cents worth of drama.",
+    "Flip it. I promise it won’t hurt.",
+    "No toss, no breaker. Ancient pool law, well it is now.",
+    "We’re stalled by a coin. Outstanding.",
+    "Heads or tails — neither requires a meeting.",
+    "Still waiting for the world’s least complicated ceremony."
   ],
-  coinNotAssigned:[
-    "I don't care who scored first, who called that?",
-    "Lovely toss. Now tell me who bloody won it.",
-    "Don't admire the coin all day — drag it to the winner."
+  coinNotAssigned: [
+    "I don’t care who scored first, who called …..? (Whatever the coin toss landed on.)",
+    "Don't admire the coin all day — drag it to the winner.",
+    "Great toss. Now tell me who actually won it.",
+    "The coin landed. Your job did not end there.",
+    "We have a result and somehow still no breaker. Impressive.",
+    "The coin has spoken. Translate it into a player.",
+    "Assign the winner before the coin develops abandonment issues.",
+    "Heads or tails was the easy part, apparently.",
+    "Put the coin on the winner. Yes, the actual winner.",
+    "The toss is complete; the administration is not.",
+    "Winner of toss, please. We’re so close to playing pool.",
+    "The coin isn’t going to walk over there itself.",
+    "Give the shiny circle to the correct human."
   ],
-  invalidCoin:[
-    "Close enough ain't good enough, you know that, aye!",
-    "Nope. That's not a player.",
-    "Nice throw. Wrong target."
+  invalidCoin: [
+    "Close enough ain’t good enough, you know that aye!",
+    "Nice throw. Wrong target.",
+    "That’s neither player. Unless the table has entered the match.",
+    "Missed the player with a drag. Promising start.",
+    "If that was a shot, I’d blame the cloth too.",
+    "Wrong spot. Even the coin is embarrassed.",
+    "Try dropping it on one of the two enormous player sides.",
+    "You missed. With a coin. On a touchscreen.",
+    "Beautiful drag. Completely useless destination.",
+    "You’ve managed to scratch the coin toss."
   ],
-  justPlay:["No paperwork, no ceremony. Get on with it."],
-  openingBreakerCorrected:[
-    "Oh, come on, make your mind up. Who's breaking?",
-    "Geez, if you're not sure, man, say so!",
-    "Righto — breaker changed. Try not to argue about it now."
+  justPlay: [
+    "No paperwork, no ceremony. Get on with it.",
+    "No ceremony. No excuses. Play pool.",
+    "Righto, mystery breaker. Sort yourselves out and hit something.",
+    "Just Play means I’m staying out of your opening-break politics.",
+    "You wanted simple. Here it is. Get on with it.",
+    "No lag, no coin, no bureaucracy. Lovely.",
+    "Excellent. Less admin, more pool.",
+    "Simple mode engaged. Don’t make it complicated.",
+    "No ceremony, just consequences."
   ],
-  frameOpening:[
-    "Well done, champ. Only the rest of the match to go.",
-    "One-nil. Try not to peak too early.",
-    "Look at you, straight out of the blocks.",
-    "First blood. I'm sure that was all part of the plan.",
-    "One frame! Somebody alert the press.",
-    "Nice start. Don't worry, there's still plenty of time to ruin it."
+  openingBreakerCorrected: [
+    "Oh, come on, make your mind up, who’s breaking?",
+    "Geez if you’re not sure who’s breaking, just say so!",
+    "Ah, different breaker now. Excellent confidence.",
+    "Changed your mind? Good thing we haven’t started.",
+    "Breaker corrected. Memory has been patched.",
+    "Right, that one breaks. Unless you change your mind again.",
+    "Opening breaker updated. Try writing it on your hand.",
+    "Fine. I’ll move the ball. You two sort out the story.",
+    "Corrected. I’m beginning to understand why you need an app.",
+    "Sorted. Let’s pretend that was always the plan."
   ],
-  frameRoutine:[
-    "That'll count.",
-    "Another one. You're making this look almost deliberate.",
-    "Nice. Don't get cocky.",
-    "Frame banked. Try to look surprised.",
-    "Well then. Somebody came to play.",
-    "Keep that up and people might think you know what you're doing.",
-    "Another frame. Even a broken clock is right twice a day.",
-    "Look at that — competence!"
+  resume: [
+    "Back to work, pool shark.",
+    "Righto, enough menu browsing. Back to the table.",
+    "The balls aren't going to pot themselves.",
+    "Back already? Excellent. I was enjoying the silence.",
+    "Play button pressed. Pretend the break restored your talent too.",
+    "Resume. The table has been waiting more patiently than I have.",
+    "Break over. Try remembering whose shot it was.",
+    "Back to the match. Your excuses have had enough rest.",
+    "Play resumes. Everyone still remember the rules?",
+    "Right, holiday’s over.",
+    "Resume. The balls are exactly where you abandoned them.",
+    "Enough refreshments. Somebody hit something.",
+    "Resume. I trust the strategic toilet break was productive.",
+    "Here we go again. Try finishing before the next pause."
   ],
-  frameLevel:[
-    "Oh good. All that work and we're back where we started.",
-    "Level again. Nobody's achieved anything.",
-    "All square. You two really enjoy making this difficult, don't you?",
-    "Back to even. Congratulations on accomplishing absolutely nothing.",
-    "Righto, reset the bragging rights to zero.",
-    "Tied up. This is taking longer than necessary."
+  rematch: [
+    "Again? Clearly somebody has something to prove.",
+    "Same two, same setup, fresh excuses.",
+    "Rematch it is. Settle this properly.",
+    "Back for more? Selective memory huh, or just Alzheimer’s?",
+    "Rematch. Because apparently the first result needs peer review.",
+    "Same players, fresh score, recycled confidence.",
+    "Again? Fine. I’ll reset the evidence.",
+    "Fresh match. Same two people pretending they learned something.",
+    "Rematch it is. Somebody clearly didn’t accept the findings.",
+    "Reset complete. Revenge fantasies may commence."
   ],
-  frameLead:[
-    "Well, well. Look who's in front now.",
-    "Plot twist! We have a new leader.",
-    "Careful — someone's getting ideas above their station.",
-    "Lead stolen. Try not to look smug.",
-    "Oh, that's awkward. The scoreboard has changed sides."
+  concession: [
+    "Winner by concession. Try not to look too pleased about it.",
+    "Victory by surrender. Still counts, mate.",
+    "The other player has chosen discretion over further suffering.",
+    "They quit; you didn’t win. Stop gloating.",
+    "Concession. The scoreboard wins by not having to watch the rest.",
+    "Victory by white flag. Try to accept it with fake humility.",
+    "They’ve had enough. Please stop looking proud of that.",
+    "Winner by concession. Technically efficient, emotionally messy.",
+    "Match over by surrender. You may gloat at half volume.",
+    "Victory without the final frame. Don’t start claiming a run-out.",
+    "Conceded. Try not to ask 'Are you sure?' with a grin.",
+    "The white flag is up. Put the victory dance away.",
+    "Match surrendered. Still a win, just with less theatre."
   ],
-  framePullAway:[
-    "You gonna let them play at some point?",
-    "This is starting to look a little one-sided.",
-    "Steady on. They're going to need counselling.",
-    "Another one? Leave some self-esteem for the drive home.",
-    "You're not being very hospitable, are you?",
-    "At least pretend this is competitive."
+  abandon: [
+    "WHAT? Quitting already? WIMPS!",
+    "Leaving it unfinished? RackMate is deeply disappointed.",
+    "Nobody wins? Fine. I'll throw the paperwork in the bin.",
+    "Abandon the whole thing? Dramatic.",
+    "Nobody wins and the score disappears. Very mature solution.",
+    "You’re really binning the match? I was just getting judgmental.",
+    "Leaving now? The table was starting to know you.",
+    "Abandon match? Fine, but I’m judging both of you equally.",
+    "Abandoning is one way to guarantee nobody loses. Technically.",
+    "Quit now and both of you get to claim you were about to win.",
+    "No result. No winner. Maximum storytelling potential."
   ],
-  frameFirstReply:[
-    "HE'S ALIVE!",
-    "There we go! I was starting to worry.",
-    "A frame! Quick, somebody write down the date.",
-    "Well done. The scoreboard now acknowledges your existence.",
-    "Look at that — both players have a number now!",
-    "The comeback starts here. Probably."
+  abandonCancelled: [
+    "Thought better of it, eh? Back to the match.",
+    "Good. The escape tunnel is closed.",
+    "Did some put another 20 on the game?",
+    "There we go. Courage restored.",
+    "Escape attempt cancelled. Carry on.",
+    "Good choice. I’d already prepared several coward jokes.",
+    "Back to the match. Apparently pride won the argument.",
+    "Righto, crisis over. Hit some balls.",
+    "Abandon cancelled. The table has accepted your apology.",
+    "Match continues. Somebody found their backbone.",
+    "Good. I wasn’t ready to waste this perfectly good score.",
+    "Match resumed. Your unfinished business remains unfinished.",
+    "Fine, stay. I was only pretending not to care."
   ],
-  frameStillBehind:[
-    "Nice frame. Only a small miracle required now.",
-    "Good work. Just do that several more times without stuffing up.",
-    "One back. The mountain remains.",
-    "That's the spirit. Delusion is important in sport.",
-    "Excellent. Now repeat until the maths stops laughing at you.",
-    "A journey of a thousand miles begins with one frame, apparently."
+  frameGeneral: [
+    "The bragging rights are unfortunately legitimate.",
+    "Winner confirmed. Humility remains optional.",
+    "Nice win. Clearly it was the chalk.",
+    "Comfortable. Almost suspiciously comfortable.",
+    "That wasn't a match. That was a domination.",
+    "Wow, it took less time to invent the wheel!",
+    "You two planning to play pool or just admire the table?",
+    "Remember: every fluke becomes 'exactly as intended'.",
+    "Chalk is not a substitute for talent, but it does look professional.",
+    "If in doubt, blame the table. It's traditional.",
+    "Every accidental pot becomes 'percentage play' after it drops.",
+    "That cue action had confidence. The result may file a separate report.",
+    "If the table rolls off, naturally it only does it for you.",
+    "Nothing improves after a miss quite like explaining what you meant to do.",
+    "The chalk has now contributed more than some players.",
+    "Remember: the louder the excuse, the straighter the table was.",
+    "A good player adapts. A great player blames the humidity convincingly.",
+    "If it went in, it was planned. If it didn’t, the cloth grabbed it.",
+    "Please keep coaching tips until after you’ve demonstrated the ability yourself."
   ],
-  frameComeback:[
-    "Hang on… this is getting interesting.",
-    "Well this wasn't in the script.",
-    "Careful. Somebody's remembered how to play.",
-    "Oh dear. That comfortable lead isn't looking so comfortable now.",
-    "Keep going and we may have to call this a comeback.",
-    "Someone's getting nervous. I can almost hear it."
-  ],
-  frameComebackLevel:[
-    "Well this got awkward.",
-    "All square! Somebody has absolutely bottled a lead.",
-    "And just like that, your lovely lead is gone.",
-    "Level. I'd avoid eye contact if I were the former leader.",
-    "That lead aged well.",
-    "Congratulations — you've successfully turned a comfortable match into a crisis."
-  ],
-  frameHill:[
-    "On the hill. No pressure. Absolutely none.",
-    "One more. Try not to think about it.",
-    "On the hill! Now comes the traditional overthinking.",
-    "Nearly there. This is usually where people get creative and ruin everything.",
-    "One away. Surely you can't mess this up. Surely."
-  ],
-  frameHillHill:[
-    "HILL-HILL. Righto, nobody blink.",
-    "Oh good. One frame to decide all that nonsense.",
-    "Hill-Hill. RackMate recommends pretending you're calm.",
-    "All that pool just to make it a race to one.",
-    "Hill-Hill. Beautiful. Completely unnecessary, but beautiful.",
-    "One frame. No pressure — apart from all of it."
-  ],
-  frameGeneral:[
-    "Another one on the board. Try not to look too pleased with yourself.",
-    "Yep, that counts too. Annoying, isn't it?",
-    "A frame has occurred. Miracles do happen.",
-    "Nicely done. I suppose I should sound impressed.",
-    "Another frame. The scoreboard remains merciless.",
-    "Good enough. RackMate awards one whole frame.",
-    "There you go. Proof of life at the table.",
-    "Frame secured. Confidence now dangerously increasing.",
-    "That looked almost professional from here.",
-    "One more. Your opponent is taking notes. Probably excuses.",
-    "Another frame gone. Nobody panic.",
-    "Well played. Don't make a habit of it.",
-    "That'll do nicely. Even RackMate noticed.",
-    "Point to you. Try to remain humble for at least ten seconds.",
-    "A perfectly acceptable frame. High praise, I know.",
-    "Another tick on the scoreboard. Keep pretending it was easy.",
-    "That's one more reason for the other player to blame the table.",
-    "Frame done. Chalk dramatically if you need a moment.",
-    "Not bad. I've seen worse. Recently.",
-    "That's another. At this rate we may finish before tomorrow.",
-    "Score updated. Ego update pending.",
-    "One more frame for the highlight reel you definitely have in your head.",
-    "Very nice. Completely intentional, obviously.",
-    "Frame banked. Resume the psychological warfare.",
-    "That counts. No VAR review required.",
-    "Another one. Somewhere, a statistic is becoming meaningful.",
-    "Good frame. Please refrain from giving a victory speech yet.",
-    "RackMate confirms: yes, you actually won that one.",
-    "One more in the bag. Try not to trip over the confidence.",
-    "That was tidy. Suspiciously tidy."
-  ],
-  undo:[
-    "Whoops — that frame never happened.",
+  undo: [
+    "Whoops â that frame never happened.",
     "That's the ticket, hide the evidence.",
     "RackMate has deleted the evidence.",
     "Fine. We'll pretend none of us saw it.",
     "Ah yes, the traditional 'that didn't count' manoeuvre.",
     "Gone. History has been rewritten."
   ],
-  pointlessUndo:[
-    "UNDO WHAT? … Take the cloth off the bloody table or something?",
-    "UNDO WHAT? We haven't bloody started yet!",
-    "Mate… it's already 0–0.",
-    "I can't go into negative numbers, pal.",
-    "What, you mean go home and try again!",
-    "I'm taking a nap while you work this out."
-  ],
-  breakerCorrected:[
-    "Righto — breaker changed. Try not to argue about it now.",
+  breakerCorrected: [
+    "Righto â breaker changed. Try not to argue about it now.",
     "Breaker updated. RackMate will take the blame.",
     "Fine. New breaker. I'm staying out of the argument."
   ],
-  breakFormatChanged:[
+  breakFormatChanged: [
     "Break format changed. Hope both players were listening.",
     "New break format locked in. Arguments may now resume.",
     "Righto, new break rules. Nobody say I didn't tell you."
   ],
-  rematch:[
-    "Again? Clearly somebody has something to prove.",
-    "Same two, same setup, fresh excuses.",
-    "Rematch it is. Settle this properly.",
-    "Couldn't leave it alone, could you?",
-    "Righto. Best behaviour this time. Or don't."
+  banterOn: [
+    "Excellent. I was getting bored being professional.",
+    "Banter on. You asked for this.",
+    "Oh good. Personality restored."
   ],
-  concession:[
-    "Winner by concession. Try not to look too pleased about it.",
-    "Victory by surrender. Still counts, mate.",
-    "The other player has chosen discretion over further suffering.",
-    "White flag accepted. A win's a win.",
-    "Apparently we've seen enough. Winner by concession."
+  banterOff: [
+    "Righto. Serious mode. How terribly grown-up.",
+    "Banter off. I'll keep my opinions to myself.",
+    "Fine. Enjoy your emotionally supportive scoreboard."
   ],
-  matchHillHill:[
-    "That was close. Somebody check the loser's pulse.",
-    "Hill-Hill and you survived. Brag carefully.",
-    "One frame in it. Try not to act like it was comfortable.",
-    "Congratulations. You were marginally less terrible at the important moment.",
-    "Well done. Nothing like waiting until the last possible frame.",
-    "A win by the thickness of a coat of chalk.",
-    "You won. Technically. Let's not overstate it.",
-    "That could've gone either way. Unfortunately, it went yours."
+  voiceOn: [
+    "Oh good. Now I get to say it out loud.",
+    "Voice Banter on. The pool hall has been warned.",
+    "Excellent. Silent judgement was getting boring."
   ],
-  matchClose:[
-    "Congratulations. Try to act like you've won before.",
-    "The bragging rights are unfortunately legitimate.",
-    "Nice win. Clearly it was the chalk.",
-    "Close enough to be exciting, far enough to be annoying.",
-    "Well played. I hate to encourage you, but that wasn't bad.",
-    "A proper match. How inconveniently respectable.",
-    "You won without completely humiliating anyone. Very mature.",
-    "Solid win. Don't let it go to your head — there's limited room."
+  voiceOff: [
+    "Fine. I'll judge you silently.",
+    "Voice off. The speech bubbles still have plenty to say.",
+    "Muted? Fair. Some people can't handle constructive criticism."
   ],
-  matchComfortable:[
-    "Comfortable. Almost suspiciously comfortable.",
-    "Strong win. Try not to make eye contact while they pack up.",
-    "Well, that got away from them quickly.",
-    "Nice work. Your opponent contributed by turning up.",
-    "Congratulations. You made that look easier than it probably was.",
-    "Good win. Very considerate of you to let them have a few frames.",
-    "Dominant enough to brag, not dominant enough to be unbearable. Perfect.",
-    "RackMate confirms the result: one player played pool."
-  ],
-  matchHiding:[
-    "That wasn't a match. That was a supervised visit.",
-    "Well, at least they got a frame. Participation certificate is in the mail.",
-    "You only entered Player 2's name to make this look good, aye!",
-    "That scoreline needs a mercy rule and a cup of tea.",
-    "I'd say 'good game', but lying is ugly.",
-    "Congratulations. Please return your opponent's confidence on the way out.",
-    "Somewhere in there was a competitive match. I must've missed it.",
-    "RackMate recommends deleting the screenshot before their friends see it."
-  ],
-  matchWhitewash:[
-    "That wasn't a match. That was a demonstration.",
-    "Clean sweep. Please avoid saying 'good game' with a straight face.",
-    "You only entered Player 2's name to make this look good, aye!",
-    "ZERO? Mate, even RackMate feels a little uncomfortable.",
-    "Well done. You successfully prevented the other player from participating.",
-    "That's not a scoreline, that's a cry for help.",
-    "RackMate has classified this match as 'character building' for one participant.",
-    "Maybe let them break next time. Or bring a cue. Either might help.",
-    "I hope you bought them dinner first.",
-    "Brutal. Efficient. Socially questionable."
-  ],
-  matchComeback:[
-    "Well this got awkward.",
-    "From dead and buried to winner. Somebody owes somebody an apology.",
-    "That comeback was rude. I approve.",
-    "You had them. You actually had them. And then… that.",
-    "Congratulations. You turned impending embarrassment into their embarrassment.",
-    "That lead disappeared faster than free beer.",
-    "What a comeback. The former leader may need a quiet moment.",
-    "Apparently being nearly beaten was just part of the strategy.",
-    "Never in doubt. Except for most of the match."
-  ],
-  matchBlewLead:[
+  matchBlewLead: [
     "Oh dear. We are never mentioning that lead again, are we?",
     "You were cruising. Then you drove directly into a ditch.",
     "That, my friend, is what we call snatching defeat from the jaws of victory.",
@@ -824,45 +1245,28 @@ const BANTER={
     "From comfortable to catastrophic. Impressive range.",
     "The good news: you proved you could build a lead. The bad news is everything after that."
   ],
-  matchLong:[
-    "A win is a win. We won't discuss how long that took.",
-    "Wow, it took less time to invent the wheel!",
-    "Match complete. Civilization may now resume.",
-    "Congratulations. Several geological eras have passed.",
-    "Good news: you won. Bad news: the car park is probably locked.",
-    "That wasn't a race, it was a long-term relationship.",
-    "RackMate would like to thank everyone for their patience.",
-    "I aged three software versions during that match."
-  ],
-  banterOn:[
-    "Excellent. I was getting bored being professional.",
-    "Banter on. You asked for this.",
-    "Oh good. Personality restored."
-  ],
-  banterOff:[
-    "Righto. Serious mode. How terribly grown-up.",
-    "Banter off. I'll keep my opinions to myself.",
-    "Fine. Enjoy your emotionally supportive scoreboard."
-  ],
-  voiceOn:[
-    "Oh good. Now I get to say it out loud.",
-    "Voice Banter on. The pool hall has been warned.",
-    "Excellent. Silent judgement was getting boring."
-  ],
-  voiceOff:[
-    "Fine. I'll judge you silently.",
-    "Voice off. The speech bubbles still have plenty to say.",
-    "Muted? Fair. Some people can't handle constructive criticism."
-  ],
-  raceTooLow:[
-    "Bit late to shorten the race now, pal.",
-    "Nice try. You can't move the finish line behind the leader.",
-    "Just concede, it's easier!"
-  ]
 };
 let banterUsed={};
 let banterUsedText=new Set();
 let banterTimer=null;
+let liveBanterLastAt=0;
+let liveBanterNextAt=0;
+function resetLiveBanterClock(){
+  liveBanterLastAt=Date.now();
+  liveBanterNextAt=5*60*1000 + Math.floor(Math.random()*3*60*1000);
+}
+function maybeLiveTableBanter(){
+  if(st.screen!=='play'||st.paused||st.matchEndedAt||!st.frameStartedAt||!appSettings.banter) return;
+  const now=Date.now();
+  if(!liveBanterLastAt) resetLiveBanterClock();
+  if(now-liveBanterLastAt < liveBanterNextAt) return;
+  banter('liveTable');
+  liveBanterLastAt=now;
+  // Sparse, irregular heckling after the first eligibility point.
+  liveBanterNextAt=3*60*1000 + Math.floor(Math.random()*5*60*1000);
+}
+setInterval(maybeLiveTableBanter,15000);
+
 function resetBanterHistory(){banterUsed={};banterUsedText=new Set();}
 function pickFromPool(key,pool){
   if(!pool||!pool.length) return '';
@@ -937,7 +1341,9 @@ function selectFrameBanter(before,p){
   if(ownBefore===0 && oppBefore>=2) return 'frameFirstReply';
   if(deficitSeen>=big && ownBefore<oppBefore && ownAfter<oppAfter) return 'frameComeback';
   if(oppAfter-ownAfter>=big) return 'frameStillBehind';
-  if(ownAfter-oppAfter>=big) return 'framePullAway';
+  // Near-whitewash is race-aware: zero score and opponent within ~25% of the finish.
+  if(oppAfter===0 && ownAfter>=Math.max(2,st.race-Math.max(1,Math.ceil(st.race*.25)))) return 'frameNearWhitewash';
+  if(ownAfter-oppAfter>=big) return 'frameHiding';
   if(ownBefore<=oppBefore && ownAfter>oppAfter) return 'frameLead';
   if(before.score1===0 && before.score2===0) return 'frameOpening';
   return 'frameRoutine';
@@ -990,7 +1396,7 @@ function add(p){
   }else{
     st.breaker = st.breakFormat==='alternate' ? (st.breaker===1?2:1) : p;
   }
-  st.frameStartedAt=Date.now();
+  st.frameStartedAt=Date.now();resetLiveBanterClock();
   st.framePausedMs=0;
   play();
   banter(selectFrameBanter(before,p));
