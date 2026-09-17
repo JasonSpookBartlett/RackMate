@@ -10,7 +10,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<title>RackMate BETA v1.59</title>
+<title>RackMate</title>
 <style>
 :root{--felt:#0d7a4b;--felt2:#075435;--wood:#8c4f1c;--wood2:#4a250c;--red:#ff4343;--blue:#39a0ff;--gold:#f2c44d}
 *{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#020303;color:#fff;font-family:Arial,Helvetica,sans-serif}
@@ -146,7 +146,7 @@ body{
 <body>
 <div class="app">
 <header class="header">
-<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.58</span></div></div>
+<div class="brand"><button class="menu" id="menuBtn">☰</button><div class="brandName">Rack<b>Mate</b><span class="headerVersion">v1.60</span></div></div>
 <div class="title"><div class="titleRow"><h1 id="screenTitle">MATCH SETUP</h1><button id="pauseBtn" class="pauseBtn" type="button" aria-label="Pause match timer" title="Pause match timer">⏸</button></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
@@ -351,10 +351,18 @@ body{
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.59</div>
+<div class="version">BETA v1.60</div>
 </div></div></div>
 <script>
-const APP_VERSION='BETA v1.59';
+const RACKMATE_VERSION='1.60';
+function applyRackMateVersion(){
+  document.title=`RackMate BETA v${RACKMATE_VERSION}`;
+  document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
+}
+document.addEventListener('DOMContentLoaded',applyRackMateVersion);
+
+
+const APP_VERSION='BETA v1.60';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
