@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.76 — THE PRETTY FOUNDATION
+   RackMate v1.77 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.76 LOCKED VISUAL REBUILD */
+/* RackMate v1.77 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.76 — MEASURED SETUP MASTER
+   RackMate v1.77 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -640,7 +640,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.76 — CLEAN SETUP DOM
+   RackMate v1.77 — CLEAN SETUP DOM
    One coordinate system. No inherited panel/grid positioning.
    Locked reference: 1664 x 936.
    ========================================================= */
@@ -759,7 +759,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.76 — INTERIOR LAYOUT PASS
+   RackMate v1.77 — INTERIOR LAYOUT PASS
    Scope deliberately limited to controls inside the table.
    Rails/pockets/diamonds/background untouched.
    ========================================================= */
@@ -837,7 +837,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.76 — INTERIOR ALIGNMENT PASS
+   RackMate v1.77 — INTERIOR ALIGNMENT PASS
    Based directly on v1.65 S25 Ultra screenshot + user notes.
    Physical table/exterior deliberately untouched.
    ========================================================= */
@@ -950,7 +950,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.76 — INTERIOR DETAIL PASS
+   RackMate v1.77 — INTERIOR DETAIL PASS
    Based on v1.66 phone screenshot.
    ========================================================= */
 
@@ -1012,7 +1012,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.76 — SETUP GROUPING + SWAP LOGIC
+   RackMate v1.77 — SETUP GROUPING + SWAP LOGIC
    Interior-only refinement before table furniture pass.
    ========================================================= */
 
@@ -1101,7 +1101,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.76 — actual Player Name box height.
+/* RackMate v1.77 — actual Player Name box height.
    Label and .setupName geometry intentionally untouched.
    The box keeps its original top edge and extends downward only. */
 .setupName .name{
@@ -1115,7 +1115,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.76 — TRUE OUTER RAIL REBUILD
+   RackMate v1.77 — TRUE OUTER RAIL REBUILD
    Critical fix: retain v1.71's negative-z timber layer.
    NO isolation and NO .table background change.
    ========================================================= */
@@ -1186,7 +1186,7 @@ html,body{background:#050506}
 .rightSights{right:-1.72vh!important}
 
 
-/* RackMate v1.76 — Broad Rails + Pocket Geometry. v1.75 interior is protected. */
+/* RackMate v1.77 — Broad Rails + Pocket Geometry. v1.75 interior is protected. */
 .table::before{
  inset:-4.25vh!important;border-radius:5.15vh!important;
  background:linear-gradient(180deg,rgba(255,224,174,.26),transparent 15%,rgba(0,0,0,.11) 68%,rgba(0,0,0,.38)),
@@ -1208,6 +1208,74 @@ html,body{background:#050506}
 .topSights{top:-3.12vh!important}.bottomSights{bottom:-3.12vh!important}
 .leftSights{left:-3.12vh!important}.rightSights{right:-3.12vh!important}
 .railSights i{width:.58vh!important;height:.58vh!important}
+
+
+/* =========================================================
+   RackMate v1.77 — POCKET MOUTHS + CUSHION JAWS
+   v1.76 rail width and ALL interior geometry are locked.
+   ========================================================= */
+
+/* Pocket opening: slightly less "black ball", more deep recessed throat. */
+.p{
+  background:
+    radial-gradient(ellipse at 50% 54%,
+      #000 0 47%,
+      #050505 55%,
+      #130a06 63%,
+      #3d1d0d 72%,
+      transparent 74%)!important;
+  border:0!important;
+  box-shadow:
+    inset 0 .24vh .28vh rgba(255,255,255,.035),
+    inset 0 -.78vh .92vh #000,
+    0 .38vh .52vh rgba(0,0,0,.72)!important;
+}
+
+/* Replace the little "ears" with longer tapered timber pocket jaws. */
+.p::before,.p::after{
+  width:2.75vh!important;
+  height:1.38vh!important;
+  top:50%!important;
+  background:
+    linear-gradient(180deg,#bd7336 0%,#87451d 42%,#4b210d 100%)!important;
+  box-shadow:
+    inset 0 .16vh .14vh rgba(255,226,176,.42),
+    inset 0 -.20vh .18vh rgba(31,10,2,.46),
+    0 .14vh .20vh rgba(0,0,0,.46)!important;
+}
+.p::before{
+  right:76%!important;
+  transform:translateY(-50%) rotate(19deg)!important;
+  clip-path:polygon(0 18%,100% 0,100% 100%,0 82%)!important;
+}
+.p::after{
+  left:76%!important;
+  transform:translateY(-50%) rotate(-19deg)!important;
+  clip-path:polygon(0 0,100% 18%,100% 82%,0 100%)!important;
+}
+
+/* Corner jaws need a stronger diagonal sweep into the opening. */
+.tl::before,.br::after{transform:translateY(-50%) rotate(31deg)!important}
+.tl::after,.br::before{transform:translateY(-50%) rotate(-31deg)!important}
+.tr::before,.bl::after{transform:translateY(-50%) rotate(31deg)!important}
+.tr::after,.bl::before{transform:translateY(-50%) rotate(-31deg)!important}
+
+/* Green cushion jaw lips around pocket mouths.
+   These sit between felt and timber and visually funnel into each throat. */
+.p{
+  outline:none!important;
+}
+.p .cushionJaw{display:none!important}
+
+/* Use an additional inset rim to read as cushion rubber at the mouth. */
+.p{
+  filter:drop-shadow(0 0 .10vh rgba(4,66,41,.85));
+}
+.p.tm,.p.bm{
+  border-radius:42% 42% 50% 50%!important;
+}
+
+/* Keep v1.76 sights and broad-rail dimensions exactly as they were. */
 
 </style>
 </head>
@@ -1469,10 +1537,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.76</div>
+<div class="version">BETA v1.77</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.76';
+const RACKMATE_VERSION='1.77';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1480,7 +1548,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.76';
+const APP_VERSION='BETA v1.77';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
