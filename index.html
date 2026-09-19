@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.79 — THE PRETTY FOUNDATION
+   RackMate v1.80 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.79 LOCKED VISUAL REBUILD */
+/* RackMate v1.80 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — MEASURED SETUP MASTER
+   RackMate v1.80 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -640,7 +640,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — CLEAN SETUP DOM
+   RackMate v1.80 — CLEAN SETUP DOM
    One coordinate system. No inherited panel/grid positioning.
    Locked reference: 1664 x 936.
    ========================================================= */
@@ -759,7 +759,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — INTERIOR LAYOUT PASS
+   RackMate v1.80 — INTERIOR LAYOUT PASS
    Scope deliberately limited to controls inside the table.
    Rails/pockets/diamonds/background untouched.
    ========================================================= */
@@ -837,7 +837,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — INTERIOR ALIGNMENT PASS
+   RackMate v1.80 — INTERIOR ALIGNMENT PASS
    Based directly on v1.65 S25 Ultra screenshot + user notes.
    Physical table/exterior deliberately untouched.
    ========================================================= */
@@ -950,7 +950,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — INTERIOR DETAIL PASS
+   RackMate v1.80 — INTERIOR DETAIL PASS
    Based on v1.66 phone screenshot.
    ========================================================= */
 
@@ -1012,7 +1012,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — SETUP GROUPING + SWAP LOGIC
+   RackMate v1.80 — SETUP GROUPING + SWAP LOGIC
    Interior-only refinement before table furniture pass.
    ========================================================= */
 
@@ -1101,7 +1101,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.79 — actual Player Name box height.
+/* RackMate v1.80 — actual Player Name box height.
    Label and .setupName geometry intentionally untouched.
    The box keeps its original top edge and extends downward only. */
 .setupName .name{
@@ -1115,7 +1115,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — TRUE OUTER RAIL REBUILD
+   RackMate v1.80 — TRUE OUTER RAIL REBUILD
    Critical fix: retain v1.71's negative-z timber layer.
    NO isolation and NO .table background change.
    ========================================================= */
@@ -1186,7 +1186,7 @@ html,body{background:#050506}
 .rightSights{right:-1.72vh!important}
 
 
-/* RackMate v1.79 — Broad Rails + Pocket Geometry. v1.75 interior is protected. */
+/* RackMate v1.80 — Broad Rails + Pocket Geometry. v1.75 interior is protected. */
 .table::before{
  inset:-4.25vh!important;border-radius:5.15vh!important;
  background:linear-gradient(180deg,rgba(255,224,174,.26),transparent 15%,rgba(0,0,0,.11) 68%,rgba(0,0,0,.38)),
@@ -1211,7 +1211,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — POCKET MOUTHS + CUSHION JAWS
+   RackMate v1.80 — POCKET MOUTHS + CUSHION JAWS
    v1.76 rail width and ALL interior geometry are locked.
    ========================================================= */
 
@@ -1279,44 +1279,93 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.79 — CUSHION GEOMETRY PASS
+   RackMate v1.80 — SEGMENTED CUSHION JAWS
    SOURCE: locked v1.77 rail dimensions + pocket locations.
-   Rail width, pocket size/location, sights and Setup interior untouched.
+   Dedicated cushion segments; pockets no longer manufacture jaws.
    ========================================================= */
 
-/* Pockets are only recessed throats now: no attached ears/tabs. */
+/* Remove v1.77 timber ears from the pocket elements. */
 .p::before,.p::after{content:none!important}
 .p{filter:none!important}
 
-/* Continuous green cushion faces generated from the rail edges. */
-.table .rail.top::after,.table .rail.bottom::after,
-.table .rail.left::after,.table .rail.right::after{
-  content:""!important;position:absolute!important;display:block!important;
-  pointer-events:none!important;z-index:7!important;
-  background:linear-gradient(180deg,#11905d 0%,#08744b 42%,#045236 100%)!important;
-  box-shadow:inset 0 .13vh .12vh rgba(122,225,173,.22),
-             inset 0 -.19vh .18vh rgba(0,25,15,.46)!important
-}
-.table .rail.top::after,.table .rail.bottom::after{
-  left:3.6vh!important;right:3.6vh!important;height:1.05vh!important
-}
-.table .rail.left::after,.table .rail.right::after{
-  top:3.6vh!important;bottom:3.6vh!important;width:1.05vh!important
-}
-.table .rail.top::after{bottom:-.72vh!important;border-radius:0 0 .28vh .28vh!important}
-.table .rail.bottom::after{top:-.72vh!important;border-radius:.28vh .28vh 0 0!important}
-.table .rail.left::after{right:-.72vh!important;border-radius:0 .28vh .28vh 0!important}
-.table .rail.right::after{left:-.72vh!important;border-radius:.28vh 0 0 .28vh!important}
+/* Hide any legacy straight cushion pseudo-faces so the dedicated
+   segmented cushion geometry is the only visible cushion nose. */
+.rail::after{content:none!important}
 
-/* Shape only the black throat silhouette at the openings.
-   Nothing decorative is attached to the pocket itself. */
-.tm,.bm{overflow:visible!important}
-.tm{clip-path:polygon(8% 0,92% 0,100% 34%,100% 100%,0 100%,0 34%)!important}
-.bm{clip-path:polygon(0 0,100% 0,100% 66%,92% 100%,8% 100%,0 66%)!important}
-.tl{clip-path:polygon(22% 0,100% 0,100% 100%,0 100%,0 22%)!important}
-.tr{clip-path:polygon(0 0,78% 0,100% 22%,100% 100%,0 100%)!important}
-.bl{clip-path:polygon(0 0,100% 0,100% 100%,22% 100%,0 78%)!important}
-.br{clip-path:polygon(0 0,100% 0,100% 78%,78% 100%,0 100%)!important}
+/* Dedicated overlay occupies the table only; no interaction. */
+.cushionSegments{
+  position:absolute;
+  inset:0;
+  z-index:9;
+  pointer-events:none;
+  overflow:visible;
+}
+
+/* Common cushion construction. */
+.cushSeg{
+  position:absolute;
+  display:block;
+  background:
+    linear-gradient(180deg,#159865 0%,#0a7950 38%,#065c3d 68%,#033f2b 100%);
+  box-shadow:
+    inset 0 .15vh .12vh rgba(126,232,179,.24),
+    inset 0 -.23vh .20vh rgba(0,24,14,.52),
+    0 .10vh .15vh rgba(0,0,0,.28);
+}
+
+/* TOP: two true segments separated by the centre pocket.
+   Outer ends are cut toward corner pockets; inner ends angle into side pocket. */
+.cushSeg.top{
+  top:.12vh;
+  height:1.10vh;
+}
+.cushSeg.top.left{
+  left:3.75vh;
+  width:calc(50% - 6.45vh);
+  clip-path:polygon(1.65vh 0,100% 0,calc(100% - 1.55vh) 100%,0 100%);
+}
+.cushSeg.top.right{
+  right:3.75vh;
+  width:calc(50% - 6.45vh);
+  clip-path:polygon(0 0,calc(100% - 1.65vh) 0,100% 100%,1.55vh 100%);
+}
+
+/* BOTTOM: mirror of top. */
+.cushSeg.bottom{
+  bottom:.12vh;
+  height:1.10vh;
+}
+.cushSeg.bottom.left{
+  left:3.75vh;
+  width:calc(50% - 6.45vh);
+  clip-path:polygon(0 0,calc(100% - 1.55vh) 0,100% 100%,1.65vh 100%);
+}
+.cushSeg.bottom.right{
+  right:3.75vh;
+  width:calc(50% - 6.45vh);
+  clip-path:polygon(1.55vh 0,100% 0,calc(100% - 1.65vh) 100%,0 100%);
+}
+
+/* LEFT/RIGHT: one vertical segment between corner pockets.
+   Both ends are diagonally relieved into the corner throats. */
+.cushSeg.vertical{
+  top:3.75vh;
+  height:calc(100% - 7.50vh);
+  width:1.10vh;
+  background:
+    linear-gradient(90deg,#159865 0%,#0a7950 38%,#065c3d 68%,#033f2b 100%);
+}
+.cushSeg.vertical.left{
+  left:.12vh;
+  clip-path:polygon(0 1.65vh,100% 0,100% 100%,0 calc(100% - 1.65vh));
+}
+.cushSeg.vertical.right{
+  right:.12vh;
+  clip-path:polygon(0 0,100% 1.65vh,100% calc(100% - 1.65vh),0 100%);
+}
+
+/* Pocket throats remain above the cushion geometry. */
+.p{z-index:12!important}
 
 </style>
 </head>
@@ -1328,6 +1377,16 @@ html,body{background:#050506}
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
 <div class="tableWrap"><div class="table">
+      <!-- v1.80 dedicated cushion geometry: independent of pocket elements -->
+      <div class="cushionSegments" aria-hidden="true">
+        <i class="cushSeg top left"></i>
+        <i class="cushSeg top right"></i>
+        <i class="cushSeg bottom left"></i>
+        <i class="cushSeg bottom right"></i>
+        <i class="cushSeg vertical left"></i>
+        <i class="cushSeg vertical right"></i>
+      </div>
+
 <div class="railSights topSights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="railSights bottomSights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="railSights leftSights" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -1578,10 +1637,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.79</div>
+<div class="version">BETA v1.80</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.79';
+const RACKMATE_VERSION='1.80';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1589,7 +1648,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.79';
+const APP_VERSION='BETA v1.80';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
