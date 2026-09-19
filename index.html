@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.64 — THE PRETTY FOUNDATION
+   RackMate v1.65 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.64 LOCKED VISUAL REBUILD */
+/* RackMate v1.65 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.64 — MEASURED SETUP MASTER
+   RackMate v1.65 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -640,7 +640,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.64 — CLEAN SETUP DOM
+   RackMate v1.65 — CLEAN SETUP DOM
    One coordinate system. No inherited panel/grid positioning.
    Locked reference: 1664 x 936.
    ========================================================= */
@@ -755,6 +755,84 @@ html,body{background:#050506}
   .setupBreakFormat{top:63.1%;height:7.0%}
   .setupMatchLength{top:38.35%;height:20.9%}
   .setupFirstBreak{top:67%;height:19.3%}
+}
+
+
+/* =========================================================
+   RackMate v1.65 — INTERIOR LAYOUT PASS
+   Scope deliberately limited to controls inside the table.
+   Rails/pockets/diamonds/background untouched.
+   ========================================================= */
+
+/* Player row: a touch taller, slightly wider, with more breathing room. */
+.setupName{top:17.1%;width:30.0%;height:11.0%}
+.setupNameP1{left:10.9%}.setupNameP2{right:10.9%}
+.setupSwap{left:44.15%;top:15.8%;width:11.7%;height:13.2%}
+
+/* Game Type: wider tray, slightly left/down. */
+.setupGameType{left:15.0%;top:39.0%;width:32.3%;height:15.8%}
+.setupGameType .ball{width:7.35vh;height:7.35vh}
+
+/* Slider must end under the outer balls, not run far past 10-ball. */
+.setupGameType .track{
+  left:15.5%;
+  right:15.5%;
+  bottom:-5.15vh;
+  height:4.45vh;
+}
+.setupGameType .cue{width:5.5vh;height:5.5vh;top:-.52vh}
+
+/* Match Length: shift right, enlarge slightly, keep it isolated. */
+.setupMatchLength{
+  left:52.0%;
+  top:39.0%;
+  width:32.2%;
+  height:21.7%;
+}
+.setupMatchLength .counter{height:76%}
+
+/* Break Format: own clean row beneath Game Type; no collision with First Break. */
+.setupBreakFormat{
+  left:17.7%;
+  top:64.0%;
+  width:28.4%;
+  height:8.2%;
+}
+.setupBreakFormat .row{gap:1.0vh}
+.setupBreakFormat .choice{
+  min-width:0;
+  padding:0 1.0vh;
+  font-size:clamp(10px,.90vw,15px);
+  line-height:1.05;
+}
+
+/* First Break: lower, wider, and separated from Break Format/Match Length. */
+.setupFirstBreak{
+  left:49.0%;
+  top:68.0%;
+  width:35.5%;
+  height:18.3%;
+}
+.setupFirstBreak .setupObjectLabel{top:-3.7vh}
+.setupFirstBreak .firstBreakChoice{gap:.45vh}
+.firstIcon{width:6.15vh;height:6.15vh}
+
+/* Keep all labels clear of neighbouring modules. */
+.setupGameType>.setupObjectLabel,
+.setupMatchLength>.setupObjectLabel,
+.setupBreakFormat>.setupObjectLabel{
+  top:-3.65vh;
+}
+
+/* Preserve this geometry on the actual short/wide phone viewport. */
+@media(max-height:520px){
+  .setupName{top:17.1%;width:30%;height:11%}
+  .setupNameP1{left:10.9%}.setupNameP2{right:10.9%}
+  .setupSwap{left:44.15%;top:15.8%;width:11.7%;height:13.2%}
+  .setupGameType{left:15%;top:39%;width:32.3%;height:15.8%}
+  .setupMatchLength{left:52%;top:39%;width:32.2%;height:21.7%}
+  .setupBreakFormat{left:17.7%;top:64%;width:28.4%;height:8.2%}
+  .setupFirstBreak{left:49%;top:68%;width:35.5%;height:18.3%}
 }
 
 </style>
@@ -1017,10 +1095,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.64</div>
+<div class="version">BETA v1.65</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.64';
+const RACKMATE_VERSION='1.65';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1028,7 +1106,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.64';
+const APP_VERSION='BETA v1.65';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
