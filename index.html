@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.63 — THE PRETTY FOUNDATION
+   RackMate v1.64 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.63 LOCKED VISUAL REBUILD */
+/* RackMate v1.64 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.63 — MEASURED SETUP MASTER
+   RackMate v1.64 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -638,6 +638,125 @@ html,body{background:#050506}
   .choice{min-height:5.9vh}
 }
 
+
+/* =========================================================
+   RackMate v1.64 — CLEAN SETUP DOM
+   One coordinate system. No inherited panel/grid positioning.
+   Locked reference: 1664 x 936.
+   ========================================================= */
+#setupScreen{position:absolute;inset:0}
+.setupMaster{position:absolute;inset:0;z-index:12}
+
+/* Neutralise obsolete setup layout rules completely. */
+#setupScreen .setup,#setupScreen .body,#setupScreen .panel{display:none!important}
+
+/* All six setup objects share one parent: .setupMaster */
+.setupName,.setupSwap,.setupGameType,.setupMatchLength,.setupBreakFormat,.setupFirstBreak{
+  position:absolute;box-sizing:border-box;
+}
+.setupObjectLabel{
+  position:absolute;left:0;right:0;top:-3.55vh;text-align:center;
+  color:#f4f4f4;font-weight:900;letter-spacing:.075em;
+  font-size:clamp(11px,1.08vw,18px);text-shadow:0 2px 3px #000;
+}
+
+/* Player blocks — measured from approved reference. */
+.setupName{top:17.3%;width:29.1%;height:10.3%}
+.setupNameP1{left:11.5%}.setupNameP2{right:11.5%}
+.setupName .name{position:absolute;inset:0;height:auto;width:auto;margin:0}
+.setupName .name::before{content:none!important}
+.setupName .name input{font-size:clamp(26px,2.55vw,42px);font-weight:800}
+
+/* Swap block */
+.setupSwap{
+  left:44.1%;top:15.7%;width:11.7%;height:13.5%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.15vh;margin:0;padding:0;
+}
+.swapArrows{font-size:clamp(20px,2.0vw,32px);line-height:1}
+
+/* Game Type assembly */
+.setupGameType{left:15.55%;top:38.6%;width:31.35%;height:15.2%}
+.gameWoodTray{
+  position:absolute;inset:0;border:4px solid #7a330d;border-radius:1.25vh;
+  background:
+    repeating-linear-gradient(7deg,rgba(255,220,155,.08) 0 2px,transparent 2px 5px),
+    linear-gradient(90deg,#4b1e07,#a95a1d 49%,#4c1f08);
+  box-shadow:inset 0 0 0 2px #db8a41,0 .7vh 1.2vh rgba(0,0,0,.52);
+}
+.setupGameType .balls{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:space-evenly;gap:0;
+}
+.setupGameType .ball{width:7.2vh;height:7.2vh;font-size:clamp(18px,1.8vw,28px)}
+.setupGameType .track{
+  position:absolute;left:14%;right:14%;bottom:-5.45vh;height:4.65vh;
+  margin:0;border-radius:0 0 1.0vh 1.0vh;
+}
+.setupGameType .cue{width:5.65vh;height:5.65vh;top:-.52vh}
+
+/* Break Format — independent object, no longer inside Game Type */
+.setupBreakFormat{left:20.2%;top:63.1%;width:22.3%;height:7.0%}
+.setupBreakFormat .row{position:absolute;inset:0;display:flex;gap:1.0vh}
+.setupBreakFormat .choice{flex:1;min-height:0;height:100%;padding:0 1.2vh}
+
+/* Match Length */
+.setupMatchLength{
+  left:50.65%;top:38.35%;width:33.05%;height:20.9%;
+  border:1px solid #2c8d9a;border-radius:1.25vh;
+  background:linear-gradient(#0c1d1d,#061313);
+  box-shadow:0 .7vh 1.2vh rgba(0,0,0,.46);
+}
+.setupMatchLength .length{position:absolute;inset:0;display:flex;align-items:center}
+.setupMatchLength .counter{
+  height:72%;min-height:0;border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+.setupMatchLength .counter:first-child{border-right:1px solid #77b6ae}
+.setupMatchLength .counter small{font-size:clamp(9px,.78vw,13px)}
+.setupMatchLength .counter b{font-size:clamp(34px,3.7vw,58px)}
+.setupMatchLength .counter button{font-size:clamp(24px,2.2vw,36px)}
+
+/* First Break — independent centred object */
+.setupFirstBreak{left:33.3%;top:67.0%;width:35.1%;height:19.3%}
+.setupFirstBreak .firstBreakTray{
+  position:absolute;inset:0;display:flex;align-items:stretch;
+  border:1px solid #3b7772;border-radius:1.2vh;
+  background:linear-gradient(#102020,#061313);
+  box-shadow:0 .65vh 1.1vh rgba(0,0,0,.45);overflow:hidden;
+}
+.setupFirstBreak .firstBreakChoice{
+  flex:1;min-height:0;border:0;border-radius:0;background:transparent;box-shadow:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7vh;
+  font-size:clamp(11px,1.0vw,16px);
+}
+.setupFirstBreak .firstBreakChoice+.firstBreakChoice{border-left:1px solid rgba(150,180,175,.22)}
+.setupFirstBreak .firstBreakChoice.active{
+  border:2px solid #ffe08a;border-radius:1.0vh;
+  background:rgba(108,73,10,.15);box-shadow:inset 0 0 1.1vh rgba(255,214,80,.32),0 0 1.1vh rgba(255,214,80,.48);
+}
+.firstIcon{
+  width:6.7vh;height:6.7vh;border-radius:50%;display:grid;place-items:center;
+  font-weight:900;font-size:clamp(10px,.9vw,15px);
+  box-shadow:inset -1vh -1.1vh 1.4vh rgba(0,0,0,.25),0 .35vh .7vh rgba(0,0,0,.45);
+}
+.lagIcon,.manualIcon{background:radial-gradient(circle at 35% 28%,#fff,#e5e1d6 55%,#a9a59c);color:#c22}
+.coinIcon{background:radial-gradient(circle at 35% 30%,#ffd96a,#b7771c 62%,#6e3c08);color:#4d2b05;border:.25vh solid #e5b85a}
+
+/* The reference has generous clean felt. Keep these modules isolated. */
+.setupMaster .choice,.setupMaster .swap,.setupMaster .counter button{
+  touch-action:manipulation;
+}
+
+/* Wider-than-16:9 phones keep the 16:9 master centred; no special setup reflow. */
+@media(max-height:520px){
+  .setupObjectLabel{top:-3.45vh}
+  .setupName{top:17.3%;height:10.3%}
+  .setupSwap{top:15.7%;height:13.5%}
+  .setupGameType{top:38.6%;height:15.2%}
+  .setupBreakFormat{top:63.1%;height:7.0%}
+  .setupMatchLength{top:38.35%;height:20.9%}
+  .setupFirstBreak{top:67%;height:19.3%}
+}
+
 </style>
 </head>
 <body>
@@ -655,12 +774,57 @@ html,body{background:#050506}
 <span class="p tl"></span><span class="p tm"></span><span class="p tr"></span><span class="p bl"></span><span class="p bm"></span><span class="p br"></span>
 
 <section id="setupScreen" class="screen active">
-<div class="setup">
-<div class="name red"><input id="p1Input" type="text" value="" placeholder="Player 1" maxlength="24" inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="words" spellcheck="false"></div><button class="swap" id="swapBtn">⇄<br>SWAP SIDES</button><div class="name blue"><input id="p2Input" type="text" value="" placeholder="Player 2" maxlength="24" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
-<div class="body">
-<div class="panel"><div class="label">GAME TYPE</div><div class="balls"><button class="ball b8 sel" data-game="8">8</button><button class="ball b9" data-game="9">9</button><button class="ball b10" data-game="10">10</button></div><div class="track"><div id="gameCue" class="cue pos8"></div></div><div class="label" style="margin-top:12px">BREAK FORMAT</div><div class="row"><button class="choice active" data-break="alternate">ALTERNATE BREAK</button><button class="choice" data-break="winner">WINNER BREAK</button></div></div>
-<div class="panel"><div class="label">MATCH LENGTH</div><div class="length"><div class="counter"><button id="raceDown">‹</button><div><small>RACE TO</small><b id="raceVal">7</b></div><button id="raceUp">›</button></div><div class="counter"><button id="bestDown">‹</button><div><small>BEST OF</small><b id="bestVal">13</b></div><button id="bestUp">›</button></div></div><div class="label" style="margin-top:18px">FIRST BREAK</div><div class="row"><button class="choice" data-first="lag">LAG</button><button class="choice" data-first="coin">COIN TOSS</button><button class="choice" data-first="manual">JUST PLAY</button></div></div>
-</div></div></section>
+  <div class="setupMaster">
+    <div class="setupName setupNameP1">
+      <div class="setupObjectLabel">PLAYER 1</div>
+      <div class="name red"><input id="p1Input" type="text" value="" placeholder="Player 1" maxlength="24" inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
+    </div>
+
+    <button class="swap setupSwap" id="swapBtn"><span class="swapArrows">⇄</span><span>SWAP SIDES</span></button>
+
+    <div class="setupName setupNameP2">
+      <div class="setupObjectLabel">PLAYER 2</div>
+      <div class="name blue"><input id="p2Input" type="text" value="" placeholder="Player 2" maxlength="24" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
+    </div>
+
+    <div class="setupGameType">
+      <div class="setupObjectLabel">GAME TYPE</div>
+      <div class="gameWoodTray">
+        <div class="balls">
+          <button class="ball b8 sel" data-game="8">8</button>
+          <button class="ball b9" data-game="9">9</button>
+          <button class="ball b10" data-game="10">10</button>
+        </div>
+      </div>
+      <div class="track"><div id="gameCue" class="cue pos8"></div></div>
+    </div>
+
+    <div class="setupMatchLength">
+      <div class="setupObjectLabel">MATCH LENGTH</div>
+      <div class="length">
+        <div class="counter"><button id="raceDown">‹</button><div><small>RACE TO</small><b id="raceVal">7</b></div><button id="raceUp">›</button></div>
+        <div class="counter"><button id="bestDown">‹</button><div><small>BEST OF</small><b id="bestVal">13</b></div><button id="bestUp">›</button></div>
+      </div>
+    </div>
+
+    <div class="setupBreakFormat">
+      <div class="setupObjectLabel">BREAK FORMAT</div>
+      <div class="row">
+        <button class="choice active" data-break="alternate">ALTERNATE BREAK</button>
+        <button class="choice" data-break="winner">WINNER BREAK</button>
+      </div>
+    </div>
+
+    <div class="setupFirstBreak">
+      <div class="setupObjectLabel">FIRST BREAK</div>
+      <div class="firstBreakTray">
+        <button class="choice firstBreakChoice" data-first="lag"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
+        <button class="choice firstBreakChoice" data-first="coin"><span class="firstIcon coinIcon">NZ</span><span>COIN TOSS</span></button>
+        <button class="choice firstBreakChoice" data-first="manual"><span class="firstIcon manualIcon">●</span><span>JUST PLAY</span></button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="playScreen" class="screen">
 <div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1Hill" class="hill"></div></div>
@@ -853,10 +1017,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.63</div>
+<div class="version">BETA v1.64</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.63';
+const RACKMATE_VERSION='1.64';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -864,7 +1028,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.63';
+const APP_VERSION='BETA v1.64';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
