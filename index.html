@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.74 — THE PRETTY FOUNDATION
+   RackMate v1.75 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.74 LOCKED VISUAL REBUILD */
+/* RackMate v1.75 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.74 — MEASURED SETUP MASTER
+   RackMate v1.75 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -640,7 +640,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.74 — CLEAN SETUP DOM
+   RackMate v1.75 — CLEAN SETUP DOM
    One coordinate system. No inherited panel/grid positioning.
    Locked reference: 1664 x 936.
    ========================================================= */
@@ -759,7 +759,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.74 — INTERIOR LAYOUT PASS
+   RackMate v1.75 — INTERIOR LAYOUT PASS
    Scope deliberately limited to controls inside the table.
    Rails/pockets/diamonds/background untouched.
    ========================================================= */
@@ -837,7 +837,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.74 — INTERIOR ALIGNMENT PASS
+   RackMate v1.75 — INTERIOR ALIGNMENT PASS
    Based directly on v1.65 S25 Ultra screenshot + user notes.
    Physical table/exterior deliberately untouched.
    ========================================================= */
@@ -950,7 +950,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.74 — INTERIOR DETAIL PASS
+   RackMate v1.75 — INTERIOR DETAIL PASS
    Based on v1.66 phone screenshot.
    ========================================================= */
 
@@ -1012,7 +1012,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.74 — SETUP GROUPING + SWAP LOGIC
+   RackMate v1.75 — SETUP GROUPING + SWAP LOGIC
    Interior-only refinement before table furniture pass.
    ========================================================= */
 
@@ -1101,7 +1101,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.74 — actual Player Name box height.
+/* RackMate v1.75 — actual Player Name box height.
    Label and .setupName geometry intentionally untouched.
    The box keeps its original top edge and extends downward only. */
 .setupName .name{
@@ -1114,60 +1114,76 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.74 — furniture outside felt; rebuilt from v1.71 */
-.table{overflow:visible!important;isolation:isolate}
+/* =========================================================
+   RackMate v1.75 — TRUE OUTER RAIL REBUILD
+   Critical fix: retain v1.71's negative-z timber layer.
+   NO isolation and NO .table background change.
+   ========================================================= */
 
-/* Hardwood cabinet exists OUTSIDE the original green table canvas. */
+/* Make the EXISTING behind-the-felt timber layer broader and more substantial. */
 .table::before{
- content:"";position:absolute;inset:-2.35vh;z-index:-3;pointer-events:none;
- border:.26vh solid #241107;border-radius:3vh;
- background:
- linear-gradient(180deg,rgba(255,222,168,.28),transparent 19%,rgba(0,0,0,.18) 68%,rgba(0,0,0,.45)),
- repeating-linear-gradient(90deg,#3a1b0b 0 2.2%,#6b3515 2.8% 5.2%,#925125 5.8% 7.8%,#5a2a10 8.4% 11%);
- box-shadow:inset 0 .34vh .30vh rgba(255,220,160,.5),inset 0 -.55vh .55vh rgba(16,6,2,.7),0 1.05vh 1.9vh rgba(0,0,0,.68)
+  inset:-2.65vh!important;
+  z-index:-1!important;
+  border-radius:4.15vh!important;
+  background:
+    linear-gradient(180deg,rgba(255,225,175,.30),transparent 13%,rgba(0,0,0,.12) 67%,rgba(0,0,0,.40)),
+    repeating-linear-gradient(7deg,rgba(255,216,145,.10) 0 .25vh,rgba(61,22,4,.10) .25vh .62vh),
+    linear-gradient(90deg,#4b2008 0%,#9b501c 8%,#63300d 20%,#b96524 35%,#74350f 50%,#b96524 65%,#63300d 80%,#9b501c 92%,#4b2008 100%)!important;
+  box-shadow:
+    inset 0 0 0 .22vh rgba(246,190,119,.72),
+    inset 0 0 0 .62vh #4b2109,
+    inset 0 .48vh .42vh rgba(255,219,160,.28),
+    inset 0 -.72vh .68vh rgba(23,7,1,.68),
+    0 1.25vh 2.1vh rgba(0,0,0,.68)!important;
 }
+
+/* Remove the old dark drawn rectangle while retaining the green felt untouched. */
 .table::after{content:none!important}
 
-/* Existing edge rails become polished timber; felt background itself is untouched. */
-.rail{
- z-index:5!important;border:0!important;
- background:linear-gradient(180deg,#c98b49 0%,#945327 12%,#633117 42%,#7d411d 67%,#31160a 100%)!important;
- box-shadow:inset 0 .28vh .26vh rgba(255,228,182,.58),inset 0 -.40vh .42vh rgba(17,6,2,.72),0 .22vh .34vh rgba(0,0,0,.55)!important
-}
-.rail.top,.rail.bottom{height:1.85vh!important;border-radius:.45vh!important}
-.rail.left,.rail.right{
- width:1.85vh!important;border-radius:.45vh!important;
- background:linear-gradient(90deg,#c98b49 0%,#945327 12%,#633117 42%,#7d411d 67%,#31160a 100%)!important
-}
-
-/* Green cushion noses between timber and felt. */
-.rail::after{content:"";position:absolute;pointer-events:none;background:linear-gradient(180deg,#087449,#06452f);box-shadow:inset 0 -.18vh .18vh rgba(0,0,0,.45)}
-.rail.top::after{left:1%;right:1%;height:.62vh;bottom:-.50vh;border-radius:0 0 .35vh .35vh}
-.rail.bottom::after{left:1%;right:1%;height:.62vh;top:-.50vh;border-radius:.35vh .35vh 0 0}
-.rail.left::after{top:1%;bottom:1%;width:.62vh;right:-.50vh;border-radius:0 .35vh .35vh 0}
-.rail.right::after{top:1%;bottom:1%;width:.62vh;left:-.50vh;border-radius:.35vh 0 0 .35vh}
-
-/* Recessed pocket mouths straddling the rail/felt edge. */
+/* Smaller, recessed pocket mouths centred on the timber/felt junction. */
 .p{
- width:4.25vh!important;height:4.25vh!important;aspect-ratio:1/1!important;border-radius:50%!important;
- border:.18vh solid #32180c!important;
- background:radial-gradient(circle at 47% 43%,#111 0 18%,#030303 42%,#000 66%,#1b0d07 72%,#5c2e15 82%,#1e0d06 100%)!important;
- box-shadow:inset 0 .30vh .36vh rgba(255,255,255,.05),inset 0 -.48vh .62vh #000,0 .28vh .38vh rgba(0,0,0,.72)!important;
- z-index:12!important
+  width:5.15vh!important;
+  height:5.15vh!important;
+  border:0!important;
+  background:
+    radial-gradient(circle at 48% 43%,#111 0 18%,#030303 43%,#000 66%,#170b06 72%,#4b2410 82%,#1b0c05 100%)!important;
+  box-shadow:
+    inset 0 .28vh .34vh rgba(255,255,255,.055),
+    inset 0 -.55vh .72vh #000,
+    0 0 0 .22vh #281208,
+    0 .38vh .52vh rgba(0,0,0,.75)!important;
+  z-index:12!important;
 }
-.p.tl{left:-1.05vh!important;top:-1.05vh!important}.p.tr{right:-1.05vh!important;top:-1.05vh!important}
-.p.bl{left:-1.05vh!important;bottom:-1.05vh!important}.p.br{right:-1.05vh!important;bottom:-1.05vh!important}
-.p.tm,.p.bm{width:4vh!important;height:4vh!important;left:50%!important;transform:translateX(-50%)!important}
-.p.tm{top:-1.10vh!important}.p.bm{bottom:-1.10vh!important}
+.tl{left:-1.52vh!important;top:-1.52vh!important}
+.tr{right:-1.52vh!important;top:-1.52vh!important}
+.bl{left:-1.52vh!important;bottom:-1.52vh!important}
+.br{right:-1.52vh!important;bottom:-1.52vh!important}
+.tm,.bm{
+  width:4.85vh!important;height:4.85vh!important;
+  left:50%!important;transform:translateX(-50%)!important;
+}
+.tm{top:-1.72vh!important}.bm{bottom:-1.72vh!important}
 
-/* Hardwood jaw shoulders. */
-.p::before,.p::after{content:"";position:absolute;top:50%;width:1.25vh;height:.78vh;z-index:-1;background:linear-gradient(180deg,#a96530,#4a220f);box-shadow:inset 0 .12vh .12vh rgba(255,222,165,.36)}
-.p::before{right:83%;transform:translateY(-50%) rotate(25deg);border-radius:.3vh 0 0 .3vh}
-.p::after{left:83%;transform:translateY(-50%) rotate(-25deg);border-radius:0 .3vh .3vh 0}
+/* Timber jaw shoulders make each pocket look cut into the rail. */
+.p::before,.p::after{
+  content:"";position:absolute;top:50%;width:1.45vh;height:.82vh;z-index:-1;
+  background:linear-gradient(180deg,#b66a2b,#57260c);
+  box-shadow:inset 0 .13vh .12vh rgba(255,224,173,.38);
+}
+.p::before{right:82%;transform:translateY(-50%) rotate(25deg);border-radius:.35vh 0 0 .35vh}
+.p::after{left:82%;transform:translateY(-50%) rotate(-25deg);border-radius:0 .35vh .35vh 0}
 
-/* Small ivory diamond sights in the timber. */
-.railSights{z-index:9!important}
-.railSights span{width:.50vh!important;height:.50vh!important;min-width:3px;min-height:3px;border-radius:.07vh!important;transform:rotate(45deg)!important;background:linear-gradient(135deg,#fff4cf,#c7a362)!important;border:1px solid rgba(53,26,8,.72)!important;box-shadow:inset 0 .07vh .07vh rgba(255,255,255,.9),0 .08vh .11vh rgba(0,0,0,.72)!important}
+/* Smaller ivory diamonds, positioned farther out into the timber rail. */
+.railSights i{
+  width:.54vh!important;height:.54vh!important;
+  background:linear-gradient(135deg,#fff5d2,#c8a15c)!important;
+  border:1px solid rgba(64,31,9,.68)!important;
+  box-shadow:inset 0 .06vh .06vh rgba(255,255,255,.95),0 .09vh .12vh rgba(0,0,0,.72)!important;
+}
+.topSights{top:-1.72vh!important}
+.bottomSights{bottom:-1.72vh!important}
+.leftSights{left:-1.72vh!important}
+.rightSights{right:-1.72vh!important}
 
 </style>
 </head>
@@ -1429,10 +1445,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.74</div>
+<div class="version">BETA v1.75</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.74';
+const RACKMATE_VERSION='1.75';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1440,7 +1456,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.74';
+const APP_VERSION='BETA v1.75';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
