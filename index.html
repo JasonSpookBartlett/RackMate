@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.67 — THE PRETTY FOUNDATION
+   RackMate v1.68 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.67 LOCKED VISUAL REBUILD */
+/* RackMate v1.68 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.67 — MEASURED SETUP MASTER
+   RackMate v1.68 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -640,7 +640,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.67 — CLEAN SETUP DOM
+   RackMate v1.68 — CLEAN SETUP DOM
    One coordinate system. No inherited panel/grid positioning.
    Locked reference: 1664 x 936.
    ========================================================= */
@@ -759,7 +759,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.67 — INTERIOR LAYOUT PASS
+   RackMate v1.68 — INTERIOR LAYOUT PASS
    Scope deliberately limited to controls inside the table.
    Rails/pockets/diamonds/background untouched.
    ========================================================= */
@@ -837,7 +837,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.67 — INTERIOR ALIGNMENT PASS
+   RackMate v1.68 — INTERIOR ALIGNMENT PASS
    Based directly on v1.65 S25 Ultra screenshot + user notes.
    Physical table/exterior deliberately untouched.
    ========================================================= */
@@ -950,7 +950,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.67 — INTERIOR DETAIL PASS
+   RackMate v1.68 — INTERIOR DETAIL PASS
    Based on v1.66 phone screenshot.
    ========================================================= */
 
@@ -1010,6 +1010,96 @@ html,body{background:#050506}
   .setupBreakFormat{left:17.7%;top:69.2%;width:28.4%;height:8.1%}
 }
 
+
+/* =========================================================
+   RackMate v1.68 — SETUP GROUPING + SWAP LOGIC
+   Interior-only refinement before table furniture pass.
+   ========================================================= */
+
+/* Game Type: balls directly on felt. Keep geometry and slider only. */
+.gameWoodTray{
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+/* Player name boxes remain at v1.67 size. Swap grows just enough for text. */
+.setupSwap{
+  left:43.65%;
+  top:15.45%;
+  width:12.7%;
+  height:14.1%;
+  white-space:nowrap;
+}
+
+/* Disabled Swap: clearly dormant, but still visually part of the design. */
+.setupSwap:disabled{
+  opacity:.38;
+  filter:saturate(.35);
+  cursor:default;
+  box-shadow:none;
+}
+.setupSwap:not(:disabled){opacity:1;filter:none}
+
+/* Bottom row: Break Format and First Break are now matched visual groups. */
+.setupBreakFormat{
+  left:18.0%;
+  top:68.9%;
+  width:28.9%;
+  height:18.0%;
+}
+.setupBreakFormat .setupObjectLabel,
+.setupFirstBreak .setupObjectLabel{
+  top:-3.75vh;
+}
+.setupBreakFormat .row{
+  position:absolute;
+  inset:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  overflow:hidden;
+  border:1px solid #3b7772;
+  border-radius:1.2vh;
+  background:linear-gradient(#102020,#061313);
+  box-shadow:0 .65vh 1.1vh rgba(0,0,0,.45);
+}
+.setupBreakFormat .choice{
+  width:100%;
+  height:100%;
+  min-height:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  padding:0 .7vh;
+  font-size:clamp(10px,.92vw,15px);
+  line-height:1.08;
+}
+.setupBreakFormat .choice+.choice{
+  border-left:1px solid rgba(150,180,175,.22);
+}
+.setupBreakFormat .choice.active{
+  border:2px solid #ffe08a;
+  border-radius:1.0vh;
+  background:rgba(108,73,10,.15);
+  box-shadow:inset 0 0 1.1vh rgba(255,214,80,.32),0 0 1.1vh rgba(255,214,80,.48);
+}
+
+/* Match First Break height/baseline and give the pair a deliberate gap. */
+.setupFirstBreak{
+  left:49.0%;
+  top:68.9%;
+  width:35.5%;
+  height:18.0%;
+}
+
+@media(max-height:520px){
+  .setupSwap{left:43.65%;top:15.45%;width:12.7%;height:14.1%}
+  .setupBreakFormat{left:18%;top:68.9%;width:28.9%;height:18%}
+  .setupFirstBreak{left:49%;top:68.9%;width:35.5%;height:18%}
+}
+
 </style>
 </head>
 <body>
@@ -1033,7 +1123,7 @@ html,body{background:#050506}
       <div class="name red"><input id="p1Input" type="text" value="" placeholder="Player 1" maxlength="24" inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
     </div>
 
-    <button class="swap setupSwap" id="swapBtn"><span class="swapArrows">⇄</span><span>SWAP SIDES</span></button>
+    <button class="swap setupSwap" id="swapBtn" disabled aria-disabled="true"><span class="swapArrows">⇄</span><span>SWAP SIDES</span></button>
 
     <div class="setupName setupNameP2">
       <div class="setupObjectLabel">PLAYER 2</div>
@@ -1270,10 +1360,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.67</div>
+<div class="version">BETA v1.68</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.67';
+const RACKMATE_VERSION='1.68';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1281,7 +1371,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.67';
+const APP_VERSION='BETA v1.68';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3230,5 +3320,17 @@ if('serviceWorker' in navigator){
 }
 applyDefaultMatchSetup();show('setup');
 })();
+
+function updateSwapSidesAvailability(){
+  const p1HasName = p1Input.value.trim().length > 0;
+  const p2HasName = p2Input.value.trim().length > 0;
+  const enabled = p1HasName && p2HasName;
+  swapBtn.disabled = !enabled;
+  swapBtn.setAttribute('aria-disabled', String(!enabled));
+}
+p1Input.addEventListener('input', updateSwapSidesAvailability);
+p2Input.addEventListener('input', updateSwapSidesAvailability);
+updateSwapSidesAvailability();
+
 </script>
 </body></html>
