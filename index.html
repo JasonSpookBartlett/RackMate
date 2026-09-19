@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.75 — THE PRETTY FOUNDATION
+   RackMate v1.76 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.75 LOCKED VISUAL REBUILD */
+/* RackMate v1.76 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.75 — MEASURED SETUP MASTER
+   RackMate v1.76 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -640,7 +640,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.75 — CLEAN SETUP DOM
+   RackMate v1.76 — CLEAN SETUP DOM
    One coordinate system. No inherited panel/grid positioning.
    Locked reference: 1664 x 936.
    ========================================================= */
@@ -759,7 +759,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.75 — INTERIOR LAYOUT PASS
+   RackMate v1.76 — INTERIOR LAYOUT PASS
    Scope deliberately limited to controls inside the table.
    Rails/pockets/diamonds/background untouched.
    ========================================================= */
@@ -837,7 +837,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.75 — INTERIOR ALIGNMENT PASS
+   RackMate v1.76 — INTERIOR ALIGNMENT PASS
    Based directly on v1.65 S25 Ultra screenshot + user notes.
    Physical table/exterior deliberately untouched.
    ========================================================= */
@@ -950,7 +950,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.75 — INTERIOR DETAIL PASS
+   RackMate v1.76 — INTERIOR DETAIL PASS
    Based on v1.66 phone screenshot.
    ========================================================= */
 
@@ -1012,7 +1012,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.75 — SETUP GROUPING + SWAP LOGIC
+   RackMate v1.76 — SETUP GROUPING + SWAP LOGIC
    Interior-only refinement before table furniture pass.
    ========================================================= */
 
@@ -1101,7 +1101,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.75 — actual Player Name box height.
+/* RackMate v1.76 — actual Player Name box height.
    Label and .setupName geometry intentionally untouched.
    The box keeps its original top edge and extends downward only. */
 .setupName .name{
@@ -1115,7 +1115,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.75 — TRUE OUTER RAIL REBUILD
+   RackMate v1.76 — TRUE OUTER RAIL REBUILD
    Critical fix: retain v1.71's negative-z timber layer.
    NO isolation and NO .table background change.
    ========================================================= */
@@ -1184,6 +1184,30 @@ html,body{background:#050506}
 .bottomSights{bottom:-1.72vh!important}
 .leftSights{left:-1.72vh!important}
 .rightSights{right:-1.72vh!important}
+
+
+/* RackMate v1.76 — Broad Rails + Pocket Geometry. v1.75 interior is protected. */
+.table::before{
+ inset:-4.25vh!important;border-radius:5.15vh!important;
+ background:linear-gradient(180deg,rgba(255,224,174,.26),transparent 15%,rgba(0,0,0,.11) 68%,rgba(0,0,0,.38)),
+ linear-gradient(90deg,#4b2008,#96501f 10%,#67300d 24%,#a85b24 38%,#71340f 50%,#a85b24 62%,#67300d 76%,#96501f 90%,#4b2008)!important;
+ box-shadow:inset 0 0 0 .22vh rgba(244,188,116,.72),inset 0 0 0 .68vh #482008,inset 0 .52vh .44vh rgba(255,219,160,.26),inset 0 -.78vh .72vh rgba(23,7,1,.68),0 1.35vh 2.25vh rgba(0,0,0,.68)!important
+}
+.p{
+ width:6.05vh!important;height:6.05vh!important;border:.20vh solid #32170b!important;
+ background:radial-gradient(circle at 49% 45%,#101010 0 14%,#040404 34%,#000 61%,#160b06 67%,#47210e 78%,#241006 88%,#0b0503 100%)!important;
+ box-shadow:inset 0 .30vh .36vh rgba(255,255,255,.05),inset 0 -.70vh .82vh #000,0 0 0 .18vh rgba(112,57,22,.8),0 .42vh .58vh rgba(0,0,0,.78)!important
+}
+.tl{left:-2.75vh!important;top:-2.75vh!important}.tr{right:-2.75vh!important;top:-2.75vh!important}
+.bl{left:-2.75vh!important;bottom:-2.75vh!important}.br{right:-2.75vh!important;bottom:-2.75vh!important}
+.tm,.bm{width:5.75vh!important;height:5.75vh!important;left:50%!important;transform:translateX(-50%)!important}
+.tm{top:-3.05vh!important}.bm{bottom:-3.05vh!important}
+.p::before,.p::after{width:2.15vh!important;height:1.12vh!important;background:linear-gradient(180deg,#b96e30,#7a3c16 45%,#3c1909)!important;box-shadow:inset 0 .15vh .14vh rgba(255,226,176,.40),0 .16vh .22vh rgba(0,0,0,.55)!important}
+.p::before{right:79%!important;transform:translateY(-50%) rotate(24deg)!important}
+.p::after{left:79%!important;transform:translateY(-50%) rotate(-24deg)!important}
+.topSights{top:-3.12vh!important}.bottomSights{bottom:-3.12vh!important}
+.leftSights{left:-3.12vh!important}.rightSights{right:-3.12vh!important}
+.railSights i{width:.58vh!important;height:.58vh!important}
 
 </style>
 </head>
@@ -1445,10 +1469,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.75</div>
+<div class="version">BETA v1.76</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.75';
+const RACKMATE_VERSION='1.76';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1456,7 +1480,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.75';
+const APP_VERSION='BETA v1.76';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
