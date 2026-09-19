@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.68 — THE PRETTY FOUNDATION
+   RackMate v1.69 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.68 LOCKED VISUAL REBUILD */
+/* RackMate v1.69 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.68 — MEASURED SETUP MASTER
+   RackMate v1.69 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -640,7 +640,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.68 — CLEAN SETUP DOM
+   RackMate v1.69 — CLEAN SETUP DOM
    One coordinate system. No inherited panel/grid positioning.
    Locked reference: 1664 x 936.
    ========================================================= */
@@ -759,7 +759,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.68 — INTERIOR LAYOUT PASS
+   RackMate v1.69 — INTERIOR LAYOUT PASS
    Scope deliberately limited to controls inside the table.
    Rails/pockets/diamonds/background untouched.
    ========================================================= */
@@ -837,7 +837,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.68 — INTERIOR ALIGNMENT PASS
+   RackMate v1.69 — INTERIOR ALIGNMENT PASS
    Based directly on v1.65 S25 Ultra screenshot + user notes.
    Physical table/exterior deliberately untouched.
    ========================================================= */
@@ -950,7 +950,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.68 — INTERIOR DETAIL PASS
+   RackMate v1.69 — INTERIOR DETAIL PASS
    Based on v1.66 phone screenshot.
    ========================================================= */
 
@@ -1012,7 +1012,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.68 — SETUP GROUPING + SWAP LOGIC
+   RackMate v1.69 — SETUP GROUPING + SWAP LOGIC
    Interior-only refinement before table furniture pass.
    ========================================================= */
 
@@ -1098,6 +1098,16 @@ html,body{background:#050506}
   .setupSwap{left:43.65%;top:15.45%;width:12.7%;height:14.1%}
   .setupBreakFormat{left:18%;top:68.9%;width:28.9%;height:18%}
   .setupFirstBreak{left:49%;top:68.9%;width:35.5%;height:18%}
+}
+
+
+/* RackMate v1.69 — taller Player Name entry boxes only */
+.setupName{
+  top:16.15%;
+  height:13.5%;
+}
+@media(max-height:520px){
+  .setupName{top:16.15%;height:13.5%}
 }
 
 </style>
@@ -1360,10 +1370,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.68</div>
+<div class="version">BETA v1.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.68';
+const RACKMATE_VERSION='1.69';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1371,7 +1381,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.68';
+const APP_VERSION='BETA v1.69';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
