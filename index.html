@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.66 — THE PRETTY FOUNDATION
+   RackMate v1.67 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.66 LOCKED VISUAL REBUILD */
+/* RackMate v1.67 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -359,7 +359,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.66 — MEASURED SETUP MASTER
+   RackMate v1.67 — MEASURED SETUP MASTER
    Geometry taken from locked 1664x936 reference artwork.
    The 16:9 design field is centred on wider landscape phones.
    ========================================================= */
@@ -640,7 +640,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.66 — CLEAN SETUP DOM
+   RackMate v1.67 — CLEAN SETUP DOM
    One coordinate system. No inherited panel/grid positioning.
    Locked reference: 1664 x 936.
    ========================================================= */
@@ -759,7 +759,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.66 — INTERIOR LAYOUT PASS
+   RackMate v1.67 — INTERIOR LAYOUT PASS
    Scope deliberately limited to controls inside the table.
    Rails/pockets/diamonds/background untouched.
    ========================================================= */
@@ -837,7 +837,7 @@ html,body{background:#050506}
 
 
 /* =========================================================
-   RackMate v1.66 — INTERIOR ALIGNMENT PASS
+   RackMate v1.67 — INTERIOR ALIGNMENT PASS
    Based directly on v1.65 S25 Ultra screenshot + user notes.
    Physical table/exterior deliberately untouched.
    ========================================================= */
@@ -948,6 +948,68 @@ html,body{background:#050506}
   .setupFirstBreak{left:49%;top:69%;width:35.5%;height:17.8%}
 }
 
+
+/* =========================================================
+   RackMate v1.67 — INTERIOR DETAIL PASS
+   Based on v1.66 phone screenshot.
+   ========================================================= */
+
+/* Player name inputs: another small increase in both dimensions. */
+.setupName{top:16.55%;width:31.0%;height:12.6%}
+.setupNameP1{left:10.35%}.setupNameP2{right:10.35%}
+
+/* 8-ball numeral must be readable. */
+.setupGameType .b8{color:#fff!important;text-shadow:0 1px 2px #000}
+
+/* Slider: endpoints centred directly below 8 and 10 ball centres.
+   Track width = distance between outer ball centres. */
+.setupGameType .track{
+  left:16.6666667%;
+  right:16.6666667%;
+  width:auto;
+  transform:none;
+}
+/* Existing cue-position percentages were based on the older track.
+   Tie the cue centres to the three ball centres: left / centre / right. */
+.setupGameType .cue.pos8{left:0!important;transform:translateX(-50%)!important}
+.setupGameType .cue.pos9{left:50%!important;transform:translateX(-50%)!important}
+.setupGameType .cue.pos10{left:100%!important;transform:translateX(-50%)!important}
+
+/* Break Format lowered so its button row aligns with First Break row. */
+.setupBreakFormat{
+  left:17.7%;
+  top:69.2%;
+  width:28.4%;
+  height:8.1%;
+}
+.setupBreakFormat .setupObjectLabel{top:-3.7vh}
+
+/* Just Play icon: two crossed pool cues, no extra cue ball. */
+.manualIcon.crossedCues{
+  position:relative;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+}
+.manualIcon.crossedCues i{
+  position:absolute;
+  left:50%;top:50%;
+  width:6.7vh;height:.48vh;
+  border-radius:.3vh;
+  transform-origin:center;
+  background:linear-gradient(90deg,#ead7aa 0 72%,#5d3518 72% 91%,#f1efe6 91% 100%);
+  box-shadow:0 .18vh .25vh rgba(0,0,0,.55);
+}
+.manualIcon.crossedCues i:first-child{transform:translate(-50%,-50%) rotate(38deg)}
+.manualIcon.crossedCues i:last-child{transform:translate(-50%,-50%) rotate(-38deg)}
+
+@media(max-height:520px){
+  .setupName{top:16.55%;width:31%;height:12.6%}
+  .setupNameP1{left:10.35%}.setupNameP2{right:10.35%}
+  .setupBreakFormat{left:17.7%;top:69.2%;width:28.4%;height:8.1%}
+}
+
 </style>
 </head>
 <body>
@@ -1011,7 +1073,7 @@ html,body{background:#050506}
       <div class="firstBreakTray">
         <button class="choice firstBreakChoice" data-first="lag"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
         <button class="choice firstBreakChoice" data-first="coin"><span class="firstIcon coinIcon">NZ</span><span>COIN TOSS</span></button>
-        <button class="choice firstBreakChoice" data-first="manual"><span class="firstIcon manualIcon">●</span><span>JUST PLAY</span></button>
+        <button class="choice firstBreakChoice" data-first="manual"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span>JUST PLAY</span></button>
       </div>
     </div>
   </div>
@@ -1208,10 +1270,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.66</div>
+<div class="version">BETA v1.67</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.66';
+const RACKMATE_VERSION='1.67';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1219,7 +1281,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.66';
+const APP_VERSION='BETA v1.67';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
