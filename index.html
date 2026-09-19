@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.62 — THE PRETTY FOUNDATION
+   RackMate v1.63 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -322,7 +322,7 @@ html,body{background:#050506}
 }
 
 
-/* RackMate v1.62 LOCKED VISUAL REBUILD */
+/* RackMate v1.63 LOCKED VISUAL REBUILD */
 .app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
 .app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
 .header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
@@ -355,6 +355,287 @@ html,body{background:#050506}
 @media(max-height:520px){
 .header{height:12vh;min-height:52px}.menu,.icon{width:45px;height:45px}.mini8{width:40px;height:40px}.tableWrap{top:13.5vh;bottom:6vh;left:4.2vw;right:4.2vw}.table{box-shadow:inset 0 0 0 15px #087346,inset 0 0 0 18px rgba(0,25,15,.72),inset 0 0 28px rgba(0,0,0,.35),0 12px 25px rgba(0,0,0,.62)}
 .setup{left:8%;right:8%;top:10%;bottom:6%;grid-template-columns:1fr 130px 1fr;grid-template-rows:58px 1fr;column-gap:28px;row-gap:14px}.name{height:51px}.name::before{top:-21px}.swap{height:58px}.body{gap:12px}.leftBody .panel:first-of-type{padding:10px 20px 20px}.ball{width:48px;height:48px;font-size:18px}.track{height:32px;bottom:-33px}.cue{width:32px;height:32px}.leftBody .panel:nth-of-type(2){margin-top:31px}.choice{min-height:42px}.rightBody .panel:first-of-type{padding:7px 12px}.counter{min-height:66px}.counter .num{font-size:34px}.rightBody .panel:nth-of-type(2){padding:7px 8px 5px}.rightBody .panel:nth-of-type(2) .choice{min-height:50px}.leftBody .panel:first-of-type .label,.rightBody .panel:first-of-type .label{top:-27px}.rightBody .panel:nth-of-type(2) .label{top:-26px}.play{top:3%;bottom:5%;grid-template-columns:1fr 135px 1fr}.score{font-size:90px}.pname{font-size:38px}
+}
+
+
+/* =========================================================
+   RackMate v1.63 — MEASURED SETUP MASTER
+   Geometry taken from locked 1664x936 reference artwork.
+   The 16:9 design field is centred on wider landscape phones.
+   ========================================================= */
+:root{
+  --rm-canvas-w:min(100vw,177.7777778vh);
+  --rm-canvas-left:calc((100vw - var(--rm-canvas-w))/2);
+}
+
+/* Pool-hall scenery may extend into the extra width on modern phones. */
+.app{
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 5% 42%,rgba(0,97,205,.22),transparent 15%),
+    radial-gradient(circle at 95% 42%,rgba(235,71,9,.17),transparent 15%),
+    linear-gradient(90deg,#020508,#140b08 18%,#070606 50%,#140b08 82%,#020508);
+}
+
+/* Reference header: y 0..92 of 936. */
+.header{
+  position:absolute;
+  left:var(--rm-canvas-left);
+  top:0;
+  width:var(--rm-canvas-w);
+  height:9.83vh;
+  min-height:0;
+  box-sizing:border-box;
+  padding:0 1.95%;
+  grid-template-columns:29% 42% 29%;
+  z-index:30;
+}
+.menu,.icon{width:5.15vh;height:5.15vh;min-width:42px;min-height:42px}
+.mini8{width:4.7vh;height:4.7vh;min-width:38px;min-height:38px}
+.brandName{font-size:clamp(22px,2.30vw,38px)}
+.title h1{font-size:clamp(24px,2.55vw,42px)}
+.sub{font-size:clamp(7px,.68vw,11px);margin-top:.55vh}
+
+/* Reference table outer timber: x 51..1612, y 96..855. */
+.tableWrap{
+  left:calc(var(--rm-canvas-left) + var(--rm-canvas-w)*.03065);
+  right:auto;
+  top:10.26vh;
+  bottom:auto;
+  width:calc(var(--rm-canvas-w)*.93810);
+  height:81.09vh;
+}
+.table{
+  border-radius:3.0vh;
+  box-shadow:
+    inset 0 0 0 2.65vh #087346,
+    inset 0 0 0 2.95vh rgba(0,25,15,.78),
+    inset 0 0 4vh rgba(0,0,0,.36),
+    0 1.7vh 3vh rgba(0,0,0,.65);
+}
+.table::before{
+  inset:-1.30vh;
+  border-radius:3.65vh;
+}
+.table::after{inset:3.05vh;border-radius:1.8vh}
+
+/* Reference pockets approx 70–78 px across: ~7.5–8.2% of screen height. */
+.p{width:7.65vh;height:7.65vh}
+.tl{left:-1.20vh;top:-1.20vh}.tr{right:-1.20vh;top:-1.20vh}
+.bl{left:-1.20vh;bottom:-1.20vh}.br{right:-1.20vh;bottom:-1.20vh}
+.tm{top:-1.65vh}.bm{bottom:-1.65vh}
+
+/* Diamond sights: restrained and on the timber, not floating into the felt. */
+.railSights i{width:.78vh;height:.78vh}
+.topSights{left:13%;right:13%;top:-.78vh}
+.bottomSights{left:13%;right:13%;bottom:-.78vh}
+.leftSights,.rightSights{top:22%;bottom:22%;width:.8vh}
+.leftSights{left:-.78vh}.rightSights{right:-.78vh}
+
+/* Remove the old two-column card layout completely.
+   Setup now uses measured absolute geometry inside the table. */
+.setup{
+  position:absolute;
+  inset:0;
+  display:block;
+  z-index:10;
+}
+
+/* Names: ref left x231..679, right x972..1420; y232..310.
+   Converted relative to table outer bounds. */
+.setup>.name{
+  position:absolute;
+  top:16.85%;
+  width:29.00%;
+  height:10.25%;
+  min-height:0;
+  border-radius:1.0vh;
+  align-self:auto;
+}
+.setup>.name.red{left:11.55%}
+.setup>.name.blue{right:11.55%}
+.setup>.name::before{
+  top:-4.35vh;
+  font-size:clamp(11px,1.12vw,18px);
+}
+.name input{font-size:clamp(26px,2.55vw,42px)}
+
+/* Swap: ref x734..913 y221..323. */
+.setup>.swap{
+  position:absolute;
+  left:44.08%;
+  top:15.45%;
+  width:11.65%;
+  height:13.40%;
+  min-height:0;
+  border-radius:1.25vh;
+  font-size:clamp(10px,1.02vw,16px);
+}
+
+/* Flatten the two old body wrappers so their children can be positioned
+   directly against the measured table coordinate system. */
+.setup>.body{
+  display:contents !important;
+}
+
+/* GAME TYPE timber tray: ref x292..780 y389..504. */
+.setup>.body:first-of-type>.panel{
+  position:absolute;
+  left:15.45%;
+  top:38.55%;
+  width:31.30%;
+  height:15.10%;
+  box-sizing:border-box;
+  margin:0;
+  padding:1.45vh 2.0vh;
+  overflow:visible;
+  border:4px solid #7d360e;
+  border-radius:1.25vh;
+  background:
+    repeating-linear-gradient(7deg,rgba(255,220,155,.08) 0 2px,transparent 2px 5px),
+    linear-gradient(90deg,#4b1e07,#a95a1d 49%,#4c1f08);
+  box-shadow:inset 0 0 0 2px #d98a42,0 .7vh 1.2vh rgba(0,0,0,.52);
+}
+.setup>.body:first-of-type>.panel>.label:first-child{
+  position:absolute;
+  top:-4.25vh;left:0;right:0;
+  margin:0!important;
+  text-align:center;
+  font-size:clamp(11px,1.1vw,18px);
+}
+.balls{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-evenly;
+  gap:0;
+}
+.ball{width:7.0vh;height:7.0vh;font-size:clamp(18px,1.8vw,28px)}
+.track{
+  position:absolute;
+  left:14%;
+  right:14%;
+  bottom:-5.35vh;
+  height:4.55vh;
+  border-radius:0 0 1.0vh 1.0vh;
+}
+.cue{width:5.55vh;height:5.55vh;top:-.50vh}
+
+/* BREAK FORMAT is no longer allowed to share the Game Type panel.
+   The existing buttons are extracted visually below the tray. */
+.setup>.body:first-of-type>.panel>.label:nth-of-type(2){
+  position:absolute;
+  top:20.8vh;
+  left:0;right:0;
+  margin:0!important;
+  text-align:center;
+  font-size:clamp(11px,1.0vw,17px);
+}
+.setup>.body:first-of-type>.panel>.row{
+  position:absolute;
+  left:1%;
+  right:1%;
+  top:24.0vh;
+  display:flex;
+  gap:1.0vh;
+  justify-content:center;
+}
+.setup>.body:first-of-type>.panel>.row .choice{
+  min-height:5.9vh;
+  padding:0 1.8vh;
+}
+
+/* MATCH LENGTH: ref x840..1353 y387..545. */
+.setup>.body:nth-of-type(2)>.panel{
+  position:absolute;
+  left:50.55%;
+  top:38.25%;
+  width:33.05%;
+  height:20.80%;
+  box-sizing:border-box;
+  margin:0;
+  padding:1.25vh;
+  overflow:visible;
+  border:1px solid #2c8d9a;
+  border-radius:1.25vh;
+  background:linear-gradient(#0c1d1d,#061313);
+  box-shadow:0 .7vh 1.2vh rgba(0,0,0,.46);
+}
+.setup>.body:nth-of-type(2)>.panel>.label:first-child{
+  position:absolute;
+  top:-4.25vh;left:0;right:0;
+  margin:0!important;text-align:center;
+  font-size:clamp(11px,1.1vw,18px);
+}
+.length{height:100%;display:flex;align-items:center}
+.counter{height:78%;min-height:0;background:transparent;border:0;box-shadow:none}
+.counter:first-child{border-right:1px solid #77b6ae}
+.counter .num,.counter b{font-size:clamp(34px,3.7vw,58px)}
+
+/* FIRST BREAK: ref x551..1098 y604..750. */
+.setup>.body:nth-of-type(2)>.panel>.label:nth-of-type(2){
+  position:absolute;
+  left:-88%;right:-12%;
+  top:24.6vh;
+  margin:0!important;text-align:center;
+  font-size:clamp(11px,1.1vw,18px);
+}
+.setup>.body:nth-of-type(2)>.panel>.row{
+  position:absolute;
+  width:110%;
+  left:-58%;
+  top:28.0vh;
+  min-height:15.0vh;
+  padding:.3vh;
+  display:flex;
+  gap:0;
+  border:1px solid #3b7772;
+  border-radius:1.2vh;
+  background:linear-gradient(#102020,#061313);
+  box-shadow:0 .65vh 1.1vh rgba(0,0,0,.45);
+}
+.setup>.body:nth-of-type(2)>.panel>.row .choice{
+  flex:1;
+  min-height:14.0vh;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.setup>.body:nth-of-type(2)>.panel>.row .choice+.choice{
+  border-left:1px solid rgba(150,180,175,.22);
+}
+.setup>.body:nth-of-type(2)>.panel>.row .choice.active{
+  border:2px solid #ffe08a;
+  border-radius:1.0vh;
+  background:rgba(108,73,10,.15);
+  box-shadow:0 0 1.1vh rgba(255,214,80,.48);
+}
+
+/* Footer belongs below the table, as in the reference. */
+.tableWrap::after{
+  bottom:-5.25vh;
+  font-size:clamp(7px,.65vw,10px);
+}
+
+/* On unusually short/wide landscape viewports, keep the measured geometry.
+   Do NOT fall back to the old compressed-grid media rule. */
+@media(max-height:520px){
+  .header{height:9.83vh}
+  .tableWrap{
+    left:calc(var(--rm-canvas-left) + var(--rm-canvas-w)*.03065);
+    top:10.26vh;
+    width:calc(var(--rm-canvas-w)*.93810);
+    height:81.09vh;
+  }
+  .setup{inset:0;display:block}
+  .setup>.name{top:16.85%;height:10.25%}
+  .setup>.swap{top:15.45%;height:13.40%}
+  .setup>.body:first-of-type>.panel{left:15.45%;top:38.55%;width:31.30%;height:15.10%;padding:1.2vh 1.8vh}
+  .setup>.body:nth-of-type(2)>.panel{left:50.55%;top:38.25%;width:33.05%;height:20.80%;padding:1.0vh}
+  .ball{width:7vh;height:7vh}
+  .track{height:4.55vh;bottom:-5.35vh}.cue{width:5.55vh;height:5.55vh}
+  .choice{min-height:5.9vh}
 }
 
 </style>
@@ -572,10 +853,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.62</div>
+<div class="version">BETA v1.63</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.62';
+const RACKMATE_VERSION='1.63';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -583,7 +864,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.62';
+const APP_VERSION='BETA v1.63';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
