@@ -143,7 +143,7 @@ body{
 .version{position:absolute;right:8px;bottom:4px;font-size:9px;color:#8fb8a5}
 
 /* =========================================================
-   RackMate v1.61 — THE PRETTY FOUNDATION
+   RackMate v1.62 — THE PRETTY FOUNDATION
    Visual source of truth: locked Match Setup / Gameplay /
    Settings-Help / Winner concepts. Existing v1.60 logic retained.
    ========================================================= */
@@ -321,6 +321,42 @@ html,body{background:#050506}
   .winnerPretty{inset:4% 6% 5%}
 }
 
+
+/* RackMate v1.62 LOCKED VISUAL REBUILD */
+.app{background:radial-gradient(ellipse at 8% 45%,rgba(0,85,190,.20),transparent 18%),radial-gradient(ellipse at 92% 42%,rgba(210,60,10,.16),transparent 18%),linear-gradient(90deg,#04070a,#130d0a 18%,#080706 50%,#130d0a 82%,#04070a)}
+.app::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 7% 17%,#d58b2c 0 2px,transparent 4px),radial-gradient(circle at 94% 20%,#d58b2c 0 2px,transparent 4px),repeating-linear-gradient(90deg,transparent 0 7%,rgba(20,91,153,.07) 7.3% 7.7%,transparent 8% 15%);filter:blur(4px)}
+.header{height:9.7vh;min-height:58px;padding:0 2.35vw;grid-template-columns:1fr 1.15fr 1fr;background:rgba(3,5,7,.94);border-bottom:1px solid rgba(190,200,200,.25)}
+.brand{justify-self:start}.right{justify-self:end}.menu,.icon{width:52px;height:52px;border-radius:10px}.mini8{width:46px;height:46px}.brandName{font-size:clamp(24px,2.55vw,40px)}.headerVersion{font-size:.47em!important}.title h1{font-size:clamp(24px,2.7vw,43px);line-height:1}.sub{margin-top:4px;font-size:clamp(8px,.75vw,12px);letter-spacing:.29em}
+
+.tableWrap{left:3.2vw;right:3.2vw;top:11.4vh;bottom:5.9vh}
+.table{overflow:visible;border:0;outline:0;border-radius:34px;background:radial-gradient(ellipse at 50% 42%,rgba(18,147,87,.18),transparent 52%),repeating-linear-gradient(35deg,rgba(255,255,255,.012) 0 1px,transparent 1px 4px),linear-gradient(145deg,#087a49,#056c42 54%,#045c39);box-shadow:inset 0 0 0 20px #087346,inset 0 0 0 23px rgba(0,25,15,.72),inset 0 0 35px rgba(0,0,0,.35),0 16px 30px rgba(0,0,0,.64)}
+.table::before{inset:-14px;border-radius:40px;background:repeating-linear-gradient(8deg,rgba(255,214,139,.11) 0 2px,rgba(75,27,4,.07) 2px 5px),linear-gradient(90deg,#5c2608,#bd641e 11%,#7d330b 25%,#c06b23 48%,#81370c 69%,#c36a20 88%,#582306);box-shadow:inset 0 0 0 2px rgba(255,189,112,.65),inset 0 0 0 5px #592407,inset 0 0 15px #2b1002,0 4px 4px #000}
+.table::after{inset:27px;border:2px solid rgba(0,37,21,.72);border-radius:19px;box-shadow:inset 0 0 20px rgba(0,0,0,.4)}
+.p{width:54px;height:54px;background:radial-gradient(circle,#000 0 64%,#050505 65%);box-shadow:0 0 0 4px #20150f,0 0 0 7px #bbb7ae,0 0 0 9px #3b2419,inset 0 0 10px #000;z-index:9}.tl{left:-13px;top:-13px}.tr{right:-13px;top:-13px}.bl{left:-13px;bottom:-13px}.br{right:-13px;bottom:-13px}.tm{top:-18px}.bm{bottom:-18px}
+.railSights{position:absolute;z-index:8;pointer-events:none;display:flex;justify-content:space-evenly}.railSights i{width:9px;height:9px;background:linear-gradient(135deg,#fff,#c8c8c8);transform:rotate(45deg);box-shadow:0 1px 2px #351505}.topSights{left:12%;right:12%;top:-9px}.bottomSights{left:12%;right:12%;bottom:-9px}.leftSights,.rightSights{top:20%;bottom:20%;width:10px;flex-direction:column}.leftSights{left:-9px}.rightSights{right:-9px}
+
+.setup{left:8.2%;right:8.2%;top:8%;bottom:7%;grid-template-columns:1fr 150px 1fr;grid-template-rows:72px 1fr;column-gap:42px;row-gap:22px}
+.name{height:64px;align-self:end;border-radius:10px;background:linear-gradient(#151919,#080b0c);font-size:clamp(25px,2.6vw,42px);font-weight:800;overflow:visible;position:relative}.name::before{position:absolute;top:-29px;left:0;right:0;text-align:center;font-size:clamp(11px,1.05vw,17px);font-weight:900;letter-spacing:.08em;color:#f5f5f5;text-shadow:0 2px 3px #000}.name.red::before{content:"PLAYER 1"}.name.blue::before{content:"PLAYER 2"}.name input{font-size:inherit;font-weight:inherit}.swap{height:82px;align-self:end;border-radius:12px;background:linear-gradient(#122425,#061011)}
+.body{align-self:start;gap:22px;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+.leftBody .panel:first-of-type{position:relative;width:min(100%,500px);padding:18px 24px 30px;border:4px solid #8c4213;border-radius:14px;background:repeating-linear-gradient(7deg,rgba(255,220,155,.07) 0 2px,transparent 2px 5px),linear-gradient(90deg,#5a280d,#9e531b 48%,#5b290d);box-shadow:inset 0 0 0 2px #d48742,0 7px 12px rgba(0,0,0,.45)}
+.leftBody .panel:first-of-type .label,.rightBody .panel:first-of-type .label,.rightBody .panel:nth-of-type(2) .label{position:absolute;top:-39px;left:0;right:0;text-align:center;color:#fff}
+.balls{justify-content:space-evenly;gap:20px}.ball{width:62px;height:62px;font-size:23px;border:3px solid rgba(245,245,245,.9)}.ball.active{outline:0;transform:scale(1.06)}
+.track{position:absolute;left:18%;right:18%;bottom:-45px;height:42px;background:linear-gradient(#102122,#071314);border:1px solid #405b58;border-radius:0 0 12px 12px}.cue{width:42px;height:42px;top:-1px}
+.leftBody .panel:nth-of-type(2){margin-top:38px;background:transparent;border:0;padding:0;box-shadow:none;width:100%}.leftBody .panel:nth-of-type(2) .choices{justify-content:center}
+.choice{min-height:56px;border-radius:10px;font-size:clamp(12px,1.25vw,19px);font-weight:850}.choice.active{border:2px solid #ffe18a;box-shadow:0 0 12px rgba(255,209,72,.42)}
+.rightBody .panel:first-of-type{position:relative;width:min(100%,510px);padding:18px;border:1px solid #2d93a4;border-radius:14px;background:linear-gradient(#0c1d1d,#061313);box-shadow:0 7px 13px rgba(0,0,0,.42)}.counters{gap:0}.counter{border:0;border-radius:0;background:transparent;box-shadow:none;min-height:95px}.counter:first-child{border-right:1px solid #8cb6b1}.counter .num{font-size:clamp(36px,4vw,58px)}
+.rightBody .panel:nth-of-type(2){position:relative;width:min(100%,560px);padding:16px 12px 10px;background:linear-gradient(#102020,#061313);border:1px solid #3c7572;border-radius:13px;box-shadow:0 6px 12px rgba(0,0,0,.38)}.rightBody .panel:nth-of-type(2) .choices{gap:0}.rightBody .panel:nth-of-type(2) .choice{border:0;border-radius:0;background:transparent;box-shadow:none;min-height:70px}.rightBody .panel:nth-of-type(2) .choice+.choice{border-left:1px solid rgba(150,180,175,.25)}.rightBody .panel:nth-of-type(2) .choice.active{border:2px solid #ffe08a;border-radius:10px;background:rgba(110,75,12,.15)}
+.tableWrap::after{content:"MOKOROA STUDIOS                                                   PLAY  •  SCORE  •  ENJOY";position:absolute;left:0;right:0;bottom:-4.25vh;color:#c4c4c4;font-size:clamp(7px,.72vw,11px);letter-spacing:.25em;white-space:pre;opacity:.85;pointer-events:none}
+
+.play{left:6.5%;right:6.5%;top:5.5%;bottom:7%;grid-template-columns:1fr 158px 1fr}.centre{border-radius:0;background:linear-gradient(90deg,#061011,#151c1d 48%,#061011)}.side{padding-top:3%}.pname{font-size:clamp(36px,5vw,74px)}.score{font-size:clamp(90px,11.5vw,170px)}.bottom{bottom:1.3%}
+.modal,.help{border-color:#8d4315;background:repeating-linear-gradient(35deg,rgba(255,255,255,.012) 0 1px,transparent 1px 4px),linear-gradient(145deg,#075c3a,#033d29)}.settingsCard{background:rgba(4,18,17,.87)}
+.winnerPretty{inset:6% 7% 7%}.winnerBanterPretty{transform:rotate(-1deg)}
+
+@media(max-height:520px){
+.header{height:12vh;min-height:52px}.menu,.icon{width:45px;height:45px}.mini8{width:40px;height:40px}.tableWrap{top:13.5vh;bottom:6vh;left:4.2vw;right:4.2vw}.table{box-shadow:inset 0 0 0 15px #087346,inset 0 0 0 18px rgba(0,25,15,.72),inset 0 0 28px rgba(0,0,0,.35),0 12px 25px rgba(0,0,0,.62)}
+.setup{left:8%;right:8%;top:10%;bottom:6%;grid-template-columns:1fr 130px 1fr;grid-template-rows:58px 1fr;column-gap:28px;row-gap:14px}.name{height:51px}.name::before{top:-21px}.swap{height:58px}.body{gap:12px}.leftBody .panel:first-of-type{padding:10px 20px 20px}.ball{width:48px;height:48px;font-size:18px}.track{height:32px;bottom:-33px}.cue{width:32px;height:32px}.leftBody .panel:nth-of-type(2){margin-top:31px}.choice{min-height:42px}.rightBody .panel:first-of-type{padding:7px 12px}.counter{min-height:66px}.counter .num{font-size:34px}.rightBody .panel:nth-of-type(2){padding:7px 8px 5px}.rightBody .panel:nth-of-type(2) .choice{min-height:50px}.leftBody .panel:first-of-type .label,.rightBody .panel:first-of-type .label{top:-27px}.rightBody .panel:nth-of-type(2) .label{top:-26px}.play{top:3%;bottom:5%;grid-template-columns:1fr 135px 1fr}.score{font-size:90px}.pname{font-size:38px}
+}
+
 </style>
 </head>
 <body>
@@ -331,6 +367,10 @@ html,body{background:#050506}
 <div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
 <div class="tableWrap"><div class="table">
+<div class="railSights topSights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="railSights bottomSights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="railSights leftSights" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="railSights rightSights" aria-hidden="true"><i></i><i></i><i></i></div>
 <span class="p tl"></span><span class="p tm"></span><span class="p tr"></span><span class="p bl"></span><span class="p bm"></span><span class="p br"></span>
 
 <section id="setupScreen" class="screen active">
@@ -532,10 +572,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v1.61</div>
+<div class="version">BETA v1.62</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.61';
+const RACKMATE_VERSION='1.62';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -543,7 +583,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.61';
+const APP_VERSION='BETA v1.62';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
