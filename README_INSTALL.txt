@@ -1,18 +1,10 @@
-RackMate v2.01 BETA
-===================
-Presentation rebuild on the locked static pool-hall/table background.
+RackMate v2.02 BETA
+Upload THESE ROOT FILES directly over the root of the GitHub RackMate repository.
+Do not create a RackMate_v2.02_BETA subfolder.
 
-Deploy: replace the contents of the GitHub Pages RackMate repo with the contents of this folder, commit, then reload the installed PWA. If an old cached build appears, fully close/reopen once after Pages finishes deploying.
-
-Key v2.01 changes:
-- single stationary master background
-- clean Match Setup overlay with reduced visible framing
-- Match Play title/game ball/Race To/Best Of hierarchy
-- white player names/scores with red/blue backlit treatment
-- centred This Frame + frame number
-- cue-ball breaker marker with red directional triangle
-- Match Time / Pause-Play / Average Frame Time below table
-- Undo / Match Settings / Help utilities at top-right
-- dimmed MATCH PAUSED state
-- in-match Swap Sides display option
-- existing match logic, timers, banter, Help, Settings, Winner, Lag/Coin/Just Play retained from v1.80 baseline
+v2.02 fixes:
+- Exact 1602 x 982 master-background aspect ratio (801:491).
+- Background uses contain/no distortion; UI and image share one uniformly-scaled canvas.
+- PWA manifest requests fullscreen landscape mode.
+- In ordinary browser mode RackMate requests fullscreen on the first user interaction (browser permission rules still apply).
+- Service-worker/cache/version bumped to v2.02.
