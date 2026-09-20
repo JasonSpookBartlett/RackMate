@@ -1,31 +1,5 @@
-const CACHE='rackmate-v1.80';
-const APP_SHELL=['./','./index.html','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png'];
-
-self.addEventListener('install',event=>{
-  self.skipWaiting();
-  event.waitUntil(caches.open(CACHE).then(c=>c.addAll(APP_SHELL)));
-});
-
-self.addEventListener('activate',event=>{
-  event.waitUntil(
-    caches.keys()
-      .then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))
-      .then(()=>self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch',event=>{
-  if(event.request.method!=='GET') return;
-  event.respondWith(
-    fetch(event.request).then(res=>{
-      if(res && res.ok){
-        const copy=res.clone();
-        caches.open(CACHE).then(c=>c.put(event.request,copy)).catch(()=>{});
-      }
-      return res;
-    }).catch(async()=>{
-      return (await caches.match(event.request))
-        || (event.request.mode==='navigate' ? await caches.match('./index.html') : undefined);
-    })
-  );
-});
+const CACHE='rackmate-v2.00-beta';
+const ASSETS=['./','./index.html','./manifest.webmanifest','./assets/rackmate-master-background.png','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-1024.png'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./index.html'))));});

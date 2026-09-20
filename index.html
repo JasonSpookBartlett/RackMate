@@ -1373,8 +1373,8 @@ html,body{background:#050506}
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
-<div class="title"><div class="titleRow"><h1 id="screenTitle">MATCH SETUP</h1><button id="pauseBtn" class="pauseBtn" type="button" aria-label="Pause match timer" title="Pause match timer">⏸</button></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
-<div class="right"><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
+<div class="title"><div class="titleRow"><h1 id="screenTitle">MATCH SETUP</h1><div id="matchTitleBall" class="titleBall b8">8</div><span id="playWord" class="playWord">PLAY</span></div><div id="titleMatchMeta" class="titleMatchMeta"><span id="titleRace">RACE TO 7</span><span id="titleBest">BEST OF 13</span></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
+<div class="right"><button class="icon playUtility" id="topUndoBtn" title="Undo" aria-label="Undo">↶</button><button class="icon playUtility" id="topEditBtn" title="Match settings" aria-label="Match settings">⚙</button><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
 <div class="tableWrap"><div class="table">
       <!-- v1.80 dedicated cushion geometry: independent of pocket elements -->
@@ -1448,9 +1448,9 @@ html,body{background:#050506}
 
 <section id="playScreen" class="screen">
 <div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1Hill" class="hill"></div></div>
-<div class="centre"><div id="pausedStatus" class="pausedStatus">PAUSED</div><div id="raceDisplay" class="race">RACE TO 7</div><div id="frameDisplay" class="frame">FRAME 1 OF 13</div><div id="breakerCue" class="breaker gameBreaker b8 bp1">8</div><div id="breakerText">Player 1 BREAKS</div><div class="timing"><span class="timeLabel">THIS FRAME</span><b id="thisFrameDisplay">00:00</b><span class="timeLabel">AVG. FRAME TIME</span><b id="avgFrameDisplay">00:00</b></div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
+<div class="centre"><div id="pausedStatus" class="pausedStatus">PAUSED</div><div id="raceDisplay" class="race">RACE TO 7</div><div id="frameDisplay" class="frame">FRAME 1 OF 13</div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><div class="timing"><span class="timeLabel">THIS FRAME</span><b id="thisFrameDisplay">00:00</b><span class="timeLabel">AVG. FRAME TIME</span><b id="avgFrameDisplay">00:00</b></div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
 <div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2Hill" class="hill"></div></div></div>
-<div class="bottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div>
+<div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="floorPauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div>MATCH PAUSED</div></div>
 <div id="toast" class="toast"></div>
 <div id="coinLayer" class="coinLayer"><div class="coinStage"><div id="coinHint" class="coinHint">TOSS</div><div id="coin" class="coin">NZ</div></div></div>
 </section>
@@ -1640,7 +1640,7 @@ html,body{background:#050506}
 <div class="version">BETA v1.80</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='1.80';
+const RACKMATE_VERSION='2.00';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1648,7 +1648,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v1.80';
+const APP_VERSION='BETA v2.00';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -1678,7 +1678,7 @@ try{
   }
 }catch(_){}
 
-const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0};let helpReturn='setup';
+const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0,displaySwapped:false};let helpReturn='setup';
 let wakeLock=null;
 async function updateWakeLock(){
   try{
@@ -1694,8 +1694,13 @@ function show(n){
   $$('.screen').forEach(x=>x.classList.remove('active'));
   $('#'+n+'Screen').classList.add('active');
   st.screen=n;
-  $('#screenTitle').textContent={setup:'MATCH SETUP',play:'MATCH TIME: '+formatClock(elapsedMatchMs(),true),winner:'MATCH COMPLETE',help:'HELP'}[n];
+  $('#screenTitle').textContent={setup:'MATCH SETUP',play:'MATCH',winner:'MATCH COMPLETE',help:'HELP'}[n];
+  document.body.classList.toggle('playMode',n==='play');
+  $('#playWord').style.display=n==='play'?'inline':'none';
+  $('#matchTitleBall').style.display=n==='play'?'grid':'none';
+  $('#titleMatchMeta').style.display=n==='play'?'flex':'none';
   $('#settingsBtn').style.visibility=n==='setup'?'visible':'hidden';
+  $$('.playUtility').forEach(x=>x.style.display=n==='play'?'grid':'none');
   $('#helpBtn').style.visibility=n==='help'?'hidden':'visible';
   $('#pauseBtn').classList.toggle('show',n==='play'&&!!st.matchStartedAt&&!st.matchEndedAt);
   updatePauseUI();
@@ -2677,7 +2682,7 @@ function selectMatchBanter(winner,reason){
   return 'matchClose';
 }
 
-function play(){ updateMatchClock();$('#p1Name').textContent=st.p1;$('#p2Name').textContent=st.p2;$('#p1Score').textContent=st.score1;$('#p2Score').textContent=st.score2;$('#raceDisplay').textContent='RACE TO '+st.race;$('#frameDisplay').textContent='FRAME '+Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker gameBreaker b'+st.game;$('#breakerCue').textContent=st.game;$('#breakerCue').style.transform='';}else{$('#breakerText').textContent=(st.breaker===1?st.p1:st.p2)+' BREAKS';$('#breakerCue').className='breaker gameBreaker b'+st.game+' '+(st.breaker===1?'bp1':'bp2');$('#breakerCue').textContent=st.game;}const hh=st.score1===st.race-1&&st.score2===st.race-1;$('#p1Hill').textContent=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');$('#p2Hill').textContent=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'')}
+function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceDisplay').textContent='RACE TO '+st.race;$('#frameDisplay').textContent='FRAME '+Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;$('#titleRace').textContent='RACE TO '+st.race;$('#titleBest').textContent='BEST OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const breakerOnLeft=(st.breaker===1)!==sw;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall';$('#breakerArrow').style.visibility='hidden';}else{$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall '+(breakerOnLeft?'bp1':'bp2');$('#breakerArrow').style.visibility='visible';$('#breakerArrow').textContent=breakerOnLeft?'◀':'▶';}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;}
 function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign,matchStartedAt:st.matchStartedAt,matchEndedAt:st.matchEndedAt,frameStartedAt:st.frameStartedAt,finalFrameMs:st.finalFrameMs,paused:st.paused,pausedAt:st.pausedAt,totalPausedMs:st.totalPausedMs,framePausedMs:st.framePausedMs}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;st.matchStartedAt=s.matchStartedAt||st.matchStartedAt;st.matchEndedAt=s.matchEndedAt||0;st.frameStartedAt=s.frameStartedAt||st.frameStartedAt;st.finalFrameMs=s.finalFrameMs||0;st.paused=!!s.paused;st.pausedAt=s.pausedAt||0;st.totalPausedMs=s.totalPausedMs||0;st.framePausedMs=s.framePausedMs||0;if(st.screen==='play'&&st.matchStartedAt&&!st.matchEndedAt)startMatchClock();play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
@@ -3186,6 +3191,11 @@ function openEditMatchSettings(){
       </div>
 
       <div class="editField editWide">
+        <label>DISPLAY SIDES</label>
+        <button type="button" class="choice" id="editSwapSides">⇄ SWAP SIDES</button>
+      </div>
+
+      <div class="editField editWide">
         <label>BREAK FORMAT</label>
         <div class="editChoices">
           <button type="button" class="choice ${st.breakFormat==='alternate'?'active':''}" data-edit-break="alternate">ALTERNATE BREAK</button>
@@ -3266,6 +3276,9 @@ function openEditMatchSettings(){
     chosenBreaker=+b.dataset.editBreaker;
     $$('[data-edit-breaker]').forEach(x=>x.classList.toggle('active',x===b));
   });
+
+  const swapEdit=$('#editSwapSides');
+  if(swapEdit) swapEdit.onclick=()=>{ st.displaySwapped=!st.displaySwapped; swapEdit.textContent=st.displaySwapped?'⇄ SIDES SWAPPED':'⇄ SWAP SIDES'; play(); };
 
   $('#modalSave').onclick=()=>{
     const err=$('#editError');
@@ -3590,7 +3603,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=1.55',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.00',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -3609,5 +3622,31 @@ p1Input.addEventListener('input', updateSwapSidesAvailability);
 p2Input.addEventListener('input', updateSwapSidesAvailability);
 updateSwapSidesAvailability();
 
+</script>
+
+<style id="rackmate-v2">
+html,body{background:#050403} body{display:flex;align-items:center;justify-content:center}.app{width:min(100vw,177.7778vh);height:min(100vh,56.25vw);aspect-ratio:16/9;background:url('./assets/rackmate-master-background.png') center/100% 100% no-repeat;overflow:hidden;box-shadow:0 0 60px #000;position:relative}
+.header{position:absolute;inset:0 0 auto 0;height:15.5%;background:transparent;border:0;padding:0 2.3%;z-index:30;pointer-events:none}.brand{visibility:hidden}.header .title{position:absolute;left:31%;right:31%;top:1.3%;height:12%;pointer-events:none}.titleRow{height:64%;gap:1.1vw}.title h1,.playWord{font-size:clamp(20px,2.25vw,40px);letter-spacing:.13em;text-shadow:0 3px 10px #000;font-weight:900}.playWord{display:none}.titleBall{display:none;width:clamp(46px,4.8vw,86px);aspect-ratio:1;border-radius:50%;place-items:center;font-size:clamp(18px,1.8vw,32px);font-weight:900;border:2px solid #eee;box-shadow:inset -10px -12px 18px rgba(0,0,0,.55),0 5px 12px #000}.titleMatchMeta{display:none;justify-content:space-between;width:78%;margin:-.4% auto 0;font-size:clamp(9px,.85vw,15px);font-weight:900;letter-spacing:.11em;color:#eee;text-shadow:0 2px 6px #000}.title .sub{display:none}.right{position:absolute;right:1.8%;top:2%;pointer-events:auto}.right .icon{background:rgba(4,8,8,.46);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(2px)}.playUtility{display:none;place-items:center}
+.tableWrap{position:absolute;inset:0}.table{position:absolute;inset:0;border:0;outline:0;border-radius:0;background:transparent;overflow:visible}.cushionSegments,.railSights,.p{display:none!important}
+.setupMaster{position:absolute!important;left:9.2%!important;right:9.2%!important;top:21%!important;bottom:21%!important;display:grid!important;grid-template-columns:1fr .32fr 1fr!important;grid-template-rows:.23fr .62fr .46fr!important;grid-template-areas:'p1 swap p2' 'game game length' 'break break first'!important;gap:5% 4%!important}.setupNameP1{grid-area:p1}.setupSwap{grid-area:swap}.setupNameP2{grid-area:p2}.setupGameType{grid-area:game}.setupMatchLength{grid-area:length}.setupBreakFormat{grid-area:break}.setupFirstBreak{grid-area:first}.setupObjectLabel{color:#fff;text-shadow:0 2px 5px #000;letter-spacing:.14em}.name{background:transparent!important;border:0!important;border-bottom:2px solid!important;border-radius:0!important}.name.red{border-color:rgba(255,67,67,.9)!important;filter:drop-shadow(0 0 8px rgba(255,40,40,.45))}.name.blue{border-color:rgba(57,160,255,.9)!important;filter:drop-shadow(0 0 8px rgba(30,130,255,.45))}.name input{font-size:clamp(22px,2.5vw,44px)!important;text-shadow:0 2px 5px #000}.setupSwap{align-self:center;background:transparent!important;border:0!important;color:#fff;opacity:.9}.setupSwap:disabled{opacity:.28}.gameWoodTray,.firstBreakTray,.counter{background:transparent!important;border:0!important;box-shadow:none!important}.balls{gap:clamp(20px,3vw,56px)!important}.ball{width:clamp(52px,5vw,88px)!important;height:auto!important;aspect-ratio:1;font-size:clamp(20px,2vw,34px)!important;box-shadow:inset -10px -12px 16px rgba(0,0,0,.5),0 5px 10px rgba(0,0,0,.45)!important}.ball.sel{outline:3px solid var(--gold);filter:drop-shadow(0 0 12px rgba(242,196,77,.65))}.track{background:transparent!important}.length{gap:1.6vw!important}.counter{padding:0!important}.counter button,.choice{background:rgba(0,0,0,.18)!important;border:1px solid rgba(255,255,255,.22)!important}.counter b{font-size:clamp(30px,3vw,52px)!important}.choice.active{border-color:var(--gold)!important;box-shadow:0 0 10px rgba(242,196,77,.28)}
+.play{left:10%!important;right:10%!important;top:24%!important;bottom:27%!important;display:grid!important;grid-template-columns:1fr .62fr 1fr!important;gap:2%!important}.side{background:transparent!important;border:0!important}.pname{font-size:clamp(26px,3vw,52px)!important;color:#fff;-webkit-text-stroke:.6px var(--red);text-shadow:0 0 3px #000,0 0 12px rgba(255,40,40,.8),0 0 30px rgba(255,40,40,.42)}.rightSide .pname{-webkit-text-stroke:.6px var(--blue);text-shadow:0 0 3px #000,0 0 12px rgba(40,130,255,.8),0 0 30px rgba(40,130,255,.42)}.score{font-size:clamp(72px,9vw,150px)!important;color:#fff;-webkit-text-stroke:1px var(--red);text-shadow:0 0 4px #000,0 0 18px rgba(255,30,30,.95),0 0 42px rgba(255,30,30,.45)}.rightSide .score{-webkit-text-stroke:1px var(--blue);text-shadow:0 0 4px #000,0 0 18px rgba(30,120,255,.95),0 0 42px rgba(30,120,255,.45)}.hill{font-size:clamp(11px,1.05vw,18px);text-shadow:0 2px 5px #000}.centre{background:transparent!important;gap:.35vh!important}.race{display:none}.timing{display:flex;flex-direction:column;align-items:center}.timing .timeLabel:first-of-type{font-size:clamp(12px,1.15vw,20px);letter-spacing:.14em}.timing b#thisFrameDisplay{font-size:clamp(28px,3.3vw,58px);color:#fff;text-shadow:0 2px 8px #000;margin:0}.timing .timeLabel:nth-of-type(2),#avgFrameDisplay{display:none}.frame{order:10;font-size:clamp(11px,1vw,18px);letter-spacing:.1em;text-shadow:0 2px 5px #000}.breaker{order:4}.timing{order:3}.frame{order:5}.breakerText{display:none}.breakerCueBall{width:clamp(46px,4.4vw,78px)!important;height:auto!important;aspect-ratio:1;background:radial-gradient(circle at 32% 27%,#fff 0,#f7f7f2 40%,#d7d8d5 74%,#aeb0ad 100%)!important;border:1px solid #ddd!important;box-shadow:inset -8px -9px 13px rgba(0,0,0,.18),0 6px 12px rgba(0,0,0,.45)!important;position:absolute!important;top:50%;margin-top:-2.2vw}.breakerCueBall.bp1{left:3%!important;transform:none!important}.breakerCueBall.bp2{right:3%!important;left:auto!important;transform:none!important}.breakerArrow{color:#e52222;font-size:42%;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}.legacyBottom{display:none!important}.floorTiming{position:absolute;left:21%;right:21%;bottom:4.2%;height:10%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;z-index:20;text-shadow:0 2px 6px #000}.floorTime{text-align:center;display:flex;flex-direction:column;gap:.3vh}.floorTime span{font-size:clamp(10px,.85vw,15px);letter-spacing:.13em;color:#ddd}.floorTime b{font-size:clamp(18px,1.7vw,30px);font-variant-numeric:tabular-nums}.floorPause{width:clamp(44px,4vw,68px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.42);color:#fff;font-size:clamp(18px,1.7vw,28px);box-shadow:0 4px 14px #000}.pauseVeil{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;place-items:center;z-index:70;pointer-events:none}.pauseVeil.show{display:grid}.pauseVeil div{font-size:clamp(30px,4vw,70px);font-weight:900;letter-spacing:.12em;text-shadow:0 4px 15px #000}.floorPause{position:relative;z-index:80}.banterBubble{top:47%;animation:none}.modalWrap{z-index:100}.modal,.help{background:rgba(5,20,16,.92)!important;backdrop-filter:blur(7px)}
+@media(max-aspect-ratio:16/9){.app{width:100vw;height:56.25vw}}@media(min-aspect-ratio:16/9){.app{height:100vh;width:177.7778vh}}
+</style>
+
+<script id="rackmate-v2-runtime">
+(function(){
+ const q=s=>document.querySelector(s);
+ function syncV2(){
+  const mt=q('#matchTimeDisplay'),mf=q('#matchTimeFloor'),af=q('#avgFrameDisplay'),aff=q('#avgFrameFloor');
+  if(mt&&mf) mf.textContent=mt.textContent; if(af&&aff) aff.textContent=af.textContent;
+  const veil=q('#pauseVeil'); if(veil) veil.classList.toggle('show',!!st.paused);
+  const fp=q('#floorPauseBtn'); if(fp){fp.textContent=st.paused?'▶':'⏸';fp.title=st.paused?'Resume match':'Pause match';}
+ }
+ setInterval(syncV2,250);
+ q('#floorPauseBtn').onclick=()=>q('#pauseBtn').click();
+ q('#topUndoBtn').onclick=()=>q('#undoBtn').click();
+ q('#topEditBtn').onclick=()=>q('#editBtn').click();
+ const oldShow=show; show=function(n){oldShow(n);syncV2();};
+})();
 </script>
 </body></html>
