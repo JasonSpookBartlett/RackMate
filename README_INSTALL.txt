@@ -1,4 +1,4 @@
-RackMate v2.17 BETA
+RackMate v2.30 BETA
 Upload THESE ROOT FILES directly over the root of the GitHub RackMate repository.
 Do not create a RackMate_v2.17_BETA subfolder.
 
@@ -13,3 +13,8 @@ v2.17 fixes:
 
 - v2.17 uses the locked 2048x1024 (2:1) Q90 WebP production master.
 - Canvas scaling is uniform only; no independent X/Y stretching, no intentional crop.
+
+v2.30 Setup geometry:
+- Rebuilt from clean v2.27 source.
+- Decisive three-column layout: Game Type left; Break Format / First Break centre; Race To / Best Of right.
+- No physical shell or production-background changes.
