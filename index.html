@@ -50,7 +50,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 
-/* BETA v2.13 RackMate Banter */
+/* BETA v2.14 RackMate Banter */
 .banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
 .banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
 .banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
@@ -1646,10 +1646,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.13</div>
+<div class="version">BETA v2.14</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.13';
+const RACKMATE_VERSION='2.14';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1657,7 +1657,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.13';
+const APP_VERSION='BETA v2.14';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3732,7 +3732,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 </script>
 </body></html>
 <style id="rackmate-v212-setup-composition">
-/* RackMate v2.13 — SETUP UI ONLY. Physical shell/background are immutable v2.08. */
+/* RackMate v2.14 — SETUP UI ONLY. Physical shell/background are immutable v2.08. */
 .tableWrap::after{display:none!important;content:none!important}
 
 /* Header/title and live build number. */
@@ -3789,7 +3789,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 .setupFirstBreak .firstBreakChoice.active{border:0!important;background:transparent!important;box-shadow:none!important;color:#ffe29a!important;text-shadow:0 0 8px rgba(242,196,77,.55)!important}
 .setupFirstBreak .firstIcon{width:clamp(42px,3.8vw,66px)!important;height:auto!important;aspect-ratio:1!important}
 .setupGameType .ball,.setupBreakFormat .choice,.setupFirstBreak .firstBreakChoice,.setupMatchLength button,.setupSwap{touch-action:manipulation!important}
-\n/* v2.13 — requested positioning refinement only. */
+\n/* v2.14 — requested positioning refinement only. */
 /* Header grid children explicitly span the full locked app plane so percentages are app-relative. */
 .header .title{grid-column:1 / -1!important;grid-row:1!important;left:31.8%!important;right:26.2%!important;top:3.0%!important}
 .header .right{grid-column:1 / -1!important;grid-row:1!important;left:0!important;right:0!important;width:100%!important;inset:0!important}
@@ -3799,4 +3799,11 @@ body{align-items:flex-start!important;justify-content:center!important}
 .setupName{top:30.7%!important}
 .setupNameP1{left:29.0%!important}
 .setupNameP2{left:77.4%!important;right:auto!important}
+\n/* v2.14 — setup positioning only; v2.08 physical shell remains immutable. */
+/* Horizontal player positions are locked from v2.13; lower both blocks so labels sit on felt. */
+.setupName{top:34.0%!important}
+/* Utilities: pin to the far-right edge of the live app viewport with a small deliberate inset. */
+.header .right{position:fixed!important;left:auto!important;right:10px!important;top:10px!important;width:64px!important;height:150px!important;inset:auto 10px auto auto!important;display:block!important;pointer-events:none!important}
+#settingsBtn{position:absolute!important;right:0!important;left:auto!important;top:0!important}
+#helpBtn{position:absolute!important;right:0!important;left:auto!important;top:78px!important}
 </style>
