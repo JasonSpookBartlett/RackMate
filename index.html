@@ -50,7 +50,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 
-/* BETA v2.07 RackMate Banter */
+/* BETA v2.08 RackMate Banter */
 .banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
 .banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
 .banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
@@ -156,11 +156,11 @@ html,body{background:#050506}
   isolation:isolate;
   background:
     linear-gradient(rgba(3,3,5,.55),rgba(3,3,5,.68)),
-    url("./assets/rackmate-master-background.png") center/cover no-repeat;
+    url("./assets/rackmate-master-background.webp") center/cover no-repeat;
 }
 .app::before{
   content:""; position:absolute; inset:-3%; z-index:-1;
-  background:url("./assets/rackmate-master-background.png") center/cover no-repeat;
+  background:url("./assets/rackmate-master-background.webp") center/cover no-repeat;
   filter:blur(13px) brightness(.44) saturate(1.15);
   transform:scale(1.05);
 }
@@ -1370,7 +1370,7 @@ html,body{background:#050506}
 </style>
 
 <style id="v204-permanent-build-badge">
-/* v2.07: permanent build identity; deliberately independent of screen/header state. */
+/* v2.08: permanent build identity; deliberately independent of screen/header state. */
 #rackmateBuildIdentity{position:absolute;left:22px;top:18px;z-index:10050;display:flex;align-items:center;gap:10px;pointer-events:none;color:#fff;font-family:Arial,Helvetica,sans-serif;text-shadow:0 2px 5px #000,0 0 10px rgba(0,0,0,.75)}
 #rackmateBuildIdentity img{width:42px;height:42px;border-radius:9px;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.6)}
 #rackmateBuildIdentity .rmName{font-size:25px;font-weight:800;letter-spacing:.01em;white-space:nowrap}
@@ -1378,7 +1378,7 @@ html,body{background:#050506}
 #rackmateBuildIdentity .rmBuild{font-size:13px;font-weight:700;color:#ddd;margin-left:3px;white-space:nowrap}
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.07" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.08" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1646,10 +1646,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.07</div>
+<div class="version">BETA v2.08</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.07';
+const RACKMATE_VERSION='2.08';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1657,7 +1657,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.07';
+const APP_VERSION='BETA v2.08';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3612,7 +3612,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.07',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.08',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -3634,7 +3634,7 @@ updateSwapSidesAvailability();
 </script>
 
 <style id="rackmate-v2">
-html,body{background:#050403} body{display:flex;align-items:center;justify-content:center}.app{width:min(100vw,163.1365vh);height:min(100vh,61.2984vw);aspect-ratio:801/491;background:url('./assets/rackmate-master-background.png') center/contain no-repeat;overflow:hidden;box-shadow:0 0 60px #000;position:relative}
+html,body{background:#050403} body{display:flex;align-items:center;justify-content:center}.app{width:min(100vw,163.1365vh);height:min(100vh,61.2984vw);aspect-ratio:801/491;background:url('./assets/rackmate-master-background.webp') center/contain no-repeat;overflow:hidden;box-shadow:0 0 60px #000;position:relative}
 .header{position:absolute;inset:0 0 auto 0;height:15.5%;background:transparent;border:0;padding:0 2.3%;z-index:30;pointer-events:none}.brand{visibility:hidden}.header .title{position:absolute;left:31%;right:31%;top:1.3%;height:12%;pointer-events:none}.titleRow{height:64%;gap:1.1vw}.title h1,.playWord{font-size:clamp(20px,2.25vw,40px);letter-spacing:.13em;text-shadow:0 3px 10px #000;font-weight:900}.playWord{display:none}.titleBall{display:none;width:clamp(46px,4.8vw,86px);aspect-ratio:1;border-radius:50%;place-items:center;font-size:clamp(18px,1.8vw,32px);font-weight:900;border:2px solid #eee;box-shadow:inset -10px -12px 18px rgba(0,0,0,.55),0 5px 12px #000}.titleMatchMeta{display:none;justify-content:space-between;width:78%;margin:-.4% auto 0;font-size:clamp(9px,.85vw,15px);font-weight:900;letter-spacing:.11em;color:#eee;text-shadow:0 2px 6px #000}.title .sub{display:none}.right{position:absolute;right:1.8%;top:2%;pointer-events:auto}.right .icon{background:rgba(4,8,8,.46);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(2px)}.playUtility{display:none;place-items:center}
 .tableWrap{position:absolute;inset:0}.table{position:absolute;inset:0;border:0;outline:0;border-radius:0;background:transparent;overflow:visible}.cushionSegments,.railSights,.p{display:none!important}
 .setupMaster{position:absolute!important;left:9.2%!important;right:9.2%!important;top:21%!important;bottom:21%!important;display:grid!important;grid-template-columns:1fr .32fr 1fr!important;grid-template-rows:.23fr .62fr .46fr!important;grid-template-areas:'p1 swap p2' 'game game length' 'break break first'!important;gap:5% 4%!important}.setupNameP1{grid-area:p1}.setupSwap{grid-area:swap}.setupNameP2{grid-area:p2}.setupGameType{grid-area:game}.setupMatchLength{grid-area:length}.setupBreakFormat{grid-area:break}.setupFirstBreak{grid-area:first}.setupObjectLabel{color:#fff;text-shadow:0 2px 5px #000;letter-spacing:.14em}.name{background:transparent!important;border:0!important;border-bottom:2px solid!important;border-radius:0!important}.name.red{border-color:rgba(255,67,67,.9)!important;filter:drop-shadow(0 0 8px rgba(255,40,40,.45))}.name.blue{border-color:rgba(57,160,255,.9)!important;filter:drop-shadow(0 0 8px rgba(30,130,255,.45))}.name input{font-size:clamp(22px,2.5vw,44px)!important;text-shadow:0 2px 5px #000}.setupSwap{align-self:center;background:transparent!important;border:0!important;color:#fff;opacity:.9}.setupSwap:disabled{opacity:.28}.gameWoodTray,.firstBreakTray,.counter{background:transparent!important;border:0!important;box-shadow:none!important}.balls{gap:clamp(20px,3vw,56px)!important}.ball{width:clamp(52px,5vw,88px)!important;height:auto!important;aspect-ratio:1;font-size:clamp(20px,2vw,34px)!important;box-shadow:inset -10px -12px 16px rgba(0,0,0,.5),0 5px 10px rgba(0,0,0,.45)!important}.ball.sel{outline:3px solid var(--gold);filter:drop-shadow(0 0 12px rgba(242,196,77,.65))}.track{background:transparent!important}.length{gap:1.6vw!important}.counter{padding:0!important}.counter button,.choice{background:rgba(0,0,0,.18)!important;border:1px solid rgba(255,255,255,.22)!important}.counter b{font-size:clamp(30px,3vw,52px)!important}.choice.active{border-color:var(--gold)!important;box-shadow:0 0 10px rgba(242,196,77,.28)}
@@ -3642,32 +3642,32 @@ html,body{background:#050403} body{display:flex;align-items:center;justify-conte
 @media(max-aspect-ratio:801/491){.app{width:100vw;height:61.2984vw}}@media(min-aspect-ratio:801/491){.app{height:100vh;width:163.1365vh}}
 
 
-/* v2.07: legacy master-canvas rule superseded below by the locked 2048x876 production master. */
+/* v2.08: legacy master-canvas rule superseded below by the locked 2048x1024 production master. */
 html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:#000}
 body{padding:0;margin:0;overscroll-behavior:none}
 @supports(height:100dvh){body{height:100dvh}.app{max-height:100dvh}}
 
-/* v2.07 presentation hard reset: the locked photographic master is the ONLY table/environment. */
+/* v2.08 presentation hard reset: the locked photographic master is the ONLY table/environment. */
 .app::before,.table::before,.table::after{content:none!important;display:none!important}
 .table,.tableWrap{background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;border-radius:0!important}
 .table .rail,.table .railTop,.table .railBottom,.table .railLeft,.table .railRight,.table .cushion,.table .cushions,.table .pocket,.table .pockets,.table .jaw,.table .jaws,.table .diamond,.table .diamonds,.table .cushionSegments,.table .railSights,.table>.p{display:none!important;background:none!important;border:0!important;box-shadow:none!important}
 .version{color:rgba(255,255,255,.7)!important}
 
 
-/* v2.07 LOCKED MASTER: exact 2048x876 production background supplied by Jason.
-   Coordinate system = 2048 x 876. Background, table, lamps, RackMate branding and
+/* v2.08 LOCKED MASTER: exact 2048x1024 production background supplied by Jason.
+   Coordinate system = 2048 x 1024. Background, table, lamps, RackMate branding and
    Makers Mark are baked into the PNG. Never stretch/crop/rebuild those elements. */
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#000}
 body{display:flex;align-items:center;justify-content:center}
 .app{
   position:relative!important;
-  width:min(100vw,233.789954vh)!important;
-  height:min(100vh,42.773438vw)!important;
-  aspect-ratio:512/219!important;
+  width:min(100vw,200vh)!important;
+  height:min(100vh,50vw)!important;
+  aspect-ratio:2/1!important;
   max-width:100vw!important;
   max-height:100vh!important;
   overflow:hidden!important;
-  background:url('./assets/rackmate-master-background.png?v=2.07') center center/100% 100% no-repeat!important;
+  background:url('./assets/rackmate-master-background.webp?v=2.08') center center/100% 100% no-repeat!important;
   box-shadow:none!important;
 }
 .app::before{content:none!important;display:none!important}
@@ -3686,15 +3686,13 @@ body{display:flex;align-items:center;justify-content:center}
 /* Title zone between lamps and top rail. */
 .header .title{position:absolute!important;left:29%!important;right:29%!important;top:4.0%!important;text-align:center!important}
 .header .right{position:absolute!important;right:1.2%!important;top:2.0%!important;display:flex!important;gap:.55vw!important}
-/* Old floor timer zone is intentionally unavailable in this 876px composition. Hide
-   it until the side-zone gameplay layout is placed against this master. */
+/* Floor timing remains hidden in this canvas-fit verification build; gameplay layout is otherwise unchanged. */
 .floorTiming{display:none!important}
-@media(max-aspect-ratio:512/219){.app{width:100vw!important;height:42.773438vw!important}}
-@media(min-aspect-ratio:512/219){.app{height:100vh!important;width:233.789954vh!important}}
+@media(max-aspect-ratio:2/1){.app{height:100vh!important;width:200vh!important}}
+@media(min-aspect-ratio:2/1){.app{width:100vw!important;height:50vw!important}}
 
-/* v2.07: anchor the 2048x876 master to the TOP of the available app viewport.
-   On phones wider than the master aspect ratio the image is width-limited; centring
-   it vertically created the black gap seen in v2.04. Keep horizontal centring only. */
+/* v2.08: anchor the 2048x1024 (2:1) master to the TOP of the available app viewport.
+   Scaling is uniform only; the master is never independently stretched on X or Y. */
 body{align-items:flex-start!important;justify-content:center!important}
 </style>
 
@@ -3711,7 +3709,7 @@ body{align-items:flex-start!important;justify-content:center!important}
    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
   }catch(_){ fullscreenTried=false; }
  }
- /* v2.07 FULLSCREEN TEST: request immersive browser fullscreen on the first genuine
+ /* v2.08 FULLSCREEN TEST: request immersive browser fullscreen on the first genuine
     user interaction. Android/Chrome requires a user gesture for the Fullscreen API. */
  function armFullscreenTest(){
    const tryNow=()=>{ requestRackMateFullscreen(); };
@@ -3735,7 +3733,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 </body></html>
 <style id="rackmate-v207-setup-composition">
 /* =========================================================
-   RackMate v2.07 — MATCH SETUP composition on locked 2048x876 master
+   RackMate v2.08 — MATCH SETUP composition on locked 2048x1024 master
    Background geometry is untouchable. UI is placed against that datum.
    ========================================================= */
 
