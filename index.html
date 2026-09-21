@@ -50,7 +50,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 
-/* BETA v2.03 RackMate Banter */
+/* BETA v2.04 RackMate Banter */
 .banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
 .banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
 .banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
@@ -1369,8 +1369,8 @@ html,body{background:#050506}
 
 </style>
 
-<style id="v203-permanent-build-badge">
-/* v2.03: permanent build identity; deliberately independent of screen/header state. */
+<style id="v204-permanent-build-badge">
+/* v2.04: permanent build identity; deliberately independent of screen/header state. */
 #rackmateBuildIdentity{position:absolute;left:22px;top:18px;z-index:10050;display:flex;align-items:center;gap:10px;pointer-events:none;color:#fff;font-family:Arial,Helvetica,sans-serif;text-shadow:0 2px 5px #000,0 0 10px rgba(0,0,0,.75)}
 #rackmateBuildIdentity img{width:42px;height:42px;border-radius:9px;object-fit:cover;box-shadow:0 2px 8px rgba(0,0,0,.6)}
 #rackmateBuildIdentity .rmName{font-size:25px;font-weight:800;letter-spacing:.01em;white-space:nowrap}
@@ -1378,7 +1378,7 @@ html,body{background:#050506}
 #rackmateBuildIdentity .rmBuild{font-size:13px;font-weight:700;color:#ddd;margin-left:3px;white-space:nowrap}
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.03" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.04" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1646,10 +1646,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.03</div>
+<div class="version">BETA v2.04</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.03';
+const RACKMATE_VERSION='2.04';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1657,7 +1657,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.03';
+const APP_VERSION='BETA v2.04';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3612,7 +3612,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.03',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.04',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -3642,16 +3642,55 @@ html,body{background:#050403} body{display:flex;align-items:center;justify-conte
 @media(max-aspect-ratio:801/491){.app{width:100vw;height:61.2984vw}}@media(min-aspect-ratio:801/491){.app{height:100vh;width:163.1365vh}}
 
 
-/* v2.03: immutable 1602x982 master canvas. The entire UI scales with the photograph; never stretch/crop it. */
+/* v2.04: legacy master-canvas rule superseded below by the locked 2048x876 production master. */
 html,body{width:100%;height:100%;min-height:100%;overflow:hidden;background:#000}
 body{padding:0;margin:0;overscroll-behavior:none}
 @supports(height:100dvh){body{height:100dvh}.app{max-height:100dvh}}
 
-/* v2.03 presentation hard reset: the locked photographic master is the ONLY table/environment. */
+/* v2.04 presentation hard reset: the locked photographic master is the ONLY table/environment. */
 .app::before,.table::before,.table::after{content:none!important;display:none!important}
 .table,.tableWrap{background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;border-radius:0!important}
 .table .rail,.table .railTop,.table .railBottom,.table .railLeft,.table .railRight,.table .cushion,.table .cushions,.table .pocket,.table .pockets,.table .jaw,.table .jaws,.table .diamond,.table .diamonds,.table .cushionSegments,.table .railSights,.table>.p{display:none!important;background:none!important;border:0!important;box-shadow:none!important}
 .version{color:rgba(255,255,255,.7)!important}
+
+
+/* v2.04 LOCKED MASTER: exact 2048x876 production background supplied by Jason.
+   Coordinate system = 2048 x 876. Background, table, lamps, RackMate branding and
+   Makers Mark are baked into the PNG. Never stretch/crop/rebuild those elements. */
+html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#000}
+body{display:flex;align-items:center;justify-content:center}
+.app{
+  position:relative!important;
+  width:min(100vw,233.789954vh)!important;
+  height:min(100vh,42.773438vw)!important;
+  aspect-ratio:512/219!important;
+  max-width:100vw!important;
+  max-height:100vh!important;
+  overflow:hidden!important;
+  background:url('./assets/rackmate-master-background.png?v=2.04') center center/100% 100% no-repeat!important;
+  box-shadow:none!important;
+}
+.app::before{content:none!important;display:none!important}
+/* Physical table/environment already exists in master PNG. */
+.tableWrap,.table{position:absolute!important;inset:0!important;background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;border-radius:0!important}
+.table::before,.table::after,.cushionSegments,.railSights,.table>.p{display:none!important;content:none!important}
+/* Header is UI only: no dark band over the locked photograph. */
+.header{position:absolute!important;inset:0!important;height:100%!important;min-height:0!important;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important;pointer-events:none;z-index:30}
+.header .title,.header .right{pointer-events:auto}
+/* Branding is baked into the PNG. Keep only the live build number beside it. */
+#rackmateBuildIdentity{left:18.0%!important;top:4.0%!important;z-index:10050!important}
+#rackmateBuildIdentity img,#rackmateBuildIdentity .rmName{display:none!important}
+#rackmateBuildIdentity .rmBuild{display:block!important;font-size:clamp(10px,.75vw,14px)!important;color:#eee!important;text-shadow:0 2px 5px #000!important}
+.header .brand{display:none!important}
+.version{display:none!important}
+/* Title zone between lamps and top rail. */
+.header .title{position:absolute!important;left:29%!important;right:29%!important;top:4.0%!important;text-align:center!important}
+.header .right{position:absolute!important;right:1.2%!important;top:2.0%!important;display:flex!important;gap:.55vw!important}
+/* Old floor timer zone is intentionally unavailable in this 876px composition. Hide
+   it until the side-zone gameplay layout is placed against this master. */
+.floorTiming{display:none!important}
+@media(max-aspect-ratio:512/219){.app{width:100vw!important;height:42.773438vw!important}}
+@media(min-aspect-ratio:512/219){.app{height:100vh!important;width:233.789954vh!important}}
 </style>
 
 <script id="rackmate-v2-runtime">
@@ -3667,7 +3706,7 @@ body{padding:0;margin:0;overscroll-behavior:none}
    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
   }catch(_){ fullscreenTried=false; }
  }
- document.addEventListener('pointerdown',requestRackMateFullscreen,{once:false,passive:true});
+ /* v2.04: no browser fullscreen request; 2048x876 artwork is designed below Android status bar. */
  function syncV2(){
   const mt=q('#matchTimeDisplay'),mf=q('#matchTimeFloor'),af=q('#avgFrameDisplay'),aff=q('#avgFrameFloor');
   if(mt&&mf) mf.textContent=mt.textContent; if(af&&aff) aff.textContent=af.textContent;
