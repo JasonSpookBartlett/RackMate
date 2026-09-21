@@ -50,7 +50,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 
-/* BETA v2.25 RackMate Banter */
+/* BETA v2.26 RackMate Banter */
 .banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
 .banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
 .banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
@@ -1191,7 +1191,7 @@ html,body{background:#050506}
  inset:-4.25vh!important;border-radius:5.15vh!important;
  background:linear-gradient(180deg,rgba(255,224,174,.26),transparent 15%,rgba(0,0,0,.11) 68%,rgba(0,0,0,.38)),
  linear-gradient(90deg,#4b2008,#96501f 10%,#67300d 24%,#a85b24 38%,#71340f 50%,#a85b24 62%,#67300d 76%,#96501f 90%,#4b2008)!important;
- box-shadow:inset 0 0 0 .22vh rgba(244,188,116,.72),inset 0 0 0 .68vh #482008,inset 0 .52vh .44vh rgba(255,219,160,.26),inset 0 -.78vh .72vh rgba(23,7,1,.68),0 1.35vh 2.25vh rgba(0,0,0,.68)!important
+ box-shadow:inset 0 0 0 .22vh rgba(244,188,116,.72),inset 0 0 0 .68vh #482008,inset 0 .52vh .44vh rgba(255,219,160,.26),inset 0 -.78vh .72vh rgba(23,7,1,.68),0 1.35vh 2.26vh rgba(0,0,0,.68)!important
 }
 .p{
  width:6.05vh!important;height:6.05vh!important;border:.20vh solid #32170b!important;
@@ -1379,7 +1379,7 @@ html,body{background:#050506}
 </style>
 
 <style id="rackmate-v218-setup-composition">
-/* v2.25 — screenshot-led Setup composition only. Physical v2.08 shell/background remains untouched. */
+/* v2.26 — screenshot-led Setup composition only. Physical v2.08 shell/background remains untouched. */
 /* Master title: horizontal shift only; established Y is unchanged. */
 .header .title{left:60.7%!important;right:auto!important;width:52%!important;top:3.0%!important;transform:translateX(-46%)!important;text-align:center!important}
 
@@ -1402,12 +1402,12 @@ html,body{background:#050506}
 .setupFirstBreak{left:40.5%!important;top:77.5%!important;width:31.0%!important;height:12.0%!important}
 .setupFirstBreak .setupObjectLabel{left:0!important;right:0!important;text-align:center!important}
 
-/* v2.25 supersedes the old v2.17 screenshot transforms for the utility buttons; their approved corner position is retained. */
+/* v2.26 supersedes the old v2.17 screenshot transforms for the utility buttons; their approved corner position is retained. */
 #settingsBtn{transform:none!important}
 #helpBtn{transform:none!important}
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.25" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.26" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1675,10 +1675,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.25</div>
+<div class="version">BETA v2.26</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.25';
+const RACKMATE_VERSION='2.26';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1686,7 +1686,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.25';
+const APP_VERSION='BETA v2.26';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3636,7 +3636,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.25',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.26',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -3659,7 +3659,7 @@ updateSwapSidesAvailability();
 
 <style id="rackmate-v2">
 html,body{background:#050403} body{display:flex;align-items:center;justify-content:center}.app{width:min(100vw,163.1365vh);height:min(100vh,61.2984vw);aspect-ratio:801/491;background:url('./assets/rackmate-master-background.webp') center/contain no-repeat;overflow:hidden;box-shadow:0 0 60px #000;position:relative}
-.header{position:absolute;inset:0 0 auto 0;height:15.5%;background:transparent;border:0;padding:0 2.3%;z-index:30;pointer-events:none}.brand{visibility:hidden}.header .title{position:absolute;left:31%;right:31%;top:1.3%;height:12%;pointer-events:none}.titleRow{height:64%;gap:1.1vw}.title h1,.playWord{font-size:clamp(20px,2.25vw,40px);letter-spacing:.13em;text-shadow:0 3px 10px #000;font-weight:900}.playWord{display:none}.titleBall{display:none;width:clamp(46px,4.8vw,86px);aspect-ratio:1;border-radius:50%;place-items:center;font-size:clamp(18px,1.8vw,32px);font-weight:900;border:2px solid #eee;box-shadow:inset -10px -12px 18px rgba(0,0,0,.55),0 5px 12px #000}.titleMatchMeta{display:none;justify-content:space-between;width:78%;margin:-.4% auto 0;font-size:clamp(9px,.85vw,15px);font-weight:900;letter-spacing:.11em;color:#eee;text-shadow:0 2px 6px #000}.title .sub{display:none}.right{position:absolute;right:1.8%;top:2%;pointer-events:auto}.right .icon{background:rgba(4,8,8,.46);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(2px)}.playUtility{display:none;place-items:center}
+.header{position:absolute;inset:0 0 auto 0;height:15.5%;background:transparent;border:0;padding:0 2.3%;z-index:30;pointer-events:none}.brand{visibility:hidden}.header .title{position:absolute;left:31%;right:31%;top:1.3%;height:12%;pointer-events:none}.titleRow{height:64%;gap:1.1vw}.title h1,.playWord{font-size:clamp(20px,2.26vw,40px);letter-spacing:.13em;text-shadow:0 3px 10px #000;font-weight:900}.playWord{display:none}.titleBall{display:none;width:clamp(46px,4.8vw,86px);aspect-ratio:1;border-radius:50%;place-items:center;font-size:clamp(18px,1.8vw,32px);font-weight:900;border:2px solid #eee;box-shadow:inset -10px -12px 18px rgba(0,0,0,.55),0 5px 12px #000}.titleMatchMeta{display:none;justify-content:space-between;width:78%;margin:-.4% auto 0;font-size:clamp(9px,.85vw,15px);font-weight:900;letter-spacing:.11em;color:#eee;text-shadow:0 2px 6px #000}.title .sub{display:none}.right{position:absolute;right:1.8%;top:2%;pointer-events:auto}.right .icon{background:rgba(4,8,8,.46);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(2px)}.playUtility{display:none;place-items:center}
 .tableWrap{position:absolute;inset:0}.table{position:absolute;inset:0;border:0;outline:0;border-radius:0;background:transparent;overflow:visible}.cushionSegments,.railSights,.p{display:none!important}
 .setupMaster{position:absolute!important;left:9.2%!important;right:9.2%!important;top:21%!important;bottom:21%!important;display:grid!important;grid-template-columns:1fr .32fr 1fr!important;grid-template-rows:.23fr .62fr .46fr!important;grid-template-areas:'p1 swap p2' 'game game length' 'break break first'!important;gap:5% 4%!important}.setupNameP1{grid-area:p1}.setupSwap{grid-area:swap}.setupNameP2{grid-area:p2}.setupGameType{grid-area:game}.setupMatchLength{grid-area:length}.setupBreakFormat{grid-area:break}.setupFirstBreak{grid-area:first}.setupObjectLabel{color:#fff;text-shadow:0 2px 5px #000;letter-spacing:.14em}.name{background:transparent!important;border:0!important;border-bottom:2px solid!important;border-radius:0!important}.name.red{border-color:rgba(255,67,67,.9)!important;filter:drop-shadow(0 0 8px rgba(255,40,40,.45))}.name.blue{border-color:rgba(57,160,255,.9)!important;filter:drop-shadow(0 0 8px rgba(30,130,255,.45))}.name input{font-size:clamp(22px,2.5vw,44px)!important;text-shadow:0 2px 5px #000}.setupSwap{align-self:center;background:transparent!important;border:0!important;color:#fff;opacity:.9}.setupSwap:disabled{opacity:.28}.gameWoodTray,.firstBreakTray,.counter{background:transparent!important;border:0!important;box-shadow:none!important}.balls{gap:clamp(20px,3vw,56px)!important}.ball{width:clamp(52px,5vw,88px)!important;height:auto!important;aspect-ratio:1;font-size:clamp(20px,2vw,34px)!important;box-shadow:inset -10px -12px 16px rgba(0,0,0,.5),0 5px 10px rgba(0,0,0,.45)!important}.ball.sel{outline:3px solid var(--gold);filter:drop-shadow(0 0 12px rgba(242,196,77,.65))}.track{background:transparent!important}.length{gap:1.6vw!important}.counter{padding:0!important}.counter button,.choice{background:rgba(0,0,0,.18)!important;border:1px solid rgba(255,255,255,.22)!important}.counter b{font-size:clamp(30px,3vw,52px)!important}.choice.active{border-color:var(--gold)!important;box-shadow:0 0 10px rgba(242,196,77,.28)}
 .play{left:10%!important;right:10%!important;top:24%!important;bottom:27%!important;display:grid!important;grid-template-columns:1fr .62fr 1fr!important;gap:2%!important}.side{background:transparent!important;border:0!important}.pname{font-size:clamp(26px,3vw,52px)!important;color:#fff;-webkit-text-stroke:.6px var(--red);text-shadow:0 0 3px #000,0 0 12px rgba(255,40,40,.8),0 0 30px rgba(255,40,40,.42)}.rightSide .pname{-webkit-text-stroke:.6px var(--blue);text-shadow:0 0 3px #000,0 0 12px rgba(40,130,255,.8),0 0 30px rgba(40,130,255,.42)}.score{font-size:clamp(72px,9vw,150px)!important;color:#fff;-webkit-text-stroke:1px var(--red);text-shadow:0 0 4px #000,0 0 18px rgba(255,30,30,.95),0 0 42px rgba(255,30,30,.45)}.rightSide .score{-webkit-text-stroke:1px var(--blue);text-shadow:0 0 4px #000,0 0 18px rgba(30,120,255,.95),0 0 42px rgba(30,120,255,.45)}.hill{font-size:clamp(11px,1.05vw,18px);text-shadow:0 2px 5px #000}.centre{background:transparent!important;gap:.35vh!important}.race{display:none}.timing{display:flex;flex-direction:column;align-items:center}.timing .timeLabel:first-of-type{font-size:clamp(12px,1.15vw,20px);letter-spacing:.14em}.timing b#thisFrameDisplay{font-size:clamp(28px,3.3vw,58px);color:#fff;text-shadow:0 2px 8px #000;margin:0}.timing .timeLabel:nth-of-type(2),#avgFrameDisplay{display:none}.frame{order:10;font-size:clamp(11px,1vw,18px);letter-spacing:.1em;text-shadow:0 2px 5px #000}.breaker{order:4}.timing{order:3}.frame{order:5}.breakerText{display:none}.breakerCueBall{width:clamp(46px,4.4vw,78px)!important;height:auto!important;aspect-ratio:1;background:radial-gradient(circle at 32% 27%,#fff 0,#f7f7f2 40%,#d7d8d5 74%,#aeb0ad 100%)!important;border:1px solid #ddd!important;box-shadow:inset -8px -9px 13px rgba(0,0,0,.18),0 6px 12px rgba(0,0,0,.45)!important;position:absolute!important;top:50%;margin-top:-2.2vw}.breakerCueBall.bp1{left:3%!important;transform:none!important}.breakerCueBall.bp2{right:3%!important;left:auto!important;transform:none!important}.breakerArrow{color:#e52222;font-size:42%;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}.legacyBottom{display:none!important}.floorTiming{position:absolute;left:21%;right:21%;bottom:4.2%;height:10%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;z-index:20;text-shadow:0 2px 6px #000}.floorTime{text-align:center;display:flex;flex-direction:column;gap:.3vh}.floorTime span{font-size:clamp(10px,.85vw,15px);letter-spacing:.13em;color:#ddd}.floorTime b{font-size:clamp(18px,1.7vw,30px);font-variant-numeric:tabular-nums}.floorPause{width:clamp(44px,4vw,68px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.42);color:#fff;font-size:clamp(18px,1.7vw,28px);box-shadow:0 4px 14px #000}.pauseVeil{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;place-items:center;z-index:70;pointer-events:none}.pauseVeil.show{display:grid}.pauseVeil div{font-size:clamp(30px,4vw,70px);font-weight:900;letter-spacing:.12em;text-shadow:0 4px 15px #000}.floorPause{position:relative;z-index:80}.banterBubble{top:47%;animation:none}.modalWrap{z-index:100}.modal,.help{background:rgba(5,20,16,.92)!important;backdrop-filter:blur(7px)}
@@ -3756,7 +3756,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 </script>
 
 <style id="rackmate-v223-vertical-concept">
-/* v2.25: true structural implementation of Spook's three-column mock-up. Setup only. */
+/* v2.26: true structural implementation of Spook's three-column mock-up. Setup only. */
 /* Player row/title/utilities deliberately inherit the approved v2.21 geometry. */
 .setupName .name{background:rgba(4,7,7,.72)!important;border-radius:7px!important;border-top:1px solid rgba(255,255,255,.12)!important;border-left:1px solid rgba(255,255,255,.08)!important;border-right:1px solid rgba(255,255,255,.08)!important}
 .setupName .name input::placeholder{color:rgba(255,255,255,.52)!important;opacity:1!important}
@@ -3794,7 +3794,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 </style>
 
 <style id="v224-final-setup-refinement">
-/* v2.25: refine the v2.25 structural experiment only */
+/* v2.26: refine the v2.26 structural experiment only */
 #setupScreen .game-options{gap:30px!important}
 #setupScreen .game-slider,#setupScreen .game-slider-track{
  position:absolute!important;width:2px!important;height:190px!important;
@@ -3818,7 +3818,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 #setupScreen .first-break-group{transform:translateY(-46px)!important}
 </style>
 <style id="v225-match-length-alignment">
-/* Screenshot-measured v2.25: right-column alignment only */
+/* Screenshot-measured v2.26: right-column alignment only */
 #setupScreen .race-control{
  position:absolute!important;
  left:1325px!important;
@@ -3830,6 +3830,35 @@ body{align-items:flex-start!important;justify-content:center!important}
  left:1325px!important;
  top:640px!important;
  transform:translateX(-50%)!important;
+}
+</style>
+<style id="v226-three-column-fix">
+/* v2.26 Setup-only structural positioning */
+#setupScreen .game-options{gap:46px!important}
+#setupScreen .break-format-group{
+ position:absolute!important;left:1024px!important;top:448px!important;
+ transform:translateX(-50%)!important;
+}
+#setupScreen .first-break-group{
+ position:absolute!important;left:1024px!important;top:620px!important;
+ transform:translateX(-50%)!important;
+}
+/* Right column: same axis, Race above Best Of */
+#setupScreen .race-control{
+ position:absolute!important;left:1510px!important;top:390px!important;
+ transform:translateX(-50%)!important;width:240px!important;
+}
+#setupScreen .best-control{
+ position:absolute!important;left:1510px!important;top:620px!important;
+ transform:translateX(-50%)!important;width:240px!important;
+}
+/* Replace the floating horizontal-selector geometry with a vertical rail */
+#setupScreen .game-slider,#setupScreen .game-slider-track{
+ position:absolute!important;left:690px!important;top:430px!important;
+ width:2px!important;height:250px!important;transform:none!important;
+}
+#setupScreen .game-slider-thumb,#setupScreen .game-slider .thumb{
+ left:50%!important;transform:translateX(-50%)!important;
 }
 </style>
 </body></html>
@@ -3965,7 +3994,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 </style>
 
 <style id="rackmate-v220-spacing-refinement">
-/* v2.25 — spacing refinement from the approved prior composition. Physical v2.08 shell/background untouched. */
+/* v2.26 — spacing refinement from the approved prior composition. Physical v2.08 shell/background untouched. */
 /* Player row: lower together while preserving approved horizontal positions. */
 .setupName{transform:translateY(1.5vh)!important}
 .setupSwap{transform:translate(1.85vw,6.3vh)!important}
@@ -3979,7 +4008,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 .setupFirstBreak{transform:translateY(17.5vh)!important}
 </style>
 <style id="rackmate-v221-polish-pass">
-/* v2.25 — screenshot-led polish only. Locked physical shell/background and approved Setup centres remain untouched. */
+/* v2.26 — screenshot-led polish only. Locked physical shell/background and approved Setup centres remain untouched. */
 /* Optical title correction: nudge right only; vertical position unchanged. */
 .header .title{transform:translateX(-43.1%)!important}
 
