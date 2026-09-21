@@ -1694,7 +1694,7 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.34</div>
+<div class="version">BETA v2.35</div>
 </div></div></div>
 <script>
 const RACKMATE_VERSION='2.34';
@@ -1705,7 +1705,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.34';
+const APP_VERSION='BETA v2.35';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -4249,7 +4249,7 @@ body{align-items:flex-start!important;justify-content:center!important}
 </style>
 
 <style id="rackmate-v234-measured-mockup-layout">
-/* v2.34 — measured from Jason's approved v2.21 Inkscape mock-up.
+/* v2.35 — measured from Jason's approved v2.21 Inkscape mock-up.
    Coordinates are proportional to the physical table/felt, while preserving the v2.33 fullscreen shell. */
 /* LEFT COLUMN — beneath Player 1 */
 #setupScreen .setupGameType{left:37.8%!important;top:75.0%!important;}
@@ -4258,4 +4258,12 @@ body{align-items:flex-start!important;justify-content:center!important}
 #setupScreen .setupFirstBreak{left:65.6%!important;top:92.0%!important;}
 /* RIGHT COLUMN — beneath Player 2, Race To over Best Of */
 #setupScreen .setupMatchLength{left:95.3%!important;top:75.0%!important;height:29.0%!important;}
+</style>
+
+<style id="rackmate-v235-top-row-alignment">
+/* v2.35 — small rightward correction to the three locked top-row controls only.
+   Fullscreen shell and v2.35 measured lower-column geometry remain untouched. */
+#setupScreen .setupNameP1{transform:translateX(1.35vw)!important;}
+#setupScreen .setupSwap{transform:translate(3.20vw,6.3vh)!important;}
+#setupScreen .setupNameP2{transform:translateX(1.35vw)!important;}
 </style>
