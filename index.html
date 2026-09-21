@@ -1649,7 +1649,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.16</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.15';
+const RACKMATE_VERSION='2.16';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -3612,7 +3612,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.13',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.16',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
