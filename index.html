@@ -50,7 +50,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 
-/* BETA v2.17 RackMate Banter */
+/* BETA v2.18 RackMate Banter */
 .banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
 .banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
 .banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
@@ -1377,8 +1377,37 @@ html,body{background:#050506}
 #rackmateBuildIdentity .rmRack{color:#f3f3f3} #rackmateBuildIdentity .rmMate{color:#e5b548}
 #rackmateBuildIdentity .rmBuild{font-size:13px;font-weight:700;color:#ddd;margin-left:3px;white-space:nowrap}
 </style>
+
+<style id="rackmate-v218-setup-composition">
+/* v2.18 — screenshot-led Setup composition only. Physical v2.08 shell/background remains untouched. */
+/* Master title: horizontal shift only; established Y is unchanged. */
+.header .title{left:60.7%!important;right:auto!important;width:52%!important;top:3.0%!important;transform:translateX(-46%)!important;text-align:center!important}
+
+/* Player row: preserve P1/P2 X, lower the whole row. Swap sits on the middle-pocket axis. */
+.setupName{top:38.9%!important}
+.setupSwap{left:61.3%!important;top:38.4%!important}
+
+/* Second row: each match control lives directly beneath its player input. */
+.setupGameType{left:27.6%!important;top:51.0%!important;width:24.0%!important;height:11.0%!important}
+.setupMatchLength{left:60.2%!important;top:50.0%!important;width:27.0%!important;height:12.0%!important}
+
+/* Third row: compact two-state break-format toggle centred on the physical table. */
+.setupBreakFormat{left:43.0%!important;top:66.0%!important;width:26.0%!important;height:7.2%!important}
+.setupBreakFormat .setupObjectLabel{left:0!important;right:0!important;text-align:center!important}
+.setupBreakFormat .row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0!important;align-items:stretch!important;border:1px solid rgba(255,255,255,.28)!important;border-radius:999px!important;background:rgba(0,0,0,.16)!important;overflow:hidden!important}
+.setupBreakFormat .choice{min-height:0!important;height:100%!important;padding:0 .7vw!important;border:0!important;border-radius:999px!important;background:transparent!important;color:rgba(255,255,255,.60)!important;font-size:clamp(10px,.82vw,15px)!important}
+.setupBreakFormat .choice.active{background:rgba(242,196,77,.18)!important;color:#ffe29a!important;box-shadow:inset 0 0 0 1px rgba(242,196,77,.70),0 0 12px rgba(242,196,77,.20)!important;text-shadow:0 0 8px rgba(242,196,77,.55),0 2px 4px #000!important}
+
+/* Fourth row: opening-break choices directly beneath the centred break-format toggle. */
+.setupFirstBreak{left:40.5%!important;top:77.5%!important;width:31.0%!important;height:12.0%!important}
+.setupFirstBreak .setupObjectLabel{left:0!important;right:0!important;text-align:center!important}
+
+/* v2.18 supersedes the old v2.17 screenshot transforms for the utility buttons; their approved corner position is retained. */
+#settingsBtn{transform:none!important}
+#helpBtn{transform:none!important}
+</style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.13" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.18" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1646,10 +1675,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.17</div>
+<div class="version">BETA v2.18</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.17';
+const RACKMATE_VERSION='2.18';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1657,7 +1686,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.17';
+const APP_VERSION='BETA v2.18';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3612,7 +3641,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.17',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.18',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -3789,7 +3818,8 @@ body{align-items:flex-start!important;justify-content:center!important}
 .setupFirstBreak .firstBreakChoice.active{border:0!important;background:transparent!important;box-shadow:none!important;color:#ffe29a!important;text-shadow:0 0 8px rgba(242,196,77,.55)!important}
 .setupFirstBreak .firstIcon{width:clamp(42px,3.8vw,66px)!important;height:auto!important;aspect-ratio:1!important}
 .setupGameType .ball,.setupBreakFormat .choice,.setupFirstBreak .firstBreakChoice,.setupMatchLength button,.setupSwap{touch-action:manipulation!important}
-\n/* v2.14 — requested positioning refinement only. */
+
+/* v2.14 — requested positioning refinement only. */
 /* Header grid children explicitly span the full locked app plane so percentages are app-relative. */
 .header .title{grid-column:1 / -1!important;grid-row:1!important;left:31.8%!important;right:26.2%!important;top:3.0%!important}
 .header .right{grid-column:1 / -1!important;grid-row:1!important;left:0!important;right:0!important;width:100%!important;inset:0!important}
@@ -3799,7 +3829,8 @@ body{align-items:flex-start!important;justify-content:center!important}
 .setupName{top:30.7%!important}
 .setupNameP1{left:29.0%!important}
 .setupNameP2{left:77.4%!important;right:auto!important}
-\n/* v2.14 — setup positioning only; v2.08 physical shell remains immutable. */
+
+/* v2.14 — setup positioning only; v2.08 physical shell remains immutable. */
 /* Horizontal player positions are locked from v2.13; lower both blocks so labels sit on felt. */
 .setupName{top:34.0%!important}
 /* Utilities: pin to the far-right edge of the live app viewport with a small deliberate inset. */
