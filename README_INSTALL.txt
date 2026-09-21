@@ -1,4 +1,4 @@
-RackMate v2.33 BETA
+RackMate v2.34 BETA
 Upload THESE ROOT FILES directly over the root of the GitHub RackMate repository.
 Do not create a RackMate_v2.17_BETA subfolder.
 
@@ -25,3 +25,6 @@ v2.33 Setup spacing:
 - v2.33 is a Y-axis-only refinement: upper control headings aligned lower beneath the player row; First Break lowered proportionally. Three-column X axes are unchanged.
 
 - v2.33: decisive three-column reposition: Game Type under Player 1, Break Format/First Break under Swap Sides, Race To/Best Of under Player 2; all lower groups moved down together.
+
+
+v2.34: Measured mock-up layout pass. Preserves v2.33 fullscreen shell; repositions Setup lower columns only.
