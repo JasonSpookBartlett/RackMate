@@ -50,7 +50,7 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 @media(max-width:700px){.editGrid{grid-template-columns:1fr 1fr;gap:9px 12px}.editField input,.editReadout{padding:7px 9px;font-size:15px}.editChoices .choice{min-width:105px;padding:8px 10px}}
 .toast{position:absolute;left:50%;top:2%;transform:translateX(-50%);background:#111918;border:1px solid #6e9a87;border-radius:10px;padding:8px 14px;opacity:0}.toast.show{opacity:1}
 
-/* BETA v2.08 RackMate Banter */
+/* BETA v2.10 RackMate Banter */
 .banterBubble{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(650px,72vw);max-height:52vh;overflow:auto;background:#f8f2df;color:#151515;border:3px solid #171717;border-radius:30px;padding:22px 28px;font-family:'Comic Sans MS','Trebuchet MS',sans-serif;font-size:clamp(20px,2.45vw,36px);font-weight:900;line-height:1.18;text-align:center;box-shadow:0 18px 45px rgba(0,0,0,.58);z-index:90;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .14s ease,transform .14s ease,visibility .14s}
 .banterBubble::before{content:'';position:absolute;left:30px;top:-29px;width:0;height:0;border-right:34px solid transparent;border-bottom:34px solid #171717;transform:rotate(-14deg);transform-origin:bottom left}
 .banterBubble::after{content:'';position:absolute;left:35px;top:-22px;width:0;height:0;border-right:27px solid transparent;border-bottom:27px solid #f8f2df;transform:rotate(-14deg);transform-origin:bottom left}
@@ -1378,7 +1378,7 @@ html,body{background:#050506}
 #rackmateBuildIdentity .rmBuild{font-size:13px;font-weight:700;color:#ddd;margin-left:3px;white-space:nowrap}
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.08" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.10" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1646,10 +1646,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.08</div>
+<div class="version">BETA v2.10</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.08';
+const RACKMATE_VERSION='2.10';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1657,7 +1657,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.08';
+const APP_VERSION='BETA v2.10';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3612,7 +3612,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.08',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.10',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -3731,83 +3731,69 @@ body{align-items:flex-start!important;justify-content:center!important}
 })();
 </script>
 </body></html>
-<style id="rackmate-v207-setup-composition">
-/* =========================================================
-   RackMate v2.08 — MATCH SETUP composition on locked 2048x1024 master
-   Background geometry is untouchable. UI is placed against that datum.
-   ========================================================= */
+<style id="rackmate-v210-setup-composition">
+/* RackMate v2.10 — SETUP UI ONLY. Physical shell/background are immutable v2.08. */
 
-/* Page title rides over the three lamps; slight translucency keeps the room alive. */
-.header .title{
-  left:27%!important;right:27%!important;top:3.25%!important;
-}
-.title h1{
-  font-size:clamp(27px,2.55vw,46px)!important;
-  color:rgba(255,255,255,.88)!important;
-  letter-spacing:.15em!important;
-  text-shadow:0 3px 9px rgba(0,0,0,.92),0 0 16px rgba(0,0,0,.42)!important;
-}
+/* Remove the old dynamic footer copy. The baked Mokoroa branding remains untouched. */
+.tableWrap::after{display:none!important;content:none!important}
 
-/* Live build number: still beside baked RackMate branding, just easier to read. */
-#rackmateBuildIdentity{left:18.0%!important;top:4.0%!important}
-#rackmateBuildIdentity .rmBuild{
-  font-size:clamp(13px,1.0vw,18px)!important;
-  font-weight:800!important;color:rgba(255,255,255,.92)!important;
-}
+/* Title stays above the lamps. */
+.header .title{left:29%!important;right:29%!important;top:3.0%!important}
+.title h1{font-size:clamp(27px,2.55vw,46px)!important;color:rgba(255,255,255,.88)!important;letter-spacing:.15em!important;text-shadow:0 3px 9px rgba(0,0,0,.92),0 0 16px rgba(0,0,0,.42)!important}
 
-/* Utility controls. Settings + Help live beneath the baked RackMate mark on Setup.
-   Play-only Undo/Edit remain on the right when Gameplay exposes them. */
+/* Only the live version text is visible beside the baked RackMate branding. */
+#rackmateBuildIdentity{left:17.6%!important;top:3.8%!important}
+#rackmateBuildIdentity img,#rackmateBuildIdentity .rmName{display:none!important}
+#rackmateBuildIdentity .rmBuild{font-size:clamp(14px,1.05vw,19px)!important;font-weight:800!important;color:rgba(255,255,255,.92)!important}
+
+/* Utility buttons live in the clear room to the RIGHT of the table. */
 .header .right{position:absolute!important;inset:0!important;display:block!important;pointer-events:none!important}
-.header .right .icon{position:absolute!important;pointer-events:auto!important;width:clamp(38px,3.05vw,54px)!important;height:clamp(38px,3.05vw,54px)!important;border-radius:12px!important;background:rgba(5,9,8,.42)!important;border:1px solid rgba(255,255,255,.30)!important;box-shadow:0 3px 10px rgba(0,0,0,.40)!important;font-size:clamp(19px,1.55vw,28px)!important}
-#settingsBtn{left:2.35%!important;top:14.0%!important}
-#helpBtn{left:2.35%!important;top:21.1%!important}
+.header .right .icon{position:absolute!important;pointer-events:auto!important;width:clamp(42px,3.2vw,58px)!important;height:clamp(42px,3.2vw,58px)!important;border-radius:12px!important;background:rgba(5,9,8,.46)!important;border:1px solid rgba(255,255,255,.32)!important;box-shadow:0 3px 10px rgba(0,0,0,.45)!important;font-size:clamp(20px,1.6vw,29px)!important}
+#settingsBtn{right:2.35%!important;left:auto!important;top:28.0%!important}
+#helpBtn{right:2.35%!important;left:auto!important;top:38.0%!important}
 #topUndoBtn{right:5.0%!important;top:3.0%!important;left:auto!important}
 #topEditBtn{right:1.4%!important;top:3.0%!important;left:auto!important}
 
-/* Setup is deliberately sparse: no trays/cards. The table/felt is the boundary. */
+/* Setup composition is aligned to the actual table/felt on the immutable background. */
 .setupMaster{position:absolute!important;inset:0!important;display:block!important}
 .setupName,.setupSwap,.setupGameType,.setupMatchLength,.setupBreakFormat,.setupFirstBreak{position:absolute!important;margin:0!important}
-.setupObjectLabel{top:-26px!important;font-size:clamp(12px,.95vw,17px)!important;letter-spacing:.15em!important;color:rgba(255,255,255,.92)!important;text-shadow:0 2px 5px #000!important}
+.setupObjectLabel{top:-24px!important;font-size:clamp(12px,.92vw,17px)!important;letter-spacing:.15em!important;color:rgba(255,255,255,.92)!important;text-shadow:0 2px 5px #000!important}
 
-/* Player names sit just inside the top of the playing surface. */
-.setupName{top:21.0%!important;width:26.5%!important;height:8.2%!important}
-.setupNameP1{left:15.0%!important}.setupNameP2{right:15.0%!important}
+/* Top row: names share one datum; swap sits exactly between them. */
+.setupName{top:29.0%!important;width:27.0%!important;height:7.4%!important}
+.setupNameP1{left:18.0%!important}.setupNameP2{left:55.0%!important;right:auto!important}
 .setupName .name{height:100%!important}
-.setupName .name input{font-size:clamp(25px,2.25vw,40px)!important;font-weight:800!important}
+.setupName .name input{font-size:clamp(25px,2.25vw,40px)!important;font-weight:800!important;text-align:center!important}
+.setupSwap{left:46.0%!important;top:28.3%!important;width:8.0%!important;height:8.5%!important;gap:0!important;font-size:clamp(10px,.78vw,14px)!important;text-shadow:0 2px 4px #000!important;background:transparent!important;border:0!important}
+.setupSwap .swapArrows{font-size:clamp(24px,1.9vw,34px)!important}
 
-/* Swap is intentionally quiet until both names exist. */
-.setupSwap{left:44.0%!important;top:20.0%!important;width:12.0%!important;height:9.2%!important;gap:1px!important;font-size:clamp(11px,.85vw,15px)!important;text-shadow:0 2px 4px #000!important}
-.setupSwap .swapArrows{font-size:clamp(22px,1.8vw,32px)!important}
-
-/* Game choice: the balls themselves are the controls. */
-.setupGameType{left:20.0%!important;top:40.0%!important;width:25.0%!important;height:12.0%!important}
+/* Middle row. */
+.setupGameType{left:22.0%!important;top:47.0%!important;width:23.0%!important;height:10.5%!important}
 .setupGameType .gameWoodTray{display:block!important;position:absolute!important;inset:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
 .setupGameType .balls{position:absolute!important;inset:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:0!important}
-.setupGameType .ball{width:clamp(58px,5.0vw,86px)!important;height:auto!important;aspect-ratio:1!important}
+.setupGameType .ball{width:clamp(58px,4.8vw,84px)!important;height:auto!important;aspect-ratio:1!important}
 .setupGameType .track{display:none!important}
 
-/* Match length: big numbers and +/- controls, no containing panel. */
-.setupMatchLength{left:55.5%!important;top:39.0%!important;width:25.5%!important;height:14.0%!important;background:transparent!important;border:0!important;box-shadow:none!important}
-.setupMatchLength .length{position:absolute!important;inset:0!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:2.2vw!important}
-.setupMatchLength .counter{display:grid!important;grid-template-columns:32px 1fr 32px!important;align-items:center!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.setupMatchLength{left:56.0%!important;top:45.5%!important;width:25.0%!important;height:12.5%!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.setupMatchLength .length{position:absolute!important;inset:0!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:2.0vw!important}
+.setupMatchLength .counter{display:grid!important;grid-template-columns:32px 1fr 32px!important;align-items:center!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
 .setupMatchLength .counter:first-child{border:0!important}
 .setupMatchLength .counter small{font-size:clamp(10px,.75vw,13px)!important;letter-spacing:.10em!important;color:rgba(255,255,255,.84)!important}
-.setupMatchLength .counter b{font-size:clamp(38px,3.5vw,60px)!important;text-shadow:0 3px 8px #000!important}
+.setupMatchLength .counter b{font-size:clamp(38px,3.4vw,58px)!important;text-shadow:0 3px 8px #000!important}
 .setupMatchLength .counter button{height:42px!important;border:0!important;background:transparent!important;font-size:clamp(28px,2.4vw,42px)!important;color:rgba(255,255,255,.86)!important;text-shadow:0 2px 5px #000!important;padding:0!important}
 
-/* Lower pair: break format left, opening-break choice right. */
-.setupBreakFormat{left:19.0%!important;top:65.5%!important;width:27.5%!important;height:8.5%!important}
-.setupBreakFormat .row{display:flex!important;position:absolute!important;inset:0!important;gap:1.3vw!important}
+/* Bottom row. */
+.setupBreakFormat{left:20.0%!important;top:66.5%!important;width:27.0%!important;height:8.0%!important}
+.setupBreakFormat .row{display:flex!important;position:absolute!important;inset:0!important;gap:1.2vw!important}
 .setupBreakFormat .choice{border:0!important;background:transparent!important;box-shadow:none!important;color:rgba(255,255,255,.58)!important;font-size:clamp(11px,.85vw,15px)!important;padding:0!important}
 .setupBreakFormat .choice.active{color:#ffe29a!important;border:0!important;box-shadow:none!important;text-shadow:0 0 9px rgba(242,196,77,.65),0 2px 4px #000!important}
 
-.setupFirstBreak{left:55.0%!important;top:64.0%!important;width:27.5%!important;height:12.0%!important}
+.setupFirstBreak{left:55.0%!important;top:64.5%!important;width:28.0%!important;height:12.0%!important}
 .setupFirstBreak .firstBreakTray{position:absolute!important;inset:0!important;display:flex!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important;gap:1.0vw!important}
 .setupFirstBreak .firstBreakChoice{border:0!important;background:transparent!important;box-shadow:none!important;color:rgba(255,255,255,.62)!important;gap:.45vh!important;padding:0!important;font-size:clamp(10px,.78vw,14px)!important}
 .setupFirstBreak .firstBreakChoice+.firstBreakChoice{border:0!important}
 .setupFirstBreak .firstBreakChoice.active{border:0!important;background:transparent!important;box-shadow:none!important;color:#ffe29a!important;text-shadow:0 0 8px rgba(242,196,77,.55)!important}
 .setupFirstBreak .firstIcon{width:clamp(42px,3.8vw,66px)!important;height:auto!important;aspect-ratio:1!important}
 
-/* Keep touch targets generous even though visible controls are intentionally light. */
 .setupGameType .ball,.setupBreakFormat .choice,.setupFirstBreak .firstBreakChoice,.setupMatchLength button,.setupSwap{touch-action:manipulation!important}
 </style>
