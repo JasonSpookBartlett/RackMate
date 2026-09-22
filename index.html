@@ -1378,55 +1378,8 @@ html,body{background:#050506}
 #rackmateBuildIdentity .rmBuild{font-size:13px;font-weight:700;color:#ddd;margin-left:3px;white-space:nowrap}
 </style>
 
-<style id="rackmate-v218-setup-composition">
-/* v2.27 — screenshot-led Setup composition only. Physical v2.08 shell/background remains untouched. */
-/* Master title: horizontal shift only; established Y is unchanged. */
-.header .title{left:60.7%!important;right:auto!important;width:52%!important;top:3.0%!important;transform:translateX(-46%)!important;text-align:center!important}
-
-/* Player row: preserve P1/P2 X, lower the whole row. Swap sits on the middle-pocket axis. */
-.setupName{top:38.9%!important}
-.setupSwap{left:61.3%!important;top:38.4%!important}
-
-/* Second row: each match control lives directly beneath its player input. */
-.setupGameType{left:27.6%!important;top:51.0%!important;width:24.0%!important;height:11.0%!important}
-.setupMatchLength{left:60.2%!important;top:50.0%!important;width:27.0%!important;height:12.0%!important}
-
-/* Third row: compact two-state break-format toggle centred on the physical table. */
-.setupBreakFormat{left:43.0%!important;top:66.0%!important;width:26.0%!important;height:7.2%!important}
-.setupBreakFormat .setupObjectLabel{left:0!important;right:0!important;text-align:center!important}
-.setupBreakFormat .row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0!important;align-items:stretch!important;border:1px solid rgba(255,255,255,.28)!important;border-radius:999px!important;background:rgba(0,0,0,.16)!important;overflow:hidden!important}
-.setupBreakFormat .choice{min-height:0!important;height:100%!important;padding:0 .7vw!important;border:0!important;border-radius:999px!important;background:transparent!important;color:rgba(255,255,255,.60)!important;font-size:clamp(10px,.82vw,15px)!important}
-.setupBreakFormat .choice.active{background:rgba(242,196,77,.18)!important;color:#ffe29a!important;box-shadow:inset 0 0 0 1px rgba(242,196,77,.70),0 0 12px rgba(242,196,77,.20)!important;text-shadow:0 0 8px rgba(242,196,77,.55),0 2px 4px #000!important}
-
-/* Fourth row: opening-break choices directly beneath the centred break-format toggle. */
-.setupFirstBreak{left:40.5%!important;top:77.5%!important;width:31.0%!important;height:12.0%!important}
-.setupFirstBreak .setupObjectLabel{left:0!important;right:0!important;text-align:center!important}
-
-/* v2.27 supersedes the old v2.17 screenshot transforms for the utility buttons; their approved corner position is retained. */
-#settingsBtn{transform:none!important}
-#helpBtn{transform:none!important}
-</style>
-
-<style id="rackmate-v232-y-axis-spacing">
-/* v2.32 — Y-axis-only spacing pass. Preserve v2.30 three-column X axes and locked v2.08 shell.
-   GAME TYPE / BREAK FORMAT / RACE TO share one horizontal datum; lower controls keep their established rhythm. */
-#setupScreen .setupGameType{top:55.2%!important;}
-#setupScreen .setupBreakFormat{top:55.2%!important;}
-#setupScreen .setupMatchLength{top:55.2%!important;height:29.0%!important;}
-#setupScreen .setupFirstBreak{top:72.4%!important;}
-#setupScreen .setupMatchLength .counter{height:38%!important;}
-</style>
-
-<style id="rackmate-v233-big-column-reposition">
-/* v2.33 — decisive column anchoring pass. SETUP UI ONLY.
-   Anchor each lower column beneath its approved player-row control; preserve internal group geometry. */
-#setupScreen .setupGameType{left:31.5%!important;top:63.7%!important;}
-#setupScreen .setupBreakFormat{left:53.5%!important;top:63.7%!important;}
-#setupScreen .setupFirstBreak{left:50.5%!important;top:80.9%!important;}
-#setupScreen .setupMatchLength{left:79.0%!important;top:63.7%!important;}
-</style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.38" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.39" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1694,7 +1647,7 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.38</div>
+<div class="version">BETA v2.39</div>
 </div></div></div>
 <script>
 const RACKMATE_VERSION='2.38';
@@ -1705,7 +1658,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.38';
+const APP_VERSION='BETA v2.39';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3655,7 +3608,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.38',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.39',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -3880,7 +3833,96 @@ body{align-items:flex-start!important;justify-content:center!important}
  left:50%!important;transform:translateX(-50%)!important;
 }
 </style>
-</body></html>
+</body>
+<style id="rackmate-v239-unified-design-plane">
+/* v2.39 — unified 2048 x 1024 design plane.
+   The live browser rectangle is the datum: top-left = 0,0; right/bottom = 100%,100%.
+   Positions and rectangular extents scale with X/Y independently; visual sizes use the
+   smaller axis through container query units so balls, icons and type do not distort. */
+html,body{
+  width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;background:#000!important;
+}
+body{position:fixed!important;inset:0!important;display:block!important;}
+.app{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
+  margin:0!important;aspect-ratio:auto!important;overflow:hidden!important;box-shadow:none!important;
+  container-type:size;
+  background-image:url('./assets/rackmate-master-background.webp?v=2.39')!important;
+  background-position:0 0!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
+}
+.app::before{display:none!important;content:none!important;}
+.tableWrap,.table{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important;}
+.cushionSegments,.railSights,.p{display:none!important;}
+.screen{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;}
+
+/* Build identity: same 2048x1024 drawing plane, not viewport-fixed furniture. */
+#rackmateBuildIdentity{position:absolute!important;left:5.9%!important;top:8.0%!important;z-index:10050!important;gap:min(0.55cqw,1.1cqh)!important;transform:none!important;}
+#rackmateBuildIdentity img{width:min(3.7cqw,7.4cqh)!important;height:min(3.7cqw,7.4cqh)!important;border-radius:min(.48cqw,.96cqh)!important;}
+#rackmateBuildIdentity .rmName{font-size:min(2.05cqw,4.10cqh)!important;}
+#rackmateBuildIdentity .rmBuild{font-size:min(.78cqw,1.56cqh)!important;margin-left:min(.18cqw,.36cqh)!important;}
+
+/* Header is only a logical host. All visible furniture uses the same app plane. */
+.header{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;padding:0!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;display:block!important;pointer-events:none!important;}
+.header .brand{display:none!important;}
+.header .title{position:absolute!important;left:50%!important;top:9.2%!important;width:42%!important;right:auto!important;transform:translate(-50%,-50%)!important;text-align:center!important;pointer-events:none!important;}
+.header .title h1{font-size:min(2.35cqw,4.70cqh)!important;line-height:1!important;letter-spacing:.13em!important;white-space:nowrap!important;}
+.header .title .sub{display:none!important;}
+.header .right{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;pointer-events:none!important;}
+#settingsBtn,#helpBtn{position:absolute!important;right:5.8%!important;left:auto!important;width:min(3.65cqw,7.30cqh)!important;height:min(3.65cqw,7.30cqh)!important;margin:0!important;transform:none!important;font-size:min(1.55cqw,3.10cqh)!important;border-radius:min(.65cqw,1.3cqh)!important;pointer-events:auto!important;}
+#settingsBtn{top:7.5%!important;} #helpBtn{top:16.0%!important;}
+
+/* SETUP: direct design coordinates derived from the approved concept composition. */
+#setupScreen .setupMaster{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important;transform:none!important;}
+#setupScreen .setupName,#setupScreen .setupSwap,#setupScreen .setupGameType,#setupScreen .setupBreakFormat,#setupScreen .setupFirstBreak,#setupScreen .setupMatchLength{position:absolute!important;margin:0!important;transform:none!important;box-sizing:border-box!important;}
+#setupScreen .setupObjectLabel{font-size:min(1.05cqw,2.10cqh)!important;line-height:1!important;letter-spacing:.16em!important;text-shadow:0 2px 5px #000!important;}
+
+/* Player row */
+#setupScreen .setupName{top:27.0%!important;width:17.2%!important;height:7.0%!important;}
+#setupScreen .setupNameP1{left:25.0%!important;right:auto!important;}
+#setupScreen .setupNameP2{left:59.0%!important;right:auto!important;}
+#setupScreen .setupName .setupObjectLabel{position:absolute!important;left:0!important;right:0!important;top:-34%!important;text-align:center!important;}
+#setupScreen .name{position:absolute!important;left:0!important;right:0!important;bottom:0!important;height:72%!important;border-width:0 0 min(.13cqw,.26cqh) 0!important;}
+#setupScreen .name input{font-size:min(2.0cqw,4.0cqh)!important;line-height:1!important;padding:0 min(.45cqw,.9cqh)!important;}
+#setupScreen .setupSwap{left:47.0%!important;top:27.3%!important;width:6.0%!important;height:6.2%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:min(.25cqw,.5cqh)!important;border:0!important;background:transparent!important;box-shadow:none!important;font-size:min(.72cqw,1.44cqh)!important;}
+#setupScreen .setupSwap .swapArrows{font-size:min(1.7cqw,3.4cqh)!important;line-height:.8!important;}
+
+/* Left column — game type */
+#setupScreen .setupGameType{left:25.4%!important;top:39.0%!important;width:9.2%!important;height:29.0%!important;}
+#setupScreen .setupGameType .setupObjectLabel{position:absolute!important;left:-5%!important;right:-5%!important;top:-7%!important;text-align:center!important;white-space:nowrap!important;}
+#setupScreen .setupGameType .gameWoodTray{position:absolute!important;inset:0!important;background:transparent!important;border:0!important;box-shadow:none!important;}
+#setupScreen .setupGameType .balls{position:absolute!important;left:4%!important;top:7%!important;width:45%!important;height:87%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:space-between!important;gap:0!important;}
+#setupScreen .setupGameType .ball{width:min(3.35cqw,6.70cqh)!important;height:min(3.35cqw,6.70cqh)!important;min-width:0!important;min-height:0!important;font-size:min(1.35cqw,2.70cqh)!important;border-width:min(.13cqw,.26cqh)!important;}
+#setupScreen .setupGameType .b10{font-size:min(1.12cqw,2.24cqh)!important;}
+#setupScreen .setupGameType .track{display:block!important;position:absolute!important;left:77%!important;top:12%!important;width:1px!important;height:78%!important;margin:0!important;border:0!important;border-left:1px solid rgba(255,255,255,.40)!important;background:transparent!important;overflow:visible!important;}
+#setupScreen .setupGameType #gameCue{position:absolute!important;left:50%!important;width:min(1.55cqw,3.10cqh)!important;height:min(1.55cqw,3.10cqh)!important;transform:translate(-50%,-50%)!important;}
+#setupScreen .setupGameType #gameCue.pos8{top:0!important} #setupScreen .setupGameType #gameCue.pos9{top:50%!important} #setupScreen .setupGameType #gameCue.pos10{top:100%!important}
+
+/* Centre column — break format and first break */
+#setupScreen .setupBreakFormat{left:43.4%!important;top:39.5%!important;width:15.0%!important;height:9.0%!important;}
+#setupScreen .setupBreakFormat .setupObjectLabel{position:absolute!important;left:0!important;right:0!important;top:-10%!important;text-align:center!important;}
+#setupScreen .setupBreakFormat .row{position:absolute!important;left:0!important;right:0!important;top:35%!important;height:55%!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:min(.6cqw,1.2cqh)!important;background:transparent!important;border:0!important;overflow:visible!important;}
+#setupScreen .setupBreakFormat .choice{padding:0 min(.45cqw,.9cqh)!important;font-size:min(.82cqw,1.64cqh)!important;line-height:1.05!important;border-radius:999px!important;}
+#setupScreen .setupFirstBreak{left:41.7%!important;top:58.0%!important;width:18.5%!important;height:13.0%!important;}
+#setupScreen .setupFirstBreak .setupObjectLabel{position:absolute!important;left:0!important;right:0!important;top:-8%!important;text-align:center!important;}
+#setupScreen .setupFirstBreak .firstBreakTray{position:absolute!important;left:0!important;right:0!important;top:28%!important;height:72%!important;display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:0!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important;padding:0!important;}
+#setupScreen .setupFirstBreak .firstBreakChoice{width:31%!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:min(.35cqw,.7cqh)!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;font-size:min(.72cqw,1.44cqh)!important;white-space:nowrap!important;}
+#setupScreen .setupFirstBreak .firstIcon{width:min(3.4cqw,6.8cqh)!important;height:min(3.4cqw,6.8cqh)!important;font-size:min(1.05cqw,2.1cqh)!important;}
+
+/* Right column — race / best-of */
+#setupScreen .setupMatchLength{left:67.8%!important;top:39.3%!important;width:10.0%!important;height:27.5%!important;overflow:visible!important;}
+#setupScreen .setupMatchLength>.setupObjectLabel{display:none!important;}
+#setupScreen .setupMatchLength .length{position:absolute!important;inset:0!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;gap:0!important;}
+#setupScreen .setupMatchLength .counter{position:relative!important;width:100%!important;height:36%!important;display:grid!important;grid-template-columns:22% 56% 22%!important;align-items:center!important;padding:0!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important;}
+#setupScreen .setupMatchLength .counter small{font-size:min(.92cqw,1.84cqh)!important;letter-spacing:.14em!important;white-space:nowrap!important;}
+#setupScreen .setupMatchLength .counter b{font-size:min(2.65cqw,5.30cqh)!important;line-height:1!important;}
+#setupScreen .setupMatchLength .counter button{width:100%!important;height:100%!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;font-size:min(1.65cqw,3.30cqh)!important;}
+
+/* Touch geometry stays generous even though the visual treatment is light. */
+#setupScreen button{touch-action:manipulation!important;}
+</style>
+</html>
 <style id="rackmate-v212-setup-composition">
 /* RackMate v2.14 — SETUP UI ONLY. Physical shell/background are immutable v2.08. */
 .tableWrap::after{display:none!important;content:none!important}
@@ -3998,303 +4040,4 @@ body{align-items:flex-start!important;justify-content:center!important}
 }
 #settingsBtn{top:10px!important}
 #helpBtn{top:88px!important}
-</style>
-<style id="rackmate-v217-screenshot-positioning">
-/* v2.17 — screenshot-measured Setup UI adjustments only. Locked v2.08 shell/background untouched. */
-/* MATCH SETUP: +7.23% app width horizontally; Y unchanged. */
-.header .title{left:57.23%!important;right:auto!important;width:52%!important;top:3.0%!important;transform:translateX(-46%)!important;text-align:center!important}
-/* Settings/Help: +16.1% app width from their v2.17 rendered positions; Help also raised 4.8% app height. */
-#settingsBtn{transform:translateX(16.1vw)!important}
-#helpBtn{transform:translate(16.1vw,-4.8vh)!important}
-/* Swap Sides: onto the table centreline from screenshot measurement. */
-.setupSwap{left:59.15%!important}
-/* Break Format: lower the whole group by ~30 design px. */
-.setupBreakFormat{top:66.93%!important}
-</style>
-
-<style id="rackmate-v220-spacing-refinement">
-/* v2.27 — spacing refinement from the approved prior composition. Physical v2.08 shell/background untouched. */
-/* Player row: lower together while preserving approved horizontal positions. */
-.setupName{transform:translateY(1.5vh)!important}
-.setupSwap{transform:translate(1.85vw,6.3vh)!important}
-/* Second row: preserve X alignment and add breathing room beneath the player inputs. */
-.setupGameType{transform:translate(7.05vw,6.3vh)!important}
-.setupMatchLength{transform:translate(18.5vw,5.1vh)!important}
-/* Break Format: same centreline, slightly lower; tighten the two-state toggle as one control. */
-.setupBreakFormat{transform:translate(26.3vw,2.5vh)!important}
-.setupBreakFormat .row{inset:0 9%!important}
-/* First Break: increase separation below the Break Format toggle while preserving its internal spacing. */
-.setupFirstBreak{transform:translateY(17.5vh)!important}
-</style>
-<style id="rackmate-v221-polish-pass">
-/* v2.27 — screenshot-led polish only. Locked physical shell/background and approved Setup centres remain untouched. */
-/* Optical title correction: nudge right only; vertical position unchanged. */
-.header .title{transform:translateX(-43.1%)!important}
-
-/* Game Type: reduce visual dominance while keeping the approved group centre. */
-.setupGameType .ball{width:6.0vh!important;height:6.0vh!important;font-size:clamp(16px,1.55vw,25px)!important}
-.setupGameType .balls{column-gap:.8vh!important}
-/* Restore a restrained sliding cue-ball selector beneath the object balls. */
-.setupGameType .track{display:block!important;visibility:visible!important;opacity:1!important;bottom:-4.35vh!important;height:3.25vh!important;border:0!important;border-top:1px solid rgba(255,255,255,.34)!important;background:transparent!important;overflow:visible!important}
-.setupGameType .cue{display:block!important;visibility:visible!important;opacity:1!important;width:3.25vh!important;height:3.25vh!important;top:-1.65vh!important;border:1px solid rgba(255,255,255,.85)!important;box-shadow:inset -.55vh -.55vh .8vh rgba(0,0,0,.20),0 0 .75vh rgba(255,255,255,.24)!important}
-
-/* Match length: use the same heading language as the rest of Setup and remove number clipping. */
-.setupMatchLength>.setupObjectLabel{display:none!important}
-.setupMatchLength{overflow:visible!important}
-.setupMatchLength .counter small{font-size:clamp(11px,1.05vw,17px)!important;font-weight:900!important;letter-spacing:.14em!important;line-height:1!important;white-space:nowrap!important;color:#fff!important;text-shadow:0 2px 5px #000!important}
-.setupMatchLength .counter b{font-size:clamp(22px,2.5vw,44px)!important;line-height:1.15!important;padding-bottom:.08em!important;overflow:visible!important}
-.setupMatchLength .counter button{width:4.5vh!important;height:5.8vh!important;font-size:clamp(20px,1.75vw,29px)!important}
-.setupMatchLength .counter{grid-template-columns:25% 50% 25%!important;overflow:visible!important}
-
-/* Swap Sides is correctly placed; improve inactive legibility without changing geometry. */
-.setupSwap:disabled{opacity:.42!important}
-
-/* First Break: lower the complete group intact for clearer separation from Break Format. */
-.setupFirstBreak{transform:translateY(21.0vh)!important}
-</style>
-
-
-<style id="rackmate-v227-column-content-layout">
-/* v2.27 — arrange the ACTUAL Setup elements inside the three approved columns.
-   App shell/background/title/player row/utilities remain untouched. */
-
-/* LEFT COLUMN — Game Type */
-.setupGameType{
-  left:25.0%!important;
-  top:47.0%!important;
-  width:16.0%!important;
-  height:29.0%!important;
-}
-.setupGameType .setupObjectLabel{
-  left:0!important; right:0!important; top:-25px!important;
-  text-align:center!important;
-}
-.setupGameType .gameWoodTray{
-  position:absolute!important; inset:0!important;
-}
-.setupGameType .balls{
-  position:absolute!important;
-  left:12%!important; top:0!important;
-  width:42%!important; height:100%!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:0!important;
-}
-.setupGameType .ball{
-  width:clamp(52px,4.25vw,72px)!important;
-  height:auto!important;
-  min-width:0!important; min-height:0!important;
-  aspect-ratio:1!important;
-  font-size:clamp(18px,1.55vw,26px)!important;
-}
-.setupGameType .b10{font-size:clamp(16px,1.38vw,23px)!important}
-.setupGameType .track{
-  display:block!important;
-  position:absolute!important;
-  left:73%!important; top:4%!important;
-  width:1px!important; height:92%!important;
-  border:0!important;
-  border-left:1px solid rgba(255,255,255,.38)!important;
-  background:transparent!important;
-  overflow:visible!important;
-}
-.setupGameType #gameCue{
-  position:absolute!important;
-  width:clamp(18px,1.7vw,29px)!important;
-  height:auto!important;
-  aspect-ratio:1!important;
-  left:50%!important;
-  transform:translate(-50%,-50%)!important;
-}
-.setupGameType #gameCue.pos8{top:0!important}
-.setupGameType #gameCue.pos9{top:50%!important}
-.setupGameType #gameCue.pos10{top:100%!important}
-
-/* CENTRE COLUMN — Break Format aligned with the upper control row */
-.setupBreakFormat{
-  left:41.5%!important;
-  top:47.0%!important;
-  width:20.0%!important;
-  height:8.0%!important;
-}
-.setupBreakFormat .setupObjectLabel{
-  left:0!important; right:0!important; text-align:center!important;
-}
-.setupBreakFormat .row{
-  position:absolute!important; inset:0!important;
-  display:grid!important;
-  grid-template-columns:1fr 1fr!important;
-  gap:10px!important;
-  align-items:center!important;
-}
-
-/* CENTRE COLUMN — First Break lower row */
-.setupFirstBreak{
-  left:38.5%!important;
-  top:66.0%!important;
-  width:26.0%!important;
-  height:12.0%!important;
-}
-.setupFirstBreak .setupObjectLabel{
-  left:0!important; right:0!important; text-align:center!important;
-}
-.setupFirstBreak .firstBreakTray{
-  position:absolute!important; inset:0!important;
-  display:flex!important;
-  align-items:flex-start!important;
-  justify-content:space-between!important;
-  gap:.55vw!important;
-}
-.setupFirstBreak .firstIcon{
-  width:clamp(40px,3.6vw,62px)!important;
-  height:auto!important;
-  aspect-ratio:1!important;
-}
-
-/* RIGHT COLUMN — Race To above Best Of on ONE centreline */
-.setupMatchLength{
-  left:68.0%!important;
-  top:47.0%!important;
-  width:17.0%!important;
-  height:31.0%!important;
-  overflow:visible!important;
-}
-.setupMatchLength>.setupObjectLabel{display:none!important}
-.setupMatchLength .length{
-  position:absolute!important; inset:0!important;
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:stretch!important;
-  justify-content:space-between!important;
-  gap:0!important;
-}
-.setupMatchLength .counter{
-  width:100%!important;
-  height:35%!important;
-  display:grid!important;
-  grid-template-columns:22% 56% 22%!important;
-  align-items:center!important;
-  padding:0!important;
-  margin:0!important;
-  background:transparent!important;
-  border:0!important;
-  box-shadow:none!important;
-}
-.setupMatchLength .counter:first-child{border:0!important}
-.setupMatchLength .counter small{
-  display:block!important;
-  font-size:clamp(11px,.95vw,16px)!important;
-  font-weight:900!important;
-  letter-spacing:.14em!important;
-  white-space:nowrap!important;
-}
-.setupMatchLength .counter b{
-  display:block!important;
-  font-size:clamp(25px,2.45vw,42px)!important;
-  line-height:1.1!important;
-}
-.setupMatchLength .counter button{
-  width:auto!important; height:auto!important;
-  padding:0!important;
-}
-</style>
-
-<style id="rackmate-v230-decisive-three-column-layout">
-/* v2.30 — decisive three-column Setup geometry from the clean v2.27 source.
-   SETUP UI ONLY. Locked v2.08 physical shell/background/title/player row/utilities are untouched. */
-
-/* LEFT AXIS — Game Type centred at 31% of the design canvas. */
-#setupScreen .setupGameType{
-  left:24.0%!important; top:47.0%!important;
-  width:14.0%!important; height:29.0%!important;
-  transform:none!important;
-}
-#setupScreen .setupGameType .setupObjectLabel{left:0!important;right:0!important;text-align:center!important}
-#setupScreen .setupGameType .balls{left:8%!important;width:48%!important}
-#setupScreen .setupGameType .track{left:78%!important}
-
-/* CENTRE AXIS — Break Format upper row and First Break lower row, both at 50%. */
-#setupScreen .setupBreakFormat{
-  left:41.0%!important; top:47.0%!important;
-  width:18.0%!important; height:8.0%!important;
-  transform:none!important;
-}
-#setupScreen .setupBreakFormat .setupObjectLabel{left:0!important;right:0!important;text-align:center!important}
-#setupScreen .setupBreakFormat .row{inset:0!important}
-
-#setupScreen .setupFirstBreak{
-  left:38.0%!important; top:66.0%!important;
-  width:24.0%!important; height:12.0%!important;
-  transform:none!important;
-}
-#setupScreen .setupFirstBreak .setupObjectLabel{left:0!important;right:0!important;text-align:center!important}
-
-/* RIGHT AXIS — Race To over Best Of, one shared 75% centreline and tighter rhythm. */
-#setupScreen .setupMatchLength{
-  left:68.0%!important; top:47.0%!important;
-  width:14.0%!important; height:27.0%!important;
-  transform:none!important; overflow:visible!important;
-}
-#setupScreen .setupMatchLength .length{
-  inset:0!important; gap:0!important;
-  justify-content:space-between!important;
-}
-#setupScreen .setupMatchLength .counter{
-  position:relative!important; left:auto!important; top:auto!important;
-  transform:none!important; width:100%!important; height:39%!important;
-  margin:0!important;
-}
-</style>
-
-<style id="rackmate-v234-measured-mockup-layout">
-/* v2.35 — measured from Jason's approved v2.21 Inkscape mock-up.
-   Coordinates are proportional to the physical table/felt, while preserving the v2.33 fullscreen shell. */
-/* LEFT COLUMN — beneath Player 1 */
-#setupScreen .setupGameType{left:37.8%!important;top:75.0%!important;}
-/* CENTRE COLUMN — beneath Swap Sides */
-#setupScreen .setupBreakFormat{left:68.2%!important;top:75.0%!important;}
-#setupScreen .setupFirstBreak{left:65.6%!important;top:92.0%!important;}
-/* RIGHT COLUMN — beneath Player 2, Race To over Best Of */
-#setupScreen .setupMatchLength{left:95.3%!important;top:75.0%!important;height:29.0%!important;}
-</style>
-
-<style id="rackmate-v238-viewport-geometry-fix">
-/* v2.38 — diagnostic viewport geometry fix.
-   Android safe-area insets must not enlarge or offset the RackMate design plane.
-   Fullscreen request/runtime and all Setup furniture positions are unchanged. */
-html,body{
-  width:100%!important;
-  height:100%!important;
-  min-width:0!important;
-  min-height:0!important;
-  margin:0!important;
-  padding:0!important;
-  overflow:hidden!important;
-}
-body{
-  position:fixed!important;
-  inset:0!important;
-  display:block!important;
-}
-.app{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  max-width:none!important;
-  max-height:none!important;
-  margin:0!important;
-  aspect-ratio:auto!important;
-  overflow:hidden!important;
-}
-</style>
-
-<style id="rackmate-v236-top-row-alignment">
-/* v2.37 — 5px-equivalent rightward fine adjustment to the top row only.
-   Fullscreen shell and measured lower-column geometry remain untouched. */
-#setupScreen .setupNameP1{transform:translateX(.975vw)!important;}
-#setupScreen .setupSwap{transform:translate(2.825vw,6.3vh)!important;}
-#setupScreen .setupNameP2{transform:translateX(.975vw)!important;}
 </style>
