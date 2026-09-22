@@ -1,4 +1,4 @@
-RackMate v2.36 BETA
+RackMate v2.37 BETA
 Upload THESE ROOT FILES directly over the root of the GitHub RackMate repository.
 Do not create a RackMate_v2.17_BETA subfolder.
 
@@ -30,3 +30,5 @@ v2.33 Setup spacing:
 v2.34: Measured mock-up layout pass. Preserves v2.33 fullscreen shell; repositions Setup lower columns only.
 
 v2.36: Top player row moved halfway back from v2.35 toward v2.34. Fullscreen shell and lower setup columns unchanged.
+
+v2.37: Fine-adjusted Player 1 / Swap Sides / Player 2 approximately 5 phone pixels right from v2.36.
