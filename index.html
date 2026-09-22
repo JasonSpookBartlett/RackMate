@@ -1379,8 +1379,8 @@ html,body{background:#050506}
 </style>
 
 
-<style id="rackmate-v244-header-geometry-lock">
-/* v2.44 — lock header geometry to the measured physical-table datum.
+<style id="rackmate-v245-header-geometry-lock">
+/* v2.45 — lock header geometry to the measured physical-table datum.
    Background reference: 2048 x 1024. Table outer bounds are approximately
    x=9.2%..94.3%; its centre pocket axis is x=51.75%. */
 .app{
@@ -1427,8 +1427,8 @@ html,body{background:#050506}
 #setupScreen .setupMaster{position:absolute!important;inset:0!important;overflow:hidden!important;}
 </style>
 
-<style id="rackmate-v244-final-header-lock">
-/* v2.44 final header lock: all geometry references the 2048x1024 app/table plane. */
+<style id="rackmate-v245-final-header-lock">
+/* v2.45 final header lock: all geometry references the 2048x1024 app/table plane. */
 .header .title{left:51.75%!important;top:6.1%!important;width:36%!important;transform:translate(-50%,-50%)!important;}
 .header .title h1{font-size:min(2.35cqw,4.70cqh)!important;}
 #settingsBtn,#helpBtn{top:2.0%!important;width:min(3.65cqw,7.30cqh)!important;height:min(3.65cqw,7.30cqh)!important;}
@@ -1439,7 +1439,7 @@ html,body{background:#050506}
 #rackmateBuildIdentity .rmBuild{display:block!important;font-size:min(1.42cqw,2.84cqh)!important;font-weight:900!important;line-height:1!important;margin:0!important;color:#eee!important;}
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.44" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.45" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1707,10 +1707,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.44</div>
+<div class="version">BETA v2.45</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.44';
+const RACKMATE_VERSION='2.45';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1718,7 +1718,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.44';
+const APP_VERSION='BETA v2.45';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3668,7 +3668,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.44',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.45',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -3909,7 +3909,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
   min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
   margin:0!important;aspect-ratio:auto!important;overflow:hidden!important;box-shadow:none!important;
   container-type:size;
-  background-image:url('./assets/rackmate-master-background.webp?v=2.44')!important;
+  background-image:url('./assets/rackmate-master-background.webp?v=2.45')!important;
   background-position:0 0!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
 }
 .app::before{display:none!important;content:none!important;}
@@ -3982,7 +3982,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 /* Touch geometry stays generous even though the visual treatment is light. */
 #setupScreen button{touch-action:manipulation!important;}
 
-/* v2.44 — table-datum anchors.
+/* v2.45 — table-datum anchors.
    The physical middle-pocket centre is the master X datum on the 2048 x 1024 artwork.
    Player centres are mirrored from it. The three centre assets share the same datum. */
 #setupScreen{
@@ -4002,6 +4002,31 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 7.5%)!important;width:15.0%!important;}
 #setupScreen .setupFirstBreak{left:calc(var(--rm-table-centre-x) - 9.25%)!important;width:18.5%!important;}
 </style>
+
+<style id="rackmate-v245-header-controls-final-lock">
+/* v2.45 — FINAL AUTHORITY for Setup header utilities.
+   Treat Settings + Help as one rigid horizontal assembly on the app/table drawing plane.
+   MATCH SETUP remains locked to the established physical-table centre datum. */
+.header .title{
+  left:51.75%!important; right:auto!important; top:6.1%!important; width:36%!important;
+  transform:translate(-50%,-50%)!important; text-align:center!important;
+}
+.header .right{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;pointer-events:none!important;}
+#settingsBtn,#helpBtn{
+  position:absolute!important;
+  top:2.0%!important;
+  width:min(3.65cqw,7.30cqh)!important;
+  height:min(3.65cqw,7.30cqh)!important;
+  margin:0!important;
+  transform:none!important;
+  pointer-events:auto!important;
+}
+/* Physical table outside-right edge = 94.3% of the 2048 design plane.
+   Help terminates on that datum; Settings is one button + 0.40% gap to its left. */
+#helpBtn{left:calc(94.3% - min(3.65cqw,7.30cqh))!important;right:auto!important;}
+#settingsBtn{left:calc(94.3% - (2 * min(3.65cqw,7.30cqh)) - 0.40%)!important;right:auto!important;}
+</style>
+
 </html>
 <style id="rackmate-v212-setup-composition">
 /* RackMate v2.14 — SETUP UI ONLY. Physical shell/background are immutable v2.08. */
@@ -4137,7 +4162,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
   min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
   margin:0!important;aspect-ratio:auto!important;overflow:hidden!important;box-shadow:none!important;
   container-type:size;
-  background-image:url('./assets/rackmate-master-background.webp?v=2.44')!important;
+  background-image:url('./assets/rackmate-master-background.webp?v=2.45')!important;
   background-position:0 0!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
 }
 .app::before{display:none!important;content:none!important;}
@@ -4211,7 +4236,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen button{touch-action:manipulation!important;}
 </style>
 <style id="rackmate-v242-table-geometry-refinement">
-/* v2.44 — final-authority Setup refinement on the unified drawing plane.
+/* v2.45 — final-authority Setup refinement on the unified drawing plane.
    All horizontal alignment is referenced to the physical table centre, not viewport centre. */
 #setupScreen{--rm-table-centre-x:51.65%;--rm-player-offset-x:17%;--rm-player-w:17.2%;}
 
