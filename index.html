@@ -1605,8 +1605,14 @@ html,body{background:#050506}
 }
 #setupScreen .setupFirstBreak .firstBreakText>span{display:block!important;}
 </style>
+
+<style id="rackmate-v265-final-label-size-lock">
+/* v2.65 — final authoritative readability lock. Must remain after all earlier setup CSS. */
+#setupScreen .setupBreakFormat .choice{font-size:20px!important;font-weight:900!important;line-height:1!important;}
+#setupScreen .setupFirstBreak .firstBreakChoice{font-size:20px!important;font-weight:900!important;line-height:1.02!important;}
+</style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.64" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.65" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1885,7 +1891,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.64';
+const APP_VERSION='BETA v2.65';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
