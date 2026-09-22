@@ -1563,8 +1563,31 @@ html,body{background:#050506}
   z-index:999!important;
 }
 </style>
+
+<style id="rackmate-v263-choice-label-readability">
+/* v2.63 — setup choice-label readability only. Geometry/icons remain locked. */
+#setupScreen .setupBreakFormat .choice{
+  font-size:min(1.45cqw,2.90cqh)!important;
+  font-weight:900!important;
+  line-height:1!important;
+}
+#setupScreen .setupFirstBreak .firstBreakChoice{
+  font-size:min(1.34cqw,2.68cqh)!important;
+  font-weight:900!important;
+  line-height:1.02!important;
+}
+#setupScreen .setupFirstBreak .firstBreakText{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:0!important;
+  line-height:1.02!important;
+}
+#setupScreen .setupFirstBreak .firstBreakText>span{display:block!important;}
+</style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.62" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.63" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1634,8 +1657,8 @@ html,body{background:#050506}
       <div class="setupObjectLabel">FIRST BREAK</div>
       <div class="firstBreakTray">
         <button class="choice firstBreakChoice" data-first="lag"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
-        <button class="choice firstBreakChoice" data-first="coin"><span class="firstIcon coinIcon">NZ</span><span>COIN TOSS</span></button>
-        <button class="choice firstBreakChoice" data-first="manual"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span>JUST PLAY</span></button>
+        <button class="choice firstBreakChoice" data-first="coin"><span class="firstIcon coinIcon">NZ</span><span class="firstBreakText"><span>COIN</span><span>TOSS</span></span></button>
+        <button class="choice firstBreakChoice" data-first="manual"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span class="firstBreakText"><span>JUST</span><span>PLAY</span></span></button>
       </div>
     </div>
   </div>
@@ -1835,7 +1858,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.61</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.62';
+const RACKMATE_VERSION='2.63';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1843,7 +1866,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.61';
+const APP_VERSION='BETA v2.63';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3793,7 +3816,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.50',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.63',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
