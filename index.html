@@ -1426,7 +1426,7 @@ html,body{background:#050506}
 #setupScreen .setupMatchLength{left:79.0%!important;top:63.7%!important;}
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.34" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.36" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1694,10 +1694,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.35</div>
+<div class="version">BETA v2.36</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.34';
+const RACKMATE_VERSION='2.36';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1705,7 +1705,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.35';
+const APP_VERSION='BETA v2.36';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3655,7 +3655,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.34',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.36',{updateViaCache:'none'});
       await reg.update();
     }catch(_){}
   });
@@ -4260,10 +4260,10 @@ body{align-items:flex-start!important;justify-content:center!important}
 #setupScreen .setupMatchLength{left:95.3%!important;top:75.0%!important;height:29.0%!important;}
 </style>
 
-<style id="rackmate-v235-top-row-alignment">
-/* v2.35 — small rightward correction to the three locked top-row controls only.
-   Fullscreen shell and v2.35 measured lower-column geometry remain untouched. */
-#setupScreen .setupNameP1{transform:translateX(1.35vw)!important;}
-#setupScreen .setupSwap{transform:translate(3.20vw,6.3vh)!important;}
-#setupScreen .setupNameP2{transform:translateX(1.35vw)!important;}
+<style id="rackmate-v236-top-row-alignment">
+/* v2.36 — split the difference between v2.34 and v2.35 for the top row only.
+   Fullscreen shell and measured lower-column geometry remain untouched. */
+#setupScreen .setupNameP1{transform:translateX(.675vw)!important;}
+#setupScreen .setupSwap{transform:translate(2.525vw,6.3vh)!important;}
+#setupScreen .setupNameP2{transform:translateX(.675vw)!important;}
 </style>
