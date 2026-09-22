@@ -1569,8 +1569,8 @@ html,body{background:#050506}
     <div class="setupBreakFormat">
       <div class="setupObjectLabel">BREAK FORMAT</div>
       <div class="row">
-        <button class="choice active" data-break="alternate">ALTERNATE BREAK</button>
-        <button class="choice" data-break="winner">WINNER BREAK</button>
+        <button class="choice active" data-break="alternate">ALTERNATE</button>
+        <button class="choice" data-break="winner">WINNER</button>
       </div>
     </div>
 
@@ -1776,7 +1776,7 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.59</div>
+<div class="version">BETA v2.60</div>
 </div></div></div>
 <script>
 const RACKMATE_VERSION='2.59';
@@ -1787,7 +1787,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.59';
+const APP_VERSION='BETA v2.60';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -4472,3 +4472,45 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupMatchLength .counter button{font-size:min(1.90cqw,3.80cqh)!important;}
 </style>
 
+
+<style id="rackmate-v260-second-master-scale-layout-pass">
+/* v2.60 — second direct master-coordinate readability pass.
+   Another 15% actual geometry increase from v2.59; no transform scaling.
+   Interior groups move down 3.2% of the 1024px master plane.
+   Game Type moves left by half its v2.59 group width (5.29% / ~108 master px). */
+
+/* Players: enlarge around established centres, then move down. */
+#setupScreen .setupName{width:22.747%!important;height:9.258%!important;top:29.072%!important;}
+#setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - 11.3735%)!important;right:auto!important;}
+#setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - 11.3735%)!important;right:auto!important;}
+#setupScreen .setupName>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupName .name input{font-size:min(2.645cqw,5.290cqh)!important;}
+
+/* Swap Sides: preserve centre, enlarge and move down. */
+#setupScreen .setupSwap{left:calc(var(--rm-table-centre-x) - 3.968%)!important;top:29.500%!important;width:7.935%!important;height:8.200%!important;font-size:min(.955cqw,1.909cqh)!important;}
+#setupScreen .setupSwap .swapArrows{font-size:min(2.254cqw,4.497cqh)!important;}
+
+/* Game Type: another 15% actual size, down with the interior, and another 5.29% left. */
+#setupScreen .setupGameType{left:21.36625%!important;top:46.20%!important;width:12.167%!important;height:36.225%!important;transform:none!important;}
+#setupScreen .setupGameType>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupGameType .ball{width:min(4.428cqw,8.867cqh)!important;height:min(4.428cqw,8.867cqh)!important;font-size:min(1.783cqw,3.577cqh)!important;}
+#setupScreen .setupGameType .b10{font-size:min(1.484cqw,2.967cqh)!important;}
+#setupScreen .setupGameType #gameCue{width:min(2.047cqw,4.106cqh)!important;height:min(2.047cqw,4.106cqh)!important;}
+
+/* Break Format: larger, lower, single-line choices. */
+#setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 9.919%)!important;top:43.699%!important;width:19.838%!important;height:11.903%!important;}
+#setupScreen .setupBreakFormat>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupBreakFormat .choice{font-size:min(1.081cqw,2.174cqh)!important;white-space:nowrap!important;line-height:1!important;}
+
+/* First Break: larger and lower. */
+#setupScreen .setupFirstBreak{left:calc(var(--rm-table-centre-x) - 12.233%)!important;top:61.104%!important;width:24.466%!important;height:17.193%!important;}
+#setupScreen .setupFirstBreak>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupFirstBreak .firstBreakChoice{font-size:min(.955cqw,1.909cqh)!important;}
+#setupScreen .setupFirstBreak .firstIcon{width:min(4.497cqw,8.993cqh)!important;height:min(4.497cqw,8.993cqh)!important;font-size:min(1.392cqw,2.783cqh)!important;}
+
+/* Race / Best Of: preserve centre, enlarge and move down. */
+#setupScreen .setupMatchLength{left:69.059%!important;top:40.604%!important;width:14.283%!important;height:37.691%!important;}
+#setupScreen .setupMatchLength .counter small{font-size:min(1.564cqw,3.117cqh)!important;}
+#setupScreen .setupMatchLength .counter b{font-size:min(3.508cqw,7.015cqh)!important;}
+#setupScreen .setupMatchLength .counter button{font-size:min(2.185cqw,4.370cqh)!important;}
+</style>
