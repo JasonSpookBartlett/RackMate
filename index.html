@@ -1647,7 +1647,7 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.41</div>
+<div class="version">BETA v2.42</div>
 </div></div></div>
 <script>
 const RACKMATE_VERSION='2.41';
@@ -1658,7 +1658,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.41';
+const APP_VERSION='BETA v2.42';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3922,7 +3922,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 /* Touch geometry stays generous even though the visual treatment is light. */
 #setupScreen button{touch-action:manipulation!important;}
 
-/* v2.41 — table-datum anchors.
+/* v2.42 — table-datum anchors.
    The physical middle-pocket centre is the master X datum on the 2048 x 1024 artwork.
    Player centres are mirrored from it. The three centre assets share the same datum. */
 #setupScreen{
@@ -4149,4 +4149,40 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 
 /* Touch geometry stays generous even though the visual treatment is light. */
 #setupScreen button{touch-action:manipulation!important;}
+</style>
+<style id="rackmate-v242-table-geometry-refinement">
+/* v2.42 — final-authority Setup refinement on the unified drawing plane.
+   All horizontal alignment is referenced to the physical table centre, not viewport centre. */
+#setupScreen{--rm-table-centre-x:51.65%;--rm-player-offset-x:17%;--rm-player-w:17.2%;}
+
+/* Header/title follows the physical table centre. */
+.header .title{left:var(--rm-table-centre-x)!important;right:auto!important;transform:translate(-50%,-50%)!important;}
+
+/* Player row: mirrored about table centre. */
+#setupScreen .setupName{top:27.0%!important;width:var(--rm-player-w)!important;height:7.0%!important;}
+#setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - (var(--rm-player-w) / 2))!important;right:auto!important;}
+#setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - (var(--rm-player-w) / 2))!important;right:auto!important;}
+#setupScreen .setupSwap{left:calc(var(--rm-table-centre-x) - 3%)!important;top:27.3%!important;width:6%!important;}
+
+/* Centre-column assets stay on the same middle-pocket datum. */
+#setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 7.5%)!important;top:41.5%!important;width:15%!important;}
+#setupScreen .setupFirstBreak{left:calc(var(--rm-table-centre-x) - 9.25%)!important;top:60.0%!important;width:18.5%!important;}
+
+/* Game Type: deliberate move right/down.  Ball centres are explicit design positions. */
+#setupScreen .setupGameType{left:29.0%!important;top:43.0%!important;width:9.2%!important;height:31.5%!important;}
+#setupScreen .setupGameType .setupObjectLabel{top:-10%!important;}
+#setupScreen .setupGameType .balls{display:block!important;position:absolute!important;left:4%!important;top:0!important;width:45%!important;height:100%!important;}
+#setupScreen .setupGameType .ball{position:absolute!important;left:50%!important;transform:translate(-50%,-50%)!important;margin:0!important;}
+#setupScreen .setupGameType .ball:nth-child(1){top:14%!important;}
+#setupScreen .setupGameType .ball:nth-child(2){top:50%!important;}
+#setupScreen .setupGameType .ball:nth-child(3){top:86%!important;}
+/* Slider runs exactly from the 8-ball centreline to the 10-ball centreline. */
+#setupScreen .setupGameType .track{display:block!important;position:absolute!important;left:77%!important;top:14%!important;width:1px!important;height:72%!important;margin:0!important;border:0!important;border-left:1px solid rgba(255,255,255,.40)!important;background:transparent!important;overflow:visible!important;}
+#setupScreen .setupGameType #gameCue.pos8{top:0!important;}
+#setupScreen .setupGameType #gameCue.pos9{top:50%!important;}
+#setupScreen .setupGameType #gameCue.pos10{top:100%!important;}
+
+/* Race / Best Of: right/down and stronger heading hierarchy. */
+#setupScreen .setupMatchLength{left:70.8%!important;top:42.0%!important;width:10.8%!important;height:28.5%!important;}
+#setupScreen .setupMatchLength .counter small{font-size:min(1.18cqw,2.36cqh)!important;font-weight:900!important;letter-spacing:.13em!important;line-height:1!important;}
 </style>

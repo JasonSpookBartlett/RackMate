@@ -1,4 +1,4 @@
-const CACHE='rackmate-v2.41-beta';
+const CACHE='rackmate-v2.42-beta';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./assets/rackmate-master-background.webp','./icons/icon-192.png','./icons/icon-512.png','./icons/icon-1024.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.map(x=>x+(x.includes('?')?'&':'?')+'v=2.41'))).catch(()=>caches.open(CACHE).then(c=>c.addAll(ASSETS))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
