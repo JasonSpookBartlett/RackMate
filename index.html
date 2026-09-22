@@ -1463,7 +1463,7 @@ html,body{background:#050506}
 }
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.52" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.53" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1731,10 +1731,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.52</div>
+<div class="version">BETA v2.53</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.52';
+const RACKMATE_VERSION='2.53';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1742,7 +1742,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.52';
+const APP_VERSION='BETA v2.53';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -4361,12 +4361,12 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 }
 </style>
 
-<style id="rackmate-v252-version-true-final-authority">
-/* v2.52 — TRUE final authority: version nudged left to sit closely after the LARGE baked-in RackMate app name,
+<style id="rackmate-v253-version-true-final-authority">
+/* v2.53 — TRUE final authority: version position split precisely between the v2.51 and v2.52 X positions,
    not after the RackMate text inside the icon. Coordinates are on the full 0,0 master plane. */
 #rackmateBuildIdentity{
   position:absolute!important;
-  left:16.65%!important;
+  left:17.1625%!important;
   top:6.15%!important;
   right:auto!important;bottom:auto!important;
   width:auto!important;height:auto!important;
