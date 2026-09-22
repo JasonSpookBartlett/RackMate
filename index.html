@@ -1440,12 +1440,13 @@ html,body{background:#050506}
 </style>
 
 <style id="rackmate-v248-version-coordinate-lock">
-/* v2.50 — live version overlay uses the same 2048x1024 master drawing plane.
+/* v2.55 — live version overlay uses the same 2048x1024 master drawing plane.
+   Final visual nudge: +6px X / -8px Y from v2.54.
    Measured from 0,0: place immediately after the baked-in RackMate wordmark. */
 #rackmateBuildIdentity{
   position:absolute!important;
-  left:18.05%!important;
-  top:6.05%!important;
+  left:18.343%!important;
+  top:5.269%!important;
   right:auto!important;bottom:auto!important;
   width:auto!important;height:auto!important;
   margin:0!important;padding:0!important;
@@ -1463,7 +1464,7 @@ html,body{background:#050506}
 }
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.54" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.55" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1731,10 +1732,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.54</div>
+<div class="version">BETA v2.55</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.54';
+const RACKMATE_VERSION='2.55';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1742,7 +1743,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.54';
+const APP_VERSION='BETA v2.55';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -4362,7 +4363,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 </style>
 
 <style id="rackmate-v254-version-true-final-authority">
-/* v2.54 — TRUE final authority: version sits to the right of the large baked-in RackMate app name and is lowered so its bottom visually aligns with the app-name text. Coordinates are on the full 0,0 master plane. */
+/* v2.55 — TRUE final authority: version sits to the right of the large baked-in RackMate app name and is lowered so its bottom visually aligns with the app-name text. Coordinates are on the full 0,0 master plane. */
 #rackmateBuildIdentity{
   position:absolute!important;
   left:18.30%!important;
