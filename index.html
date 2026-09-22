@@ -1463,6 +1463,50 @@ html,body{background:#050506}
   text-shadow:0 2px 5px #000,0 0 7px rgba(0,0,0,.78)!important;
 }
 </style>
+
+<style id="rackmate-v257-interior-readability-pass">
+/* v2.57 — interior-table readability pass only.
+   Header, background, rails, pockets and locked exterior geometry untouched. */
+
+/* Player groups: +10% visual presence while preserving their centres. */
+.setupName{width:34.1%!important;height:13.9%!important;top:15.90%!important;}
+.setupNameP1{left:8.80%!important}.setupNameP2{right:8.80%!important}
+.setupName>.setupObjectLabel{font-size:clamp(13px,1.28vw,21px)!important}
+.setupName .name input{font-size:clamp(29px,2.82vw,46px)!important}
+
+/* Swap Sides: stronger but still deliberately secondary. */
+.setupSwap{left:43.25%!important;top:14.75%!important;width:13.5%!important;height:15.4%!important;font-size:clamp(12px,1.20vw,19px)!important}
+.swapArrows{font-size:clamp(23px,2.30vw,37px)!important}
+
+/* Game Type: title +15%, balls +14%, slider/cue proportionally larger. */
+.setupGameType>.setupObjectLabel{font-size:clamp(14px,1.34vw,22px)!important}
+.setupGameType .ball{width:8.35vh!important;height:8.35vh!important;font-size:clamp(21px,2.05vw,32px)!important}
+.setupGameType .track{height:4.95vh!important;bottom:-5.45vh!important}
+.setupGameType .cue{width:6.15vh!important;height:6.15vh!important;top:-.60vh!important}
+
+/* Break Format: enlarge title and choices without changing group footprint. */
+.setupBreakFormat>.setupObjectLabel{font-size:clamp(14px,1.34vw,22px)!important}
+.setupBreakFormat .choice{font-size:clamp(12px,1.08vw,18px)!important;line-height:1.05!important;font-weight:900!important}
+
+/* Match length: labels are the priority; numbers/arrows get a restrained lift. */
+.setupMatchLength>.setupObjectLabel{font-size:clamp(14px,1.34vw,22px)!important}
+.setupMatchLength .counter small{font-size:clamp(12px,1.02vw,17px)!important;font-weight:900!important;letter-spacing:.07em!important}
+.setupMatchLength .counter b{font-size:clamp(38px,4.00vw,63px)!important}
+.setupMatchLength .counter button{font-size:clamp(27px,2.45vw,40px)!important}
+
+/* First Break: +14% title/icons/labels, maintaining existing centre anchor. */
+.setupFirstBreak>.setupObjectLabel{font-size:clamp(14px,1.34vw,22px)!important}
+.setupFirstBreak .firstBreakChoice{font-size:clamp(13px,1.14vw,18px)!important;gap:.55vh!important;font-weight:900!important}
+.setupFirstBreak .firstIcon{width:7.0vh!important;height:7.0vh!important;font-size:clamp(12px,1.02vw,17px)!important}
+.setupFirstBreak .manualIcon.crossedCues i{width:7.5vh!important;height:.54vh!important}
+
+/* Same geometry on short/wide landscape phones. */
+@media(max-height:520px){
+  .setupName{width:34.1%!important;height:13.9%!important;top:15.90%!important}
+  .setupNameP1{left:8.80%!important}.setupNameP2{right:8.80%!important}
+  .setupSwap{left:43.25%!important;top:14.75%!important;width:13.5%!important;height:15.4%!important}
+}
+</style>
 </head>
 <body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.56" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
@@ -1732,10 +1776,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.56</div>
+<div class="version">BETA v2.57</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.56';
+const RACKMATE_VERSION='2.57';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1743,7 +1787,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.56';
+const APP_VERSION='BETA v2.57';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -4363,7 +4407,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 </style>
 
 <style id="rackmate-v254-version-true-final-authority">
-/* v2.56 — final micro-alignment: version nudged slightly right and up from v2.55. Coordinates remain on the full 0,0 master plane. */
+/* v2.57 — final micro-alignment: version nudged slightly right and up from v2.55. Coordinates remain on the full 0,0 master plane. */
 #rackmateBuildIdentity{
   position:absolute!important;
   left:18.54%!important;
