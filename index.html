@@ -1538,8 +1538,33 @@ html,body{background:#050506}
 }
 #setupScreen .setupMatchLength>.setupObjectLabel span{display:block!important;}
 </style>
+
+<style id="rackmate-v262-match-length-hard-lock">
+/* v2.62 — force MATCH / LENGTH into the visual gap between the two counters. */
+#setupScreen .setupMatchLength>.setupObjectLabel{display:none!important;}
+#setupScreen .setupMatchLength::after{
+  content:"MATCH\A LENGTH"!important;
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  display:block!important;
+  width:max-content!important;
+  white-space:pre!important;
+  text-align:center!important;
+  font-family:inherit!important;
+  font-size:min(1.392cqw,2.783cqh)!important;
+  font-weight:900!important;
+  line-height:1.05!important;
+  letter-spacing:.14em!important;
+  color:rgba(255,255,255,.96)!important;
+  text-shadow:0 2px 5px #000!important;
+  pointer-events:none!important;
+  z-index:999!important;
+}
+</style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.61" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.62" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1810,7 +1835,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.61</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.61';
+const RACKMATE_VERSION='2.62';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
