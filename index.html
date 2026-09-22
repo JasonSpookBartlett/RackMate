@@ -1507,8 +1507,39 @@ html,body{background:#050506}
   .setupSwap{left:43.25%!important;top:14.75%!important;width:13.5%!important;height:15.4%!important}
 }
 </style>
+
+<style id="rackmate-v261-match-length-label-lock">
+/* v2.61 — surgical finish pass: reveal MATCH / LENGTH in the open centre
+   between Race To and Best Of. Existing v2.60 geometry remains locked. */
+#setupScreen .setupMatchLength>.setupObjectLabel{
+  display:flex!important;
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:100%!important;
+  height:auto!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:0!important;
+  margin:0!important;
+  padding:0!important;
+  font-size:min(1.392cqw,2.783cqh)!important;
+  font-weight:900!important;
+  line-height:1.05!important;
+  letter-spacing:.14em!important;
+  color:rgba(255,255,255,.94)!important;
+  text-align:center!important;
+  white-space:nowrap!important;
+  text-shadow:0 2px 5px #000!important;
+  pointer-events:none!important;
+  z-index:3!important;
+}
+#setupScreen .setupMatchLength>.setupObjectLabel span{display:block!important;}
+</style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.56" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.61" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1559,7 +1590,7 @@ html,body{background:#050506}
     </div>
 
     <div class="setupMatchLength">
-      <div class="setupObjectLabel">MATCH LENGTH</div>
+      <div class="setupObjectLabel"><span>MATCH</span><span>LENGTH</span></div>
       <div class="length">
         <div class="counter"><button id="raceDown">‹</button><div><small>RACE TO</small><b id="raceVal">7</b></div><button id="raceUp">›</button></div>
         <div class="counter"><button id="bestDown">‹</button><div><small>BEST OF</small><b id="bestVal">13</b></div><button id="bestUp">›</button></div>
@@ -1776,10 +1807,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.60</div>
+<div class="version">BETA v2.61</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.59';
+const RACKMATE_VERSION='2.61';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1787,7 +1818,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.60';
+const APP_VERSION='BETA v2.61';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
