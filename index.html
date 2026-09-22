@@ -1776,10 +1776,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.58</div>
+<div class="version">BETA v2.59</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.58';
+const RACKMATE_VERSION='2.59';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1787,7 +1787,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.58';
+const APP_VERSION='BETA v2.59';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3988,35 +3988,6 @@ body{align-items:flex-start!important;justify-content:center!important}
   text-shadow:0 2px 5px #000,0 0 8px rgba(0,0,0,.82)!important;
 }
 </style>
-
-<style id="rackmate-v258-interior-scale-final-authority">
-/* v2.58 — FINAL interior readability authority.
-   Scale only the setup assets that live inside the pool table.
-   Exterior/header/background/version/settings/help remain untouched.
-   All groups scale about their own centres so their established anchor positions survive. */
-#setupScreen .setupName,
-#setupScreen .setupSwap,
-#setupScreen .setupBreakFormat,
-#setupScreen .setupFirstBreak,
-#setupScreen .setupMatchLength{
-  transform:scale(1.15)!important;
-  transform-origin:50% 50%!important;
-}
-
-/* GAME TYPE receives the same 115% scale, plus the agreed 48px-equivalent
-   move left on the 2048px master plane (29.0% -> 26.65625%). */
-#setupScreen .setupGameType{
-  left:26.65625%!important;
-  transform:scale(1.15)!important;
-  transform-origin:50% 50%!important;
-}
-
-/* Keep the three ball centres and slider relationship locked while the whole
-   Game Type assembly grows as one object. */
-#setupScreen .setupGameType .ball{
-  transform:translate(-50%,-50%)!important;
-}
-</style>
 </body>
 <style id="rackmate-v239-unified-design-plane">
 /* v2.40 — unified 2048 x 1024 design plane.
@@ -4457,3 +4428,47 @@ body{position:fixed!important;inset:0!important;display:block!important;}
   text-shadow:0 2px 5px #000,0 0 8px rgba(0,0,0,.82)!important;
 }
 </style>
+
+<style id="rackmate-v259-master-coordinate-interior-scale-lock">
+/* v2.59 — TRUE FINAL AUTHORITY for Setup interior assets.
+   Direct geometry on the existing 0,0 -> 100%,100% master drawing plane.
+   No wrapper transform/scaling layer. Exterior/header/background remain untouched. */
+#setupScreen{--rm-interior-scale:1.15;}
+
+/* Player groups: preserve their established centres, enlarge the actual geometry 15%. */
+#setupScreen .setupName{width:19.78%!important;height:8.05%!important;top:26.475%!important;}
+#setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - 9.89%)!important;right:auto!important;}
+#setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - 9.89%)!important;right:auto!important;}
+#setupScreen .setupName>.setupObjectLabel{font-size:min(1.21cqw,2.42cqh)!important;}
+#setupScreen .setupName .name input{font-size:min(2.30cqw,4.60cqh)!important;}
+
+/* Swap Sides: same centre datum, 15% larger footprint/type. */
+#setupScreen .setupSwap{left:calc(var(--rm-table-centre-x) - 3.45%)!important;top:26.835%!important;width:6.90%!important;height:7.13%!important;font-size:min(.83cqw,1.66cqh)!important;}
+#setupScreen .setupSwap .swapArrows{font-size:min(1.96cqw,3.91cqh)!important;}
+
+/* GAME TYPE: direct X coordinate shift = -48px on the 2048px master plane (-2.34375%).
+   29.0% -> 26.65625%. Actual child geometry is enlarged, not transform-scaled. */
+#setupScreen .setupGameType{left:26.65625%!important;top:43.0%!important;width:10.58%!important;height:31.5%!important;transform:none!important;}
+#setupScreen .setupGameType>.setupObjectLabel{font-size:min(1.21cqw,2.42cqh)!important;}
+#setupScreen .setupGameType .ball{width:min(3.85cqw,7.71cqh)!important;height:min(3.85cqw,7.71cqh)!important;font-size:min(1.55cqw,3.11cqh)!important;}
+#setupScreen .setupGameType .b10{font-size:min(1.29cqw,2.58cqh)!important;}
+#setupScreen .setupGameType #gameCue{width:min(1.78cqw,3.57cqh)!important;height:min(1.78cqw,3.57cqh)!important;}
+
+/* Break Format: keep middle-pocket centre, enlarge footprint/type 15%. */
+#setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 8.625%)!important;top:41.275%!important;width:17.25%!important;height:10.35%!important;}
+#setupScreen .setupBreakFormat>.setupObjectLabel{font-size:min(1.21cqw,2.42cqh)!important;}
+#setupScreen .setupBreakFormat .choice{font-size:min(.94cqw,1.89cqh)!important;}
+
+/* First Break: same centre, 15% larger footprint/icons/type. */
+#setupScreen .setupFirstBreak{left:calc(var(--rm-table-centre-x) - 10.6375%)!important;top:59.025%!important;width:21.275%!important;height:14.95%!important;}
+#setupScreen .setupFirstBreak>.setupObjectLabel{font-size:min(1.21cqw,2.42cqh)!important;}
+#setupScreen .setupFirstBreak .firstBreakChoice{font-size:min(.83cqw,1.66cqh)!important;}
+#setupScreen .setupFirstBreak .firstIcon{width:min(3.91cqw,7.82cqh)!important;height:min(3.91cqw,7.82cqh)!important;font-size:min(1.21cqw,2.42cqh)!important;}
+
+/* Race / Best Of: preserve current group centre while increasing actual geometry/type. */
+#setupScreen .setupMatchLength{left:69.99%!important;top:39.8625%!important;width:12.42%!important;height:32.775%!important;}
+#setupScreen .setupMatchLength .counter small{font-size:min(1.36cqw,2.71cqh)!important;}
+#setupScreen .setupMatchLength .counter b{font-size:min(3.05cqw,6.10cqh)!important;}
+#setupScreen .setupMatchLength .counter button{font-size:min(1.90cqw,3.80cqh)!important;}
+</style>
+
