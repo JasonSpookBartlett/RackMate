@@ -1776,10 +1776,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.57</div>
+<div class="version">BETA v2.58</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.57';
+const RACKMATE_VERSION='2.58';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1787,7 +1787,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.57';
+const APP_VERSION='BETA v2.58';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3986,6 +3986,35 @@ body{align-items:flex-start!important;justify-content:center!important}
   font-weight:900!important;line-height:1!important;letter-spacing:.01em!important;
   color:#f4f4f4!important;white-space:nowrap!important;
   text-shadow:0 2px 5px #000,0 0 8px rgba(0,0,0,.82)!important;
+}
+</style>
+
+<style id="rackmate-v258-interior-scale-final-authority">
+/* v2.58 — FINAL interior readability authority.
+   Scale only the setup assets that live inside the pool table.
+   Exterior/header/background/version/settings/help remain untouched.
+   All groups scale about their own centres so their established anchor positions survive. */
+#setupScreen .setupName,
+#setupScreen .setupSwap,
+#setupScreen .setupBreakFormat,
+#setupScreen .setupFirstBreak,
+#setupScreen .setupMatchLength{
+  transform:scale(1.15)!important;
+  transform-origin:50% 50%!important;
+}
+
+/* GAME TYPE receives the same 115% scale, plus the agreed 48px-equivalent
+   move left on the 2048px master plane (29.0% -> 26.65625%). */
+#setupScreen .setupGameType{
+  left:26.65625%!important;
+  transform:scale(1.15)!important;
+  transform-origin:50% 50%!important;
+}
+
+/* Keep the three ball centres and slider relationship locked while the whole
+   Game Type assembly grows as one object. */
+#setupScreen .setupGameType .ball{
+  transform:translate(-50%,-50%)!important;
 }
 </style>
 </body>

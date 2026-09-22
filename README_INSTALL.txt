@@ -32,3 +32,6 @@ v2.34: Measured mock-up layout pass. Preserves v2.33 fullscreen shell; repositio
 v2.36: Top player row moved halfway back from v2.35 toward v2.34. Fullscreen shell and lower setup columns unchanged.
 
 v2.37: Fine-adjusted Player 1 / Swap Sides / Player 2 approximately 5 phone pixels right from v2.36.
+
+
+v2.58: Interior setup assets scaled to 115%; Game Type shifted 48px-equivalent left on the 2048px master plane.
