@@ -1612,7 +1612,7 @@ html,body{background:#050506}
 #setupScreen .setupFirstBreak .firstBreakChoice{font-size:20px!important;font-weight:900!important;line-height:1.02!important;}
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.65" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.66" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1880,10 +1880,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.61</div>
+<div class="version">BETA v2.66</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.64';
+const RACKMATE_VERSION='2.66';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1891,7 +1891,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.65';
+const APP_VERSION='BETA v2.66';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3841,9 +3841,16 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.64',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.66',{updateViaCache:'none'});
       await reg.update();
+      if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
+  });
+  let rmReloading=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(rmReloading) return;
+    rmReloading=true;
+    location.reload();
   });
 }
 applyDefaultMatchSetup();show('setup');
