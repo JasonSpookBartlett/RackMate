@@ -1647,6 +1647,13 @@ html,body{background:#050506}
   line-height:.92!important;
 }
 </style>
+
+<style id="rackmate-v270-functionality-1">
+/* v2.70 functionality only — no Match Setup geometry changes. */
+#setupScreen .setupGameType #gameCue{transition:top .20s ease!important;pointer-events:auto!important;touch-action:none!important;}
+#setupScreen .setupGameType .track{pointer-events:auto!important;touch-action:none!important;}
+#setupScreen .setupGameType .ball,#setupScreen .setupFirstBreak .firstBreakChoice,#setupScreen .setupSwap{pointer-events:auto!important;}
+</style>
 </head>
 <body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.69" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
@@ -1919,7 +1926,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.69';
+const RACKMATE_VERSION='2.70';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1927,7 +1934,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.69';
+const APP_VERSION='BETA v2.70';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -1987,18 +1994,12 @@ function show(n){
 }
 function snapCueToGame(game){
   const gc=$('#gameCue');
-  const track=gc ? gc.parentElement : null;
-  const ball=$(`[data-game="${game}"]`);
-  if(!gc || !track || !ball) return;
-  const trackRect=track.getBoundingClientRect();
-  const ballRect=ball.getBoundingClientRect();
-  const cueH=gc.offsetHeight || 31;
-  let top=(ballRect.top + ballRect.height/2) - trackRect.top - cueH/2;
-  top=Math.max(0,Math.min(trackRect.height-cueH,top));
-  gc.className='cue';
-  gc.style.left='50%';
-  gc.style.top=top+'px';
+  if(!gc) return;
+  gc.style.left='';
+  gc.style.top='';
+  gc.className='cue pos'+game;
 }
+
 
 function sync(){
   const wgb=document.getElementById('winnerGameBall');
@@ -3122,7 +3123,7 @@ if(gameCue && gameTrack){
     top=Math.max(0,Math.min(r.height-cueH,top));
     gameCue.className='cue';
     gameCue.style.left='50%';
-    gameCue.style.top=top+'px';
+    gameCue.style.setProperty('top',top+'px','important');
   });
 
   function finishCueDrag(e){
@@ -3130,6 +3131,7 @@ if(gameCue && gameTrack){
     selectGameFromCueY(e.clientY);
     gameCueDrag=null;
     gameCue.style.cursor='grab';
+    gameCue.style.removeProperty('top');
     requestAnimationFrame(()=>snapCueToGame(st.game));
   }
 
@@ -3137,6 +3139,7 @@ if(gameCue && gameTrack){
   gameCue.addEventListener('pointercancel',()=>{
     gameCueDrag=null;
     gameCue.style.cursor='grab';
+    gameCue.style.removeProperty('top');
     sync();
   });
 
@@ -3149,6 +3152,12 @@ $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sy
 
 const p1Input=$('#p1Input');
 const p2Input=$('#p2Input');
+const swapBtn=$('#swapBtn');
+function updateSwapSidesAvailability(){
+  const enabled=!!p1Input.value.trim() && !!p2Input.value.trim();
+  swapBtn.disabled=!enabled;
+  swapBtn.setAttribute('aria-disabled',String(!enabled));
+}
 
 function resolvedName(input,fallback){
   return input.value.trim() || fallback;
@@ -3156,12 +3165,14 @@ function resolvedName(input,fallback){
 function keepLiveNames(){
   st.p1=resolvedName(p1Input,'Player 1');
   st.p2=resolvedName(p2Input,'Player 2');
+  updateSwapSidesAvailability();
 }
 
 p1Input.addEventListener('input',keepLiveNames);
 p2Input.addEventListener('input',keepLiveNames);
 p1Input.addEventListener('change',keepLiveNames);
 p2Input.addEventListener('change',keepLiveNames);
+updateSwapSidesAvailability();
 
 p1Input.addEventListener('keydown',e=>{
   if(e.key!=='Enter') return;
@@ -3877,7 +3888,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.69',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.70',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
@@ -3892,16 +3903,6 @@ if('serviceWorker' in navigator){
 applyDefaultMatchSetup();show('setup');
 })();
 
-function updateSwapSidesAvailability(){
-  const p1HasName = p1Input.value.trim().length > 0;
-  const p2HasName = p2Input.value.trim().length > 0;
-  const enabled = p1HasName && p2HasName;
-  swapBtn.disabled = !enabled;
-  swapBtn.setAttribute('aria-disabled', String(!enabled));
-}
-p1Input.addEventListener('input', updateSwapSidesAvailability);
-p2Input.addEventListener('input', updateSwapSidesAvailability);
-updateSwapSidesAvailability();
 
 </script>
 
