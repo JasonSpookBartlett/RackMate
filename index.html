@@ -1368,7 +1368,7 @@ html,body{background:#050506}
 .p{z-index:12!important}
 
 
-/* v2.76: obsolete First Break interception layers removed. */
+/* v2.77: obsolete First Break interception layers removed. */
 </style>
 
 <style id="v204-permanent-build-badge">
@@ -1928,7 +1928,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.76';
+const RACKMATE_VERSION='2.77';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1936,7 +1936,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.76';
+const APP_VERSION='BETA v2.77';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3252,7 +3252,18 @@ function runFirstBreak(method){
   else beginJustPlay();
   if(namesBlank) setTimeout(()=>banter('names'),120);
 }
-// v2.76 — clean First Break input path.
+
+// v2.77 — ROOT FIX: the three visible First Break buttons existed in the markup
+// but had never been wired to runFirstBreak(). Previous overlay fixes were therefore
+// masking the real omission. The visible controls themselves now own the action.
+$$('[data-first]').forEach(b=>{
+  b.onclick=e=>{
+    e.preventDefault();
+    runFirstBreak(b.dataset.first);
+  };
+});
+
+// v2.77 — retired overlay code retained inert for easy diff/reference.
 // A direct screen-level overlay is installed after parsing so legacy setup geometry cannot steal the touch.
 function installFirstBreakDirectControls(){
   const setup=$('#setupScreen');
@@ -3275,7 +3286,7 @@ function installFirstBreakDirectControls(){
   });
   setup.appendChild(overlay);
 }
-installFirstBreakDirectControls();
+// v2.77: overlay retired; visible First Break buttons are now the controls.
 
 let lagDrag=null;
 const breakerCue=$('#breakerCue');
@@ -3910,7 +3921,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.76',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.77',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
@@ -4747,7 +4758,7 @@ body{
 </style>
 
 <style id="rackmate-v276-first-break-direct-controls">
-/* v2.76 — independent touch surface on the master 0..100% setup plane.
+/* v2.77 — independent touch surface on the master 0..100% setup plane.
    Matches the approved v2.69 First Break footprint; transparent, no visual changes. */
 #setupScreen #firstBreakDirectControls{
   position:absolute!important;
