@@ -1934,7 +1934,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.70';
+const APP_VERSION='BETA v2.71';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3240,20 +3240,36 @@ function beginJustPlay(){
   show('play');startMatchClock();play();banter('justPlay');
 }
 
-$$('[data-first]').forEach(b=>b.onclick=()=>{
+function chooseFirstBreak(method){
   const namesBlank=!$('#p1Input').value.trim() || !$('#p2Input').value.trim();
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
-  st.openingMethod=b.dataset.first;
-  if(b.dataset.first==='coin'){
+  st.openingMethod=method;
+  if(method==='coin'){
     beginCoinToss();
-  }else if(b.dataset.first==='lag'){
+  }else if(method==='lag'){
     beginLagAssignment();
   }else{
     beginJustPlay();
   }
   if(namesBlank) setTimeout(()=>banter('names'),120);
-});
+}
+
+// v2.71: First Break gets a capture-level hit test.  Late visual CSS in the
+// locked v2.69 screen can put decorative layers above these controls on some
+// mobile Chrome builds, so do not depend on the button itself receiving the tap.
+document.addEventListener('pointerup',e=>{
+  if(st.screen!=='setup') return;
+  const tray=document.querySelector('.setupFirstBreak .firstBreakTray');
+  if(!tray) return;
+  const r=tray.getBoundingClientRect();
+  if(e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  const third=r.width/3;
+  const n=Math.max(0,Math.min(2,Math.floor((e.clientX-r.left)/third)));
+  chooseFirstBreak(['lag','coin','manual'][n]);
+},true);
 
 let lagDrag=null;
 const breakerCue=$('#breakerCue');
@@ -3888,7 +3904,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.70',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.71',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
