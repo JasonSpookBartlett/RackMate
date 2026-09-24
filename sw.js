@@ -1,4 +1,4 @@
-const CACHE='rackmate-v2.81-beta';
+const CACHE='rackmate-v2.82-beta';
 const STATIC_ASSETS=[
   './manifest.webmanifest',
   './assets/rackmate-master-background.webp',
@@ -9,7 +9,7 @@ const STATIC_ASSETS=[
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE);
-    await cache.addAll(STATIC_ASSETS.map(url=>url+'?v=2.81'));
+    await cache.addAll(STATIC_ASSETS.map(url=>url+'?v=2.82'));
     await self.skipWaiting();
   })());
 });
@@ -27,5 +27,5 @@ self.addEventListener('fetch',event=>{
   if(request.mode==='navigate'||url.pathname.endsWith('/index.html')||url.pathname.endsWith('/')){
     event.respondWith(fetch(request,{cache:'no-store'}).catch(()=>caches.match('./index.html'))); return;
   }
-  event.respondWith((async()=>{try{const response=await fetch(request,{cache:'no-store'});if(response&&response.ok){const cache=await caches.open(CACHE);cache.put(request,response.clone());}return response;}catch(_){return (await caches.match(request))||(await caches.match(url.pathname+'?v=2.81'));}})());
+  event.respondWith((async()=>{try{const response=await fetch(request,{cache:'no-store'});if(response&&response.ok){const cache=await caches.open(CACHE);cache.put(request,response.clone());}return response;}catch(_){return (await caches.match(request))||(await caches.match(url.pathname+'?v=2.82'));}})());
 });

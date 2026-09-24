@@ -1724,7 +1724,7 @@ html,body{background:#050506}
     <div class="setupBreakFormat">
       <div class="setupObjectLabel">BREAK FORMAT</div>
       <div class="row">
-        <button class="choice active" data-break="alternate">ALTERNATE</button>
+        <button class="choice" data-break="alternate">ALTERNATE</button>
         <button class="choice" data-break="winner">WINNER</button>
       </div>
     </div>
@@ -1934,7 +1934,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.81';
+const RACKMATE_VERSION='2.82';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1942,7 +1942,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.81';
+const APP_VERSION='BETA v2.82';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -2036,6 +2036,31 @@ function applyDefaultMatchSetup(){
   sync();
   syncFirstBreakSelection();
 }
+
+// v2.82: bootstrap Match Setup immediately after saved settings are available.
+// This intentionally happens BEFORE the remainder of the app wiring so a later
+// runtime error cannot leave the initial HTML placeholder defaults on screen.
+applyDefaultMatchSetup();
+show('setup');
+
+// Bind First Break at bootstrap time for the same reason. These controls are the
+// final Setup action: user touch selects the method and immediately enters Match Play.
+[
+  ['#firstBreakLag','lag'],
+  ['#firstBreakCoin','coin'],
+  ['#firstBreakManual','manual']
+].forEach(([sel,method])=>{
+  const btn=$(sel);
+  if(!btn) return;
+  btn.addEventListener('pointerdown',e=>{
+    if(st.screen!=='setup') return;
+    e.preventDefault();
+    st.openingMethod=method;
+    syncFirstBreakSelection(method);
+    runFirstBreak(method);
+  });
+});
+
 function setSettingChoice(selector,value){
   $$(selector).forEach(b=>b.classList.toggle('active',b.dataset.value===String(value)));
 }
@@ -3277,35 +3302,7 @@ function activateFirstBreak(method){
   syncFirstBreakSelection(method);
   runFirstBreak(method);
 }
-const firstBreakButtons=[
-  ['#firstBreakLag','lag'],
-  ['#firstBreakCoin','coin'],
-  ['#firstBreakManual','manual']
-];
-firstBreakButtons.forEach(([sel,method])=>{
-  const btn=$(sel);
-  if(!btn) return;
-  btn.style.pointerEvents='auto';
-  btn.style.touchAction='manipulation';
-
-  // v2.81 diagnostic/production path: the phone has repeatedly proved that
-  // these native buttons RECEIVE FOCUS when touched, even when pointer/click
-  // activation has been unreliable. Focus is therefore the single touch
-  // activation signal for First Break. The saved/default highlight is CSS/state
-  // only and never calls .focus(), so page load cannot accidentally start a match.
-  btn.addEventListener('focus',()=>{
-    if(st.screen!=='setup') return;
-    activateFirstBreak(method);
-  });
-
-  // Preserve keyboard accessibility: Enter/Space on an already-focused button
-  // can still explicitly activate it without relying on a synthetic mouse click.
-  btn.addEventListener('keydown',e=>{
-    if(e.key!=='Enter' && e.key!==' ') return;
-    e.preventDefault();
-    if(st.screen==='setup') activateFirstBreak(method);
-  });
-});
+// v2.82 First Break handlers are installed during bootstrap above.
 
 let lagDrag=null;
 const breakerCue=$('#breakerCue');
@@ -3940,7 +3937,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.81',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.82',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
@@ -3952,7 +3949,7 @@ if('serviceWorker' in navigator){
     location.reload();
   });
 }
-applyDefaultMatchSetup();show('setup');
+// Initial Match Setup was hydrated during v2.82 bootstrap.
 })();
 
 
