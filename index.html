@@ -1368,11 +1368,13 @@ html,body{background:#050506}
 .p{z-index:12!important}
 
 
-/* v2.73 FUNCTIONALITY — First Break touch layer. Visual geometry unchanged. */
+/* v2.74 FUNCTIONALITY — First Break touch layer. Visual geometry unchanged. */
 #setupScreen .setupFirstBreak{z-index:60!important;pointer-events:auto!important;}
 #setupScreen .setupFirstBreak .firstBreakTray{z-index:61!important;pointer-events:auto!important;}
 #setupScreen .setupFirstBreak .firstBreakChoice{position:relative!important;z-index:62!important;pointer-events:auto!important;touch-action:manipulation!important;}
 #setupScreen .setupFirstBreak .firstBreakChoice *{pointer-events:none!important;}
+#setupScreen #firstBreakHitLayer{position:absolute!important;inset:0!important;z-index:999!important;display:flex!important;pointer-events:auto!important;}
+#setupScreen #firstBreakHitLayer>button{flex:1!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;opacity:0!important;pointer-events:auto!important;touch-action:manipulation!important;}
 </style>
 
 <style id="v204-permanent-build-badge">
@@ -1733,6 +1735,7 @@ html,body{background:#050506}
         <button class="choice firstBreakChoice" data-first="lag"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
         <button class="choice firstBreakChoice" data-first="coin"><span class="firstIcon coinIcon">NZ</span><span class="firstBreakText"><span>COIN</span><span>TOSS</span></span></button>
         <button class="choice firstBreakChoice" data-first="manual"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span class="firstBreakText"><span>JUST</span><span>PLAY</span></span></button>
+        <div id="firstBreakHitLayer" aria-hidden="true"><button type="button" data-hit-first="lag"></button><button type="button" data-hit-first="coin"></button><button type="button" data-hit-first="manual"></button></div>
       </div>
     </div>
   </div>
@@ -1932,7 +1935,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.73';
+const RACKMATE_VERSION='2.74';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1940,7 +1943,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.73';
+const APP_VERSION='BETA v2.74';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3259,6 +3262,11 @@ function runFirstBreak(method){
 $$('[data-first]').forEach(b=>{
   b.addEventListener('click',e=>{e.preventDefault();runFirstBreak(b.dataset.first);});
 });
+$$('[data-hit-first]').forEach(b=>{
+  const fire=e=>{e.preventDefault();e.stopPropagation();runFirstBreak(b.dataset.hitFirst);};
+  b.addEventListener('pointerup',fire);
+  b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();});
+});
 
 let lagDrag=null;
 const breakerCue=$('#breakerCue');
@@ -3893,7 +3901,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.73',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.74',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
