@@ -1934,7 +1934,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.80';
+const RACKMATE_VERSION='2.81';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1942,7 +1942,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.80';
+const APP_VERSION='BETA v2.81';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3286,22 +3286,24 @@ firstBreakButtons.forEach(([sel,method])=>{
   const btn=$(sel);
   if(!btn) return;
   btn.style.pointerEvents='auto';
-  btn.style.touchAction='none';
-  // Android/Chrome is visibly focusing these controls on touch, but click has not
-  // been reliably delivered. Start the action on POINTER DOWN, the event we know
-  // the phone is delivering. Keyboard activation keeps a click fallback.
-  btn.addEventListener('pointerdown',e=>{
-    if(e.pointerType==='mouse' && e.button!==0) return;
-    e.preventDefault();
-    e.stopPropagation();
+  btn.style.touchAction='manipulation';
+
+  // v2.81 diagnostic/production path: the phone has repeatedly proved that
+  // these native buttons RECEIVE FOCUS when touched, even when pointer/click
+  // activation has been unreliable. Focus is therefore the single touch
+  // activation signal for First Break. The saved/default highlight is CSS/state
+  // only and never calls .focus(), so page load cannot accidentally start a match.
+  btn.addEventListener('focus',()=>{
+    if(st.screen!=='setup') return;
     activateFirstBreak(method);
-  },{capture:true});
-  btn.addEventListener('click',e=>{
-    // Keyboard/accessibility click only; pointer input was handled above.
-    if(e.detail!==0) return;
+  });
+
+  // Preserve keyboard accessibility: Enter/Space on an already-focused button
+  // can still explicitly activate it without relying on a synthetic mouse click.
+  btn.addEventListener('keydown',e=>{
+    if(e.key!=='Enter' && e.key!==' ') return;
     e.preventDefault();
-    e.stopPropagation();
-    activateFirstBreak(method);
+    if(st.screen==='setup') activateFirstBreak(method);
   });
 });
 
@@ -3938,7 +3940,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.80',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.81',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
