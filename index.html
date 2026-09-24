@@ -1934,7 +1934,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.79';
+const RACKMATE_VERSION='2.80';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1942,7 +1942,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.79';
+const APP_VERSION='BETA v2.80';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3258,18 +3258,23 @@ function runFirstBreak(method){
   else beginJustPlay();
   if(namesBlank) setTimeout(()=>banter('names'),120);
 }
-function syncFirstBreakSelection(method=appSettings.defaultBreakMethod){
+function syncFirstBreakSelection(method){
+  // Use the current match choice when present; otherwise show the saved system default.
+  const selected=method || st.openingMethod || appSettings.defaultBreakMethod || 'lag';
   const map={lag:'#firstBreakLag',coin:'#firstBreakCoin',manual:'#firstBreakManual'};
   Object.entries(map).forEach(([key,sel])=>{
     const el=$(sel);
-    if(el) el.classList.toggle('active',key===method);
+    if(!el) return;
+    const on=key===selected;
+    el.classList.toggle('active',on);
+    el.setAttribute('aria-pressed',String(on));
+    el.dataset.selected=on?'true':'false';
   });
 }
 function activateFirstBreak(method){
   if(st.screen!=='setup') return;
   st.openingMethod=method;
   syncFirstBreakSelection(method);
-  // First Break is the final Match Setup action: enter Match Play immediately.
   runFirstBreak(method);
 }
 const firstBreakButtons=[
@@ -3281,12 +3286,23 @@ firstBreakButtons.forEach(([sel,method])=>{
   const btn=$(sel);
   if(!btn) return;
   btn.style.pointerEvents='auto';
-  btn.style.touchAction='manipulation';
-  btn.onclick=e=>{
+  btn.style.touchAction='none';
+  // Android/Chrome is visibly focusing these controls on touch, but click has not
+  // been reliably delivered. Start the action on POINTER DOWN, the event we know
+  // the phone is delivering. Keyboard activation keeps a click fallback.
+  btn.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='mouse' && e.button!==0) return;
     e.preventDefault();
     e.stopPropagation();
     activateFirstBreak(method);
-  };
+  },{capture:true});
+  btn.addEventListener('click',e=>{
+    // Keyboard/accessibility click only; pointer input was handled above.
+    if(e.detail!==0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    activateFirstBreak(method);
+  });
 });
 
 let lagDrag=null;
@@ -3922,7 +3938,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.79',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.80',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
@@ -4755,5 +4771,15 @@ body{
 }
 @media (display-mode:standalone){
   html,body,.app{min-height:100dvh;}
+}
+</style>
+
+<style id="rackmate-v280-first-break-state">
+#setupScreen .setupFirstBreak .firstBreakChoice[data-selected="true"]{
+  color:#ffe29a!important;
+  text-shadow:0 0 8px rgba(242,196,77,.55)!important;
+}
+#setupScreen .setupFirstBreak .firstBreakChoice[data-selected="true"] .firstIcon{
+  filter:drop-shadow(0 0 9px rgba(242,196,77,.72))!important;
 }
 </style>
