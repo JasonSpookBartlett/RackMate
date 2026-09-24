@@ -1369,7 +1369,7 @@ html,body{background:#050506}
 
 
 
-/* v2.78 — First Break rebuilt from scratch: one native control layer, no overlays/capture hacks. */
+/* v2.79 — First Break rebuilt from scratch: one native control layer, no overlays/capture hacks. */
 #setupScreen #firstBreakControl{z-index:120!important;pointer-events:auto!important;}
 #setupScreen #firstBreakControl .firstBreakTray{position:relative!important;z-index:121!important;pointer-events:auto!important;}
 #setupScreen #firstBreakControl .firstBreakChoice{position:relative!important;z-index:122!important;pointer-events:auto!important;touch-action:manipulation!important;}
@@ -1533,7 +1533,7 @@ html,body{background:#050506}
   gap:0!important;
   margin:0!important;
   padding:0!important;
-  font-size:min(1.392cqw,2.783cqh)!important;
+  font-size:min(1.392cqw,2.793cqh)!important;
   font-weight:900!important;
   line-height:1.05!important;
   letter-spacing:.14em!important;
@@ -1561,7 +1561,7 @@ html,body{background:#050506}
   white-space:pre!important;
   text-align:center!important;
   font-family:inherit!important;
-  font-size:min(1.392cqw,2.783cqh)!important;
+  font-size:min(1.392cqw,2.793cqh)!important;
   font-weight:900!important;
   line-height:1.05!important;
   letter-spacing:.14em!important;
@@ -1934,7 +1934,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.78';
+const RACKMATE_VERSION='2.79';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1942,7 +1942,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.78';
+const APP_VERSION='BETA v2.79';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3267,9 +3267,10 @@ function syncFirstBreakSelection(method=appSettings.defaultBreakMethod){
 }
 function activateFirstBreak(method){
   if(st.screen!=='setup') return;
+  st.openingMethod=method;
   syncFirstBreakSelection(method);
-  // Let the selected state paint once, then enter the existing Match Play flow.
-  requestAnimationFrame(()=>requestAnimationFrame(()=>runFirstBreak(method)));
+  // First Break is the final Match Setup action: enter Match Play immediately.
+  runFirstBreak(method);
 }
 const firstBreakButtons=[
   ['#firstBreakLag','lag'],
@@ -3281,11 +3282,11 @@ firstBreakButtons.forEach(([sel,method])=>{
   if(!btn) return;
   btn.style.pointerEvents='auto';
   btn.style.touchAction='manipulation';
-  btn.addEventListener('pointerup',e=>{
+  btn.onclick=e=>{
     e.preventDefault();
     e.stopPropagation();
     activateFirstBreak(method);
-  });
+  };
 });
 
 let lagDrag=null;
@@ -3921,7 +3922,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.78',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.79',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
@@ -4664,7 +4665,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupName{width:22.757%!important;height:9.258%!important;top:29.072%!important;}
 #setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - 11.3735%)!important;right:auto!important;}
 #setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - 11.3735%)!important;right:auto!important;}
-#setupScreen .setupName>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupName>.setupObjectLabel{font-size:min(1.392cqw,2.793cqh)!important;}
 #setupScreen .setupName .name input{font-size:min(2.645cqw,5.290cqh)!important;}
 
 /* Swap Sides: preserve centre, enlarge and move down. */
@@ -4673,21 +4674,21 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 
 /* Game Type: another 15% actual size, down with the interior, and another 5.29% left. */
 #setupScreen .setupGameType{left:21.36625%!important;top:46.20%!important;width:12.167%!important;height:36.225%!important;transform:none!important;}
-#setupScreen .setupGameType>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupGameType>.setupObjectLabel{font-size:min(1.392cqw,2.793cqh)!important;}
 #setupScreen .setupGameType .ball{width:min(4.428cqw,8.867cqh)!important;height:min(4.428cqw,8.867cqh)!important;font-size:min(1.783cqw,3.577cqh)!important;}
 #setupScreen .setupGameType .b10{font-size:min(1.484cqw,2.967cqh)!important;}
 #setupScreen .setupGameType #gameCue{width:min(2.047cqw,4.106cqh)!important;height:min(2.047cqw,4.106cqh)!important;}
 
 /* Break Format: larger, lower, single-line choices. */
 #setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 9.919%)!important;top:43.699%!important;width:19.838%!important;height:11.903%!important;}
-#setupScreen .setupBreakFormat>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupBreakFormat>.setupObjectLabel{font-size:min(1.392cqw,2.793cqh)!important;}
 #setupScreen .setupBreakFormat .choice{font-size:min(1.081cqw,2.174cqh)!important;white-space:nowrap!important;line-height:1!important;}
 
 /* First Break: larger and lower. */
 #setupScreen .setupFirstBreak{left:calc(var(--rm-table-centre-x) - 12.233%)!important;top:61.104%!important;width:24.466%!important;height:17.193%!important;}
-#setupScreen .setupFirstBreak>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupFirstBreak>.setupObjectLabel{font-size:min(1.392cqw,2.793cqh)!important;}
 #setupScreen .setupFirstBreak .firstBreakChoice{font-size:min(.955cqw,1.909cqh)!important;}
-#setupScreen .setupFirstBreak .firstIcon{width:min(4.497cqw,8.993cqh)!important;height:min(4.497cqw,8.993cqh)!important;font-size:min(1.392cqw,2.783cqh)!important;}
+#setupScreen .setupFirstBreak .firstIcon{width:min(4.497cqw,8.993cqh)!important;height:min(4.497cqw,8.993cqh)!important;font-size:min(1.392cqw,2.793cqh)!important;}
 
 /* Race / Best Of: preserve centre, enlarge and move down. */
 #setupScreen .setupMatchLength{left:69.059%!important;top:40.604%!important;width:14.283%!important;height:37.691%!important;}
@@ -4717,7 +4718,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 }
 /* MATCH/LENGTH only: slightly quieter than RACE TO / BEST OF. */
 #setupScreen .setupMatchLength::after{
-  font-size:min(1.392cqw,2.783cqh)!important;
+  font-size:min(1.392cqw,2.793cqh)!important;
   line-height:1.05!important;
 }
 </style>
