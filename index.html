@@ -1368,7 +1368,7 @@ html,body{background:#050506}
 .p{z-index:12!important}
 
 
-/* v2.74 FUNCTIONALITY — First Break touch layer. Visual geometry unchanged. */
+/* v2.75 FUNCTIONALITY — First Break touch layer. Visual geometry unchanged. */
 #setupScreen .setupFirstBreak{z-index:60!important;pointer-events:auto!important;}
 #setupScreen .setupFirstBreak .firstBreakTray{z-index:61!important;pointer-events:auto!important;}
 #setupScreen .setupFirstBreak .firstBreakChoice{position:relative!important;z-index:62!important;pointer-events:auto!important;touch-action:manipulation!important;}
@@ -1935,7 +1935,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.74';
+const RACKMATE_VERSION='2.75';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1943,7 +1943,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.74';
+const APP_VERSION='BETA v2.75';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3268,6 +3268,20 @@ $$('[data-hit-first]').forEach(b=>{
   b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();});
 });
 
+// v2.75: capture First Break from screen coordinates before any overlapping element can steal the event.
+document.addEventListener('pointerdown',e=>{
+  if(st.screen!=='setup') return;
+  const tray=document.querySelector('#setupScreen .setupFirstBreak .firstBreakTray');
+  if(!tray) return;
+  const r=tray.getBoundingClientRect();
+  if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom) return;
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  const third=r.width/3;
+  const slot=Math.max(0,Math.min(2,Math.floor((e.clientX-r.left)/third)));
+  runFirstBreak(['lag','coin','manual'][slot]);
+},true);
+
 let lagDrag=null;
 const breakerCue=$('#breakerCue');
 
@@ -3901,7 +3915,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.74',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.75',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
@@ -4641,7 +4655,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
    Game Type moves left by half its v2.59 group width (5.29% / ~108 master px). */
 
 /* Players: enlarge around established centres, then move down. */
-#setupScreen .setupName{width:22.747%!important;height:9.258%!important;top:29.072%!important;}
+#setupScreen .setupName{width:22.757%!important;height:9.258%!important;top:29.072%!important;}
 #setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - 11.3735%)!important;right:auto!important;}
 #setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - 11.3735%)!important;right:auto!important;}
 #setupScreen .setupName>.setupObjectLabel{font-size:min(1.392cqw,2.783cqh)!important;}
