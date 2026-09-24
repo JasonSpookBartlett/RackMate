@@ -1612,32 +1612,35 @@ html,body{background:#050506}
 #setupScreen .setupFirstBreak .firstBreakChoice{font-size:20px!important;font-weight:900!important;line-height:1.02!important;}
 </style>
 
-<style id="rackmate-v267-table-typography-lock">
-/* v2.67 — authoritative Match Setup table typography.
-   All descriptive/control labels use the same 22px size as the Race To / Best Of label treatment.
-   Numeric match-length values remain a separate, larger hierarchy. Geometry is unchanged. */
+<style id="rackmate-v268-table-typography-lock">
+/* v2.68 — one shared responsive typography token for every Match Setup LABEL.
+   IMPORTANT: labels only. Player-name entry text, ball numerals/icons and the 7/13
+   match values remain separate hierarchy. Uses the same cqw/cqh system as RACE TO. */
+#setupScreen{
+  --rm-setup-label-size:min(1.564cqw,3.117cqh);
+}
 #setupScreen .setupName>.setupObjectLabel,
 #setupScreen .setupGameType>.setupObjectLabel,
 #setupScreen .setupBreakFormat>.setupObjectLabel,
 #setupScreen .setupFirstBreak>.setupObjectLabel,
 #setupScreen .setupBreakFormat .choice,
 #setupScreen .setupFirstBreak .firstBreakChoice,
-#setupScreen .setupMatchLength .counter small{
-  font-size:22px!important;
-  font-weight:900!important;
-  line-height:1.02!important;
-}
+#setupScreen .setupFirstBreak .firstBreakText,
+#setupScreen .setupMatchLength .counter small,
 #setupScreen .setupMatchLength::after{
-  font-size:22px!important;
-  font-weight:900!important;
-  line-height:1.05!important;
-}
-#setupScreen .setupFirstBreak .firstBreakText{
-  font-size:22px!important;
+  font-size:var(--rm-setup-label-size)!important;
   font-weight:900!important;
   line-height:1.02!important;
 }
-/* Keep the match values clearly above the common label hierarchy. */
+/* Preserve the requested stacked labels. */
+#setupScreen .setupFirstBreak .firstBreakText{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  gap:0!important;
+}
+#setupScreen .setupFirstBreak .firstBreakText>span{display:block!important;}
+/* 7 / 13 deliberately stay larger than labels. */
 #setupScreen .setupMatchLength .counter b{
   font-size:72px!important;
   font-weight:900!important;
@@ -1645,7 +1648,7 @@ html,body{background:#050506}
 }
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.67" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.68" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1913,10 +1916,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.67</div>
+<div class="version">BETA v2.68</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.67';
+const RACKMATE_VERSION='2.68';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1924,7 +1927,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.67';
+const APP_VERSION='BETA v2.68';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3874,7 +3877,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.67',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.68',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
