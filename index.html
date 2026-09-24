@@ -1368,7 +1368,13 @@ html,body{background:#050506}
 .p{z-index:12!important}
 
 
-/* v2.77: obsolete First Break interception layers removed. */
+
+/* v2.78 — First Break rebuilt from scratch: one native control layer, no overlays/capture hacks. */
+#setupScreen #firstBreakControl{z-index:120!important;pointer-events:auto!important;}
+#setupScreen #firstBreakControl .firstBreakTray{position:relative!important;z-index:121!important;pointer-events:auto!important;}
+#setupScreen #firstBreakControl .firstBreakChoice{position:relative!important;z-index:122!important;pointer-events:auto!important;touch-action:manipulation!important;}
+#setupScreen #firstBreakControl .firstBreakChoice *{pointer-events:none!important;}
+#setupScreen #firstBreakControl .firstBreakChoice.active{border-color:var(--gold)!important;box-shadow:0 0 10px rgba(242,196,77,.28)!important;}
 </style>
 
 <style id="v204-permanent-build-badge">
@@ -1723,12 +1729,12 @@ html,body{background:#050506}
       </div>
     </div>
 
-    <div class="setupFirstBreak">
+    <div class="setupFirstBreak" id="firstBreakControl">
       <div class="setupObjectLabel">FIRST BREAK</div>
       <div class="firstBreakTray">
-        <button class="choice firstBreakChoice" data-first="lag"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
-        <button class="choice firstBreakChoice" data-first="coin"><span class="firstIcon coinIcon">NZ</span><span class="firstBreakText"><span>COIN</span><span>TOSS</span></span></button>
-        <button class="choice firstBreakChoice" data-first="manual"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span class="firstBreakText"><span>JUST</span><span>PLAY</span></span></button>
+        <button type="button" class="choice firstBreakChoice" id="firstBreakLag"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
+        <button type="button" class="choice firstBreakChoice" id="firstBreakCoin"><span class="firstIcon coinIcon">NZ</span><span class="firstBreakText"><span>COIN</span><span>TOSS</span></span></button>
+        <button type="button" class="choice firstBreakChoice" id="firstBreakManual"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span class="firstBreakText"><span>JUST</span><span>PLAY</span></span></button>
       </div>
     </div>
   </div>
@@ -1928,7 +1934,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.77';
+const RACKMATE_VERSION='2.78';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1936,7 +1942,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.77';
+const APP_VERSION='BETA v2.78';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -2015,7 +2021,7 @@ function sync(){
   $$('[data-break]').forEach(b=>b.classList.toggle('active',b.dataset.break===st.breakFormat));
   $('#raceVal').textContent=st.race;
   $('#bestVal').textContent=st.best;
-  $$('[data-first]').forEach(b=>b.classList.toggle('active',st.screen==='setup' && b.dataset.first===appSettings.defaultBreakMethod));
+  syncFirstBreakSelection();
 }
 
 function saveAppSettings(){
@@ -2028,7 +2034,7 @@ function applyDefaultMatchSetup(){
   st.breakFormat=appSettings.defaultBreakFormat;
   st.openingMethod=null;
   sync();
-  $$('[data-first]').forEach(b=>b.classList.toggle('active',b.dataset.first===appSettings.defaultBreakMethod));
+  syncFirstBreakSelection();
 }
 function setSettingChoice(selector,value){
   $$(selector).forEach(b=>b.classList.toggle('active',b.dataset.value===String(value)));
@@ -3252,41 +3258,35 @@ function runFirstBreak(method){
   else beginJustPlay();
   if(namesBlank) setTimeout(()=>banter('names'),120);
 }
-
-// v2.77 — ROOT FIX: the three visible First Break buttons existed in the markup
-// but had never been wired to runFirstBreak(). Previous overlay fixes were therefore
-// masking the real omission. The visible controls themselves now own the action.
-$$('[data-first]').forEach(b=>{
-  b.onclick=e=>{
-    e.preventDefault();
-    runFirstBreak(b.dataset.first);
-  };
-});
-
-// v2.77 — retired overlay code retained inert for easy diff/reference.
-// A direct screen-level overlay is installed after parsing so legacy setup geometry cannot steal the touch.
-function installFirstBreakDirectControls(){
-  const setup=$('#setupScreen');
-  if(!setup || $('#firstBreakDirectControls')) return;
-  const overlay=document.createElement('div');
-  overlay.id='firstBreakDirectControls';
-  overlay.setAttribute('aria-label','First Break controls');
-  ['lag','coin','manual'].forEach(method=>{
-    const b=document.createElement('button');
-    b.type='button';
-    b.dataset.directFirst=method;
-    b.setAttribute('aria-label',method==='lag'?'Lag':method==='coin'?'Coin Toss':'Just Play');
-    b.addEventListener('pointerup',e=>{
-      e.preventDefault();
-      e.stopPropagation();
-      runFirstBreak(method);
-    });
-    b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();});
-    overlay.appendChild(b);
+function syncFirstBreakSelection(method=appSettings.defaultBreakMethod){
+  const map={lag:'#firstBreakLag',coin:'#firstBreakCoin',manual:'#firstBreakManual'};
+  Object.entries(map).forEach(([key,sel])=>{
+    const el=$(sel);
+    if(el) el.classList.toggle('active',key===method);
   });
-  setup.appendChild(overlay);
 }
-// v2.77: overlay retired; visible First Break buttons are now the controls.
+function activateFirstBreak(method){
+  if(st.screen!=='setup') return;
+  syncFirstBreakSelection(method);
+  // Let the selected state paint once, then enter the existing Match Play flow.
+  requestAnimationFrame(()=>requestAnimationFrame(()=>runFirstBreak(method)));
+}
+const firstBreakButtons=[
+  ['#firstBreakLag','lag'],
+  ['#firstBreakCoin','coin'],
+  ['#firstBreakManual','manual']
+];
+firstBreakButtons.forEach(([sel,method])=>{
+  const btn=$(sel);
+  if(!btn) return;
+  btn.style.pointerEvents='auto';
+  btn.style.touchAction='manipulation';
+  btn.addEventListener('pointerup',e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    activateFirstBreak(method);
+  });
+});
 
 let lagDrag=null;
 const breakerCue=$('#breakerCue');
@@ -3921,7 +3921,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.77',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.78',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
@@ -4754,29 +4754,5 @@ body{
 }
 @media (display-mode:standalone){
   html,body,.app{min-height:100dvh;}
-}
-</style>
-
-<style id="rackmate-v276-first-break-direct-controls">
-/* v2.77 — independent touch surface on the master 0..100% setup plane.
-   Matches the approved v2.69 First Break footprint; transparent, no visual changes. */
-#setupScreen #firstBreakDirectControls{
-  position:absolute!important;
-  left:calc(var(--rm-table-centre-x) - 12.233%)!important;
-  top:61.104%!important;
-  width:24.466%!important;
-  height:17.193%!important;
-  z-index:20000!important;
-  display:grid!important;
-  grid-template-columns:repeat(3,1fr)!important;
-  gap:0!important;
-  pointer-events:auto!important;
-  background:transparent!important;
-}
-#setupScreen #firstBreakDirectControls>button{
-  appearance:none!important;-webkit-appearance:none!important;
-  width:100%!important;height:100%!important;margin:0!important;padding:0!important;
-  border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;
-  opacity:0!important;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important;
 }
 </style>
