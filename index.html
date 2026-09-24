@@ -1648,7 +1648,7 @@ html,body{background:#050506}
 }
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.68" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.69" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1916,10 +1916,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.68</div>
+<div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.68';
+const RACKMATE_VERSION='2.69';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1927,7 +1927,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.68';
+const APP_VERSION='BETA v2.69';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -3877,7 +3877,7 @@ coin.addEventListener('pointercancel',()=>{
 if('serviceWorker' in navigator){
   window.addEventListener('load',async()=>{
     try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.68',{updateViaCache:'none'});
+      const reg=await navigator.serviceWorker.register('./sw.js?v=2.69',{updateViaCache:'none'});
       await reg.update();
       if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
     }catch(_){}
@@ -4660,4 +4660,30 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupMatchLength .counter small{font-size:min(1.564cqw,3.117cqh)!important;}
 #setupScreen .setupMatchLength .counter b{font-size:min(3.508cqw,7.015cqh)!important;}
 #setupScreen .setupMatchLength .counter button{font-size:min(2.185cqw,4.370cqh)!important;}
+</style>
+
+
+<style id="rackmate-v269-final-four-label-tune">
+/* v2.69 — final selective label tune.
+   Only ALTERNATE/WINNER/LAG are increased; MATCH/LENGTH is reduced ~11%.
+   COIN/TOSS, JUST/PLAY, all geometry, icons, values and other labels remain untouched. */
+#setupScreen .setupBreakFormat .choice{
+  font-size:min(1.564cqw,3.117cqh)!important;
+  font-weight:900!important;
+  line-height:1!important;
+}
+#setupScreen .setupFirstBreak .firstBreakChoice{
+  font-size:min(1.564cqw,3.117cqh)!important;
+  font-weight:900!important;
+}
+/* Keep the already-correct stacked COIN/TOSS and JUST/PLAY at their v2.68 size. */
+#setupScreen .setupFirstBreak .firstBreakText{
+  font-size:min(1.564cqw,3.117cqh)!important;
+  line-height:1.02!important;
+}
+/* MATCH/LENGTH only: slightly quieter than RACE TO / BEST OF. */
+#setupScreen .setupMatchLength::after{
+  font-size:min(1.392cqw,2.783cqh)!important;
+  line-height:1.05!important;
+}
 </style>

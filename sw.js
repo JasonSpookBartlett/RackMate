@@ -1,4 +1,4 @@
-const CACHE='rackmate-v2.68-beta';
+const CACHE='rackmate-v2.69-beta';
 const STATIC_ASSETS=[
   './manifest.webmanifest',
   './assets/rackmate-master-background.webp',
