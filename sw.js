@@ -1,4 +1,4 @@
-const CACHE='rackmate-v2.66-beta';
+const CACHE='rackmate-v2.67-beta';
 const STATIC_ASSETS=[
   './manifest.webmanifest',
   './assets/rackmate-master-background.webp',
@@ -10,7 +10,7 @@ const STATIC_ASSETS=[
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE);
-    await cache.addAll(STATIC_ASSETS.map(url=>url+'?v=2.66'));
+    await cache.addAll(STATIC_ASSETS.map(url=>url+'?v=2.67'));
     await self.skipWaiting();
   })());
 });
@@ -47,7 +47,7 @@ self.addEventListener('fetch',event=>{
       }
       return response;
     }catch(_){
-      return (await caches.match(request)) || (await caches.match(url.pathname+'?v=2.66'));
+      return (await caches.match(request)) || (await caches.match(url.pathname+'?v=2.67'));
     }
   })());
 });
