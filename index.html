@@ -1427,7 +1427,7 @@ html,body{background:#050506}
 #rackmateBuildIdentity img,#rackmateBuildIdentity .rmName{display:none!important;}
 #rackmateBuildIdentity .rmBuild{
   display:block!important;margin:0!important;
-  font-size:min(1.42cqw,2.84cqh)!important;font-weight:900!important;line-height:1!important;
+  font-size:min(1.42cqw,2.85cqh)!important;font-weight:900!important;line-height:1!important;
   color:#eee!important;text-shadow:0 2px 5px #000,0 0 7px rgba(0,0,0,.75)!important;
 }
 
@@ -1444,7 +1444,7 @@ html,body{background:#050506}
 #settingsBtn{right:9.75%!important;left:auto!important;}
 #rackmateBuildIdentity{left:18.35%!important;top:6.15%!important;transform:translateY(-50%)!important;display:block!important;}
 #rackmateBuildIdentity img,#rackmateBuildIdentity .rmName{display:none!important;}
-#rackmateBuildIdentity .rmBuild{display:block!important;font-size:min(1.42cqw,2.84cqh)!important;font-weight:900!important;line-height:1!important;margin:0!important;color:#eee!important;}
+#rackmateBuildIdentity .rmBuild{display:block!important;font-size:min(1.42cqw,2.85cqh)!important;font-weight:900!important;line-height:1!important;margin:0!important;color:#eee!important;}
 </style>
 
 <style id="rackmate-v248-version-coordinate-lock">
@@ -1732,9 +1732,9 @@ html,body{background:#050506}
     <div class="setupFirstBreak" id="firstBreakControl">
       <div class="setupObjectLabel">FIRST BREAK</div>
       <div class="firstBreakTray">
-        <button type="button" class="choice firstBreakChoice" id="firstBreakLag"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
-        <button type="button" class="choice firstBreakChoice" id="firstBreakCoin"><span class="firstIcon coinIcon">NZ</span><span class="firstBreakText"><span>COIN</span><span>TOSS</span></span></button>
-        <button type="button" class="choice firstBreakChoice" id="firstBreakManual"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span class="firstBreakText"><span>JUST</span><span>PLAY</span></span></button>
+        <button type="button" class="choice firstBreakChoice" id="firstBreakLag" onpointerup="window.RackMateFirstBreak&&window.RackMateFirstBreak('lag',event)"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
+        <button type="button" class="choice firstBreakChoice" id="firstBreakCoin" onpointerup="window.RackMateFirstBreak&&window.RackMateFirstBreak('coin',event)"><span class="firstIcon coinIcon">NZ</span><span class="firstBreakText"><span>COIN</span><span>TOSS</span></span></button>
+        <button type="button" class="choice firstBreakChoice" id="firstBreakManual" onpointerup="window.RackMateFirstBreak&&window.RackMateFirstBreak('manual',event)"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span class="firstBreakText"><span>JUST</span><span>PLAY</span></span></button>
       </div>
     </div>
   </div>
@@ -1934,7 +1934,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.84';
+const RACKMATE_VERSION='2.85';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1942,7 +1942,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.84';
+const APP_VERSION='BETA v2.85';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -1973,7 +1973,17 @@ try{
 }catch(_){}
 
 const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0,displaySwapped:false};
-// v2.84: paint saved Setup defaults immediately. This is visual hydration only.
+// v2.85: expose First Break at bootstrap, before the rest of Setup wiring can fail.
+let rmFirstBreakLast=0;
+window.RackMateFirstBreak=function(method,e){
+  if(e){ try{e.preventDefault();e.stopPropagation();}catch(_){} }
+  const now=Date.now(); if(now-rmFirstBreakLast<250) return; rmFirstBreakLast=now;
+  if(st.screen!=='setup') return;
+  st.openingMethod=method;
+  syncFirstBreakSelection(method);
+  runFirstBreak(method);
+};
+// v2.85: paint saved Setup defaults immediately. This is visual hydration only.
 requestAnimationFrame(()=>{
   $$('[data-game]').forEach(b=>b.classList.toggle('sel',+b.dataset.game===+appSettings.defaultGame));
   $$('[data-break]').forEach(b=>b.classList.toggle('active',b.dataset.break===appSettings.defaultBreakFormat));
@@ -3302,7 +3312,7 @@ firstBreakButtons.forEach(([sel,method])=>{
   btn.onclick=(e)=>{
     e.preventDefault();
     if(st.screen!=='setup') return;
-    activateFirstBreak(method);
+    window.RackMateFirstBreak(method,e);
   };
 });
 
@@ -3936,7 +3946,7 @@ coin.addEventListener('pointercancel',()=>{
   coinDragging=null;
   resetCoinDragVisual();
 });
-// v2.84 development: service worker disabled to eliminate stale-cache/reload interference.
+// v2.85 development: service worker disabled to eliminate stale-cache/reload interference.
 applyDefaultMatchSetup();show('setup');
 })();
 
@@ -4019,14 +4029,7 @@ body{align-items:flex-start!important;justify-content:center!important}
    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
   }catch(_){ fullscreenTried=false; }
  }
- /* v2.08 FULLSCREEN TEST: request immersive browser fullscreen on the first genuine
-    user interaction. Android/Chrome requires a user gesture for the Fullscreen API. */
- function armFullscreenTest(){
-   const tryNow=()=>{ requestRackMateFullscreen(); };
-   document.addEventListener('pointerdown',tryNow,{once:true,capture:true});
-   document.addEventListener('touchstart',tryNow,{once:true,capture:true,passive:true});
- }
- armFullscreenTest();
+ /* v2.85: fullscreen gesture interception disabled during development. */
  function syncV2(){
   const mt=q('#matchTimeDisplay'),mf=q('#matchTimeFloor'),af=q('#avgFrameDisplay'),aff=q('#avgFrameFloor');
   if(mt&&mf) mf.textContent=mt.textContent; if(af&&aff) aff.textContent=af.textContent;
@@ -4034,9 +4037,9 @@ body{align-items:flex-start!important;justify-content:center!important}
   const fp=q('#floorPauseBtn'); if(fp){fp.textContent=st.paused?'▶':'⏸';fp.title=st.paused?'Resume match':'Pause match';}
  }
  setInterval(syncV2,250);
- q('#floorPauseBtn').onclick=()=>q('#pauseBtn').click();
- q('#topUndoBtn').onclick=()=>q('#undoBtn').click();
- q('#topEditBtn').onclick=()=>q('#editBtn').click();
+ const fpb=q('#floorPauseBtn'); if(fpb) fpb.onclick=()=>{const p=q('#pauseBtn');if(p)p.click();};
+ const tub=q('#topUndoBtn'); if(tub) tub.onclick=()=>{const u=q('#undoBtn');if(u)u.click();};
+ const teb=q('#topEditBtn'); if(teb) teb.onclick=()=>{const e=q('#editBtn');if(e)e.click();};
  const oldShow=show; show=function(n){oldShow(n);syncV2();};
 })();
 </script>
