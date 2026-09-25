@@ -1691,14 +1691,14 @@ html,body{background:#050506}
   <div class="setupMaster">
     <div class="setupName setupNameP1">
       <div class="setupObjectLabel">PLAYER 1</div>
-      <div class="name red"><input id="p1Input" type="text" value="" placeholder="Player 1" maxlength="24" inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
+      <div class="name red"><input id="p1Input" enterkeyhint="next" type="text" value="" placeholder="Player 1" maxlength="24" inputmode="text" enterkeyhint="next" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
     </div>
 
     <button class="swap setupSwap" id="swapBtn" disabled aria-disabled="true"><span class="swapArrows">⇄</span><span>SWAP SIDES</span></button>
 
     <div class="setupName setupNameP2">
       <div class="setupObjectLabel">PLAYER 2</div>
-      <div class="name blue"><input id="p2Input" type="text" value="" placeholder="Player 2" maxlength="24" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
+      <div class="name blue"><input id="p2Input" enterkeyhint="done" type="text" value="" placeholder="Player 2" maxlength="24" inputmode="text" enterkeyhint="done" autocomplete="off" autocapitalize="words" spellcheck="false"></div>
     </div>
 
     <div class="setupGameType">
@@ -1724,7 +1724,7 @@ html,body{background:#050506}
     <div class="setupBreakFormat">
       <div class="setupObjectLabel">BREAK FORMAT</div>
       <div class="row">
-        <button class="choice" data-break="alternate">ALTERNATE</button>
+        <button class="choice active" data-break="alternate">ALTERNATE</button>
         <button class="choice" data-break="winner">WINNER</button>
       </div>
     </div>
@@ -1934,7 +1934,7 @@ html,body{background:#050506}
 <div class="version">BETA v2.69</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.82';
+const RACKMATE_VERSION='2.84';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1942,7 +1942,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.82';
+const APP_VERSION='BETA v2.84';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -1972,7 +1972,19 @@ try{
   }
 }catch(_){}
 
-const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0,displaySwapped:false};let helpReturn='setup';
+const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0,displaySwapped:false};
+// v2.84: paint saved Setup defaults immediately. This is visual hydration only.
+requestAnimationFrame(()=>{
+  $$('[data-game]').forEach(b=>b.classList.toggle('sel',+b.dataset.game===+appSettings.defaultGame));
+  $$('[data-break]').forEach(b=>b.classList.toggle('active',b.dataset.break===appSettings.defaultBreakFormat));
+  const rv=$('#raceVal'),bv=$('#bestVal');
+  if(rv) rv.textContent=Math.max(2,+appSettings.defaultRace||7);
+  if(bv) bv.textContent=Math.max(2,+appSettings.defaultRace||7)*2-1;
+  const method=appSettings.defaultBreakMethod||'lag';
+  const map={lag:'#firstBreakLag',coin:'#firstBreakCoin',manual:'#firstBreakManual'};
+  Object.entries(map).forEach(([key,sel])=>{const el=$(sel);if(!el)return;const on=key===method;el.classList.toggle('active',on);el.dataset.selected=on?'true':'false';el.setAttribute('aria-pressed',String(on));});
+});
+let helpReturn='setup';
 let wakeLock=null;
 async function updateWakeLock(){
   try{
@@ -2036,31 +2048,6 @@ function applyDefaultMatchSetup(){
   sync();
   syncFirstBreakSelection();
 }
-
-// v2.82: bootstrap Match Setup immediately after saved settings are available.
-// This intentionally happens BEFORE the remainder of the app wiring so a later
-// runtime error cannot leave the initial HTML placeholder defaults on screen.
-applyDefaultMatchSetup();
-show('setup');
-
-// Bind First Break at bootstrap time for the same reason. These controls are the
-// final Setup action: user touch selects the method and immediately enters Match Play.
-[
-  ['#firstBreakLag','lag'],
-  ['#firstBreakCoin','coin'],
-  ['#firstBreakManual','manual']
-].forEach(([sel,method])=>{
-  const btn=$(sel);
-  if(!btn) return;
-  btn.addEventListener('pointerdown',e=>{
-    if(st.screen!=='setup') return;
-    e.preventDefault();
-    st.openingMethod=method;
-    syncFirstBreakSelection(method);
-    runFirstBreak(method);
-  });
-});
-
 function setSettingChoice(selector,value){
   $$(selector).forEach(b=>b.classList.toggle('active',b.dataset.value===String(value)));
 }
@@ -3302,7 +3289,22 @@ function activateFirstBreak(method){
   syncFirstBreakSelection(method);
   runFirstBreak(method);
 }
-// v2.82 First Break handlers are installed during bootstrap above.
+const firstBreakButtons=[
+  ['#firstBreakLag','lag'],
+  ['#firstBreakCoin','coin'],
+  ['#firstBreakManual','manual']
+];
+firstBreakButtons.forEach(([sel,method])=>{
+  const btn=$(sel);
+  if(!btn) return;
+  btn.style.pointerEvents='auto';
+  btn.style.touchAction='manipulation';
+  btn.onclick=(e)=>{
+    e.preventDefault();
+    if(st.screen!=='setup') return;
+    activateFirstBreak(method);
+  };
+});
 
 let lagDrag=null;
 const breakerCue=$('#breakerCue');
@@ -3934,22 +3936,8 @@ coin.addEventListener('pointercancel',()=>{
   coinDragging=null;
   resetCoinDragVisual();
 });
-if('serviceWorker' in navigator){
-  window.addEventListener('load',async()=>{
-    try{
-      const reg=await navigator.serviceWorker.register('./sw.js?v=2.82',{updateViaCache:'none'});
-      await reg.update();
-      if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
-    }catch(_){}
-  });
-  let rmReloading=false;
-  navigator.serviceWorker.addEventListener('controllerchange',()=>{
-    if(rmReloading) return;
-    rmReloading=true;
-    location.reload();
-  });
-}
-// Initial Match Setup was hydrated during v2.82 bootstrap.
+// v2.84 development: service worker disabled to eliminate stale-cache/reload interference.
+applyDefaultMatchSetup();show('setup');
 })();
 
 
