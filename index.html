@@ -1662,12 +1662,44 @@ html,body{background:#050506}
 #setupScreen .setupGameType .track{pointer-events:auto!important;touch-action:none!important;}
 #setupScreen .setupGameType .ball,#setupScreen .setupFirstBreak .firstBreakChoice,#setupScreen .setupSwap{pointer-events:auto!important;}
 </style>
+
+<style id="v286StartMatch">
+.firstBreakRadio{position:absolute!important;opacity:0!important;width:1px!important;height:1px!important;pointer-events:none!important}
+#setupScreen .setupFirstBreak .firstBreakChoice:has(.firstBreakRadio:checked){color:#ffe29a!important;text-shadow:0 0 8px rgba(242,196,77,.55)!important}
+#setupScreen .setupFirstBreak .firstBreakChoice:has(.firstBreakRadio:checked) .firstIcon{filter:drop-shadow(0 0 8px rgba(242,196,77,.72))!important}
+
+</style>
+<style id="v290FirstBreakOnPlay">
+#setupScreen .startMatchBtn{position:absolute!important;left:var(--rm-table-centre-x,51.65%)!important;top:69.7%!important;transform:translate(-50%,-50%)!important;z-index:500!important;min-width:24%!important;height:7.2%!important;padding:0 2.4vw!important;border:2px solid rgba(242,196,77,.82)!important;border-radius:999px!important;background:rgba(8,20,18,.84)!important;color:#ffe29a!important;font:900 clamp(16px,1.45vw,25px)/1 system-ui,sans-serif!important;letter-spacing:.10em!important;box-shadow:0 0 18px rgba(242,196,77,.20),inset 0 0 14px rgba(242,196,77,.08)!important;text-shadow:0 0 8px rgba(242,196,77,.4)!important;touch-action:manipulation!important;pointer-events:auto!important}
+#setupScreen .startMatchBtn:active{transform:translate(-50%,-50%) scale(.97)!important}
+/* First Break now lives on the Match Play screen as its first action, instead of being
+   chosen back on Match Setup. Built as its own small, self-contained overlay component
+   rather than reusing the old .setupFirstBreak positioning rules, since those are deeply
+   tied to the Setup screen's specific grid layout. */
+.firstBreakOverlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:65;background:rgba(4,10,9,.72);backdrop-filter:blur(2px)}
+.firstBreakOverlay.show{display:flex}
+.firstBreakCard{display:flex;flex-direction:column;align-items:center;gap:2.4vh;background:rgba(8,20,18,.92);border:2px solid rgba(242,196,77,.55);border-radius:24px;padding:3.6vh 4.4vw;box-shadow:0 20px 60px rgba(0,0,0,.6),inset 0 0 20px rgba(242,196,77,.06)}
+.fbTitle{color:#ffe29a;font-weight:900;letter-spacing:.16em;font-size:clamp(15px,1.9vw,24px);text-shadow:0 2px 6px #000}
+.fbTray{display:flex;gap:4vw}
+.fbChoice{display:flex;flex-direction:column;align-items:center;gap:1vh;cursor:pointer;color:rgba(255,255,255,.72);font-weight:900;font-size:clamp(12px,1.15vw,17px);letter-spacing:.06em;text-align:center;line-height:1.15;touch-action:manipulation}
+.fbChoice:has(.firstBreakRadio:checked){color:#ffe29a;text-shadow:0 0 8px rgba(242,196,77,.55)}
+.fbChoice:has(.firstBreakRadio:checked) .firstIcon{filter:drop-shadow(0 0 10px rgba(242,196,77,.8))}
+.fbTray .firstIcon{width:clamp(52px,6.4vw,84px);height:clamp(52px,6.4vw,84px)}
+/* v2.92: Break Format toggle button, sized to match — not fill — the box. 'BREAK' is a
+   separate, fixed label styled like the other setup labels; only the button's own word
+   (WINNER/ALTERNATE) changes, styled like the Start Match button (same font/size/colour). */
+.setupBreakFormat{position:relative}
+.setupBreakFormat .breakFormatRow{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:.6vw}
+.setupBreakFormat .breakFormatToggle{display:inline-flex;align-items:center;justify-content:center;border:2px solid rgba(242,196,77,.82);border-radius:999px;background:rgba(8,20,18,.84);color:#ffe29a;font:900 clamp(13px,1.1vw,19px)/1 system-ui,sans-serif;letter-spacing:.10em;text-shadow:0 0 8px rgba(242,196,77,.4);box-shadow:0 0 12px rgba(242,196,77,.18),inset 0 0 10px rgba(242,196,77,.07);padding:.85em 1.3em;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+.setupBreakFormat .breakFormatToggle:active{transform:scale(.96)}
+.setupBreakFormat .breakFormatSuffix{color:#fff;opacity:.92;text-shadow:0 2px 5px #000;letter-spacing:.14em;font-size:clamp(14px,1.34vw,22px);font-weight:900;font-family:Arial,Helvetica,sans-serif;white-space:nowrap}
+</style>
 </head>
 <body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.69" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
-<div class="title"><div class="titleRow"><h1 id="screenTitle">MATCH SETUP</h1><div id="matchTitleBall" class="titleBall b8">8</div><span id="playWord" class="playWord">PLAY</span></div><div id="titleMatchMeta" class="titleMatchMeta"><span id="titleRace">RACE TO 7</span><span id="titleBest">BEST OF 13</span></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
+<div class="title"><div class="titleRow"><div id="matchTitleBall" class="titleBall b8">8</div><h1 id="screenTitle">MATCH SETUP</h1></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
 <div class="right"><button class="icon playUtility" id="topUndoBtn" title="Undo" aria-label="Undo">↶</button><button class="icon playUtility" id="topEditBtn" title="Match settings" aria-label="Match settings">⚙</button><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
 <div class="tableWrap"><div class="table">
@@ -1723,30 +1755,33 @@ html,body{background:#050506}
 
     <div class="setupBreakFormat">
       <div class="setupObjectLabel">BREAK FORMAT</div>
-      <div class="row">
-        <button class="choice active" data-break="alternate">ALTERNATE</button>
-        <button class="choice" data-break="winner">WINNER</button>
+      <div class="breakFormatRow">
+        <button type="button" id="breakFormatToggle" class="breakFormatToggle" data-break="winner">WINNER</button>
+        <span class="breakFormatSuffix">BREAK</span>
       </div>
     </div>
 
-    <div class="setupFirstBreak" id="firstBreakControl">
-      <div class="setupObjectLabel">FIRST BREAK</div>
-      <div class="firstBreakTray">
-        <button type="button" class="choice firstBreakChoice" id="firstBreakLag" onpointerup="window.RackMateFirstBreak&&window.RackMateFirstBreak('lag',event)"><span class="firstIcon lagIcon">●</span><span>LAG</span></button>
-        <button type="button" class="choice firstBreakChoice" id="firstBreakCoin" onpointerup="window.RackMateFirstBreak&&window.RackMateFirstBreak('coin',event)"><span class="firstIcon coinIcon">NZ</span><span class="firstBreakText"><span>COIN</span><span>TOSS</span></span></button>
-        <button type="button" class="choice firstBreakChoice" id="firstBreakManual" onpointerup="window.RackMateFirstBreak&&window.RackMateFirstBreak('manual',event)"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span class="firstBreakText"><span>JUST</span><span>PLAY</span></span></button>
-      </div>
-    </div>
   </div>
+  <button type="button" id="startMatchBtn" class="startMatchBtn" onclick="window.RackMateGoToPlay&&window.RackMateGoToPlay(event)">START MATCH!</button>
 </section>
 
 <section id="playScreen" class="screen">
 <div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1Hill" class="hill"></div></div>
-<div class="centre"><div id="pausedStatus" class="pausedStatus">PAUSED</div><div id="raceDisplay" class="race">RACE TO 7</div><div id="frameDisplay" class="frame">FRAME 1 OF 13</div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><div class="timing"><span class="timeLabel">THIS FRAME</span><b id="thisFrameDisplay">00:00</b><span class="timeLabel">AVG. FRAME TIME</span><b id="avgFrameDisplay">00:00</b></div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
+<div class="centre"><div id="pausedStatus" class="pausedStatus">PAUSED</div><div class="centreStack"><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><div class="breakerSlot"></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
 <div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2Hill" class="hill"></div></div></div>
-<div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="floorPauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div>MATCH PAUSED</div></div>
+<div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div>MATCH PAUSED</div></div>
 <div id="toast" class="toast"></div>
 <div id="coinLayer" class="coinLayer"><div class="coinStage"><div id="coinHint" class="coinHint">TOSS</div><div id="coin" class="coin">NZ</div></div></div>
+<div id="firstBreakOverlay" class="firstBreakOverlay">
+  <div class="firstBreakCard">
+    <div class="fbTitle">FIRST BREAK</div>
+    <div class="fbTray">
+      <label class="fbChoice" id="firstBreakLag"><input class="firstBreakRadio" type="radio" name="firstBreakMethod" value="lag"><span class="firstIcon lagIcon">●</span><span>LAG</span></label>
+      <label class="fbChoice" id="firstBreakCoin"><input class="firstBreakRadio" type="radio" name="firstBreakMethod" value="coin"><span class="firstIcon coinIcon">NZ</span><span>COIN<br>TOSS</span></label>
+      <label class="fbChoice" id="firstBreakManual"><input class="firstBreakRadio" type="radio" name="firstBreakMethod" value="manual"><span class="firstIcon manualIcon crossedCues" aria-hidden="true"><i></i><i></i></span><span>JUST<br>PLAY</span></label>
+    </div>
+  </div>
+</div>
 </section>
 
 
@@ -1931,10 +1966,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.69</div>
+<div class="version">BETA v2.88</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.85';
+const RACKMATE_VERSION='2.88';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -1942,7 +1977,7 @@ function applyRackMateVersion(){
 document.addEventListener('DOMContentLoaded',applyRackMateVersion);
 
 
-const APP_VERSION='BETA v2.85';
+const APP_VERSION='BETA v2.87';
 (()=>{const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const SYSTEM_SETTINGS={
   banter:true,
@@ -1972,27 +2007,44 @@ try{
   }
 }catch(_){}
 
-const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0,displaySwapped:false};
-// v2.85: expose First Break at bootstrap, before the rest of Setup wiring can fail.
-let rmFirstBreakLast=0;
-window.RackMateFirstBreak=function(method,e){
+const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,completedFramesMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0,displaySwapped:false};
+// v2.88 fix: expose match state so the later runtime-patch <script> block (which runs in its own
+// scope, outside this IIFE) can read it without throwing "st is not defined".
+window.__rmState=st;
+// v2.90: Match Setup's button now only moves the player to the Match Play screen — it no
+// longer resolves First Break itself. First Break (Lag / Coin Toss / Just Play) is the first
+// thing you do once on the Match Play screen, shown as an overlay until one is picked.
+window.RackMateGoToPlay=function(e){
   if(e){ try{e.preventDefault();e.stopPropagation();}catch(_){} }
-  const now=Date.now(); if(now-rmFirstBreakLast<250) return; rmFirstBreakLast=now;
   if(st.screen!=='setup') return;
-  st.openingMethod=method;
-  syncFirstBreakSelection(method);
-  runFirstBreak(method);
+  st.p1=$('#p1Input').value.trim()||'Player 1';
+  st.p2=$('#p2Input').value.trim()||'Player 2';
+  st.score1=0;st.score2=0;st.history=[];
+  st.justPlay=false;st.lagAssign=false;st.openingBreakerEditable=false;st.openingMethod=null;
+  resetMatchClock();resetBanterHistory();
+  show('play');
+  play();
+  $('#firstBreakOverlay').classList.add('show');
 };
+// Picking a First Break option now happens on the Match Play screen (see above), so this
+// listens for 'play' instead of 'setup'. Using 'click' (not 'change') so tapping the
+// already-selected default option still fires every time, not just when it changes.
+document.querySelectorAll('input[name="firstBreakMethod"]').forEach(r=>{
+  r.addEventListener('click',()=>{
+    if(st.screen!=='play') return;
+    runFirstBreak(r.value);
+  });
+});
 // v2.85: paint saved Setup defaults immediately. This is visual hydration only.
 requestAnimationFrame(()=>{
   $$('[data-game]').forEach(b=>b.classList.toggle('sel',+b.dataset.game===+appSettings.defaultGame));
-  $$('[data-break]').forEach(b=>b.classList.toggle('active',b.dataset.break===appSettings.defaultBreakFormat));
+  paintBreakFormatToggle(appSettings.defaultBreakFormat);
   const rv=$('#raceVal'),bv=$('#bestVal');
   if(rv) rv.textContent=Math.max(2,+appSettings.defaultRace||7);
   if(bv) bv.textContent=Math.max(2,+appSettings.defaultRace||7)*2-1;
   const method=appSettings.defaultBreakMethod||'lag';
-  const map={lag:'#firstBreakLag',coin:'#firstBreakCoin',manual:'#firstBreakManual'};
-  Object.entries(map).forEach(([key,sel])=>{const el=$(sel);if(!el)return;const on=key===method;el.classList.toggle('active',on);el.dataset.selected=on?'true':'false';el.setAttribute('aria-pressed',String(on));});
+  const radio=document.querySelector('input[name="firstBreakMethod"][value="'+method+'"]');
+  if(radio) radio.checked=true;
 });
 let helpReturn='setup';
 let wakeLock=null;
@@ -2012,9 +2064,7 @@ function show(n){
   st.screen=n;
   $('#screenTitle').textContent={setup:'MATCH SETUP',play:'MATCH',winner:'MATCH COMPLETE',help:'HELP'}[n];
   document.body.classList.toggle('playMode',n==='play');
-  $('#playWord').style.display=n==='play'?'inline':'none';
   $('#matchTitleBall').style.display=n==='play'?'grid':'none';
-  $('#titleMatchMeta').style.display=n==='play'?'flex':'none';
   $('#settingsBtn').style.visibility=n==='setup'?'visible':'hidden';
   $$('.playUtility').forEach(x=>x.style.display=n==='play'?'grid':'none');
   $('#helpBtn').style.visibility=n==='help'?'hidden':'visible';
@@ -2031,6 +2081,13 @@ function snapCueToGame(game){
 }
 
 
+// v2.92: single Break Format toggle button — shows only the current value's word; 'BREAK' is a
+// separate fixed label next to it (see HTML), styled like the button, not part of it.
+function paintBreakFormatToggle(value){
+  const v=value==='alternate'?'alternate':'winner';
+  const btn=$('#breakFormatToggle');
+  if(btn){ btn.dataset.break=v; btn.textContent=v==='alternate'?'ALTERNATE':'WINNER'; }
+}
 function sync(){
   const wgb=document.getElementById('winnerGameBall');
   if(wgb){
@@ -2040,7 +2097,7 @@ function sync(){
 
   $$('[data-game]').forEach(b=>b.classList.toggle('sel',+b.dataset.game===st.game));
   requestAnimationFrame(()=>snapCueToGame(st.game));
-  $$('[data-break]').forEach(b=>b.classList.toggle('active',b.dataset.break===st.breakFormat));
+  paintBreakFormatToggle(st.breakFormat);
   $('#raceVal').textContent=st.race;
   $('#bestVal').textContent=st.best;
   syncFirstBreakSelection();
@@ -2114,13 +2171,18 @@ function updateMatchClock(){
   const mt=$('#matchTimeDisplay'),aft=$('#avgFrameDisplay'),tf=$('#thisFrameDisplay');
   const elapsed=elapsedMatchMs();
   const completed=st.score1+st.score2;
-  const currentFrameNo=completed+1;
   const thisFrameMs=elapsedFrameMs();
-  const avgDivisor=st.matchEndedAt ? Math.max(1,completed) : Math.max(1,currentFrameNo);
+  // v2.98 fix: average frame time = total time actually spent on FINISHED frames ÷ how many
+  // frames finished. Before frame 1 finishes there's nothing to average yet, so it shows the
+  // live elapsed time as a running estimate; from frame 2 onward it uses completedFramesMs
+  // (accumulated in add(), only when a frame actually ends) divided by frames completed — never
+  // the live match clock — so it stays perfectly still while the current frame is still being
+  // played, and only moves at the instant a frame actually finishes.
+  const avgDivisor=Math.max(1,completed);
   if(mt) mt.textContent=formatClock(elapsed,true);
   if(tf) tf.textContent=formatClock(thisFrameMs,false);
-  if(aft) aft.textContent=st.matchStartedAt?formatClock(elapsed/avgDivisor,false):'00:00';
-  if(st.screen==='play') $('#screenTitle').textContent='MATCH TIME: '+formatClock(elapsed,true);
+  if(aft) aft.textContent=st.matchStartedAt?formatClock(completed?st.completedFramesMs/avgDivisor:elapsed,false):'00:00';
+  if(st.screen==='play'){const tmt=$('#matchTimeCentre'); if(tmt) tmt.textContent=formatClock(elapsed,true);}
   updatePauseUI();
 }
 function startMatchClock(){
@@ -2175,7 +2237,7 @@ function stopMatchClock(){
 }
 function resetMatchClock(){
   if(matchClockTimer){clearInterval(matchClockTimer);matchClockTimer=null;}
-  st.matchStartedAt=0;st.matchEndedAt=0;st.frameStartedAt=0;st.finalFrameMs=0;
+  st.matchStartedAt=0;st.matchEndedAt=0;st.frameStartedAt=0;st.finalFrameMs=0;st.completedFramesMs=0;
   st.paused=false;st.pausedAt=0;st.totalPausedMs=0;st.framePausedMs=0;
   $('#pauseBtn').classList.remove('show');
   updateMatchClock();
@@ -2989,8 +3051,8 @@ function selectMatchBanter(winner,reason){
   return 'matchClose';
 }
 
-function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceDisplay').textContent='RACE TO '+st.race;$('#frameDisplay').textContent='FRAME '+Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;$('#titleRace').textContent='RACE TO '+st.race;$('#titleBest').textContent='BEST OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const breakerOnLeft=(st.breaker===1)!==sw;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall';$('#breakerArrow').style.visibility='hidden';}else{$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall '+(breakerOnLeft?'bp1':'bp2');$('#breakerArrow').style.visibility='visible';$('#breakerArrow').textContent=breakerOnLeft?'◀':'▶';}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;}
-function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign,matchStartedAt:st.matchStartedAt,matchEndedAt:st.matchEndedAt,frameStartedAt:st.frameStartedAt,finalFrameMs:st.finalFrameMs,paused:st.paused,pausedAt:st.pausedAt,totalPausedMs:st.totalPausedMs,framePausedMs:st.framePausedMs}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;st.matchStartedAt=s.matchStartedAt||st.matchStartedAt;st.matchEndedAt=s.matchEndedAt||0;st.frameStartedAt=s.frameStartedAt||st.frameStartedAt;st.finalFrameMs=s.finalFrameMs||0;st.paused=!!s.paused;st.pausedAt=s.pausedAt||0;st.totalPausedMs=s.totalPausedMs||0;st.framePausedMs=s.framePausedMs||0;if(st.screen==='play'&&st.matchStartedAt&&!st.matchEndedAt)startMatchClock();play()}
+function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#bestValueCentre').textContent=st.best;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const breakerOnLeft=(st.breaker===1)!==sw;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall';$('#breakerArrow').style.visibility='hidden';}else{$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall '+(breakerOnLeft?'bp1':'bp2');$('#breakerArrow').style.visibility='visible';$('#breakerArrow').textContent=breakerOnLeft?'◀':'▶';}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;}
+function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign,matchStartedAt:st.matchStartedAt,matchEndedAt:st.matchEndedAt,frameStartedAt:st.frameStartedAt,finalFrameMs:st.finalFrameMs,completedFramesMs:st.completedFramesMs,paused:st.paused,pausedAt:st.pausedAt,totalPausedMs:st.totalPausedMs,framePausedMs:st.framePausedMs}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;st.matchStartedAt=s.matchStartedAt||st.matchStartedAt;st.matchEndedAt=s.matchEndedAt||0;st.frameStartedAt=s.frameStartedAt||st.frameStartedAt;st.finalFrameMs=s.finalFrameMs||0;st.completedFramesMs=s.completedFramesMs||0;st.paused=!!s.paused;st.pausedAt=s.pausedAt||0;st.totalPausedMs=s.totalPausedMs||0;st.framePausedMs=s.framePausedMs||0;if(st.screen==='play'&&st.matchStartedAt&&!st.matchEndedAt)startMatchClock();play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
   if(st.screen!=='play') return;
@@ -3004,6 +3066,14 @@ function add(p){
   if(st.score1>=st.race || st.score2>=st.race) return;
   const before=snap();
   st.history.push({before,player:p});
+  // v2.98 fix: v2.97 fixed the "jumps down" bug by dividing elapsed match time by frames
+  // finished, but that still let the average creep up second-by-second while the CURRENT
+  // frame was still being played, since match-elapsed time itself never stops. Reported as
+  // "AVG still seems to count the frame being played right now" — correct, it did. An average
+  // of finished frames shouldn't move at all until another frame actually finishes, so this now
+  // tracks the sum of completed frames' own durations directly, and that's the only thing
+  // divided to get the average — never the live/still-running match clock.
+  st.completedFramesMs+=elapsedFrameMs();
   if(p===1) st.score1++; else st.score2++;
   haptic(20);sound('score');
 
@@ -3073,6 +3143,7 @@ function start(p){
 }
 
 function beginLagAssignment(){
+  $('#firstBreakOverlay').classList.remove('show');
   st.justPlay=false;
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
@@ -3086,7 +3157,7 @@ function beginLagAssignment(){
   cue.className='breaker gameBreaker b'+st.game+' lagAssign';cue.textContent=st.game;
   cue.style.transform='';
   $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
-  $('#frameDisplay').textContent='FRAME 1 OF '+st.best;
+  $('#frameValue').textContent='1 OF '+st.best;
 }
 
 function finishMatch(p,reason='score'){
@@ -3177,7 +3248,8 @@ if(gameCue && gameTrack){
     if(e.target===gameCue) return;
     selectGameFromCueY(e.clientY);
   });
-}$$('[data-break]').forEach(b=>b.onclick=()=>{st.breakFormat=b.dataset.break;sync()});
+}
+$('#breakFormatToggle').onclick=()=>{st.breakFormat=st.breakFormat==='alternate'?'winner':'alternate';sync()};
 $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sync()};$('#raceUp').onclick=()=>{st.race++;st.best=st.race*2-1;sync()};$('#bestDown').onclick=()=>{st.best=Math.max(3,st.best-2);st.race=(st.best+1)/2;sync()};$('#bestUp').onclick=()=>{st.best+=2;st.race=(st.best+1)/2;sync()};
 
 const p1Input=$('#p1Input');
@@ -3227,6 +3299,7 @@ $('#swapBtn').onclick=()=>{
 
 
 function beginCoinToss(){
+  $('#firstBreakOverlay').classList.remove('show');
   st.justPlay=false;
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
@@ -3263,6 +3336,7 @@ function endCoinTossToBreaker(p){
 }
 
 function beginJustPlay(){
+  $('#firstBreakOverlay').classList.remove('show');
   st.p1=$('#p1Input').value.trim()||'Player 1';
   st.p2=$('#p2Input').value.trim()||'Player 2';
   st.score1=0;st.score2=0;st.history=[];resetMatchClock();resetBanterHistory();
@@ -3281,40 +3355,10 @@ function runFirstBreak(method){
   if(namesBlank) setTimeout(()=>banter('names'),120);
 }
 function syncFirstBreakSelection(method){
-  // Use the current match choice when present; otherwise show the saved system default.
   const selected=method || st.openingMethod || appSettings.defaultBreakMethod || 'lag';
-  const map={lag:'#firstBreakLag',coin:'#firstBreakCoin',manual:'#firstBreakManual'};
-  Object.entries(map).forEach(([key,sel])=>{
-    const el=$(sel);
-    if(!el) return;
-    const on=key===selected;
-    el.classList.toggle('active',on);
-    el.setAttribute('aria-pressed',String(on));
-    el.dataset.selected=on?'true':'false';
-  });
+  const radio=document.querySelector('input[name="firstBreakMethod"][value="'+selected+'"]');
+  if(radio) radio.checked=true;
 }
-function activateFirstBreak(method){
-  if(st.screen!=='setup') return;
-  st.openingMethod=method;
-  syncFirstBreakSelection(method);
-  runFirstBreak(method);
-}
-const firstBreakButtons=[
-  ['#firstBreakLag','lag'],
-  ['#firstBreakCoin','coin'],
-  ['#firstBreakManual','manual']
-];
-firstBreakButtons.forEach(([sel,method])=>{
-  const btn=$(sel);
-  if(!btn) return;
-  btn.style.pointerEvents='auto';
-  btn.style.touchAction='manipulation';
-  btn.onclick=(e)=>{
-    e.preventDefault();
-    if(st.screen!=='setup') return;
-    window.RackMateFirstBreak(method,e);
-  };
-});
 
 let lagDrag=null;
 const breakerCue=$('#breakerCue');
@@ -3946,7 +3990,7 @@ coin.addEventListener('pointercancel',()=>{
   coinDragging=null;
   resetCoinDragVisual();
 });
-// v2.85 development: service worker disabled to eliminate stale-cache/reload interference.
+// v2.86 development: service worker disabled to eliminate stale-cache/reload interference.
 applyDefaultMatchSetup();show('setup');
 })();
 
@@ -4029,18 +4073,25 @@ body{align-items:flex-start!important;justify-content:center!important}
    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
   }catch(_){ fullscreenTried=false; }
  }
- /* v2.85: fullscreen gesture interception disabled during development. */
+ /* v2.87: fullscreen gesture interception disabled during development. */
  function syncV2(){
+  const rm=window.__rmState; if(!rm) return;
   const mt=q('#matchTimeDisplay'),mf=q('#matchTimeFloor'),af=q('#avgFrameDisplay'),aff=q('#avgFrameFloor');
   if(mt&&mf) mf.textContent=mt.textContent; if(af&&aff) aff.textContent=af.textContent;
-  const veil=q('#pauseVeil'); if(veil) veil.classList.toggle('show',!!st.paused);
-  const fp=q('#floorPauseBtn'); if(fp){fp.textContent=st.paused?'▶':'⏸';fp.title=st.paused?'Resume match':'Pause match';}
+  const veil=q('#pauseVeil'); if(veil) veil.classList.toggle('show',!!rm.paused);
+  const fp=q('#pauseBtn'); if(fp){fp.textContent=rm.paused?'▶':'⏸';fp.title=rm.paused?'Resume match':'Pause match';}
  }
  setInterval(syncV2,250);
- const fpb=q('#floorPauseBtn'); if(fpb) fpb.onclick=()=>{const p=q('#pauseBtn');if(p)p.click();};
+ // v2.88 fix: #floorPauseBtn was renamed back to #pauseBtn (see HTML + main script), so this
+ // element already has its real togglePause click handler bound directly. The old forwarding
+ // shim here used to look for a *second*, nonexistent #pauseBtn and (once IDs were unified) would
+ // have made the button click itself in an infinite loop, so it's removed rather than "fixed".
  const tub=q('#topUndoBtn'); if(tub) tub.onclick=()=>{const u=q('#undoBtn');if(u)u.click();};
  const teb=q('#topEditBtn'); if(teb) teb.onclick=()=>{const e=q('#editBtn');if(e)e.click();};
- const oldShow=show; show=function(n){oldShow(n);syncV2();};
+ // v2.88 fix: the old "wrap show()" hook referenced a bare `show`/`st` that only exist inside the
+ // main script's own IIFE, so this always threw ReferenceErrors and never actually ran. The
+ // setInterval(syncV2,250) above already keeps the floor clock/pause icon in sync without needing
+ // to hook show(), so the broken wrapper is simply removed.
 })();
 </script>
 
@@ -4772,4 +4823,80 @@ body{
 #setupScreen .setupFirstBreak .firstBreakChoice[data-selected="true"] .firstIcon{
   filter:drop-shadow(0 0 9px rgba(242,196,77,.72))!important;
 }
+</style>
+
+<style id="rackmate-v293-play-header-and-centre-strip">
+/* v2.94: Match Play header is back to just "[ball] MATCH" — Match Time now lives inside the
+   centre strip as its first item (it was unreadable in the header, sitting over a light in the
+   background photo). The strip itself is its own dark panel — narrower than the grid column it
+   sits in, and taller than that column too: it starts where the column starts but extends past
+   the column's own bottom edge all the way down to the felt/rail line (measured directly off the
+   background artwork), independent of the row height so player names/scores are untouched.
+   Race To/Best Of and Frame Time/Avg Frame Time are each wrapped in a tight .centreGroup so they
+   read as pairs, while the overall stack still spaces its (now 5) top-level items evenly down
+   the taller strip. The breaker cue ball keeps its original absolute positioning/left-right
+   "which side" shift and its drag behaviour completely untouched. */
+.centre{position:relative;border-left:0!important;border-right:0!important;box-shadow:none!important}
+.centreStack{
+  position:absolute;
+  left:26.1%;right:7.9%;    /* re-centred on the table's true axis (51.65%), not the screen's 50% */
+  top:0;
+  height:129.4%;      /* extends past the row's own bottom, down to the table's bottom rail */
+  box-sizing:border-box;
+  padding:4% 0 3%;
+  background:rgba(4,6,6,.82);
+  border-radius:10px;
+  z-index:1;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+}
+.centreGroup{display:flex;flex-direction:column;align-items:center;gap:.5em}
+.centreItem{display:flex;flex-direction:column;align-items:center;gap:.2em;line-height:1}
+.centreLabel{display:block;font-size:clamp(8px,.78vw,12px);font-weight:800;letter-spacing:.12em;color:#eee;text-shadow:0 2px 5px #000}
+.centreItem b{display:block;font-size:clamp(15px,1.85vw,26px);font-weight:900;color:#fff;text-shadow:0 2px 6px #000;font-variant-numeric:tabular-nums}
+#matchTimeCentre{font-size:clamp(13px,1.55vw,22px)}
+.breakerSlot{flex:0 0 auto;width:clamp(46px,4.4vw,78px);height:clamp(46px,4.4vw,78px)}
+/* The breaker ball keeps its original absolute positioning/left-right "which side" shift and
+   its drag behaviour completely untouched (still driven by the .breakerCueBall/.bp1/.bp2 rules
+   and by JS setting inline position:fixed while dragging) — only its resting vertical position
+   changes, from the old "50% of the whole centre column" to wherever .breakerSlot now sits in
+   the stack. Only 'top' is overridden (not 'position'), so the drag's own inline styles still win. */
+.centre .breaker.breakerCueBall{top:82.9%;z-index:2}
+/* Neutral resting position (Just Play, 0-0, no side assigned yet) also needs to track the
+   strip's new true-centre axis — bp1/bp2 (an assigned side) are edge-anchored and barely
+   affected by the small recentre, so those are left exactly as they were. This selector can
+   never match while the ball is draggable (that always uses bp1/bp2 or the separate lagAssign
+   class instead), so !important here can't fight the drag code's inline styles. */
+.centre .breakerCueBall:not(.bp1):not(.bp2){left:59.09%!important;transform:translateX(-50%)!important}
+/* Un-hide values previous layout passes hid when this info lived elsewhere (header/floor bar). */
+#avgFrameDisplay,#thisFrameDisplay{display:block}
+
+/* v2.96: banter bubble moved lower so it stops sitting over the score, and made see-through
+   (~60% transparent) so the table/score behind it still reads, while a blur behind the text
+   keeps the words themselves legible regardless of what's showing through. */
+.banterBubble{
+  top:72%;
+  background:rgba(248,242,223,.4);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.banterBubble::after{border-bottom-color:rgba(248,242,223,.4)}
+</style>
+
+<style id="rackmate-v299-ball-graphics">
+/* v2.99: real ball photos everywhere a ball is shown, instead of flat CSS-drawn circles.
+   .b8/.b9/.b10 are already a shared, un-scoped class used by every game-type ball in the app
+   (Match Setup's selector, the header title ball, the winner screen, and the game ball shown
+   while dragging to assign a Lag winner) — overriding those three classes in one place updates
+   all of them consistently. The plain white markers (the resting/assigned breaker cue ball, and
+   the small slider next to Match Setup's game-type balls) get the cue ball photo the same way.
+   Each element's own border/box-shadow (its context-specific "frame") is left alone; only the
+   fill and the leftover text digit (now redundant since the photo already shows the number)
+   are replaced. */
+.b8,.b9,.b10{background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important;background-color:transparent!important;color:transparent!important}
+.b8{background-image:url('./assets/balls/ball-8.png')!important}
+.b9{background-image:url('./assets/balls/ball-9.png')!important}
+.b10{background-image:url('./assets/balls/ball-10.png')!important}
+
+.breakerCueBall{background-image:url('./assets/balls/ball-cue.png')!important;background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important;background-color:transparent!important}
+.cue{background-image:url('./assets/balls/ball-cue.png');background-size:100% 100%;background-position:center;background-repeat:no-repeat;background-color:transparent}
 </style>

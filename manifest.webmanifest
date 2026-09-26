@@ -5,7 +5,7 @@
   "description": "Fast social pool match scoring for 8-ball, 9-ball and 10-ball.",
   "start_url": "./",
   "scope": "./",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "landscape",
   "background_color": "#000000",
   "theme_color": "#000000",
@@ -24,7 +24,6 @@
     }
   ],
   "display_override": [
-    "fullscreen",
     "standalone"
   ]
 }
