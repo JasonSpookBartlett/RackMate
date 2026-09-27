@@ -30,7 +30,6 @@ button{font:inherit}.menu,.icon{width:42px;height:42px;border:1px solid #5c6964;
 .panel{background:rgba(7,18,14,.76);border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:14px 18px;display:flex;flex-direction:column;justify-content:center}
 .label{text-align:center;font-size:12px;letter-spacing:.18em;font-weight:900;margin-bottom:12px}.balls{display:flex;justify-content:center;gap:19px}.ball{width:58px;height:58px;border-radius:50%;border:3px solid #eee;display:grid;place-items:center;font-size:23px;font-weight:900;box-shadow:inset 0 -10px 16px rgba(0,0,0,.3)}
 .b8{background:#111}.b9{background:#f0c632;color:#111}.b10{background:#3e89d9;color:#111}.ball.sel{box-shadow:0 0 0 3px var(--gold),inset 0 -10px 16px rgba(0,0,0,.3)}
-.track{width:230px;height:34px;position:relative;margin:8px auto 0}.cue{width:31px;height:31px;border-radius:50%;background:#fff;position:absolute;top:0;box-shadow:inset -6px -6px 9px #bbb;transition:left .18s}.pos8{left:13px}.pos9{left:99px}.pos10{left:185px}
 .row{display:flex;gap:10px;justify-content:center}.choice{background:#111918;border:1px solid #6c7974;border-radius:10px;color:#fff;padding:11px 14px;font-weight:800}.choice.active{border-color:var(--gold);color:#ffe89b}
 .length{display:grid;grid-template-columns:1fr 1fr;gap:12px}.counter{display:grid;grid-template-columns:42px 1fr 42px;align-items:center;background:#111918;border-radius:11px;padding:10px}.counter button{height:40px;border-radius:9px;border:1px solid #52625d;background:#15201d;color:#fff;font-size:24px}.counter div{text-align:center}.counter small{display:block;font-size:10px}.counter b{font-size:34px}
 .play{position:absolute;left:3.5%;right:3.5%;top:4.5%;bottom:7%;display:grid;grid-template-columns:1fr 220px 1fr;gap:16px}.side{display:flex;align-items:center;justify-content:center;flex-direction:column;border-radius:13px;touch-action:none;user-select:none;background:rgba(0,0,0,.08)}.left{border:2px solid var(--red)}.rightSide{border:2px solid var(--blue)}
@@ -316,7 +315,7 @@ html,body{background:#050506}
 /* Compact landscape safeguards */
 @media(max-height:540px){
   .tableWrap{bottom:3.6vh}.setup{top:7%;bottom:6%;grid-template-rows:60px 1fr}
-  .ball{width:48px;height:48px}.track{margin-top:3px}.panel{padding:8px 12px}
+  .ball{width:48px;height:48px}.panel{padding:8px 12px}
   .play{top:3%;bottom:6%}.score{font-size:clamp(72px,10vw,126px)}
   .winnerPretty{inset:4% 6% 5%}
 }
@@ -341,7 +340,6 @@ html,body{background:#050506}
 .leftBody .panel:first-of-type{position:relative;width:min(100%,500px);padding:18px 24px 30px;border:4px solid #8c4213;border-radius:14px;background:repeating-linear-gradient(7deg,rgba(255,220,155,.07) 0 2px,transparent 2px 5px),linear-gradient(90deg,#5a280d,#9e531b 48%,#5b290d);box-shadow:inset 0 0 0 2px #d48742,0 7px 12px rgba(0,0,0,.45)}
 .leftBody .panel:first-of-type .label,.rightBody .panel:first-of-type .label,.rightBody .panel:nth-of-type(2) .label{position:absolute;top:-39px;left:0;right:0;text-align:center;color:#fff}
 .balls{justify-content:space-evenly;gap:20px}.ball{width:62px;height:62px;font-size:23px;border:3px solid rgba(245,245,245,.9)}.ball.active{outline:0;transform:scale(1.06)}
-.track{position:absolute;left:18%;right:18%;bottom:-45px;height:42px;background:linear-gradient(#102122,#071314);border:1px solid #405b58;border-radius:0 0 12px 12px}.cue{width:42px;height:42px;top:-1px}
 .leftBody .panel:nth-of-type(2){margin-top:38px;background:transparent;border:0;padding:0;box-shadow:none;width:100%}.leftBody .panel:nth-of-type(2) .choices{justify-content:center}
 .choice{min-height:56px;border-radius:10px;font-size:clamp(12px,1.25vw,19px);font-weight:850}.choice.active{border:2px solid #ffe18a;box-shadow:0 0 12px rgba(255,209,72,.42)}
 .rightBody .panel:first-of-type{position:relative;width:min(100%,510px);padding:18px;border:1px solid #2d93a4;border-radius:14px;background:linear-gradient(#0c1d1d,#061313);box-shadow:0 7px 13px rgba(0,0,0,.42)}.counters{gap:0}.counter{border:0;border-radius:0;background:transparent;box-shadow:none;min-height:95px}.counter:first-child{border-right:1px solid #8cb6b1}.counter .num{font-size:clamp(36px,4vw,58px)}
@@ -354,7 +352,7 @@ html,body{background:#050506}
 
 @media(max-height:520px){
 .header{height:12vh;min-height:52px}.menu,.icon{width:45px;height:45px}.mini8{width:40px;height:40px}.tableWrap{top:13.5vh;bottom:6vh;left:4.2vw;right:4.2vw}.table{box-shadow:inset 0 0 0 15px #087346,inset 0 0 0 18px rgba(0,25,15,.72),inset 0 0 28px rgba(0,0,0,.35),0 12px 25px rgba(0,0,0,.62)}
-.setup{left:8%;right:8%;top:10%;bottom:6%;grid-template-columns:1fr 130px 1fr;grid-template-rows:58px 1fr;column-gap:28px;row-gap:14px}.name{height:51px}.name::before{top:-21px}.swap{height:58px}.body{gap:12px}.leftBody .panel:first-of-type{padding:10px 20px 20px}.ball{width:48px;height:48px;font-size:18px}.track{height:32px;bottom:-33px}.cue{width:32px;height:32px}.leftBody .panel:nth-of-type(2){margin-top:31px}.choice{min-height:42px}.rightBody .panel:first-of-type{padding:7px 12px}.counter{min-height:66px}.counter .num{font-size:34px}.rightBody .panel:nth-of-type(2){padding:7px 8px 5px}.rightBody .panel:nth-of-type(2) .choice{min-height:50px}.leftBody .panel:first-of-type .label,.rightBody .panel:first-of-type .label{top:-27px}.rightBody .panel:nth-of-type(2) .label{top:-26px}.play{top:3%;bottom:5%;grid-template-columns:1fr 135px 1fr}.score{font-size:90px}.pname{font-size:38px}
+.setup{left:8%;right:8%;top:10%;bottom:6%;grid-template-columns:1fr 130px 1fr;grid-template-rows:58px 1fr;column-gap:28px;row-gap:14px}.name{height:51px}.name::before{top:-21px}.swap{height:58px}.body{gap:12px}.leftBody .panel:first-of-type{padding:10px 20px 20px}.ball{width:48px;height:48px;font-size:18px}.leftBody .panel:nth-of-type(2){margin-top:31px}.choice{min-height:42px}.rightBody .panel:first-of-type{padding:7px 12px}.counter{min-height:66px}.counter .num{font-size:34px}.rightBody .panel:nth-of-type(2){padding:7px 8px 5px}.rightBody .panel:nth-of-type(2) .choice{min-height:50px}.leftBody .panel:first-of-type .label,.rightBody .panel:first-of-type .label{top:-27px}.rightBody .panel:nth-of-type(2) .label{top:-26px}.play{top:3%;bottom:5%;grid-template-columns:1fr 135px 1fr}.score{font-size:90px}.pname{font-size:38px}
 }
 
 
@@ -511,15 +509,6 @@ html,body{background:#050506}
   gap:0;
 }
 .ball{width:7.0vh;height:7.0vh;font-size:clamp(18px,1.8vw,28px)}
-.track{
-  position:absolute;
-  left:14%;
-  right:14%;
-  bottom:-5.35vh;
-  height:4.55vh;
-  border-radius:0 0 1.0vh 1.0vh;
-}
-.cue{width:5.55vh;height:5.55vh;top:-.50vh}
 
 /* BREAK FORMAT is no longer allowed to share the Game Type panel.
    The existing buttons are extracted visually below the tray. */
@@ -634,7 +623,6 @@ html,body{background:#050506}
   .setup>.body:first-of-type>.panel{left:15.45%;top:38.55%;width:31.30%;height:15.10%;padding:1.2vh 1.8vh}
   .setup>.body:nth-of-type(2)>.panel{left:50.55%;top:38.25%;width:33.05%;height:20.80%;padding:1.0vh}
   .ball{width:7vh;height:7vh}
-  .track{height:4.55vh;bottom:-5.35vh}.cue{width:5.55vh;height:5.55vh}
   .choice{min-height:5.9vh}
 }
 
@@ -688,11 +676,6 @@ html,body{background:#050506}
   position:absolute;inset:0;display:flex;align-items:center;justify-content:space-evenly;gap:0;
 }
 .setupGameType .ball{width:7.2vh;height:7.2vh;font-size:clamp(18px,1.8vw,28px)}
-.setupGameType .track{
-  position:absolute;left:14%;right:14%;bottom:-5.45vh;height:4.65vh;
-  margin:0;border-radius:0 0 1.0vh 1.0vh;
-}
-.setupGameType .cue{width:5.65vh;height:5.65vh;top:-.52vh}
 
 /* Break Format — independent object, no longer inside Game Type */
 .setupBreakFormat{left:20.2%;top:63.1%;width:22.3%;height:7.0%}
@@ -774,13 +757,6 @@ html,body{background:#050506}
 .setupGameType .ball{width:7.35vh;height:7.35vh}
 
 /* Slider must end under the outer balls, not run far past 10-ball. */
-.setupGameType .track{
-  left:15.5%;
-  right:15.5%;
-  bottom:-5.15vh;
-  height:4.45vh;
-}
-.setupGameType .cue{width:5.5vh;height:5.5vh;top:-.52vh}
 
 /* Match Length: shift right, enlarge slightly, keep it isolated. */
 .setupMatchLength{
@@ -866,13 +842,6 @@ html,body{background:#050506}
   grid-template-columns:repeat(3,1fr);
   place-items:center;
 }
-.setupGameType .track{
-  left:16.6667%;
-  right:16.6667%;
-  bottom:-5.05vh;
-  height:4.35vh;
-}
-.setupGameType .cue{width:5.45vh;height:5.45vh;top:-.54vh}
 
 /* BREAK FORMAT: drop below slider with a clear gap. */
 .setupBreakFormat{
@@ -963,17 +932,6 @@ html,body{background:#050506}
 
 /* Slider: endpoints centred directly below 8 and 10 ball centres.
    Track width = distance between outer ball centres. */
-.setupGameType .track{
-  left:16.6666667%;
-  right:16.6666667%;
-  width:auto;
-  transform:none;
-}
-/* Existing cue-position percentages were based on the older track.
-   Tie the cue centres to the three ball centres: left / centre / right. */
-.setupGameType .cue.pos8{left:0!important;transform:translateX(-50%)!important}
-.setupGameType .cue.pos9{left:50%!important;transform:translateX(-50%)!important}
-.setupGameType .cue.pos10{left:100%!important;transform:translateX(-50%)!important}
 
 /* Break Format lowered so its button row aligns with First Break row. */
 .setupBreakFormat{
@@ -1489,8 +1447,6 @@ html,body{background:#050506}
 /* Game Type: title +15%, balls +14%, slider/cue proportionally larger. */
 .setupGameType>.setupObjectLabel{font-size:clamp(14px,1.34vw,22px)!important}
 .setupGameType .ball{width:8.35vh!important;height:8.35vh!important;font-size:clamp(21px,2.05vw,32px)!important}
-.setupGameType .track{height:4.95vh!important;bottom:-5.45vh!important}
-.setupGameType .cue{width:6.15vh!important;height:6.15vh!important;top:-.60vh!important}
 
 /* Break Format: enlarge title and choices without changing group footprint. */
 .setupBreakFormat>.setupObjectLabel{font-size:clamp(14px,1.34vw,22px)!important}
@@ -1658,8 +1614,6 @@ html,body{background:#050506}
 
 <style id="rackmate-v270-functionality-1">
 /* v2.70 functionality only — no Match Setup geometry changes. */
-#setupScreen .setupGameType #gameCue{transition:top .20s ease!important;pointer-events:auto!important;touch-action:none!important;}
-#setupScreen .setupGameType .track{pointer-events:auto!important;touch-action:none!important;}
 #setupScreen .setupGameType .ball,#setupScreen .setupFirstBreak .firstBreakChoice,#setupScreen .setupSwap{pointer-events:auto!important;}
 </style>
 
@@ -1700,7 +1654,7 @@ html,body{background:#050506}
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
 <div class="title"><div class="titleRow"><div id="matchTitleBall" class="titleBall b8">8</div><h1 id="screenTitle">MATCH SETUP</h1></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
-<div class="right"><button class="icon playUtility" id="topUndoBtn" title="Undo" aria-label="Undo">↶</button><button class="icon playUtility" id="topEditBtn" title="Match settings" aria-label="Match settings">⚙</button><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
+<div class="right"><button class="icon playUtility" id="endMatchBtn" title="End match" aria-label="End match"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button><button class="icon playUtility" id="topUndoBtn" title="Undo" aria-label="Undo">↶</button><button class="icon playUtility" id="topEditBtn" title="Match settings" aria-label="Match settings">⚙</button><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
 <div class="tableWrap"><div class="table">
       <!-- v1.80 dedicated cushion geometry: independent of pocket elements -->
@@ -1734,7 +1688,7 @@ html,body{background:#050506}
     </div>
 
     <div class="setupGameType">
-      <div class="setupObjectLabel">GAME TYPE</div>
+      <div class="setupObjectLabel">MATCH FORMAT</div>
       <div class="gameWoodTray">
         <div class="balls">
           <button class="ball b8 sel" data-game="8">8</button>
@@ -1742,7 +1696,6 @@ html,body{background:#050506}
           <button class="ball b10" data-game="10">10</button>
         </div>
       </div>
-      <div class="track"><div id="gameCue" class="cue pos8"></div></div>
     </div>
 
     <div class="setupMatchLength">
@@ -1767,9 +1720,9 @@ html,body{background:#050506}
 
 <section id="playScreen" class="screen">
 <div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1Hill" class="hill"></div></div>
-<div class="centre"><div id="pausedStatus" class="pausedStatus">PAUSED</div><div class="centreStack"><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><div class="breakerSlot"></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
+<div class="centre"><div class="centreStack"><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><button type="button" id="pausedStatus" class="pausedStatus">PAUSE</button><div class="breakerSlot"></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
 <div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2Hill" class="hill"></div></div></div>
-<div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div>MATCH PAUSED</div></div>
+<div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div class="pauseVeilContent"><div class="pauseVeilIcon" aria-hidden="true">⏸</div><div id="pauseVeilText">MATCH PAUSED</div></div></div>
 <div id="toast" class="toast"></div>
 <div id="coinLayer" class="coinLayer"><div class="coinStage"><div id="coinHint" class="coinHint">TOSS</div><div id="coin" class="coin">NZ</div></div></div>
 <div id="firstBreakOverlay" class="firstBreakOverlay">
@@ -1787,21 +1740,24 @@ html,body{background:#050506}
 
 <section id="winnerScreen" class="screen">
   <div class="winnerPretty">
-    <div class="winnerBallWrap"><div id="winnerGameBall" class="winnerGameBall b8">8</div></div>
-    <div class="winnerCore">
-      <div class="winnerTitle">★ WINNER! ★</div>
-      <div id="winnerName" class="winnerName"></div>
-      <div id="winnerScore" class="winnerScore"></div>
-      <div id="winnerMeta" class="winnerMeta"></div>
-      <div id="winnerFrames" class="winnerFrames"></div>
+  <div class="winnerCore">
+    <div class="winnerTitle">★ WINNER! ★</div>
+    <div id="winnerName" class="winnerName"></div>
+    <div id="winnerScore" class="winnerScore"></div>
+    <div class="winnerBallBurst" id="winnerBallBurst">
+      <span class="wStar s1">★</span><span class="wStar s2">★</span><span class="wStar s3">★</span><span class="wStar s4">★</span><span class="wStar s5">★</span><span class="wStar s6">★</span><span class="wStar s7">★</span><span class="wStar s8">★</span>
+      <div id="winnerGameBall" class="winnerGameBall b8">8</div>
     </div>
+    <div id="winnerMeta" class="winnerMeta"></div>
+    <div id="winnerFrames" class="winnerFrames"></div>
     <div id="winnerBanter" class="winnerBanterPretty"></div>
-    <div class="winnerActions">
-      <button class="choice" id="rematchBtn">↶ REMATCH</button>
-      <button class="choice active" id="newMatchBtn">▶ NEW MATCH</button>
-    </div>
-    <span id="matchWinCrowdSoundHook" data-sound-hook="SOUND_MATCH_WIN_CROWD" hidden></span>
   </div>
+  <div class="winnerActions">
+    <button class="choice" id="rematchBtn">↶ REMATCH</button>
+    <button class="choice active" id="newMatchBtn">▶ NEW MATCH</button>
+  </div>
+  <span id="matchWinCrowdSoundHook" data-sound-hook="SOUND_MATCH_WIN_CROWD" hidden></span>
+</div>
 </section>
 
 <section id="helpScreen" class="screen">
@@ -1966,10 +1922,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v2.88</div>
+<div class="version">BETA v3.09</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='2.88';
+const RACKMATE_VERSION='3.09';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -2007,7 +1963,7 @@ try{
   }
 }catch(_){}
 
-const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,completedFramesMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0,displaySwapped:false};
+const st={screen:'setup',game:appSettings.defaultGame,race:appSettings.defaultRace,best:appSettings.defaultRace*2-1,breakFormat:appSettings.defaultBreakFormat,p1:'Player 1',p2:'Player 2',score1:0,score2:0,breaker:1,firstBreaker:1,history:[],lagAssign:false,openingBreakerEditable:false,justPlay:false,openingMethod:null,matchStartedAt:0,matchEndedAt:0,frameStartedAt:0,finalFrameMs:0,completedFramesMs:0,lastFrameMs:0,paused:false,pausedAt:0,totalPausedMs:0,framePausedMs:0,displaySwapped:false};
 // v2.88 fix: expose match state so the later runtime-patch <script> block (which runs in its own
 // scope, outside this IIFE) can read it without throwing "st is not defined".
 window.__rmState=st;
@@ -2072,13 +2028,9 @@ function show(n){
   updatePauseUI();
   updateWakeLock();
 }
-function snapCueToGame(game){
-  const gc=$('#gameCue');
-  if(!gc) return;
-  gc.style.left='';
-  gc.style.top='';
-  gc.className='cue pos'+game;
-}
+// v3.04: the game-type slider ("gameCue") has been removed entirely — tapping a ball was
+// already the real way to pick a game, and the slider was a second, undiscoverable path to the
+// same result. snapCueToGame() only ever moved that slider, so it's removed along with it.
 
 
 // v2.92: single Break Format toggle button — shows only the current value's word; 'BREAK' is a
@@ -2096,7 +2048,6 @@ function sync(){
   }
 
   $$('[data-game]').forEach(b=>b.classList.toggle('sel',+b.dataset.game===st.game));
-  requestAnimationFrame(()=>snapCueToGame(st.game));
   paintBreakFormatToggle(st.breakFormat);
   $('#raceVal').textContent=st.race;
   $('#bestVal').textContent=st.best;
@@ -2165,10 +2116,15 @@ function updatePauseUI(){
     b.setAttribute('aria-label',st.paused?'Resume match timer':'Pause match timer');
     b.title=st.paused?'Resume match timer':'Pause match timer';
   }
-  if(ps) ps.classList.toggle('show',!!st.paused);
+  if(ps){
+    ps.textContent=st.paused?'RESUME':'PAUSE';
+    ps.classList.toggle('show',!!st.paused);
+    ps.setAttribute('aria-label',st.paused?'Resume match':'Pause match');
+    ps.title=st.paused?'Resume match':'Pause match';
+  }
 }
 function updateMatchClock(){
-  const mt=$('#matchTimeDisplay'),aft=$('#avgFrameDisplay'),tf=$('#thisFrameDisplay');
+  const mt=$('#matchTimeDisplay'),aft=$('#avgFrameDisplay'),tf=$('#thisFrameDisplay'),lf=$('#lastFrameDisplay');
   const elapsed=elapsedMatchMs();
   const completed=st.score1+st.score2;
   const thisFrameMs=elapsedFrameMs();
@@ -2181,6 +2137,7 @@ function updateMatchClock(){
   const avgDivisor=Math.max(1,completed);
   if(mt) mt.textContent=formatClock(elapsed,true);
   if(tf) tf.textContent=formatClock(thisFrameMs,false);
+  if(lf) lf.textContent=completed?formatClock(st.lastFrameMs,false):'00:00';
   if(aft) aft.textContent=st.matchStartedAt?formatClock(completed?st.completedFramesMs/avgDivisor:elapsed,false):'00:00';
   if(st.screen==='play'){const tmt=$('#matchTimeCentre'); if(tmt) tmt.textContent=formatClock(elapsed,true);}
   updatePauseUI();
@@ -2215,9 +2172,50 @@ function resumeMatch(){
   st.framePausedMs+=delta;
   st.paused=false;
   st.pausedAt=0;
+  const pvt=$('#pauseVeilText'); if(pvt) pvt.textContent='MATCH PAUSED';
   updateMatchClock();
 }
 function togglePause(){ st.paused?resumeMatch():pauseMatch(); }
+// v3.08: the centre-strip pause button pauses instantly (never make someone who's genuinely
+// bursting wait on a menu first), then asks — purely for a laugh, changes nothing functionally.
+// Closing the popup without picking either one just leaves the plain "MATCH PAUSED" message.
+function setPauseReason(reason){
+  const pvt=$('#pauseVeilText');
+  if(!pvt) return;
+  if(reason==='toilet'){ pvt.textContent='TOILET BREAK'; showBanter("Nature's calling. The rack will wait."); }
+  else if(reason==='meal'){ pvt.textContent='REFUEL BREAK'; showBanter("Snack run. Don't get sauce on the felt."); }
+}
+function openPauseReasonPopup(){
+  modal('WHY?',
+    '<div class="row" style="justify-content:center;gap:16px">'+
+    '<button id="pauseReasonToilet" class="choice pauseReasonBtn">'+
+      '<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="9" height="5" rx="1"/><path d="M5 7h11a1 1 0 0 1 1 1v2a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V8a1 1 0 0 1 1-1z"/><path d="M8 16l-1 6M14 16l1 6M7 22h9"/></svg>'+
+      '<span>TOILET</span>'+
+    '</button>'+
+    '<button id="pauseReasonMeal" class="choice pauseReasonBtn">'+
+      '<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2v6a2 2 0 0 0 2 2v12"/><path d="M7 2v6M9 2v6"/><path d="M17 2c-1.6 0-3 1.6-3 4v4c0 1.1.9 2 2 2v10"/></svg>'+
+      '<span>MEAL</span>'+
+    '</button>'+
+    '</div>'
+  );
+  // v3.10: this popup was inheriting the Settings screen's big timber-panel modal style (built
+  // for a completely different modal, meant to hold a whole settings form) — a plain "pick one
+  // of two icons" popup has no business being that wide. This class scopes a compact style and
+  // table-true-centre position to just this one popup; close() always strips it back off again
+  // regardless of which button ends the popup, so it can never leak onto Match Menu, Abandon, or
+  // Settings afterward.
+  $('#modalWrap').classList.add('pauseWhyModal');
+  $('#pauseReasonToilet').onclick=()=>{setPauseReason('toilet');close();};
+  $('#pauseReasonMeal').onclick=()=>{setPauseReason('meal');close();};
+  // Cancel here means "actually, never mind" — resume the match rather than leaving it sitting
+  // paused with no reason picked.
+  $('#modalCancel').onclick=()=>{resumeMatch();close();$('#modalCancel').onclick=close;};
+}
+$('#pausedStatus').onclick=()=>{
+  if(st.paused){ resumeMatch(); return; }
+  pauseMatch();
+  openPauseReasonPopup();
+};
 function stopMatchClock(){
   if(st.matchStartedAt&&!st.matchEndedAt){
     const now=Date.now();
@@ -2237,7 +2235,7 @@ function stopMatchClock(){
 }
 function resetMatchClock(){
   if(matchClockTimer){clearInterval(matchClockTimer);matchClockTimer=null;}
-  st.matchStartedAt=0;st.matchEndedAt=0;st.frameStartedAt=0;st.finalFrameMs=0;st.completedFramesMs=0;
+  st.matchStartedAt=0;st.matchEndedAt=0;st.frameStartedAt=0;st.finalFrameMs=0;st.completedFramesMs=0;st.lastFrameMs=0;
   st.paused=false;st.pausedAt=0;st.totalPausedMs=0;st.framePausedMs=0;
   $('#pauseBtn').classList.remove('show');
   updateMatchClock();
@@ -3051,8 +3049,28 @@ function selectMatchBanter(winner,reason){
   return 'matchClose';
 }
 
-function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#bestValueCentre').textContent=st.best;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const breakerOnLeft=(st.breaker===1)!==sw;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall';$('#breakerArrow').style.visibility='hidden';}else{$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall '+(breakerOnLeft?'bp1':'bp2');$('#breakerArrow').style.visibility='visible';$('#breakerArrow').textContent=breakerOnLeft?'◀':'▶';}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;}
-function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign,matchStartedAt:st.matchStartedAt,matchEndedAt:st.matchEndedAt,frameStartedAt:st.frameStartedAt,finalFrameMs:st.finalFrameMs,completedFramesMs:st.completedFramesMs,paused:st.paused,pausedAt:st.pausedAt,totalPausedMs:st.totalPausedMs,framePausedMs:st.framePausedMs}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;st.matchStartedAt=s.matchStartedAt||st.matchStartedAt;st.matchEndedAt=s.matchEndedAt||0;st.frameStartedAt=s.frameStartedAt||st.frameStartedAt;st.finalFrameMs=s.finalFrameMs||0;st.completedFramesMs=s.completedFramesMs||0;st.paused=!!s.paused;st.pausedAt=s.pausedAt||0;st.totalPausedMs=s.totalPausedMs||0;st.framePausedMs=s.framePausedMs||0;if(st.screen==='play'&&st.matchStartedAt&&!st.matchEndedAt)startMatchClock();play()}
+// v3.10: the breaker ball's vertical rest position used to be a hardcoded CSS percentage,
+// manually recalculated by hand every time an item was added to or moved within the centre
+// stack (Last Frame, then the pause button, ...). That's exactly the kind of number that quietly
+// goes stale — as just happened, when adding the pause button between Frame# and the ball made
+// them overlap at smaller screen sizes no amount of margin-tweaking could fully resolve, because
+// the underlying position was never actually linked to where its neighbours really are. This
+// makes it track the real, live position of .breakerSlot (an empty spacer reserved for exactly
+// this purpose) instead, so it's always correct regardless of what else is in the stack, at any
+// screen size, without needing to hand-tune a percentage again.
+function syncBreakerBallPosition(){
+  const ball=$('#breakerCue'),slot=$('.breakerSlot'),centre=$('.centre');
+  if(!ball||!slot||!centre||lagDrag) return;
+  const slotRect=slot.getBoundingClientRect(),centreRect=centre.getBoundingClientRect();
+  if(!slotRect.height||!centreRect.height) return;
+  const ballHeight=ball.getBoundingClientRect().height||slotRect.height;
+  const topPx=(slotRect.top+slotRect.height/2)-centreRect.top-ballHeight/2;
+  ball.style.top=topPx+'px';
+  ball.style.marginTop='0';
+}
+window.addEventListener('resize',()=>{if(st.screen==='play') syncBreakerBallPosition();});
+function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#bestValueCentre').textContent=st.best;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const breakerOnLeft=(st.breaker===1)!==sw;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall';const ba1=$('#breakerArrow');if(ba1)ba1.style.visibility='hidden';}else{$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall '+(breakerOnLeft?'bp1':'bp2');const ba2=$('#breakerArrow');if(ba2){ba2.style.visibility='visible';ba2.textContent=breakerOnLeft?'◀':'▶';}}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;requestAnimationFrame(syncBreakerBallPosition);}
+function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign,matchStartedAt:st.matchStartedAt,matchEndedAt:st.matchEndedAt,frameStartedAt:st.frameStartedAt,finalFrameMs:st.finalFrameMs,completedFramesMs:st.completedFramesMs,lastFrameMs:st.lastFrameMs,paused:st.paused,pausedAt:st.pausedAt,totalPausedMs:st.totalPausedMs,framePausedMs:st.framePausedMs}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;st.matchStartedAt=s.matchStartedAt||st.matchStartedAt;st.matchEndedAt=s.matchEndedAt||0;st.frameStartedAt=s.frameStartedAt||st.frameStartedAt;st.finalFrameMs=s.finalFrameMs||0;st.completedFramesMs=s.completedFramesMs||0;st.lastFrameMs=s.lastFrameMs||0;st.paused=!!s.paused;st.pausedAt=s.pausedAt||0;st.totalPausedMs=s.totalPausedMs||0;st.framePausedMs=s.framePausedMs||0;if(st.screen==='play'&&st.matchStartedAt&&!st.matchEndedAt)startMatchClock();play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
   if(st.screen!=='play') return;
@@ -3073,7 +3091,8 @@ function add(p){
   // of finished frames shouldn't move at all until another frame actually finishes, so this now
   // tracks the sum of completed frames' own durations directly, and that's the only thing
   // divided to get the average — never the live/still-running match clock.
-  st.completedFramesMs+=elapsedFrameMs();
+  st.lastFrameMs=elapsedFrameMs();
+  st.completedFramesMs+=st.lastFrameMs;
   if(p===1) st.score1++; else st.score2++;
   haptic(20);sound('score');
 
@@ -3154,12 +3173,31 @@ function beginLagAssignment(){
   play();
 
   const cue=$('#breakerCue');
-  cue.className='breaker gameBreaker b'+st.game+' lagAssign';cue.textContent=st.game;
+  // v3.10 fix: this used to be cue.textContent=st.game, which wipes out every child of #breakerCue
+  // — including the #breakerArrow span nested inside it. Nothing ever recreated that span
+  // afterward, so once a match used Lag even once, every later call to play() (i.e. every single
+  // point scored, for the rest of that match) crashed partway through trying to reach an element
+  // that no longer existed — silently breaking the breaker-ball display and hill-status text for
+  // the remainder of the match. Using innerHTML with the arrow re-included (just hidden) keeps
+  // that element alive for play() to find again once normal breaker display resumes.
+  cue.className='breaker gameBreaker b'+st.game+' lagAssign';cue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
   cue.style.transform='';
   $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
   $('#frameValue').textContent='1 OF '+st.best;
 }
 
+function showWinnerBanter(text){
+  const el=$('#winnerBanter');
+  if(!el) return;
+  if(text && appSettings.banter){
+    el.textContent=text;
+    el.style.setProperty('display','block','important');
+    speakBanter(text,'game');
+  }else{
+    el.textContent='';
+    el.style.setProperty('display','none','important');
+  }
+}
 function finishMatch(p,reason='score'){
   const w = p===1 ? st.p1 : st.p2;
   const loser = p===1 ? st.p2 : st.p1;
@@ -3174,81 +3212,23 @@ function finishMatch(p,reason='score'){
   $('#winnerFrames').textContent=reason==='concede'
     ? 'WINNER BY CONCESSION • '+loser+' CONCEDED'
     : 'Won in '+(ws+ls)+' Frames';
-  $('#winnerBanter').textContent='';
+  showWinnerBanter('');
   show('winner');
+  // Replay the star-burst/ball-pop every time a match finishes, not just the first time —
+  // the element persists across matches, so a plain CSS animation wouldn't restart on its own.
+  const burst=$('#winnerBallBurst');
+  if(burst){burst.classList.remove('pop');void burst.offsetWidth;burst.classList.add('pop');}
   setTimeout(()=>{
     const key=selectMatchBanter(p,reason);
     const text=pickBanter(key).replace(/Player 2/g,loser);
-    showBanter(text);
+    showWinnerBanter(text);
   },180);
 }
-function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalCancel').style.display='inline-block';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show')}
+function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalCancel').style.display='inline-block';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show','pauseWhyModal')}
 function choose(t){modal(t,'<div class="row"><button class="choice" data-pick="1">'+st.p1+'</button><button class="choice" data-pick="2">'+st.p2+'</button></div>');$$('[data-pick]').forEach(b=>b.onclick=()=>{close();start(+b.dataset.pick)})}
 function swipe(el,p){let s=null,last=0;el.addEventListener('pointerdown',e=>{s={x:e.clientX,y:e.clientY}});el.addEventListener('pointerup',e=>{if(!s)return;const dy=s.y-e.clientY,dx=Math.abs(s.x-e.clientX);if(Math.abs(dy)>35&&Math.abs(dy)>dx){dy>0?add(p):remove(p);s=null;return}const n=Date.now();if(n-last<420)add(p);last=n;s=null})}
-$$('[data-game]').forEach(b=>b.onclick=()=>{st.game=+b.dataset.game;sync();requestAnimationFrame(()=>snapCueToGame(st.game));});
+$$('[data-game]').forEach(b=>b.onclick=()=>{st.game=+b.dataset.game;sync();});
 
-const gameCue=$('#gameCue');
-const gameTrack=gameCue ? gameCue.parentElement : null;
-let gameCueDrag=null;
-
-function selectGameFromCueY(clientY){
-  const buttons=$$('[data-game]');
-  if(!buttons.length) return;
-  let nearest=buttons[0],best=Infinity;
-  for(const b of buttons){
-    const r=b.getBoundingClientRect();
-    const cy=r.top+r.height/2;
-    const d=Math.abs(clientY-cy);
-    if(d<best){best=d;nearest=b;}
-  }
-  st.game=+nearest.dataset.game;
-  sync();
-}
-
-if(gameCue && gameTrack){
-  gameCue.style.touchAction='none';
-  gameCue.style.cursor='grab';
-
-  gameCue.addEventListener('pointerdown',e=>{
-    gameCueDrag={id:e.pointerId};
-    gameCue.style.cursor='grabbing';
-    try{gameCue.setPointerCapture(e.pointerId)}catch(_){}
-    e.preventDefault();
-  });
-
-  gameCue.addEventListener('pointermove',e=>{
-    if(!gameCueDrag) return;
-    const r=gameTrack.getBoundingClientRect();
-    const cueH=gameCue.offsetHeight || 31;
-    let top=e.clientY-r.top-cueH/2;
-    top=Math.max(0,Math.min(r.height-cueH,top));
-    gameCue.className='cue';
-    gameCue.style.left='50%';
-    gameCue.style.setProperty('top',top+'px','important');
-  });
-
-  function finishCueDrag(e){
-    if(!gameCueDrag) return;
-    selectGameFromCueY(e.clientY);
-    gameCueDrag=null;
-    gameCue.style.cursor='grab';
-    gameCue.style.removeProperty('top');
-    requestAnimationFrame(()=>snapCueToGame(st.game));
-  }
-
-  gameCue.addEventListener('pointerup',finishCueDrag);
-  gameCue.addEventListener('pointercancel',()=>{
-    gameCueDrag=null;
-    gameCue.style.cursor='grab';
-    gameCue.style.removeProperty('top');
-    sync();
-  });
-
-  gameTrack.addEventListener('pointerdown',e=>{
-    if(e.target===gameCue) return;
-    selectGameFromCueY(e.clientY);
-  });
-}
 $('#breakFormatToggle').onclick=()=>{st.breakFormat=st.breakFormat==='alternate'?'winner':'alternate';sync()};
 $('#raceDown').onclick=()=>{st.race=Math.max(2,st.race-1);st.best=st.race*2-1;sync()};$('#raceUp').onclick=()=>{st.race++;st.best=st.race*2-1;sync()};$('#bestDown').onclick=()=>{st.best=Math.max(3,st.best-2);st.race=(st.best+1)/2;sync()};$('#bestUp').onclick=()=>{st.best+=2;st.race=(st.best+1)/2;sync()};
 
@@ -3444,7 +3424,7 @@ function finishOpeningBreakerDrag(e){
     play();
     if(stillAssigning){
       st.lagAssign=true;
-      breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.textContent=st.game;
+      breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
       $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
     }
     return;
@@ -3471,13 +3451,13 @@ breakerCue.addEventListener('pointercancel',()=>{
   play();
   if(stillAssigning){
     st.lagAssign=true;
-    breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.textContent=st.game;
+    breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
     $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
   }
 });
 
 $('#undoBtn').onclick=()=>{if(st.paused){showBanter("Mate, you paused the bloody match!");return;}const e=st.history.at(-1);if(e){restore(e.before);haptic(12);sound('undo');banter('undo');}else banter('pointlessUndo');};
-$('#menuBtn').onclick=()=>{
+function openMatchMenu(){
   const restoreCancel=()=>{$('#modalCancel').style.display='inline-block';};
 
   if(st.screen==='play'){
@@ -3543,7 +3523,10 @@ $('#menuBtn').onclick=()=>{
     };
     return;
   }
-};$('#helpBtn').onclick=()=>{
+}
+$('#menuBtn').onclick=openMatchMenu;
+$('#endMatchBtn').onclick=openMatchMenu;
+$('#helpBtn').onclick=()=>{
   // Never allow Help to become its own return destination.
   if(st.screen!=='help') helpReturn=st.screen;
   const helpPanel=$('#helpScreen .help');
@@ -4001,8 +3984,8 @@ applyDefaultMatchSetup();show('setup');
 html,body{background:#050403} body{display:flex;align-items:center;justify-content:center}.app{width:min(100vw,163.1365vh);height:min(100vh,61.2984vw);aspect-ratio:801/491;background:url('./assets/rackmate-master-background.webp') center/contain no-repeat;overflow:hidden;box-shadow:0 0 60px #000;position:relative}
 .header{position:absolute;inset:0 0 auto 0;height:15.5%;background:transparent;border:0;padding:0 2.3%;z-index:30;pointer-events:none}.brand{visibility:hidden}.header .title{position:absolute;left:31%;right:31%;top:1.3%;height:12%;pointer-events:none}.titleRow{height:64%;gap:1.1vw}.title h1,.playWord{font-size:clamp(20px,2.27vw,40px);letter-spacing:.13em;text-shadow:0 3px 10px #000;font-weight:900}.playWord{display:none}.titleBall{display:none;width:clamp(46px,4.8vw,86px);aspect-ratio:1;border-radius:50%;place-items:center;font-size:clamp(18px,1.8vw,32px);font-weight:900;border:2px solid #eee;box-shadow:inset -10px -12px 18px rgba(0,0,0,.55),0 5px 12px #000}.titleMatchMeta{display:none;justify-content:space-between;width:78%;margin:-.4% auto 0;font-size:clamp(9px,.85vw,15px);font-weight:900;letter-spacing:.11em;color:#eee;text-shadow:0 2px 6px #000}.title .sub{display:none}.right{position:absolute;right:1.8%;top:2%;pointer-events:auto}.right .icon{background:rgba(4,8,8,.46);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(2px)}.playUtility{display:none;place-items:center}
 .tableWrap{position:absolute;inset:0}.table{position:absolute;inset:0;border:0;outline:0;border-radius:0;background:transparent;overflow:visible}.cushionSegments,.railSights,.p{display:none!important}
-.setupMaster{position:absolute!important;left:9.2%!important;right:9.2%!important;top:21%!important;bottom:21%!important;display:grid!important;grid-template-columns:1fr .32fr 1fr!important;grid-template-rows:.23fr .62fr .46fr!important;grid-template-areas:'p1 swap p2' 'game game length' 'break break first'!important;gap:5% 4%!important}.setupNameP1{grid-area:p1}.setupSwap{grid-area:swap}.setupNameP2{grid-area:p2}.setupGameType{grid-area:game}.setupMatchLength{grid-area:length}.setupBreakFormat{grid-area:break}.setupFirstBreak{grid-area:first}.setupObjectLabel{color:#fff;text-shadow:0 2px 5px #000;letter-spacing:.14em}.name{background:transparent!important;border:0!important;border-bottom:2px solid!important;border-radius:0!important}.name.red{border-color:rgba(255,67,67,.9)!important;filter:drop-shadow(0 0 8px rgba(255,40,40,.45))}.name.blue{border-color:rgba(57,160,255,.9)!important;filter:drop-shadow(0 0 8px rgba(30,130,255,.45))}.name input{font-size:clamp(22px,2.5vw,44px)!important;text-shadow:0 2px 5px #000}.setupSwap{align-self:center;background:transparent!important;border:0!important;color:#fff;opacity:.9}.setupSwap:disabled{opacity:.28}.gameWoodTray,.firstBreakTray,.counter{background:transparent!important;border:0!important;box-shadow:none!important}.balls{gap:clamp(20px,3vw,56px)!important}.ball{width:clamp(52px,5vw,88px)!important;height:auto!important;aspect-ratio:1;font-size:clamp(20px,2vw,34px)!important;box-shadow:inset -10px -12px 16px rgba(0,0,0,.5),0 5px 10px rgba(0,0,0,.45)!important}.ball.sel{outline:3px solid var(--gold);filter:drop-shadow(0 0 12px rgba(242,196,77,.65))}.track{background:transparent!important}.length{gap:1.6vw!important}.counter{padding:0!important}.counter button,.choice{background:rgba(0,0,0,.18)!important;border:1px solid rgba(255,255,255,.22)!important}.counter b{font-size:clamp(30px,3vw,52px)!important}.choice.active{border-color:var(--gold)!important;box-shadow:0 0 10px rgba(242,196,77,.28)}
-.play{left:10%!important;right:10%!important;top:24%!important;bottom:27%!important;display:grid!important;grid-template-columns:1fr .62fr 1fr!important;gap:2%!important}.side{background:transparent!important;border:0!important}.pname{font-size:clamp(26px,3vw,52px)!important;color:#fff;-webkit-text-stroke:.6px var(--red);text-shadow:0 0 3px #000,0 0 12px rgba(255,40,40,.8),0 0 30px rgba(255,40,40,.42)}.rightSide .pname{-webkit-text-stroke:.6px var(--blue);text-shadow:0 0 3px #000,0 0 12px rgba(40,130,255,.8),0 0 30px rgba(40,130,255,.42)}.score{font-size:clamp(72px,9vw,150px)!important;color:#fff;-webkit-text-stroke:1px var(--red);text-shadow:0 0 4px #000,0 0 18px rgba(255,30,30,.95),0 0 42px rgba(255,30,30,.45)}.rightSide .score{-webkit-text-stroke:1px var(--blue);text-shadow:0 0 4px #000,0 0 18px rgba(30,120,255,.95),0 0 42px rgba(30,120,255,.45)}.hill{font-size:clamp(11px,1.05vw,18px);text-shadow:0 2px 5px #000}.centre{background:transparent!important;gap:.35vh!important}.race{display:none}.timing{display:flex;flex-direction:column;align-items:center}.timing .timeLabel:first-of-type{font-size:clamp(12px,1.15vw,20px);letter-spacing:.14em}.timing b#thisFrameDisplay{font-size:clamp(28px,3.3vw,58px);color:#fff;text-shadow:0 2px 8px #000;margin:0}.timing .timeLabel:nth-of-type(2),#avgFrameDisplay{display:none}.frame{order:10;font-size:clamp(11px,1vw,18px);letter-spacing:.1em;text-shadow:0 2px 5px #000}.breaker{order:4}.timing{order:3}.frame{order:5}.breakerText{display:none}.breakerCueBall{width:clamp(46px,4.4vw,78px)!important;height:auto!important;aspect-ratio:1;background:radial-gradient(circle at 32% 27%,#fff 0,#f7f7f2 40%,#d7d8d5 74%,#aeb0ad 100%)!important;border:1px solid #ddd!important;box-shadow:inset -8px -9px 13px rgba(0,0,0,.18),0 6px 12px rgba(0,0,0,.45)!important;position:absolute!important;top:50%;margin-top:-2.2vw}.breakerCueBall.bp1{left:3%!important;transform:none!important}.breakerCueBall.bp2{right:3%!important;left:auto!important;transform:none!important}.breakerArrow{color:#e52222;font-size:42%;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}.legacyBottom{display:none!important}.floorTiming{position:absolute;left:21%;right:21%;bottom:4.2%;height:10%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;z-index:20;text-shadow:0 2px 6px #000}.floorTime{text-align:center;display:flex;flex-direction:column;gap:.3vh}.floorTime span{font-size:clamp(10px,.85vw,15px);letter-spacing:.13em;color:#ddd}.floorTime b{font-size:clamp(18px,1.7vw,30px);font-variant-numeric:tabular-nums}.floorPause{width:clamp(44px,4vw,68px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.42);color:#fff;font-size:clamp(18px,1.7vw,28px);box-shadow:0 4px 14px #000}.pauseVeil{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;place-items:center;z-index:70;pointer-events:none}.pauseVeil.show{display:grid}.pauseVeil div{font-size:clamp(30px,4vw,70px);font-weight:900;letter-spacing:.12em;text-shadow:0 4px 15px #000}.floorPause{position:relative;z-index:80}.banterBubble{top:47%;animation:none}.modalWrap{z-index:100}.modal,.help{background:rgba(5,20,16,.92)!important;backdrop-filter:blur(7px)}
+.setupMaster{position:absolute!important;left:9.2%!important;right:9.2%!important;top:21%!important;bottom:21%!important;display:grid!important;grid-template-columns:1fr .32fr 1fr!important;grid-template-rows:.23fr .62fr .46fr!important;grid-template-areas:'p1 swap p2' 'game game length' 'break break first'!important;gap:5% 4%!important}.setupNameP1{grid-area:p1}.setupSwap{grid-area:swap}.setupNameP2{grid-area:p2}.setupGameType{grid-area:game}.setupMatchLength{grid-area:length}.setupBreakFormat{grid-area:break}.setupFirstBreak{grid-area:first}.setupObjectLabel{color:#fff;text-shadow:0 2px 5px #000;letter-spacing:.14em}.name{background:transparent!important;border:0!important;border-bottom:2px solid!important;border-radius:0!important}.name.red{border-color:rgba(255,67,67,.9)!important;filter:drop-shadow(0 0 8px rgba(255,40,40,.45))}.name.blue{border-color:rgba(57,160,255,.9)!important;filter:drop-shadow(0 0 8px rgba(30,130,255,.45))}.name input{font-size:clamp(22px,2.5vw,44px)!important;text-shadow:0 2px 5px #000}.setupSwap{align-self:center;background:transparent!important;border:0!important;color:#fff;opacity:.9}.setupSwap:disabled{opacity:.28}.gameWoodTray,.firstBreakTray,.counter{background:transparent!important;border:0!important;box-shadow:none!important}.balls{gap:clamp(20px,3vw,56px)!important}.ball{width:clamp(52px,5vw,88px)!important;height:auto!important;aspect-ratio:1;font-size:clamp(20px,2vw,34px)!important;box-shadow:inset -10px -12px 16px rgba(0,0,0,.5),0 5px 10px rgba(0,0,0,.45)!important}.ball.sel{outline:3px solid var(--gold);filter:drop-shadow(0 0 12px rgba(242,196,77,.65))}.length{gap:1.6vw!important}.counter{padding:0!important}.counter button,.choice{background:rgba(0,0,0,.18)!important;border:1px solid rgba(255,255,255,.22)!important}.counter b{font-size:clamp(30px,3vw,52px)!important}.choice.active{border-color:var(--gold)!important;box-shadow:0 0 10px rgba(242,196,77,.28)}
+.play{left:10%!important;right:10%!important;top:24%!important;bottom:27%!important;display:grid!important;grid-template-columns:1fr .62fr 1fr!important;gap:2%!important}.side{background:transparent!important;border:0!important}.pname{font-size:clamp(26px,3vw,52px)!important;color:#fff;-webkit-text-stroke:.6px var(--red);text-shadow:0 0 3px #000,0 0 12px rgba(255,40,40,.8),0 0 30px rgba(255,40,40,.42)}.rightSide .pname{-webkit-text-stroke:.6px var(--blue);text-shadow:0 0 3px #000,0 0 12px rgba(40,130,255,.8),0 0 30px rgba(40,130,255,.42)}.score{font-size:clamp(72px,9vw,150px)!important;color:#fff;-webkit-text-stroke:1px var(--red);text-shadow:0 0 4px #000,0 0 18px rgba(255,30,30,.95),0 0 42px rgba(255,30,30,.45)}.rightSide .score{-webkit-text-stroke:1px var(--blue);text-shadow:0 0 4px #000,0 0 18px rgba(30,120,255,.95),0 0 42px rgba(30,120,255,.45)}.hill{font-size:clamp(11px,1.05vw,18px);text-shadow:0 2px 5px #000}.centre{background:transparent!important;gap:.35vh!important}.race{display:none}.timing{display:flex;flex-direction:column;align-items:center}.timing .timeLabel:first-of-type{font-size:clamp(12px,1.15vw,20px);letter-spacing:.14em}.timing b#thisFrameDisplay{font-size:clamp(28px,3.3vw,58px);color:#fff;text-shadow:0 2px 8px #000;margin:0}.timing .timeLabel:nth-of-type(2),#avgFrameDisplay{display:none}.frame{order:10;font-size:clamp(11px,1vw,18px);letter-spacing:.1em;text-shadow:0 2px 5px #000}.breaker{order:4}.timing{order:3}.frame{order:5}.breakerText{display:none}.breakerCueBall{width:clamp(38px,4.4vw,78px)!important;height:auto!important;aspect-ratio:1;background:radial-gradient(circle at 32% 27%,#fff 0,#f7f7f2 40%,#d7d8d5 74%,#aeb0ad 100%)!important;border:1px solid #ddd!important;box-shadow:inset -8px -9px 13px rgba(0,0,0,.18),0 6px 12px rgba(0,0,0,.45)!important;position:absolute!important;top:50%;margin-top:-2.2vw}.breakerCueBall.bp1{left:3%!important;transform:none!important}.breakerCueBall.bp2{right:3%!important;left:auto!important;transform:none!important}.breakerArrow{color:#e52222;font-size:42%;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}.legacyBottom{display:none!important}.floorTiming{position:absolute;left:21%;right:21%;bottom:4.2%;height:10%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;z-index:20;text-shadow:0 2px 6px #000}.floorTime{text-align:center;display:flex;flex-direction:column;gap:.3vh}.floorTime span{font-size:clamp(10px,.85vw,15px);letter-spacing:.13em;color:#ddd}.floorTime b{font-size:clamp(18px,1.7vw,30px);font-variant-numeric:tabular-nums}.floorPause{width:clamp(44px,4vw,68px);aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.42);color:#fff;font-size:clamp(18px,1.7vw,28px);box-shadow:0 4px 14px #000}.pauseVeil{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;place-items:center;z-index:70;pointer-events:none}.pauseVeil.show{display:grid}.pauseVeil div{font-size:clamp(30px,4vw,70px);font-weight:900;letter-spacing:.12em;text-shadow:0 4px 15px #000}.floorPause{position:relative;z-index:80}.banterBubble{top:47%;animation:none}.modalWrap{z-index:100}.modal,.help{background:rgba(5,20,16,.92)!important;backdrop-filter:blur(7px)}
 @media(max-aspect-ratio:801/491){.app{width:100vw;height:61.2984vw}}@media(min-aspect-ratio:801/491){.app{height:100vh;width:163.1365vh}}
 
 
@@ -4112,9 +4095,6 @@ body{align-items:flex-start!important;justify-content:center!important}
 .setupGameType .balls{position:absolute!important;left:0!important;top:0!important;width:48%!important;height:100%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:space-between!important;gap:0!important}
 .setupGameType .ball{width:6.8vh!important;height:6.8vh!important;min-width:6.8vh!important;min-height:6.8vh!important;aspect-ratio:1!important;font-size:clamp(17px,1.65vw,27px)!important}
 .setupGameType .b10{font-size:clamp(15px,1.42vw,23px)!important}
-.setupGameType .track{display:block!important;position:absolute!important;left:73%!important;right:auto!important;top:2%!important;bottom:auto!important;width:1px!important;height:96%!important;border:0!important;border-left:1px solid rgba(255,255,255,.36)!important;background:transparent!important;clip-path:none!important;overflow:visible!important;transform:none!important}
-.setupGameType .cue,.setupGameType .cue.pos8,.setupGameType .cue.pos9,.setupGameType .cue.pos10{width:3.25vh!important;height:3.25vh!important;left:50%!important;transform:translate(-50%,-50%)!important;transition:top .18s!important}
-.setupGameType .cue.pos8{top:0!important}.setupGameType .cue.pos9{top:50%!important}.setupGameType .cue.pos10{top:100%!important}
 
 /* Centre column: compact Break Format; First Break below it. */
 .setupBreakFormat .row{inset:0!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
@@ -4289,9 +4269,6 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupGameType .balls{position:absolute!important;left:4%!important;top:7%!important;width:45%!important;height:87%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:space-between!important;gap:0!important;}
 #setupScreen .setupGameType .ball{width:min(3.35cqw,6.70cqh)!important;height:min(3.35cqw,6.70cqh)!important;min-width:0!important;min-height:0!important;font-size:min(1.35cqw,2.70cqh)!important;border-width:min(.13cqw,.26cqh)!important;}
 #setupScreen .setupGameType .b10{font-size:min(1.12cqw,2.24cqh)!important;}
-#setupScreen .setupGameType .track{display:block!important;position:absolute!important;left:77%!important;top:12%!important;width:1px!important;height:78%!important;margin:0!important;border:0!important;border-left:1px solid rgba(255,255,255,.40)!important;background:transparent!important;overflow:visible!important;}
-#setupScreen .setupGameType #gameCue{position:absolute!important;left:50%!important;width:min(1.55cqw,3.10cqh)!important;height:min(1.55cqw,3.10cqh)!important;transform:translate(-50%,-50%)!important;}
-#setupScreen .setupGameType #gameCue.pos8{top:0!important} #setupScreen .setupGameType #gameCue.pos9{top:50%!important} #setupScreen .setupGameType #gameCue.pos10{top:100%!important}
 
 /* Centre column — break format and first break */
 #setupScreen .setupBreakFormat{left:43.4%!important;top:39.5%!important;width:15.0%!important;height:9.0%!important;}
@@ -4399,7 +4376,6 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 .setupGameType .gameWoodTray{display:block!important;position:absolute!important;inset:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
 .setupGameType .balls{position:absolute!important;inset:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:0!important}
 .setupGameType .ball{width:clamp(58px,4.8vw,84px)!important;height:auto!important;aspect-ratio:1!important}
-.setupGameType .track{display:none!important}
 .setupMatchLength{left:52.5%!important;top:45.0%!important;width:27.0%!important;height:12.0%!important;background:transparent!important;border:0!important;box-shadow:none!important}
 .setupMatchLength .length{position:absolute!important;inset:0!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:2.6vw!important}
 .setupMatchLength .counter{display:grid!important;grid-template-columns:32px 1fr 32px!important;align-items:center!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
@@ -4542,9 +4518,6 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupGameType .balls{position:absolute!important;left:4%!important;top:7%!important;width:45%!important;height:87%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:space-between!important;gap:0!important;}
 #setupScreen .setupGameType .ball{width:min(3.35cqw,6.70cqh)!important;height:min(3.35cqw,6.70cqh)!important;min-width:0!important;min-height:0!important;font-size:min(1.35cqw,2.70cqh)!important;border-width:min(.13cqw,.26cqh)!important;}
 #setupScreen .setupGameType .b10{font-size:min(1.12cqw,2.24cqh)!important;}
-#setupScreen .setupGameType .track{display:block!important;position:absolute!important;left:77%!important;top:12%!important;width:1px!important;height:78%!important;margin:0!important;border:0!important;border-left:1px solid rgba(255,255,255,.40)!important;background:transparent!important;overflow:visible!important;}
-#setupScreen .setupGameType #gameCue{position:absolute!important;left:50%!important;width:min(1.55cqw,3.10cqh)!important;height:min(1.55cqw,3.10cqh)!important;transform:translate(-50%,-50%)!important;}
-#setupScreen .setupGameType #gameCue.pos8{top:0!important} #setupScreen .setupGameType #gameCue.pos9{top:50%!important} #setupScreen .setupGameType #gameCue.pos10{top:100%!important}
 
 /* Centre column — break format and first break */
 #setupScreen .setupBreakFormat{left:43.4%!important;top:39.5%!important;width:15.0%!important;height:9.0%!important;}
@@ -4596,10 +4569,6 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupGameType .ball:nth-child(2){top:50%!important;}
 #setupScreen .setupGameType .ball:nth-child(3){top:86%!important;}
 /* Slider runs exactly from the 8-ball centreline to the 10-ball centreline. */
-#setupScreen .setupGameType .track{display:block!important;position:absolute!important;left:77%!important;top:14%!important;width:1px!important;height:72%!important;margin:0!important;border:0!important;border-left:1px solid rgba(255,255,255,.40)!important;background:transparent!important;overflow:visible!important;}
-#setupScreen .setupGameType #gameCue.pos8{top:0!important;}
-#setupScreen .setupGameType #gameCue.pos9{top:50%!important;}
-#setupScreen .setupGameType #gameCue.pos10{top:100%!important;}
 
 /* Race / Best Of: right/down and stronger heading hierarchy. */
 #setupScreen .setupMatchLength{left:70.8%!important;top:42.0%!important;width:10.8%!important;height:28.5%!important;}
@@ -4691,7 +4660,6 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupGameType>.setupObjectLabel{font-size:min(1.21cqw,2.42cqh)!important;}
 #setupScreen .setupGameType .ball{width:min(3.85cqw,7.71cqh)!important;height:min(3.85cqw,7.71cqh)!important;font-size:min(1.55cqw,3.11cqh)!important;}
 #setupScreen .setupGameType .b10{font-size:min(1.29cqw,2.58cqh)!important;}
-#setupScreen .setupGameType #gameCue{width:min(1.78cqw,3.57cqh)!important;height:min(1.78cqw,3.57cqh)!important;}
 
 /* Break Format: keep middle-pocket centre, enlarge footprint/type 15%. */
 #setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 8.625%)!important;top:41.275%!important;width:17.25%!important;height:10.35%!important;}
@@ -4734,7 +4702,6 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 #setupScreen .setupGameType>.setupObjectLabel{font-size:min(1.392cqw,2.793cqh)!important;}
 #setupScreen .setupGameType .ball{width:min(4.428cqw,8.867cqh)!important;height:min(4.428cqw,8.867cqh)!important;font-size:min(1.783cqw,3.577cqh)!important;}
 #setupScreen .setupGameType .b10{font-size:min(1.484cqw,2.967cqh)!important;}
-#setupScreen .setupGameType #gameCue{width:min(2.047cqw,4.106cqh)!important;height:min(2.047cqw,4.106cqh)!important;}
 
 /* Break Format: larger, lower, single-line choices. */
 #setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 9.919%)!important;top:43.699%!important;width:19.838%!important;height:11.903%!important;}
@@ -4851,16 +4818,16 @@ body{
 }
 .centreGroup{display:flex;flex-direction:column;align-items:center;gap:.5em}
 .centreItem{display:flex;flex-direction:column;align-items:center;gap:.2em;line-height:1}
-.centreLabel{display:block;font-size:clamp(8px,.78vw,12px);font-weight:800;letter-spacing:.12em;color:#eee;text-shadow:0 2px 5px #000}
-.centreItem b{display:block;font-size:clamp(15px,1.85vw,26px);font-weight:900;color:#fff;text-shadow:0 2px 6px #000;font-variant-numeric:tabular-nums}
-#matchTimeCentre{font-size:clamp(13px,1.55vw,22px)}
-.breakerSlot{flex:0 0 auto;width:clamp(46px,4.4vw,78px);height:clamp(46px,4.4vw,78px)}
+.centreLabel{display:block;font-size:clamp(9px,1.05vw,13px);font-weight:800;letter-spacing:.08em;color:#eee;text-shadow:0 2px 5px #000}
+.centreItem b{display:block;font-size:clamp(19px,2.6vw,32px);font-weight:900;color:#fff;text-shadow:0 2px 6px #000;font-variant-numeric:tabular-nums}
+#matchTimeCentre{font-size:clamp(16px,2.2vw,26px)}
+.breakerSlot{flex:0 0 auto;width:clamp(38px,4.4vw,78px);height:clamp(38px,4.4vw,78px)}
 /* The breaker ball keeps its original absolute positioning/left-right "which side" shift and
    its drag behaviour completely untouched (still driven by the .breakerCueBall/.bp1/.bp2 rules
    and by JS setting inline position:fixed while dragging) — only its resting vertical position
    changes, from the old "50% of the whole centre column" to wherever .breakerSlot now sits in
    the stack. Only 'top' is overridden (not 'position'), so the drag's own inline styles still win. */
-.centre .breaker.breakerCueBall{top:82.9%;z-index:2}
+.centre .breaker.breakerCueBall{top:78.4%;z-index:2}
 /* Neutral resting position (Just Play, 0-0, no side assigned yet) also needs to track the
    strip's new true-centre axis — bp1/bp2 (an assigned side) are edge-anchored and barely
    affected by the small recentre, so those are left exactly as they were. This selector can
@@ -4899,4 +4866,181 @@ body{
 
 .breakerCueBall{background-image:url('./assets/balls/ball-cue.png')!important;background-size:100% 100%!important;background-position:center!important;background-repeat:no-repeat!important;background-color:transparent!important}
 .cue{background-image:url('./assets/balls/ball-cue.png');background-size:100% 100%;background-position:center;background-repeat:no-repeat;background-color:transparent}
+</style>
+
+<style id="rackmate-v300-winner-screen-redesign">
+/* v3.00: winner screen rebuilt as one centred vertical "trophy" composition instead of the old
+   3-column grid (ball | name+score | a permanently-empty banter box) — that empty box is
+   removed here since nothing ever wrote text into it; the real quip already came from the same
+   floating banter bubble used during play, and now gets a proper anchored spot instead. The
+   whole column is centred on the table's true axis (51.65%), the same axis everything else in
+   the app already uses, not the screen's plain 50%. The ball moves down to sit as a smaller
+   accent between the score and the match details, with its plain grey ring removed (the photo
+   already has its own highlight) and a small twinkling-star burst around it that replays every
+   time a match finishes. */
+.winnerPretty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:absolute;left:51.65%;transform:translateX(-50%);
+  top:6%;bottom:7%;width:min(620px,74%);
+  text-align:center;gap:0;
+}
+.winnerCore{display:flex;flex-direction:column;align-items:center;gap:.55em;width:100%}
+.winnerBanterPretty{transform:none;margin-top:.3em;max-width:100%}
+.winnerActions{display:flex;justify-content:center;gap:16px;margin-top:1.1em}
+
+.winnerBallBurst{position:relative;width:clamp(64px,8vw,104px);height:clamp(64px,8vw,104px);margin:.25em auto;display:grid;place-items:center}
+.winnerBallBurst .winnerGameBall{width:100%;height:100%;border:0;box-shadow:0 0 22px rgba(243,196,78,.6),0 4px 10px rgba(0,0,0,.4)}
+.winnerBallBurst.pop .winnerGameBall{animation:winnerBallPop .5s ease-out}
+@keyframes winnerBallPop{0%{transform:scale(.4);opacity:0}60%{transform:scale(1.14);opacity:1}100%{transform:scale(1);opacity:1}}
+
+.wStar{position:absolute;color:#ffd85e;text-shadow:0 0 6px rgba(255,214,94,.85);font-size:clamp(10px,1.4vw,18px);opacity:0;pointer-events:none;animation:wTwinkle 1.7s ease-in-out infinite}
+.wStar.s1{top:-16%;left:50%;margin-left:-.5em;animation-delay:.05s}
+.wStar.s2{top:6%;right:-20%;animation-delay:.4s}
+.wStar.s3{bottom:6%;right:-18%;animation-delay:.75s}
+.wStar.s4{bottom:-16%;left:50%;margin-left:-.5em;animation-delay:1.1s}
+.wStar.s5{bottom:6%;left:-18%;animation-delay:1.45s}
+.wStar.s6{top:6%;left:-20%;animation-delay:.25s}
+.wStar.s7{top:-4%;right:8%;animation-delay:.55s}
+.wStar.s8{bottom:-4%;left:8%;animation-delay:.9s}
+@keyframes wTwinkle{0%,100%{opacity:0;transform:scale(.5) rotate(0deg)}50%{opacity:1;transform:scale(1.2) rotate(18deg)}}
+</style>
+
+<style id="rackmate-v303-setup-8ball-text-fix">
+/* v3.03: from back when the 8-ball was a flat black circle with no set text colour (unlike the
+   9 and 10, which already had dark text against their lighter fills), a fix was added just for
+   it: .setupGameType .b8{color:#fff!important}. That rule is scoped to the Setup screen and more
+   specific than the .b8,.b9,.b10{color:transparent!important} rule that later hid the digit
+   everywhere the real photos went in, so it kept winning right here — a solid white "8", in a
+   slightly different spot to the one already printed on the photo, sitting on top of it. Nowhere
+   else has this rule, which is why it only showed up on this one ball. */
+.setupGameType .b8{color:transparent!important;text-shadow:none!important}
+</style>
+
+<style id="rackmate-v304-matchformat-balls-no-slider">
+/* v3.04: the game-type slider is gone (see JS), so the three balls now centre under the label
+   across the module's full width instead of sharing it with a track. Each ball is individually
+   positioned with left:50% of its .balls container (see the .ball:nth-child rules already in
+   the file), so widening the container to 100% automatically re-centres all three without
+   needing to touch those per-ball rules at all. The plain grey ring is removed from every ball
+   (the real photos carry their own highlight) — the gold ring on the selected ball is a
+   different property (outline, not border) so it's untouched. Balls are sized 8% larger now
+   that they're not sharing room with the slider. */
+#setupScreen .setupGameType .balls{left:0!important;width:100%!important}
+.ball{border:0!important}
+.ball{width:min(4.782cqw,9.576cqh)!important;height:min(4.782cqw,9.576cqh)!important;font-size:min(1.926cqw,3.863cqh)!important}
+</style>
+
+<style id="rackmate-v306-header-row-and-endmatch">
+/* v3.06: the header's top-right row was two different sizing/positioning systems layered on
+   top of each other — Help and Settings use the newer, reliable --rm-header-button-* variables
+   (anchored to the measured table-right-x datum), but Undo and Match-settings were still on an
+   old fixed-percentage system from before that variable set existed, so they landed at roughly
+   the same spot as Help (and at a different, smaller size) instead of lining up beside it.
+   Rebuilt all four Play-screen-row buttons — End Match (new), Undo, Match Settings, Help — on
+   that same reliable system, reading left to right in that order, all the same size, with a
+   consistent gap, so nothing overlaps at any screen size. */
+#endMatchBtn,#topUndoBtn,#topEditBtn{
+  position:absolute!important;
+  top:var(--rm-header-button-y)!important;
+  bottom:auto!important;
+  width:var(--rm-header-button-size)!important;
+  height:var(--rm-header-button-size)!important;
+  margin:0!important;
+  transform:none!important;
+  pointer-events:auto!important;
+}
+#topEditBtn{left:calc(var(--rm-design-table-right-x) - (2 * var(--rm-header-button-size)) - var(--rm-header-button-gap))!important;right:auto!important}
+#topUndoBtn{left:calc(var(--rm-design-table-right-x) - (3 * var(--rm-header-button-size)) - (2 * var(--rm-header-button-gap)))!important;right:auto!important}
+#endMatchBtn{left:calc(var(--rm-design-table-right-x) - (4 * var(--rm-header-button-size)) - (3 * var(--rm-header-button-gap)))!important;right:auto!important}
+</style>
+
+<style id="rackmate-v307-player-zone-true-centre">
+/* v3.07: player names/scores were correctly centred WITHIN #leftZone/#rightZone all along —
+   the actual bug was the zones themselves being centred on the wrong axis. They're CSS Grid
+   columns inside .play, and .play spans a screen-centred 10%-90% band, not the table's true
+   felt span (11.67%-91.8%, measured directly off the background photo — same measurement used
+   to true-centre the strip and the Start Match button earlier). Since the centre strip was
+   later moved to the table's real centre (51.65%) independently, the grid's own column split no
+   longer matched the felt at all.
+   First attempt here used position:absolute on the zones to place them directly against the
+   felt edges — that back-fired: pulling them out of grid flow left .centre as the only real
+   grid item, and with no siblings left to flow around it, the grid auto-placed it into column 1
+   instead of the middle column. Using a transform instead avoids that entirely — transforms are
+   purely visual and never affect grid placement or sizing, so the zones stay exactly where the
+   grid already puts them and are just nudged sideways to sit on the felt's true centreline.
+   Left zone needs +4.00 percentage points of the app's width, right zone needs -0.61 — each
+   converted here into a percentage of that zone's own width, since translateX() percentages are
+   relative to the element itself, not the page. */
+#leftZone{transform:translateX(13.66%)!important}
+#rightZone{transform:translateX(-2.09%)!important}
+</style>
+
+<style id="rackmate-v308-pause-button-and-reason-popup">
+/* v3.08: the centre-strip "PAUSED" label is now a real, always-visible pause button (it used to
+   be display:none until paused, so there was nothing to tap in the first place). Reset the
+   button-element defaults it inherited from swapping <div> for <button>, and give it a resting
+   vs. active-while-paused look. */
+#pausedStatus{
+  all:unset;
+  box-sizing:border-box;
+  display:block;
+  cursor:pointer;
+  touch-action:manipulation;
+  color:var(--gold);
+  font-size:clamp(9px,1.1vw,16px);
+  font-weight:900;
+  letter-spacing:.12em;
+  border:1px solid rgba(242,196,77,.65);
+  border-radius:7px;
+  padding:.3em .8em;
+  margin-bottom:max(22px,5vh);
+  text-align:center;
+  background:rgba(0,0,0,.3);
+  position:relative;
+  z-index:75;
+}
+#pausedStatus.show{background:rgba(242,196,77,.32);box-shadow:0 0 16px rgba(242,196,77,.6),0 0 4px rgba(242,196,77,.9)}
+#pausedStatus:active{transform:scale(.96)}
+
+/* The WHY? popup's two icon buttons, sat side by side, icon above label like the ball selector. */
+.pauseReasonBtn{display:flex!important;flex-direction:column;align-items:center;gap:8px;min-width:96px;padding:14px 18px!important}
+.pauseReasonBtn svg{flex:0 0 auto}
+
+/* v3.09: a large ⏸ glyph above the paused message, so the paused state reads instantly even
+   before anyone's eyes land on the text — "big, obvious, but not the whole screen" per the ask. */
+.pauseVeilIcon{font-size:clamp(48px,7vw,120px)!important;line-height:1;margin-bottom:.1em;text-shadow:0 6px 20px #000,0 0 40px rgba(0,0,0,.6);opacity:.92}
+/* .pauseVeil is display:grid with two now-un-positioned children (icon + text); with no
+   explicit rows, the grid gave each its own auto row and stretched those rows apart to fill the
+   whole screen instead of stacking them together — icon ended up centred in the top half, text
+   in the bottom half. Superseded below by pulling the content into its own absolutely-positioned
+   wrapper instead of trying to centre it via the backdrop's own flex/grid. */
+
+/* v3.10: two more true-centring fixes, same root cause as always — things built assuming the
+   screen's own 50% is the table's centre, when the table's real centre is 51.65% (measured off
+   the background photo, same value used everywhere else in the app). Neither of these needed to
+   be screen-centred at all; both needed to be table-centred:
+   1) The pause veil's dark backdrop was position:fixed, which centres relative to the raw
+      browser viewport rather than the .app frame — those normally line up closely on a real
+      phone, but it's an unnecessary source of drift. Its content (icon+text) is pulled into its
+      own wrapper and positioned directly at 51.65%, sidestepping the ambiguity entirely rather
+      than trying to nudge a flex centre-point.
+   2) The WHY? popup was simply never told to be anywhere other than dead-centre-of-viewport via
+      the shared modal's flex centring. Scoped to the .pauseWhyModal class added in
+      openPauseReasonPopup() (and removed again by close(), so it can only ever affect this one
+      popup), taken out of that flex flow and placed the same way. */
+.pauseVeil{position:absolute!important}
+.pauseVeilContent{position:absolute;left:51.65%;top:60%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;width:max-content;max-width:90vw}
+.pauseVeil.show{display:block!important}
+
+#modalWrap.pauseWhyModal{justify-content:flex-start!important}
+#modalWrap.pauseWhyModal .modal{
+  position:absolute!important;
+  left:51.65%!important;top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:min(360px,80%)!important;
+  border:2px solid rgba(242,196,77,.65)!important;
+  background:rgba(8,20,18,.96)!important;
+  border-radius:16px!important;
+  box-shadow:0 18px 44px rgba(0,0,0,.6)!important;
+}
 </style>
