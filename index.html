@@ -1719,9 +1719,9 @@ html,body{background:#050506}
 </section>
 
 <section id="playScreen" class="screen">
-<div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1Hill" class="hill"></div></div>
-<div class="centre"><div class="centreStack"><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><button type="button" id="pausedStatus" class="pausedStatus">PAUSE</button><div class="breakerSlot"></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
-<div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2Hill" class="hill"></div></div></div>
+<div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1BreakerSlot" class="playerBreakerSlot"></div><div id="p1Hill" class="hill"></div></div>
+<div class="centre"><div class="centreStack"><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><button type="button" id="pausedStatus" class="pausedStatus">PAUSE</button><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
+<div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2BreakerSlot" class="playerBreakerSlot"></div><div id="p2Hill" class="hill"></div></div></div>
 <div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div class="pauseVeilContent"><div class="pauseVeilIcon" aria-hidden="true">⏸</div><div id="pauseVeilText">MATCH PAUSED</div></div></div>
 <div id="toast" class="toast"></div>
 <div id="coinLayer" class="coinLayer"><div class="coinStage"><div id="coinHint" class="coinHint">TOSS</div><div id="coin" class="coin">NZ</div></div></div>
@@ -3049,27 +3049,13 @@ function selectMatchBanter(winner,reason){
   return 'matchClose';
 }
 
-// v3.10: the breaker ball's vertical rest position used to be a hardcoded CSS percentage,
-// manually recalculated by hand every time an item was added to or moved within the centre
-// stack (Last Frame, then the pause button, ...). That's exactly the kind of number that quietly
-// goes stale — as just happened, when adding the pause button between Frame# and the ball made
-// them overlap at smaller screen sizes no amount of margin-tweaking could fully resolve, because
-// the underlying position was never actually linked to where its neighbours really are. This
-// makes it track the real, live position of .breakerSlot (an empty spacer reserved for exactly
-// this purpose) instead, so it's always correct regardless of what else is in the stack, at any
-// screen size, without needing to hand-tune a percentage again.
-function syncBreakerBallPosition(){
-  const ball=$('#breakerCue'),slot=$('.breakerSlot'),centre=$('.centre');
-  if(!ball||!slot||!centre||lagDrag) return;
-  const slotRect=slot.getBoundingClientRect(),centreRect=centre.getBoundingClientRect();
-  if(!slotRect.height||!centreRect.height) return;
-  const ballHeight=ball.getBoundingClientRect().height||slotRect.height;
-  const topPx=(slotRect.top+slotRect.height/2)-centreRect.top-ballHeight/2;
-  ball.style.top=topPx+'px';
-  ball.style.marginTop='0';
-}
-window.addEventListener('resize',()=>{if(st.screen==='play') syncBreakerBallPosition();});
-function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#bestValueCentre').textContent=st.best;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const breakerOnLeft=(st.breaker===1)!==sw;if(st.justPlay&&st.score1===0&&st.score2===0){$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall';const ba1=$('#breakerArrow');if(ba1)ba1.style.visibility='hidden';}else{$('#breakerText').textContent='';$('#breakerCue').className='breaker breakerCueBall '+(breakerOnLeft?'bp1':'bp2');const ba2=$('#breakerArrow');if(ba2){ba2.style.visibility='visible';ba2.textContent=breakerOnLeft?'◀':'▶';}}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;requestAnimationFrame(syncBreakerBallPosition);}
+// v3.12: the breaker ball no longer lives in the centre strip at all — it now sits directly
+// under whichever player is breaking (see play()), which is what actually solves the phone
+// overflow: removing one whole item from that strip's stack, rather than continuing to shrink
+// everything else to fit. As a bonus this retires the position-tracking function from last time
+// entirely — a ball simply sitting in-flow inside a normal slot doesn't need its position synced
+// to anything, which is a smaller, more robust thing than needing to keep that in sync at all.
+function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#bestValueCentre').textContent=st.best;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const breakerOnLeft=(st.breaker===1)!==sw;$('#breakerText').textContent='';const cue=$('#breakerCue');const cleanArrowHTML='<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';if(st.justPlay&&st.score1===0&&st.score2===0){cue.className='breaker playerBreakerBall';cue.style.display='none';cue.innerHTML=cleanArrowHTML;}else{cue.className='breaker playerBreakerBall';cue.style.display='';cue.innerHTML=cleanArrowHTML;const targetSlot=breakerOnLeft?$('#p1BreakerSlot'):$('#p2BreakerSlot');if(targetSlot&&cue.parentElement!==targetSlot){cue.style.position='';cue.style.top='';cue.style.left='';cue.style.marginTop='';cue.style.transform='';targetSlot.appendChild(cue);}}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;}
 function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign,matchStartedAt:st.matchStartedAt,matchEndedAt:st.matchEndedAt,frameStartedAt:st.frameStartedAt,finalFrameMs:st.finalFrameMs,completedFramesMs:st.completedFramesMs,lastFrameMs:st.lastFrameMs,paused:st.paused,pausedAt:st.pausedAt,totalPausedMs:st.totalPausedMs,framePausedMs:st.framePausedMs}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;st.matchStartedAt=s.matchStartedAt||st.matchStartedAt;st.matchEndedAt=s.matchEndedAt||0;st.frameStartedAt=s.frameStartedAt||st.frameStartedAt;st.finalFrameMs=s.finalFrameMs||0;st.completedFramesMs=s.completedFramesMs||0;st.lastFrameMs=s.lastFrameMs||0;st.paused=!!s.paused;st.pausedAt=s.pausedAt||0;st.totalPausedMs=s.totalPausedMs||0;st.framePausedMs=s.framePausedMs||0;if(st.screen==='play'&&st.matchStartedAt&&!st.matchEndedAt)startMatchClock();play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
@@ -3173,6 +3159,13 @@ function beginLagAssignment(){
   play();
 
   const cue=$('#breakerCue');
+  // v3.12: play() (called just above) now reparents the ball into whichever player's slot is
+  // breaking, since that's its normal in-game home. During Lag assignment itself the ball needs
+  // to be prominent in the middle of the table to drag, not stuck in a small slot on one side —
+  // so it's explicitly moved back to sit directly in .centre, a plain flex child that centres
+  // itself automatically (exactly how this display already worked before), rather than trying to
+  // teach it a whole new positioning scheme just for this one temporary phase.
+  $('.centre').appendChild(cue);
   // v3.10 fix: this used to be cue.textContent=st.game, which wipes out every child of #breakerCue
   // — including the #breakerArrow span nested inside it. Nothing ever recreated that span
   // afterward, so once a match used Lag even once, every later call to play() (i.e. every single
@@ -3226,7 +3219,7 @@ function finishMatch(p,reason='score'){
 }
 function modal(t,b,save=false){$('#modalTitle').textContent=t;$('#modalBody').innerHTML=b;$('#modalSave').style.display=save?'inline-block':'none';$('#modalCancel').style.display='inline-block';$('#modalWrap').classList.add('show')}function close(){$('#modalWrap').classList.remove('show','pauseWhyModal')}
 function choose(t){modal(t,'<div class="row"><button class="choice" data-pick="1">'+st.p1+'</button><button class="choice" data-pick="2">'+st.p2+'</button></div>');$$('[data-pick]').forEach(b=>b.onclick=()=>{close();start(+b.dataset.pick)})}
-function swipe(el,p){let s=null,last=0;el.addEventListener('pointerdown',e=>{s={x:e.clientX,y:e.clientY}});el.addEventListener('pointerup',e=>{if(!s)return;const dy=s.y-e.clientY,dx=Math.abs(s.x-e.clientX);if(Math.abs(dy)>35&&Math.abs(dy)>dx){dy>0?add(p):remove(p);s=null;return}const n=Date.now();if(n-last<420)add(p);last=n;s=null})}
+function swipe(el,getP){let s=null,last=0;el.addEventListener('pointerdown',e=>{s={x:e.clientX,y:e.clientY}});el.addEventListener('pointerup',e=>{if(!s)return;const p=getP();const dy=s.y-e.clientY,dx=Math.abs(s.x-e.clientX);if(Math.abs(dy)>35&&Math.abs(dy)>dx){dy>0?add(p):remove(p);s=null;return}const n=Date.now();if(n-last<420)add(p);last=n;s=null})}
 $$('[data-game]').forEach(b=>b.onclick=()=>{st.game=+b.dataset.game;sync();});
 
 $('#breakFormatToggle').onclick=()=>{st.breakFormat=st.breakFormat==='alternate'?'winner':'alternate';sync()};
@@ -3424,6 +3417,7 @@ function finishOpeningBreakerDrag(e){
     play();
     if(stillAssigning){
       st.lagAssign=true;
+      $('.centre').appendChild(breakerCue);
       breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
       $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
     }
@@ -3451,6 +3445,7 @@ breakerCue.addEventListener('pointercancel',()=>{
   play();
   if(stillAssigning){
     st.lagAssign=true;
+    $('.centre').appendChild(breakerCue);
     breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
     $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
   }
@@ -3862,7 +3857,13 @@ $('#newMatchBtn').onclick=()=>{
   show('setup');
   sync();
 };
-swipe($('#leftZone'),1);swipe($('#rightZone'),2);
+// v3.14 fix: the tap/swipe zones were bound once at page load to a fixed player number, so
+// mid-match "Swap Sides" (in Edit Match Settings) correctly swapped the displayed names but the
+// tap zones kept scoring for whoever was originally Player 1/2 — tapping the side now showing
+// your name could silently add a point to your opponent instead. Resolving the actual player
+// fresh on every tap, based on the current swap state, fixes that without needing to re-bind
+// anything when the setting changes.
+swipe($('#leftZone'),()=>st.displaySwapped?2:1);swipe($('#rightZone'),()=>st.displaySwapped?1:2);
 let coinFlipped=false;
 let coinDragging=null;
 let coinResultSide=null;
@@ -4993,7 +4994,7 @@ body{
   border:1px solid rgba(242,196,77,.65);
   border-radius:7px;
   padding:.3em .8em;
-  margin-bottom:max(22px,5vh);
+  margin-bottom:.3em;
   text-align:center;
   background:rgba(0,0,0,.3);
   position:relative;
@@ -5042,5 +5043,31 @@ body{
   background:rgba(8,20,18,.96)!important;
   border-radius:16px!important;
   box-shadow:0 18px 44px rgba(0,0,0,.6)!important;
+}
+</style>
+
+<style id="rackmate-v312-breaker-ball-under-score">
+/* v3.12: the breaker cue ball moves out of the centre strip entirely and now sits directly under
+   whichever player is breaking — see the reasoning by play() in the JS for why. It's reparented
+   there via plain appendChild rather than kept in one spot and repositioned with CSS, so there's
+   no percentage or pixel math to keep in sync at all: it's just a normal, simply-centred child
+   of a normal flex slot, the same as everything else on this screen. The old .breakerCueBall
+   class (with its own baked-in absolute positioning, needed for the centre-strip version) is
+   deliberately not reused here — a fresh class avoids any risk of that old positioning leaking
+   into this simpler, purely in-flow context. */
+.playerBreakerSlot{display:flex;align-items:center;justify-content:center;min-height:clamp(34px,4.4vw,64px);margin:.3em 0}
+.playerBreakerBall{
+  position:relative;
+  width:clamp(34px,4.4vw,64px);
+  height:clamp(34px,4.4vw,64px);
+  border-radius:50%;
+  border:0;
+  background:none;
+  background-image:url('./assets/balls/ball-cue.png');
+  background-size:100% 100%;
+  background-position:center;
+  background-repeat:no-repeat;
+  box-shadow:0 0 14px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.4);
+  touch-action:none;
 }
 </style>
