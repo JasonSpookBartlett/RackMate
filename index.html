@@ -1720,7 +1720,7 @@ html,body{background:#050506}
 
 <section id="playScreen" class="screen">
 <div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1BreakerSlot" class="playerBreakerSlot"></div><div id="p1Hill" class="hill"></div></div>
-<div class="centre"><div class="centreStack"><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><button type="button" id="pausedStatus" class="pausedStatus">PAUSE</button><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
+<div class="centre"><div class="centreStack"><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><button type="button" id="pausedStatus" class="pausedStatus">PAUSE</button><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
 <div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2BreakerSlot" class="playerBreakerSlot"></div><div id="p2Hill" class="hill"></div></div></div>
 <div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div class="pauseVeilContent"><div class="pauseVeilIcon" aria-hidden="true">⏸</div><div id="pauseVeilText">MATCH PAUSED</div></div></div>
 <div id="toast" class="toast"></div>
@@ -1922,10 +1922,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.15</div>
+<div class="version">BETA v3.16</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.15';
+const RACKMATE_VERSION='3.16';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -4060,7 +4060,15 @@ body{align-items:flex-start!important;justify-content:center!important}
    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
   }catch(_){ fullscreenTried=false; }
  }
- /* v2.87: fullscreen gesture interception disabled during development. */
+ // v3.16: re-enabled. This function has been fully working this whole time — v2.87 removed
+ // only the listener that ever called it, "during development", and it was never reconnected.
+ // Browsers only grant fullscreen from inside a real user gesture, so this listens for the
+ // very first tap/click on the page and asks then; it removes itself either way, since
+ // fullscreenTried above already stops requestRackMateFullscreen() running a second time.
+ document.addEventListener('pointerdown', function firstGesture(){
+   document.removeEventListener('pointerdown', firstGesture);
+   requestRackMateFullscreen();
+ }, {once:true});
  function syncV2(){
   const rm=window.__rmState; if(!rm) return;
   const mt=q('#matchTimeDisplay'),mf=q('#matchTimeFloor'),af=q('#avgFrameDisplay'),aff=q('#avgFrameFloor');
@@ -4885,8 +4893,14 @@ body{
 .winnerPretty{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   position:absolute;left:var(--tbl-cx);transform:translateX(-50%);
-  top:6%;bottom:7%;width:min(560px,62%);
+  top:11%;bottom:8.5%;width:min(560px,62%);
   text-align:center;gap:0;
+  container-type:size;
+  /* v3.16 fix: everything below (.winnerTitle etc.) sizes itself with cqw/cqh, meant to be % of
+     THIS column's own (correctly capped, 560px-max) box. Without its own container-type, those
+     units silently fell back to querying .app instead — the only other container-type ancestor
+     — so on very wide screens the title sized itself off the FULL screen width and overran the
+     header. This makes the column itself the query context those units were always meant to use. */
 }
 .winnerCore{display:flex;flex-direction:column;align-items:center;gap:.55em;width:100%}
 .winnerBanterPretty{transform:none;margin-top:.3em;max-width:100%}
@@ -5089,23 +5103,68 @@ body{
   --felt-x0:16.137%; --felt-x1:83.696%; /* playing surface, incl. cushions */
   --felt-y0:22.950%; --felt-y1:87.746%;
 }
-#tableLayer{position:absolute;left:9.307%;top:11.669%;width:81.387%;height:94.486%;z-index:0;pointer-events:none}
+</style>
+<style id="rackmate-v316-bigger-table">
+/* v3.16: table scaled up (80% -> 88% of canvas height) and pulled up to use the headroom above
+   it, per direct feedback after seeing v3.15 live on a phone. tbl-y0 (12.56%) sits safely below
+   the header content (title/ball end ~11%), so it doesn't collide with the lamps or title. This
+   REPLACES the v3.15 geometry block above — same variables, new numbers, so every rule already
+   written against --tbl-*/--felt-* just picks up the bigger table with no other changes needed. */
+.app{
+  --tbl-x0:9.385%;   --tbl-x1:90.615%;
+  --tbl-y0:12.559%;  --tbl-y1:100.559%;
+  --tbl-cx:50.000%;
+  --felt-x0:12.773%; --felt-x1:87.044%;
+  --felt-y0:20.000%; --felt-y1:91.233%;
+}
+#tableLayer{left:5.264%!important;top:7.599%!important;width:89.473%!important;height:103.874%!important}
+</style>
+<style id="rackmate-v315-table-img-and-mark">
 #tableLayer img{display:block;width:100%;height:100%;-webkit-user-drag:none;user-select:none}
 /* Maker's mark: cream, a touch of warm glow, sat in the pool of light bottom-left */
 #makersMark{position:absolute;left:1.6%;bottom:4%;height:15%;width:auto;z-index:0;opacity:.88;pointer-events:none;filter:drop-shadow(0 0 5px rgba(255,190,110,.35));-webkit-user-drag:none;user-select:none}
+</style>
 
+<style id="rackmate-v316-header-and-player-fixes">
+/* MATCH title: bigger, per feedback. */
+.header .title h1{font-size:min(3.15cqw,6.3cqh)!important}
+
+/* Header 8-ball: its own dedicated white ring (border:2px solid #eee, separate from the other
+   balls' shared base style) — same leftover-decoration pattern already removed everywhere else,
+   just never got to this one. Also sized up alongside the bigger title text next to it. */
+#matchTitleBall{border:0!important;width:clamp(58px,6.1vw,110px)!important}
+
+/* Player zone: the breaker ball used to be a normal member of the same centred flex column as
+   the name, score and hill text — fine on its own, but it reserves real height (and a margin)
+   even when no ball is showing (Just Play's neutral moment), which drags the whole group's
+   centre of mass down and makes the name+score read as sitting too high in the felt. Taking it
+   out of that flex flow and anchoring it at a fixed spot below the score means name+score+hill
+   centre as their own tight group — genuinely centred — with the ball sitting wherever it sits,
+   never influencing that centring. */
+#leftZone,#rightZone{position:relative}
+.playerBreakerSlot{position:absolute!important;left:50%;top:66%;transform:translateX(-50%);margin:0!important;min-height:0!important}
+</style>
+
+<style id="rackmate-v315-brand-lockup">
 /* Logo lockup (icon + name) is live again, as its own element to the LEFT of the version number.
    Until now these were baked into the old background image, so the live badge was trimmed to show
    only the version. The version badge itself is deliberately left exactly as it was (same spot, same
-   size); the lockup is placed where the baked-in one used to sit: icon at 2.05%, name from ~7.4%. */
+   size); the lockup is placed where the baked-in one used to sit: icon at 2.05%, name from ~7.4%.
+   v3.16 fix: this whole block was sitting OUTSIDE any actual style element (a knock-on of the
+   missing-close-tag bug just above it), so none of it was ever really CSS — the browser was just
+   reading it as page text. It's now properly wrapped. */
 #brandLockup{position:absolute;left:2.05%;top:6.15%;transform:translateY(-50%);z-index:10040;display:flex;align-items:center;gap:.95cqw;pointer-events:none;font-family:Arial,Helvetica,sans-serif;font-weight:800;letter-spacing:.01em;text-shadow:0 2px 5px #000,0 0 10px rgba(0,0,0,.6)}
 #brandLockup img{display:block;width:min(4.3cqw,9.6cqh);height:min(4.3cqw,9.6cqh);border-radius:21%;box-shadow:0 2px 8px rgba(0,0,0,.6)}
 #brandLockup .bl-name{font-size:min(2.35cqw,5.0cqh);white-space:nowrap}
 #brandLockup .bl-rack{color:#f3f3f3} #brandLockup .bl-mate{color:#e5b548}
+</style>
 
-/* Centre strip: tall enough to hold every timer on its dark panel. Bottom = 24% + 49% x 1.44 = 94.6%,
-   just inside the new table's bottom edge (96.2%). (Before, the last timer spilled onto the rail.) */
-.centreStack{height:144%}
+<style id="rackmate-v309-centrestack-and-winner-phonefit">
+/* Centre strip: tall enough to hold every timer, short enough to stay inside the felt.
+   v3.16: the table got bigger (felt now runs to 91.2%, was 87.75%), so this needed retuning too
+   — at the old 144% the strip's bottom edge (94.6%) had started spilling past the new, taller
+   felt onto the rail. 135% lands the bottom right at ~90%, just inside felt-y1. */
+.centreStack{height:135%}
 
 /* Winner screen at phone size. Its pieces had pixel minimums (title 38px, name 30px, ball 64px,
    banter padding 22px ...) that added up to ~430px inside a 372px column on a 428px-tall phone, so
@@ -5113,12 +5172,12 @@ body{
    old width-based size and a height-based size, so on a big screen it looks as before and on a
    phone the whole column fits. */
 .winnerCore{gap:.3em}
-.winnerTitle{font-size:min(5.7cqw,8.4cqh);line-height:1.05}
-.winnerName{font-size:min(4cqw,6.6cqh);padding:.14em .5em;line-height:1.15}
-.winnerScore{font-size:min(4.4cqw,7.4cqh);margin-top:0;line-height:1.05}
-.winnerBallBurst{width:min(8cqw,14cqh);height:min(8cqw,14cqh);margin:.15em auto}
-.winnerMeta,.winnerFrames{font-size:min(1.7cqw,3.2cqh);line-height:1.2}
-.winnerBanterPretty{font-size:min(1.8cqw,3.5cqh);padding:min(2.2cqw,3.2cqh);border-radius:min(3.4cqw,6cqh);line-height:1.25;margin-top:.15em}
-.winnerActions{margin-top:min(1.1cqw,2cqh);gap:min(1.7cqw,3.4cqh)}
-.winnerActions .choice{font-size:min(1.7cqw,3.4cqh);padding:.45em 1.1em;min-height:0}
+.winnerTitle{font-size:min(15cqw,8.4cqh);line-height:1.05}
+.winnerName{font-size:min(10.5cqw,6.6cqh);padding:.14em .5em;line-height:1.15}
+.winnerScore{font-size:min(11.5cqw,7.4cqh);margin-top:0;line-height:1.05}
+.winnerBallBurst{width:min(21cqw,14cqh);height:min(21cqw,14cqh);margin:.15em auto}
+.winnerMeta,.winnerFrames{font-size:min(4.4cqw,3.2cqh);line-height:1.2}
+.winnerBanterPretty{font-size:min(4.7cqw,3.5cqh);padding:min(5.7cqw,3.2cqh);border-radius:min(8.8cqw,6cqh);line-height:1.25;margin-top:.15em}
+.winnerActions{margin-top:min(2.9cqw,2cqh);gap:min(4.4cqw,3.4cqh)}
+.winnerActions .choice{font-size:min(4.4cqw,3.4cqh);padding:.45em 1.1em;min-height:0}
 </style>
