@@ -155,11 +155,11 @@ html,body{background:#050506}
   isolation:isolate;
   background:
     linear-gradient(rgba(3,3,5,.55),rgba(3,3,5,.68)),
-    url("./assets/rackmate-master-background.webp") center/cover no-repeat;
+    url("./assets/bg-bar.webp") center/cover no-repeat;
 }
 .app::before{
   content:""; position:absolute; inset:-3%; z-index:-1;
-  background:url("./assets/rackmate-master-background.webp") center/cover no-repeat;
+  background:url("./assets/bg-bar.webp") center/cover no-repeat;
   filter:blur(13px) brightness(.44) saturate(1.15);
   transform:scale(1.05);
 }
@@ -1350,9 +1350,9 @@ html,body{background:#050506}
    Background reference: 2048 x 1024. Table outer bounds are approximately
    x=9.2%..94.3%; its centre pocket axis is x=51.75%. */
 .app{
-  --rm-table-left:9.2%;
-  --rm-table-right:94.3%;
-  --rm-table-centre-x:51.75%;
+  --rm-table-left:var(--tbl-x0);
+  --rm-table-right:var(--tbl-x1);
+  --rm-table-centre-x:var(--tbl-cx);
 }
 
 /* MATCH SETUP is anchored to the table centre, never to viewport centre. */
@@ -1395,7 +1395,7 @@ html,body{background:#050506}
 
 <style id="rackmate-v245-final-header-lock">
 /* v2.50 final header lock: all geometry references the 2048x1024 app/table plane. */
-.header .title{left:51.75%!important;top:6.1%!important;width:36%!important;transform:translate(-50%,-50%)!important;}
+.header .title{left:var(--tbl-cx)!important;top:6.1%!important;width:36%!important;transform:translate(-50%,-50%)!important;}
 .header .title h1{font-size:min(2.35cqw,4.70cqh)!important;}
 #settingsBtn,#helpBtn{top:2.0%!important;width:min(3.65cqw,7.30cqh)!important;height:min(3.65cqw,7.30cqh)!important;}
 #helpBtn{right:5.7%!important;left:auto!important;}
@@ -1624,7 +1624,7 @@ html,body{background:#050506}
 
 </style>
 <style id="v290FirstBreakOnPlay">
-#setupScreen .startMatchBtn{position:absolute!important;left:var(--rm-table-centre-x,51.65%)!important;top:69.7%!important;transform:translate(-50%,-50%)!important;z-index:500!important;min-width:24%!important;height:7.2%!important;padding:0 2.4vw!important;border:2px solid rgba(242,196,77,.82)!important;border-radius:999px!important;background:rgba(8,20,18,.84)!important;color:#ffe29a!important;font:900 clamp(16px,1.45vw,25px)/1 system-ui,sans-serif!important;letter-spacing:.10em!important;box-shadow:0 0 18px rgba(242,196,77,.20),inset 0 0 14px rgba(242,196,77,.08)!important;text-shadow:0 0 8px rgba(242,196,77,.4)!important;touch-action:manipulation!important;pointer-events:auto!important}
+#setupScreen .startMatchBtn{position:absolute!important;left:var(--rm-table-centre-x,50%)!important;top:69.7%!important;transform:translate(-50%,-50%)!important;z-index:500!important;min-width:24%!important;height:7.2%!important;padding:0 2.4vw!important;border:2px solid rgba(242,196,77,.82)!important;border-radius:999px!important;background:rgba(8,20,18,.84)!important;color:#ffe29a!important;font:900 clamp(16px,1.45vw,25px)/1 system-ui,sans-serif!important;letter-spacing:.10em!important;box-shadow:0 0 18px rgba(242,196,77,.20),inset 0 0 14px rgba(242,196,77,.08)!important;text-shadow:0 0 8px rgba(242,196,77,.4)!important;touch-action:manipulation!important;pointer-events:auto!important}
 #setupScreen .startMatchBtn:active{transform:translate(-50%,-50%) scale(.97)!important}
 /* First Break now lives on the Match Play screen as its first action, instead of being
    chosen back on Match Setup. Built as its own small, self-contained overlay component
@@ -1650,7 +1650,7 @@ html,body{background:#050506}
 </style>
 </head>
 <body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.69" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
-<div class="app">
+<div class="app"><div id="tableLayer" aria-hidden="true"><img src="./assets/table.webp" alt="" draggable="false"></div><div id="brandLockup" aria-hidden="true"><img src="./icons/icon-192.png" alt="" draggable="false"><span class="bl-name"><span class="bl-rack">Rack</span><span class="bl-mate">Mate</span></span></div><img id="makersMark" src="./assets/makers-mark.svg" alt="" draggable="false">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
 <div class="title"><div class="titleRow"><div id="matchTitleBall" class="titleBall b8">8</div><h1 id="screenTitle">MATCH SETUP</h1></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
@@ -1922,10 +1922,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.09</div>
+<div class="version">BETA v3.15</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.09';
+const RACKMATE_VERSION='3.15';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -3180,6 +3180,9 @@ function beginLagAssignment(){
 }
 
 function showWinnerBanter(text){
+  // v3.15: the last point's ordinary in-play banter bubble (shown for ~10s) used to stay up on top
+  // of the Winner screen if the match ended soon after a score; the Winner screen has its own banter.
+  const playBubble=$('#banterBubble'); if(playBubble){clearTimeout(banterTimer);playBubble.classList.remove('show');}
   const el=$('#winnerBanter');
   if(!el) return;
   if(text && appSettings.banter){
@@ -3982,7 +3985,7 @@ applyDefaultMatchSetup();show('setup');
 </script>
 
 <style id="rackmate-v2">
-html,body{background:#050403} body{display:flex;align-items:center;justify-content:center}.app{width:min(100vw,163.1365vh);height:min(100vh,61.2984vw);aspect-ratio:801/491;background:url('./assets/rackmate-master-background.webp') center/contain no-repeat;overflow:hidden;box-shadow:0 0 60px #000;position:relative}
+html,body{background:#050403} body{display:flex;align-items:center;justify-content:center}.app{width:min(100vw,163.1365vh);height:min(100vh,61.2984vw);aspect-ratio:801/491;background:url('./assets/bg-bar.webp') center/contain no-repeat;overflow:hidden;box-shadow:0 0 60px #000;position:relative}
 .header{position:absolute;inset:0 0 auto 0;height:15.5%;background:transparent;border:0;padding:0 2.3%;z-index:30;pointer-events:none}.brand{visibility:hidden}.header .title{position:absolute;left:31%;right:31%;top:1.3%;height:12%;pointer-events:none}.titleRow{height:64%;gap:1.1vw}.title h1,.playWord{font-size:clamp(20px,2.27vw,40px);letter-spacing:.13em;text-shadow:0 3px 10px #000;font-weight:900}.playWord{display:none}.titleBall{display:none;width:clamp(46px,4.8vw,86px);aspect-ratio:1;border-radius:50%;place-items:center;font-size:clamp(18px,1.8vw,32px);font-weight:900;border:2px solid #eee;box-shadow:inset -10px -12px 18px rgba(0,0,0,.55),0 5px 12px #000}.titleMatchMeta{display:none;justify-content:space-between;width:78%;margin:-.4% auto 0;font-size:clamp(9px,.85vw,15px);font-weight:900;letter-spacing:.11em;color:#eee;text-shadow:0 2px 6px #000}.title .sub{display:none}.right{position:absolute;right:1.8%;top:2%;pointer-events:auto}.right .icon{background:rgba(4,8,8,.46);border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(2px)}.playUtility{display:none;place-items:center}
 .tableWrap{position:absolute;inset:0}.table{position:absolute;inset:0;border:0;outline:0;border-radius:0;background:transparent;overflow:visible}.cushionSegments,.railSights,.p{display:none!important}
 .setupMaster{position:absolute!important;left:9.2%!important;right:9.2%!important;top:21%!important;bottom:21%!important;display:grid!important;grid-template-columns:1fr .32fr 1fr!important;grid-template-rows:.23fr .62fr .46fr!important;grid-template-areas:'p1 swap p2' 'game game length' 'break break first'!important;gap:5% 4%!important}.setupNameP1{grid-area:p1}.setupSwap{grid-area:swap}.setupNameP2{grid-area:p2}.setupGameType{grid-area:game}.setupMatchLength{grid-area:length}.setupBreakFormat{grid-area:break}.setupFirstBreak{grid-area:first}.setupObjectLabel{color:#fff;text-shadow:0 2px 5px #000;letter-spacing:.14em}.name{background:transparent!important;border:0!important;border-bottom:2px solid!important;border-radius:0!important}.name.red{border-color:rgba(255,67,67,.9)!important;filter:drop-shadow(0 0 8px rgba(255,40,40,.45))}.name.blue{border-color:rgba(57,160,255,.9)!important;filter:drop-shadow(0 0 8px rgba(30,130,255,.45))}.name input{font-size:clamp(22px,2.5vw,44px)!important;text-shadow:0 2px 5px #000}.setupSwap{align-self:center;background:transparent!important;border:0!important;color:#fff;opacity:.9}.setupSwap:disabled{opacity:.28}.gameWoodTray,.firstBreakTray,.counter{background:transparent!important;border:0!important;box-shadow:none!important}.balls{gap:clamp(20px,3vw,56px)!important}.ball{width:clamp(52px,5vw,88px)!important;height:auto!important;aspect-ratio:1;font-size:clamp(20px,2vw,34px)!important;box-shadow:inset -10px -12px 16px rgba(0,0,0,.5),0 5px 10px rgba(0,0,0,.45)!important}.ball.sel{outline:3px solid var(--gold);filter:drop-shadow(0 0 12px rgba(242,196,77,.65))}.length{gap:1.6vw!important}.counter{padding:0!important}.counter button,.choice{background:rgba(0,0,0,.18)!important;border:1px solid rgba(255,255,255,.22)!important}.counter b{font-size:clamp(30px,3vw,52px)!important}.choice.active{border-color:var(--gold)!important;box-shadow:0 0 10px rgba(242,196,77,.28)}
@@ -4015,7 +4018,7 @@ body{display:flex;align-items:center;justify-content:center}
   max-width:100vw!important;
   max-height:100vh!important;
   overflow:hidden!important;
-  background:url('./assets/rackmate-master-background.webp?v=2.08') center center/100% 100% no-repeat!important;
+  background:url('./assets/bg-bar.webp') center center/100% 100% no-repeat!important;
   box-shadow:none!important;
 }
 .app::before{content:none!important;display:none!important}
@@ -4224,7 +4227,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
   min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
   margin:0!important;aspect-ratio:auto!important;overflow:hidden!important;box-shadow:none!important;
   container-type:size;
-  background-image:url('./assets/rackmate-master-background.webp?v=2.50')!important;
+  background-image:url('./assets/bg-bar.webp')!important;
   background-position:0 0!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
 }
 .app::before{display:none!important;content:none!important;}
@@ -4298,7 +4301,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
    The physical middle-pocket centre is the master X datum on the 2048 x 1024 artwork.
    Player centres are mirrored from it. The three centre assets share the same datum. */
 #setupScreen{
-  --rm-table-centre-x:51.65%;
+  --rm-table-centre-x:var(--tbl-cx);
   --rm-player-offset-x:17.00%;
   --rm-player-w:17.20%;
 }
@@ -4320,7 +4323,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
    Treat Settings + Help as one rigid horizontal assembly on the app/table drawing plane.
    MATCH SETUP remains locked to the established physical-table centre datum. */
 .header .title{
-  left:51.75%!important; right:auto!important; top:6.1%!important; width:36%!important;
+  left:var(--tbl-cx)!important; right:auto!important; top:6.1%!important; width:36%!important;
   transform:translate(-50%,-50%)!important; text-align:center!important;
 }
 .header .right{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;pointer-events:none!important;}
@@ -4473,7 +4476,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
   min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
   margin:0!important;aspect-ratio:auto!important;overflow:hidden!important;box-shadow:none!important;
   container-type:size;
-  background-image:url('./assets/rackmate-master-background.webp?v=2.50')!important;
+  background-image:url('./assets/bg-bar.webp')!important;
   background-position:0 0!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
 }
 .app::before{display:none!important;content:none!important;}
@@ -4546,7 +4549,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
 <style id="rackmate-v242-table-geometry-refinement">
 /* v2.50 — final-authority Setup refinement on the unified drawing plane.
    All horizontal alignment is referenced to the physical table centre, not viewport centre. */
-#setupScreen{--rm-table-centre-x:51.65%;--rm-player-offset-x:17%;--rm-player-w:17.2%;}
+#setupScreen{--rm-table-centre-x:var(--tbl-cx);--rm-player-offset-x:17%;--rm-player-w:17.2%;}
 
 /* Header/title follows the physical table centre. */
 .header .title{left:var(--rm-table-centre-x)!important;right:auto!important;transform:translate(-50%,-50%)!important;}
@@ -4581,7 +4584,7 @@ body{position:fixed!important;inset:0!important;display:block!important;}
    Coordinates are measured directly on the same 0,0 -> 100%,100% drawing plane as the
    master background. This block intentionally sits at EOF, after every legacy override. */
 .app{
-  --rm-design-table-right-x:94.30%;
+  --rm-design-table-right-x:var(--tbl-x1);
   --rm-header-button-y:2.00%;
   --rm-header-button-size:min(3.65cqw,7.30cqh);
   --rm-header-button-gap:0.75%;
@@ -4807,7 +4810,7 @@ body{
 .centre{position:relative;border-left:0!important;border-right:0!important;box-shadow:none!important}
 .centreStack{
   position:absolute;
-  left:26.1%;right:7.9%;    /* re-centred on the table's true axis (51.65%), not the screen's 50% */
+  left:17%;right:17%;    /* centred on the table axis (--tbl-cx = 50%) */
   top:0;
   height:129.4%;      /* extends past the row's own bottom, down to the table's bottom rail */
   box-sizing:border-box;
@@ -4881,8 +4884,8 @@ body{
    time a match finishes. */
 .winnerPretty{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  position:absolute;left:51.65%;transform:translateX(-50%);
-  top:6%;bottom:7%;width:min(620px,74%);
+  position:absolute;left:var(--tbl-cx);transform:translateX(-50%);
+  top:6%;bottom:7%;width:min(560px,62%);
   text-align:center;gap:0;
 }
 .winnerCore{display:flex;flex-direction:column;align-items:center;gap:.55em;width:100%}
@@ -4972,8 +4975,8 @@ body{
    Left zone needs +4.00 percentage points of the app's width, right zone needs -0.61 — each
    converted here into a percentage of that zone's own width, since translateX() percentages are
    relative to the element itself, not the page. */
-#leftZone{transform:translateX(13.66%)!important}
-#rightZone{transform:translateX(-2.09%)!important}
+#leftZone{transform:translateX(18.51%)!important}
+#rightZone{transform:translateX(-18.76%)!important}
 </style>
 
 <style id="rackmate-v308-pause-button-and-reason-popup">
@@ -5030,13 +5033,13 @@ body{
       openPauseReasonPopup() (and removed again by close(), so it can only ever affect this one
       popup), taken out of that flex flow and placed the same way. */
 .pauseVeil{position:absolute!important}
-.pauseVeilContent{position:absolute;left:51.65%;top:60%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;width:max-content;max-width:90vw}
+.pauseVeilContent{position:absolute;left:var(--tbl-cx);top:60%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;width:max-content;max-width:90vw}
 .pauseVeil.show{display:block!important}
 
 #modalWrap.pauseWhyModal{justify-content:flex-start!important}
 #modalWrap.pauseWhyModal .modal{
   position:absolute!important;
-  left:51.65%!important;top:50%!important;
+  left:var(--tbl-cx)!important;top:50%!important;
   transform:translate(-50%,-50%)!important;
   width:min(360px,80%)!important;
   border:2px solid rgba(242,196,77,.65)!important;
@@ -5070,4 +5073,52 @@ body{
   box-shadow:0 0 14px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.4);
   touch-action:none;
 }
+</style>
+
+<style id="rackmate-v315-new-artwork-geometry">
+/* v3.15: new artwork. The background (bar) and the table are now SEPARATE layers, and the
+   maker's mark is its own element too. Everything about where the table sits lives in this one
+   block of variables, as % of the drawing plane (the app always fills the screen and the plane
+   stretches with it). To change the table's size or position later, change these numbers (and the
+   layer box, which is the same table plus its baked-in shadow margin) — nothing else.
+   NOTE: comments in older blocks that quote 51.65% or 11.67%-91.8% describe the PREVIOUS artwork. */
+.app{
+  --tbl-x0:13.055%;   --tbl-x1:86.945%;   /* table outer left / right edge  */
+  --tbl-y0:16.182%;   --tbl-y1:96.229%;   /* table outer top / bottom edge  */
+  --tbl-cx:50.000%;                                   /* table centre line (was 51.65%) */
+  --felt-x0:16.137%; --felt-x1:83.696%; /* playing surface, incl. cushions */
+  --felt-y0:22.950%; --felt-y1:87.746%;
+}
+#tableLayer{position:absolute;left:9.307%;top:11.669%;width:81.387%;height:94.486%;z-index:0;pointer-events:none}
+#tableLayer img{display:block;width:100%;height:100%;-webkit-user-drag:none;user-select:none}
+/* Maker's mark: cream, a touch of warm glow, sat in the pool of light bottom-left */
+#makersMark{position:absolute;left:1.6%;bottom:4%;height:15%;width:auto;z-index:0;opacity:.88;pointer-events:none;filter:drop-shadow(0 0 5px rgba(255,190,110,.35));-webkit-user-drag:none;user-select:none}
+
+/* Logo lockup (icon + name) is live again, as its own element to the LEFT of the version number.
+   Until now these were baked into the old background image, so the live badge was trimmed to show
+   only the version. The version badge itself is deliberately left exactly as it was (same spot, same
+   size); the lockup is placed where the baked-in one used to sit: icon at 2.05%, name from ~7.4%. */
+#brandLockup{position:absolute;left:2.05%;top:6.15%;transform:translateY(-50%);z-index:10040;display:flex;align-items:center;gap:.95cqw;pointer-events:none;font-family:Arial,Helvetica,sans-serif;font-weight:800;letter-spacing:.01em;text-shadow:0 2px 5px #000,0 0 10px rgba(0,0,0,.6)}
+#brandLockup img{display:block;width:min(4.3cqw,9.6cqh);height:min(4.3cqw,9.6cqh);border-radius:21%;box-shadow:0 2px 8px rgba(0,0,0,.6)}
+#brandLockup .bl-name{font-size:min(2.35cqw,5.0cqh);white-space:nowrap}
+#brandLockup .bl-rack{color:#f3f3f3} #brandLockup .bl-mate{color:#e5b548}
+
+/* Centre strip: tall enough to hold every timer on its dark panel. Bottom = 24% + 49% x 1.44 = 94.6%,
+   just inside the new table's bottom edge (96.2%). (Before, the last timer spilled onto the rail.) */
+.centreStack{height:144%}
+
+/* Winner screen at phone size. Its pieces had pixel minimums (title 38px, name 30px, ball 64px,
+   banter padding 22px ...) that added up to ~430px inside a 372px column on a 428px-tall phone, so
+   the title ran off the top and the buttons off the bottom. Now each piece is the smaller of its
+   old width-based size and a height-based size, so on a big screen it looks as before and on a
+   phone the whole column fits. */
+.winnerCore{gap:.3em}
+.winnerTitle{font-size:min(5.7cqw,8.4cqh);line-height:1.05}
+.winnerName{font-size:min(4cqw,6.6cqh);padding:.14em .5em;line-height:1.15}
+.winnerScore{font-size:min(4.4cqw,7.4cqh);margin-top:0;line-height:1.05}
+.winnerBallBurst{width:min(8cqw,14cqh);height:min(8cqw,14cqh);margin:.15em auto}
+.winnerMeta,.winnerFrames{font-size:min(1.7cqw,3.2cqh);line-height:1.2}
+.winnerBanterPretty{font-size:min(1.8cqw,3.5cqh);padding:min(2.2cqw,3.2cqh);border-radius:min(3.4cqw,6cqh);line-height:1.25;margin-top:.15em}
+.winnerActions{margin-top:min(1.1cqw,2cqh);gap:min(1.7cqw,3.4cqh)}
+.winnerActions .choice{font-size:min(1.7cqw,3.4cqh);padding:.45em 1.1em;min-height:0}
 </style>

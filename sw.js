@@ -1,7 +1,9 @@
 const CACHE='rackmate-v2.72-beta';
 const STATIC_ASSETS=[
   './manifest.webmanifest',
-  './assets/rackmate-master-background.webp',
+  './assets/bg-bar.webp',
+  './assets/table.webp',
+  './assets/makers-mark.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-1024.png'
