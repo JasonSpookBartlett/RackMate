@@ -1653,8 +1653,8 @@ html,body{background:#050506}
 <div class="app"><div id="tableLayer" aria-hidden="true"><img src="./assets/table.webp" alt="" draggable="false"></div><div id="brandLockup" aria-hidden="true"><img src="./icons/icon-192.png" alt="" draggable="false"><span class="bl-name"><span class="bl-rack">Rack</span><span class="bl-mate">Mate</span></span></div><img id="makersMark" src="./assets/makers-mark.svg" alt="" draggable="false">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
-<div class="title"><div class="titleRow"><div id="matchTitleBall" class="titleBall b8">8</div><h1 id="screenTitle">MATCH SETUP</h1></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
-<div class="right"><button class="icon playUtility" id="endMatchBtn" title="End match" aria-label="End match"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button><button class="icon playUtility" id="topUndoBtn" title="Undo" aria-label="Undo">↶</button><button class="icon playUtility" id="topEditBtn" title="Match settings" aria-label="Match settings">⚙</button><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
+<div class="title"><div class="titleRow"><div id="matchTitleBall" class="titleBall b8">8</div><h1 id="screenTitle">MATCH SETUP</h1><div id="matchTitleBall2" class="titleBall b8" aria-hidden="true">8</div></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
+<div class="right"><button type="button" id="pausedStatus" class="icon playUtility pausedStatus" title="Pause match" aria-label="Pause match"><svg viewBox="0 0 24 24" width="55%" height="55%" fill="currentColor"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg></button><button class="icon playUtility" id="endMatchBtn" title="End match" aria-label="End match"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button><button class="icon playUtility" id="topUndoBtn" title="Undo" aria-label="Undo">↶</button><button class="icon playUtility" id="topEditBtn" title="Match settings" aria-label="Match settings">⚙</button><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
 </header>
 <div class="tableWrap"><div class="table">
       <!-- v1.80 dedicated cushion geometry: independent of pocket elements -->
@@ -1721,8 +1721,9 @@ html,body{background:#050506}
 <section id="playScreen" class="screen">
 <div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1BreakerSlot" class="playerBreakerSlot"></div><div id="p1Hill" class="hill"></div></div>
 
+<div class="centre"><div class="centreStack"><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">FRAME</span><b id="frameValue">1 OF 13</b></div></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRAME</span><b id="avgFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
 <div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2BreakerSlot" class="playerBreakerSlot"></div><div id="p2Hill" class="hill"></div></div></div>
-<div class="centre"><div class="centreStack"><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><button type="button" id="pausedStatus" class="pausedStatus">PAUSE</button><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
+
 <div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div class="pauseVeilContent"><div class="pauseVeilIcon" aria-hidden="true">⏸</div><div id="pauseVeilText">MATCH PAUSED</div></div></div>
 <div id="toast" class="toast"></div>
 <div id="coinLayer" class="coinLayer"><div class="coinStage"><div id="coinHint" class="coinHint">TOSS</div><div id="coin" class="coin">NZ</div></div></div>
@@ -1923,10 +1924,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.17</div>
+<div class="version">BETA v3.18</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.17';
+const RACKMATE_VERSION='3.18';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -2022,6 +2023,7 @@ function show(n){
   $('#screenTitle').textContent={setup:'MATCH SETUP',play:'MATCH',winner:'MATCH COMPLETE',help:'HELP'}[n];
   document.body.classList.toggle('playMode',n==='play');
   $('#matchTitleBall').style.display=n==='play'?'grid':'none';
+  const mtb2=$('#matchTitleBall2'); if(mtb2) mtb2.style.display=n==='play'?'grid':'none';
   $('#settingsBtn').style.visibility=n==='setup'?'visible':'hidden';
   $$('.playUtility').forEach(x=>x.style.display=n==='play'?'grid':'none');
   $('#helpBtn').style.visibility=n==='help'?'hidden':'visible';
@@ -2118,7 +2120,6 @@ function updatePauseUI(){
     b.title=st.paused?'Resume match timer':'Pause match timer';
   }
   if(ps){
-    ps.textContent=st.paused?'RESUME':'PAUSE';
     ps.classList.toggle('show',!!st.paused);
     ps.setAttribute('aria-label',st.paused?'Resume match':'Pause match');
     ps.title=st.paused?'Resume match':'Pause match';
@@ -3056,7 +3057,7 @@ function selectMatchBanter(winner,reason){
 // everything else to fit. As a bonus this retires the position-tracking function from last time
 // entirely — a ball simply sitting in-flow inside a normal slot doesn't need its position synced
 // to anything, which is a smaller, more robust thing than needing to keep that in sync at all.
-function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#bestValueCentre').textContent=st.best;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const breakerOnLeft=(st.breaker===1)!==sw;$('#breakerText').textContent='';const cue=$('#breakerCue');const cleanArrowHTML='<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';if(st.justPlay&&st.score1===0&&st.score2===0){cue.className='breaker playerBreakerBall';cue.style.display='none';cue.innerHTML=cleanArrowHTML;}else{cue.className='breaker playerBreakerBall';cue.style.display='';cue.innerHTML=cleanArrowHTML;const targetSlot=breakerOnLeft?$('#p1BreakerSlot'):$('#p2BreakerSlot');if(targetSlot&&cue.parentElement!==targetSlot){cue.style.position='';cue.style.top='';cue.style.left='';cue.style.marginTop='';cue.style.transform='';targetSlot.appendChild(cue);}}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;}
+function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const tb2=$('#matchTitleBall2');if(tb2){tb2.className='titleBall b'+st.game;tb2.textContent=st.game;}const breakerOnLeft=(st.breaker===1)!==sw;$('#breakerText').textContent='';const cue=$('#breakerCue');const cleanArrowHTML='<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';if(st.justPlay&&st.score1===0&&st.score2===0){cue.className='breaker playerBreakerBall';cue.style.display='none';cue.innerHTML=cleanArrowHTML;}else{cue.className='breaker playerBreakerBall';cue.style.display='';cue.innerHTML=cleanArrowHTML;const targetSlot=breakerOnLeft?$('#p1BreakerSlot'):$('#p2BreakerSlot');if(targetSlot&&cue.parentElement!==targetSlot){cue.style.position='';cue.style.top='';cue.style.left='';cue.style.marginTop='';cue.style.transform='';targetSlot.appendChild(cue);}}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;}
 function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign,matchStartedAt:st.matchStartedAt,matchEndedAt:st.matchEndedAt,frameStartedAt:st.frameStartedAt,finalFrameMs:st.finalFrameMs,completedFramesMs:st.completedFramesMs,lastFrameMs:st.lastFrameMs,paused:st.paused,pausedAt:st.pausedAt,totalPausedMs:st.totalPausedMs,framePausedMs:st.framePausedMs}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;st.matchStartedAt=s.matchStartedAt||st.matchStartedAt;st.matchEndedAt=s.matchEndedAt||0;st.frameStartedAt=s.frameStartedAt||st.frameStartedAt;st.finalFrameMs=s.finalFrameMs||0;st.completedFramesMs=s.completedFramesMs||0;st.lastFrameMs=s.lastFrameMs||0;st.paused=!!s.paused;st.pausedAt=s.pausedAt||0;st.totalPausedMs=s.totalPausedMs||0;st.framePausedMs=s.framePausedMs||0;if(st.screen==='play'&&st.matchStartedAt&&!st.matchEndedAt)startMatchClock();play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
@@ -3166,7 +3167,7 @@ function beginLagAssignment(){
   // so it's explicitly moved back to sit directly in .centre, a plain flex child that centres
   // itself automatically (exactly how this display already worked before), rather than trying to
   // teach it a whole new positioning scheme just for this one temporary phase.
-  $('.play').appendChild(cue);
+  $('.centre').appendChild(cue);
   // v3.10 fix: this used to be cue.textContent=st.game, which wipes out every child of #breakerCue
   // — including the #breakerArrow span nested inside it. Nothing ever recreated that span
   // afterward, so once a match used Lag even once, every later call to play() (i.e. every single
@@ -3205,7 +3206,7 @@ function finishMatch(p,reason='score'){
   const finalFrames=ws+ls;
   const finalElapsed=elapsedMatchMs();
   const finalAft=finalFrames?formatClock(finalElapsed/finalFrames,false):'--:--';
-  $('#winnerMeta').textContent=st.game+'-BALL • RACE TO '+st.race+' • MT '+formatClock(finalElapsed,true)+' • AFT '+finalAft;
+  $('#winnerMeta').textContent=st.game+'-BALL • RACE TO '+st.race+' • BEST OF '+st.best+' • MT '+formatClock(finalElapsed,true)+' • AFT '+finalAft;
   $('#winnerFrames').textContent=reason==='concede'
     ? 'WINNER BY CONCESSION • '+loser+' CONCEDED'
     : 'Won in '+(ws+ls)+' Frames';
@@ -3421,7 +3422,7 @@ function finishOpeningBreakerDrag(e){
     play();
     if(stillAssigning){
       st.lagAssign=true;
-      $('.play').appendChild(breakerCue);
+      $('.centre').appendChild(breakerCue);
       breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
       $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
     }
@@ -3449,7 +3450,7 @@ breakerCue.addEventListener('pointercancel',()=>{
   play();
   if(stillAssigning){
     st.lagAssign=true;
-    $('.play').appendChild(breakerCue);
+    $('.centre').appendChild(breakerCue);
     breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
     $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
   }
@@ -4958,7 +4959,7 @@ body{
    Rebuilt all four Play-screen-row buttons — End Match (new), Undo, Match Settings, Help — on
    that same reliable system, reading left to right in that order, all the same size, with a
    consistent gap, so nothing overlaps at any screen size. */
-#endMatchBtn,#topUndoBtn,#topEditBtn{
+#pausedStatus,#endMatchBtn,#topUndoBtn,#topEditBtn{
   position:absolute!important;
   top:var(--rm-header-button-y)!important;
   bottom:auto!important;
@@ -4971,6 +4972,7 @@ body{
 #topEditBtn{left:calc(var(--rm-design-table-right-x) - (2 * var(--rm-header-button-size)) - var(--rm-header-button-gap))!important;right:auto!important}
 #topUndoBtn{left:calc(var(--rm-design-table-right-x) - (3 * var(--rm-header-button-size)) - (2 * var(--rm-header-button-gap)))!important;right:auto!important}
 #endMatchBtn{left:calc(var(--rm-design-table-right-x) - (4 * var(--rm-header-button-size)) - (3 * var(--rm-header-button-gap)))!important;right:auto!important}
+#pausedStatus{left:calc(var(--rm-design-table-right-x) - (5 * var(--rm-header-button-size)) - (4 * var(--rm-header-button-gap)))!important;right:auto!important}
 </style>
 
 <style id="rackmate-v307-player-zone-true-centre">
@@ -4994,33 +4996,16 @@ body{
 #rightZone{transform:translateX(-18.76%)!important}
 </style>
 
+<style id="rackmate-v318-pause-icon-button">
+/* v3.18: PAUSE relocated from an on-felt text pill to a plain icon in the header row, alongside
+   End Match / Undo / Match Settings / Help — same treatment as those, so no bespoke sizing or
+   pill styling needed any more. Just keeps a gold highlight while actually paused, echoing what
+   the text pill used to do, so the header row still shows at a glance whether the match is
+   paused right now. */
+#pausedStatus{position:relative!important;z-index:110!important}
+#pausedStatus.show{background:rgba(242,196,77,.28)!important;box-shadow:0 0 12px rgba(242,196,77,.55)!important;color:var(--gold)!important}
+</style>
 <style id="rackmate-v308-pause-button-and-reason-popup">
-/* v3.08: the centre-strip "PAUSED" label is now a real, always-visible pause button (it used to
-   be display:none until paused, so there was nothing to tap in the first place). Reset the
-   button-element defaults it inherited from swapping <div> for <button>, and give it a resting
-   vs. active-while-paused look. */
-#pausedStatus{
-  all:unset;
-  box-sizing:border-box;
-  display:block;
-  cursor:pointer;
-  touch-action:manipulation;
-  color:var(--gold);
-  font-size:clamp(9px,1.1vw,16px);
-  font-weight:900;
-  letter-spacing:.12em;
-  border:1px solid rgba(242,196,77,.65);
-  border-radius:7px;
-  padding:.3em .8em;
-  margin-bottom:.3em;
-  text-align:center;
-  background:rgba(0,0,0,.3);
-  position:relative;
-  z-index:75;
-}
-#pausedStatus.show{background:rgba(242,196,77,.32);box-shadow:0 0 16px rgba(242,196,77,.6),0 0 4px rgba(242,196,77,.9)}
-#pausedStatus:active{transform:scale(.96)}
-
 /* The WHY? popup's two icon buttons, sat side by side, icon above label like the ball selector. */
 .pauseReasonBtn{display:flex!important;flex-direction:column;align-items:center;gap:8px;min-width:96px;padding:14px 18px!important}
 .pauseReasonBtn svg{flex:0 0 auto}
@@ -5105,27 +5090,34 @@ body{
   --felt-y0:22.950%; --felt-y1:87.746%;
 }
 </style>
-<style id="rackmate-v317-table-shifted-right">
-/* v3.17: table shifted right (clear of the maker's mark) and dropped down (the lamps are visible
-   again — felt now starts at 27%, was 20%). Table centre (--tbl-cx) is no longer screen-centre;
-   it's now 60.9%, and everything that centres on it (header title, the 8-ball, the pause popup,
-   the WHY? popup, the pause veil, the winner column) follows automatically since they're all
-   already written against this variable. The freed-up space on the left (0%-24%) is now home to
-   the timer column — see rackmate-v317-left-timer-column below — replacing the old centre strip
-   that used to sit on the table itself. REPLACES the v3.16 geometry block above. */
+<style id="rackmate-v318-table-per-full-mockup">
+/* v3.18: full mock-up handed over (both the standalone table concept and the complete match-
+   screen concept), so the table's exact position/size is now driven directly by measurements
+   taken off those files, not guesswork. Table is bigger again (96.4% of screen height, was 88%
+   in v3.16 and 80% in v3.17) and sits nearly flush against the left edge (1.9% margin) — the
+   left-margin timer column from v3.17 is retired entirely; the strip goes back to living on the
+   felt itself, matching the mock-up. --tbl-cx is 46.4% (left of screen-centre) rather than 50% —
+   matches the mock-up's own table position, not an eyeballed guess. REPLACES the v3.17 block. */
 .app{
-  --tbl-x0:24.000%;   --tbl-x1:97.846%;
-  --tbl-y0:20.236%;   --tbl-y1:100.236%;
-  --tbl-cx:60.923%;
-  --felt-x0:27.080%; --felt-x1:94.599%;
-  --felt-y0:27.000%; --felt-y1:91.758%;
+  --tbl-x0:1.900%;   --tbl-x1:90.885%;
+  --tbl-y0:11.500%;  --tbl-y1:107.900%;
+  --tbl-cx:46.392%;
+  --felt-x0:5.612%;  --felt-x1:86.972%;
+  --felt-y0:19.651%; --felt-y1:97.684%;
 }
-#tableLayer{position:absolute!important;z-index:0!important;pointer-events:none!important;left:20.254%!important;top:15.726%!important;width:81.339%!important;height:94.431%!important}
+#tableLayer{position:absolute!important;z-index:0!important;pointer-events:none!important;left:-2.614%!important;top:6.066%!important;width:98.013%!important;height:113.789%!important}
 </style>
 <style id="rackmate-v315-table-img-and-mark">
 #tableLayer img{display:block;width:100%;height:100%;-webkit-user-drag:none;user-select:none}
 /* Maker's mark: cream, a touch of warm glow, sat in the pool of light bottom-left */
 #makersMark{position:absolute;left:1.6%;bottom:4%;height:15%;width:auto;z-index:0;opacity:.88;pointer-events:none;filter:drop-shadow(0 0 5px rgba(255,190,110,.35));-webkit-user-drag:none;user-select:none}
+</style>
+<style id="rackmate-v318-mark-clear-of-bigger-table">
+/* v3.18: the table's back to nearly flush-left (1.9% margin), so the mark's old size/position
+   (tuned when the table had a much wider left margin) now overlaps the table's own corner rail.
+   Shrunk and tucked lower/further left, into the sliver of exposed floor that's actually still
+   there in the corner, checked directly against the table's real edge afterward. */
+#makersMark{height:6.2%!important;left:0.3%!important;bottom:0.6%!important}
 </style>
 
 <style id="rackmate-v316-header-and-player-fixes">
@@ -5135,7 +5127,7 @@ body{
 /* Header 8-ball: its own dedicated white ring (border:2px solid #eee, separate from the other
    balls' shared base style) — same leftover-decoration pattern already removed everywhere else,
    just never got to this one. Also sized up alongside the bigger title text next to it. */
-#matchTitleBall{border:0!important;width:clamp(58px,6.1vw,110px)!important}
+#matchTitleBall,#matchTitleBall2{border:0!important;width:clamp(58px,6.1vw,110px)!important}
 
 /* Player zone: the breaker ball used to be a normal member of the same centred flex column as
    the name, score and hill text — fine on its own, but it reserves real height (and a margin)
@@ -5185,67 +5177,63 @@ body{
 .winnerActions .choice{font-size:min(4.4cqw,3.4cqh);padding:.45em 1.1em;min-height:0}
 </style>
 
-<style id="rackmate-v317-left-timer-column">
-/* v3.17: .play retargeted from the old screen-centred 10%-90% band to the table's real felt
-   (--felt-x0/x1/y0/y1), and reduced from 3 grid columns to 2 — the centre column that used to
-   hold the timer strip is gone; the strip itself is moving out of the grid entirely (below). */
+<style id="rackmate-v318-strip-back-on-felt">
+/* v3.18: per the full match-screen mock-up, the timer strip moves back onto the felt (the
+   v3.17 left-margin column is retired) and .play returns to a proper 3-column grid, now bounded
+   to the NEW felt (--felt-x0/x1/y0/y1 from the v3.18 geometry block above) rather than the old
+   screen-centred 10%-90% band. The centre column's share (~1.17fr against 1fr each side) matches
+   the strip's measured ~30%-of-screen width from the mock-up, split across the felt's own width. */
 .play{
   left:var(--felt-x0)!important; right:calc(100% - var(--felt-x1))!important;
   top:var(--felt-y0)!important; bottom:calc(100% - var(--felt-y1))!important;
-  grid-template-columns:1fr 1fr!important;
+  grid-template-columns:1fr 1.17fr 1fr!important;
   gap:0!important;
 }
-/* .centre (still the same element, still holding the same .centreStack content — nothing in the
-   HTML changed) is pulled out of the grid with position:absolute. CSS Grid skips absolutely
-   positioned items when placing the rest, so leftZone and rightZone correctly become the grid's
-   only two items once this is out of flow, one per column, with no code changes needed there.
-   It now lives in the room freed up on the left of the table, sized to its own content and
-   vertically centred on the screen — the same "PAUSE / timers" stack as before, just relocated
-   from sitting on the felt to standing beside it. */
+/* .centre is a normal grid cell again (nothing pulling it out of flow), sized by the grid track
+   above. .centreStack is the dark rounded panel from the mock-up, filling most of the cell's
+   height with the three groups spread evenly down it: Match Time, then Race To + Frame, then
+   the three frame timers — no PAUSE button here any more (moved to the header icon row) and no
+   separate Best Of item (it's the same number as the second half of "Frame X of Y", so showing
+   both was pure duplication — kept on the Winner screen, where it's the only place it's used
+   without that duplication). */
 .centre{
-  position:absolute!important;
-  left:2.5%!important; right:auto!important; width:calc(var(--tbl-x0) - 5%)!important;
-  top:13%!important; bottom:21%!important; height:auto!important;
-  transform:none!important;
+  position:relative!important;
+  left:auto!important; right:auto!important; top:auto!important; bottom:auto!important;
+  width:auto!important; height:auto!important; transform:none!important;
   display:flex!important; align-items:center!important; justify-content:center!important;
+  background:transparent!important;
 }
 .centreStack{
-  position:relative!important; left:0!important; right:0!important; top:auto!important;
-  height:auto!important; max-height:100%!important;
+  position:relative!important; left:auto!important; right:auto!important; top:auto!important;
+  width:84%!important; height:auto!important; max-height:none!important;
   display:flex!important; flex-direction:column!important;
-  align-items:center!important; justify-content:center!important; gap:.12em!important;
+  align-items:center!important; justify-content:center!important; gap:1.5em!important;
+  background:rgba(4,6,6,.82)!important; border-radius:14px!important; padding:1.2em 0!important;
 }
-/* Player zones: nudge transforms were tuned for the old, screen-centred felt; reset them since
-   the new felt has an entirely different left/right balance (it's no longer symmetrical around
-   50% at all), and let each zone simply centre within its own half of the new, narrower felt. */
-#leftZone{transform:none!important}
-#rightZone{transform:none!important}
+/* The Lag/Coin assignment ball: parked back in .centre (the on-felt strip again), but given its
+   own overlay position rather than joining the flex stack — .centre now holds a tall timer panel
+   too, and letting the ball just fight for space in that same flex column looked cramped. This
+   overlays it centred on the strip, matching how this moment looked before the whole side-column
+   experiment (nothing about the drag/assign behaviour itself changes, purely visual). */
+.centre>.breaker.gameBreaker{position:absolute!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;z-index:10!important}
+</style>
 
-/* Match Setup screen: its own grid (.setupMaster) is unrelated to the Play screen's table and
-   has always had its own fixed, symmetrical 9.2%/9.2% margins — but Start Match and the Break
-   Format toggle were separately wired straight to --rm-table-centre-x (aliased to --tbl-cx), so
-   when the Play screen's table moved off-centre, these two followed it right into the RACE TO /
-   BEST OF column, since nothing else on this screen moved to match. Setup was never meant to
-   track the Play screen's table position; decoupling these two back onto the setup grid's own
-   true centre (50%, matching its symmetrical margins) fixes it without touching anything else
-   on this screen, which was correctly laid out already. */
-#setupScreen .startMatchBtn{left:50%!important}
-#setupScreen .setupBreakFormat{left:calc(50% - 9.919%)!important}
-
-/* Lag/Coin assignment: the draggable game-ball used to be shown prominently by parking it in
-   .centre while .centre was still the middle-of-the-table strip. Now that .centre is the
-   left-margin timer column, it's parked in .play instead (which spans the felt itself) — same
-   trick as before, position:absolute so CSS Grid skips it when placing leftZone/rightZone, just
-   centred directly on the felt instead of in the old middle grid column. */
-.play>.breaker.gameBreaker{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;z-index:6!important}
-
-/* v3.17: the timer column now stacks 8 items (was previously a wide horizontal strip, so this
-   many items in one vertical column is new territory) and is vertically centred — on shorter
-   screens its pixel-floor text sizes didn't shrink enough, so the bottom of the column started
-   running into the maker's mark beneath it. Tightened floors and gap recover the room needed;
-   checked directly against the mark's real position afterward rather than just guessing. */
-.centreLabel{font-size:clamp(6px,1.05vw,13px)!important}
-.centreItem b{font-size:clamp(12px,2.6vw,32px)!important}
-#matchTimeCentre{font-size:clamp(11px,2.2vw,26px)!important}
-.centreStack{gap:.12em!important}
+<style id="rackmate-v318-setup-screen-redress">
+/* v3.18: Match Setup's individual pieces (balls, name inputs, race/best, break format, start
+   match) were all hand-positioned against an older, smaller table — every one of them a fixed
+   percentage tuned by eye over many past passes. Rather than re-tune each by hand again, this
+   applies one consistent scale+shift, mapping the old felt this screen was built against
+   (12.773%-87.044% x, 20%-91.233% y) onto the new one (5.612%-86.972% x, 19.651%-97.684% y) —
+   same ~9.5% growth in both directions, so everything grows and repositions together rather than
+   some pieces catching up and others not. Name inputs, swap and Start Match already tracked
+   --tbl-cx directly, so only their offsets/sizes needed this scaling, not their whole position. */
+#setupScreen{--rm-player-offset-x:18.623%!important;--rm-player-w:18.842%!important}
+#setupScreen .setupGameType{left:15.025%!important;top:48.352%!important;width:13.328%!important;height:39.683%!important}
+#setupScreen .setupMatchLength{left:67.270%!important;top:42.222%!important;width:15.646%!important;height:41.289%!important}
+#setupScreen .setupName{top:29.589%!important;width:24.929%!important;height:10.142%!important}
+#setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - 12.459%)!important}
+#setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - 12.459%)!important}
+#setupScreen .setupSwap{left:calc(var(--rm-table-centre-x) - 4.347%)!important;top:30.058%!important;width:8.692%!important;height:8.983%!important}
+#setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 10.866%)!important;top:45.612%!important;width:21.731%!important;height:13.039%!important}
+#setupScreen .startMatchBtn{top:74.095%!important}
 </style>
