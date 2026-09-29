@@ -1720,8 +1720,9 @@ html,body{background:#050506}
 
 <section id="playScreen" class="screen">
 <div class="play"><div class="side left" id="leftZone"><div id="p1Name" class="pname">Player 1</div><div id="p1Score" class="score">0</div><div id="p1BreakerSlot" class="playerBreakerSlot"></div><div id="p1Hill" class="hill"></div></div>
-<div class="centre"><div class="centreStack"><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><button type="button" id="pausedStatus" class="pausedStatus">PAUSE</button><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
+
 <div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2BreakerSlot" class="playerBreakerSlot"></div><div id="p2Hill" class="hill"></div></div></div>
+<div class="centre"><div class="centreStack"><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRM TIME</span><b id="avgFrameDisplay">00:00</b></div></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">BEST OF</span><b id="bestValueCentre">13</b></div></div><div class="centreItem"><span class="centreLabel">FRAME #</span><b id="frameValue">1 OF 13</b></div><button type="button" id="pausedStatus" class="pausedStatus">PAUSE</button><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
 <div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div class="pauseVeilContent"><div class="pauseVeilIcon" aria-hidden="true">⏸</div><div id="pauseVeilText">MATCH PAUSED</div></div></div>
 <div id="toast" class="toast"></div>
 <div id="coinLayer" class="coinLayer"><div class="coinStage"><div id="coinHint" class="coinHint">TOSS</div><div id="coin" class="coin">NZ</div></div></div>
@@ -1922,10 +1923,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.16</div>
+<div class="version">BETA v3.17</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.16';
+const RACKMATE_VERSION='3.17';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -3165,7 +3166,7 @@ function beginLagAssignment(){
   // so it's explicitly moved back to sit directly in .centre, a plain flex child that centres
   // itself automatically (exactly how this display already worked before), rather than trying to
   // teach it a whole new positioning scheme just for this one temporary phase.
-  $('.centre').appendChild(cue);
+  $('.play').appendChild(cue);
   // v3.10 fix: this used to be cue.textContent=st.game, which wipes out every child of #breakerCue
   // — including the #breakerArrow span nested inside it. Nothing ever recreated that span
   // afterward, so once a match used Lag even once, every later call to play() (i.e. every single
@@ -3420,7 +3421,7 @@ function finishOpeningBreakerDrag(e){
     play();
     if(stillAssigning){
       st.lagAssign=true;
-      $('.centre').appendChild(breakerCue);
+      $('.play').appendChild(breakerCue);
       breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
       $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
     }
@@ -3448,7 +3449,7 @@ breakerCue.addEventListener('pointercancel',()=>{
   play();
   if(stillAssigning){
     st.lagAssign=true;
-    $('.centre').appendChild(breakerCue);
+    $('.play').appendChild(breakerCue);
     breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
     $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
   }
@@ -5104,20 +5105,22 @@ body{
   --felt-y0:22.950%; --felt-y1:87.746%;
 }
 </style>
-<style id="rackmate-v316-bigger-table">
-/* v3.16: table scaled up (80% -> 88% of canvas height) and pulled up to use the headroom above
-   it, per direct feedback after seeing v3.15 live on a phone. tbl-y0 (12.56%) sits safely below
-   the header content (title/ball end ~11%), so it doesn't collide with the lamps or title. This
-   REPLACES the v3.15 geometry block above — same variables, new numbers, so every rule already
-   written against --tbl-*/--felt-* just picks up the bigger table with no other changes needed. */
+<style id="rackmate-v317-table-shifted-right">
+/* v3.17: table shifted right (clear of the maker's mark) and dropped down (the lamps are visible
+   again — felt now starts at 27%, was 20%). Table centre (--tbl-cx) is no longer screen-centre;
+   it's now 60.9%, and everything that centres on it (header title, the 8-ball, the pause popup,
+   the WHY? popup, the pause veil, the winner column) follows automatically since they're all
+   already written against this variable. The freed-up space on the left (0%-24%) is now home to
+   the timer column — see rackmate-v317-left-timer-column below — replacing the old centre strip
+   that used to sit on the table itself. REPLACES the v3.16 geometry block above. */
 .app{
-  --tbl-x0:9.385%;   --tbl-x1:90.615%;
-  --tbl-y0:12.559%;  --tbl-y1:100.559%;
-  --tbl-cx:50.000%;
-  --felt-x0:12.773%; --felt-x1:87.044%;
-  --felt-y0:20.000%; --felt-y1:91.233%;
+  --tbl-x0:24.000%;   --tbl-x1:97.846%;
+  --tbl-y0:20.236%;   --tbl-y1:100.236%;
+  --tbl-cx:60.923%;
+  --felt-x0:27.080%; --felt-x1:94.599%;
+  --felt-y0:27.000%; --felt-y1:91.758%;
 }
-#tableLayer{left:5.264%!important;top:7.599%!important;width:89.473%!important;height:103.874%!important}
+#tableLayer{position:absolute!important;z-index:0!important;pointer-events:none!important;left:20.254%!important;top:15.726%!important;width:81.339%!important;height:94.431%!important}
 </style>
 <style id="rackmate-v315-table-img-and-mark">
 #tableLayer img{display:block;width:100%;height:100%;-webkit-user-drag:none;user-select:none}
@@ -5180,4 +5183,69 @@ body{
 .winnerBanterPretty{font-size:min(4.7cqw,3.5cqh);padding:min(5.7cqw,3.2cqh);border-radius:min(8.8cqw,6cqh);line-height:1.25;margin-top:.15em}
 .winnerActions{margin-top:min(2.9cqw,2cqh);gap:min(4.4cqw,3.4cqh)}
 .winnerActions .choice{font-size:min(4.4cqw,3.4cqh);padding:.45em 1.1em;min-height:0}
+</style>
+
+<style id="rackmate-v317-left-timer-column">
+/* v3.17: .play retargeted from the old screen-centred 10%-90% band to the table's real felt
+   (--felt-x0/x1/y0/y1), and reduced from 3 grid columns to 2 — the centre column that used to
+   hold the timer strip is gone; the strip itself is moving out of the grid entirely (below). */
+.play{
+  left:var(--felt-x0)!important; right:calc(100% - var(--felt-x1))!important;
+  top:var(--felt-y0)!important; bottom:calc(100% - var(--felt-y1))!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:0!important;
+}
+/* .centre (still the same element, still holding the same .centreStack content — nothing in the
+   HTML changed) is pulled out of the grid with position:absolute. CSS Grid skips absolutely
+   positioned items when placing the rest, so leftZone and rightZone correctly become the grid's
+   only two items once this is out of flow, one per column, with no code changes needed there.
+   It now lives in the room freed up on the left of the table, sized to its own content and
+   vertically centred on the screen — the same "PAUSE / timers" stack as before, just relocated
+   from sitting on the felt to standing beside it. */
+.centre{
+  position:absolute!important;
+  left:2.5%!important; right:auto!important; width:calc(var(--tbl-x0) - 5%)!important;
+  top:13%!important; bottom:21%!important; height:auto!important;
+  transform:none!important;
+  display:flex!important; align-items:center!important; justify-content:center!important;
+}
+.centreStack{
+  position:relative!important; left:0!important; right:0!important; top:auto!important;
+  height:auto!important; max-height:100%!important;
+  display:flex!important; flex-direction:column!important;
+  align-items:center!important; justify-content:center!important; gap:.12em!important;
+}
+/* Player zones: nudge transforms were tuned for the old, screen-centred felt; reset them since
+   the new felt has an entirely different left/right balance (it's no longer symmetrical around
+   50% at all), and let each zone simply centre within its own half of the new, narrower felt. */
+#leftZone{transform:none!important}
+#rightZone{transform:none!important}
+
+/* Match Setup screen: its own grid (.setupMaster) is unrelated to the Play screen's table and
+   has always had its own fixed, symmetrical 9.2%/9.2% margins — but Start Match and the Break
+   Format toggle were separately wired straight to --rm-table-centre-x (aliased to --tbl-cx), so
+   when the Play screen's table moved off-centre, these two followed it right into the RACE TO /
+   BEST OF column, since nothing else on this screen moved to match. Setup was never meant to
+   track the Play screen's table position; decoupling these two back onto the setup grid's own
+   true centre (50%, matching its symmetrical margins) fixes it without touching anything else
+   on this screen, which was correctly laid out already. */
+#setupScreen .startMatchBtn{left:50%!important}
+#setupScreen .setupBreakFormat{left:calc(50% - 9.919%)!important}
+
+/* Lag/Coin assignment: the draggable game-ball used to be shown prominently by parking it in
+   .centre while .centre was still the middle-of-the-table strip. Now that .centre is the
+   left-margin timer column, it's parked in .play instead (which spans the felt itself) — same
+   trick as before, position:absolute so CSS Grid skips it when placing leftZone/rightZone, just
+   centred directly on the felt instead of in the old middle grid column. */
+.play>.breaker.gameBreaker{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;z-index:6!important}
+
+/* v3.17: the timer column now stacks 8 items (was previously a wide horizontal strip, so this
+   many items in one vertical column is new territory) and is vertically centred — on shorter
+   screens its pixel-floor text sizes didn't shrink enough, so the bottom of the column started
+   running into the maker's mark beneath it. Tightened floors and gap recover the room needed;
+   checked directly against the mark's real position afterward rather than just guessing. */
+.centreLabel{font-size:clamp(6px,1.05vw,13px)!important}
+.centreItem b{font-size:clamp(12px,2.6vw,32px)!important}
+#matchTimeCentre{font-size:clamp(11px,2.2vw,26px)!important}
+.centreStack{gap:.12em!important}
 </style>
