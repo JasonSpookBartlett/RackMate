@@ -1654,8 +1654,8 @@ html,body{background:#050506}
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
 <div class="title"><div class="titleRow"><div id="matchTitleBall" class="titleBall b8">8</div><h1 id="screenTitle">MATCH SETUP</h1><div id="matchTitleBall2" class="titleBall b8" aria-hidden="true">8</div></div><div class="sub">PLAY POOL • KEEP SCORE • NO FUSS</div></div>
-<div class="right"><button type="button" id="pausedStatus" class="icon playUtility pausedStatus" title="Pause match" aria-label="Pause match"><svg viewBox="0 0 24 24" width="55%" height="55%" fill="currentColor"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg></button><button class="icon playUtility" id="topUndoBtn" title="Undo" aria-label="Undo">↶</button><button class="icon playUtility" id="topEditBtn" title="Match settings" aria-label="Match settings">⚙</button><button class="icon" id="helpBtn">?</button><button class="icon" id="settingsBtn">⚙</button></div>
-<button class="icon playUtility" id="endMatchBtn" title="End match" aria-label="End match"><svg viewBox="0 0 24 24" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+<div class="right"><button type="button" id="pausedStatus" class="icon playUtility pausedStatus" title="Pause match" aria-label="Pause match"><img src="./assets/icons/pause-icon.svg" class="iconImg pauseIconPause" alt="" draggable="false"><img src="./assets/icons/play-icon.svg" class="iconImg pauseIconPlay" alt="" draggable="false" style="display:none"></button><button class="icon playUtility" id="topUndoBtn" title="Undo" aria-label="Undo"><img src="./assets/icons/undo-icon.png" class="iconImg" alt="" draggable="false"></button><button class="icon playUtility" id="topEditBtn" title="Match settings" aria-label="Match settings"><img src="./assets/icons/settings-icon.png" class="iconImg" alt="" draggable="false"></button><button class="icon" id="helpBtn"><img src="./assets/icons/help-icon.png" class="iconImg" alt="" draggable="false"></button><button class="icon" id="settingsBtn"><img src="./assets/icons/settings-icon.png" class="iconImg" alt="" draggable="false"></button></div>
+<button class="icon playUtility" id="endMatchBtn" title="End match" aria-label="End match"><img src="./assets/icons/exit-icon.png" class="iconImg" alt="" draggable="false"></button>
 </header>
 <div class="tableWrap"><div class="table">
       <!-- v1.80 dedicated cushion geometry: independent of pocket elements -->
@@ -1725,7 +1725,7 @@ html,body{background:#050506}
 <div class="centre"><div class="centreStack"><div class="centreItem"><span class="centreLabel">MATCH TIME</span><b id="matchTimeCentre">00:00:00</b></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">RACE TO</span><b id="raceValue">7</b></div><div class="centreItem"><span class="centreLabel">FRAME</span><b id="frameValue">1 OF 13</b></div></div><div class="centreGroup"><div class="centreItem"><span class="centreLabel">FRAME TIME</span><b id="thisFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">AVG FRAME</span><b id="avgFrameDisplay">00:00</b></div><div class="centreItem"><span class="centreLabel">LAST FRAME</span><b id="lastFrameDisplay">00:00</b></div></div></div><div id="breakerCue" class="breaker breakerCueBall bp1"><span id="breakerArrow" class="breakerArrow">◀</span></div><div id="breakerText" class="breakerText">Player 1 BREAKS</div><span id="matchTimeDisplay" style="display:none">00:00:00</span></div>
 <div class="side rightSide" id="rightZone"><div id="p2Name" class="pname">Player 2</div><div id="p2Score" class="score">0</div><div id="p2BreakerSlot" class="playerBreakerSlot"></div><div id="p2Hill" class="hill"></div></div></div>
 
-<div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div class="pauseVeilContent"><button type="button" id="bigResumeBtn" class="bigResumeBtn" title="Resume match" aria-label="Resume match"><svg viewBox="0 0 24 24" width="42%" height="42%" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><div id="pauseVeilText">MATCH PAUSED</div><div id="pauseVeilSubtext"></div></div></div>
+<div class="floorTiming"><div class="floorTime"><span>MATCH TIME</span><b id="matchTimeFloor">00:00:00</b></div><button id="pauseBtn" class="floorPause" type="button" aria-label="Pause match">⏸</button><div class="floorTime"><span>AVG. FRAME TIME</span><b id="avgFrameFloor">00:00</b></div></div><div class="bottom legacyBottom"><button id="undoBtn">↶ UNDO</button><button id="editBtn">⚙ EDIT MATCH SETTINGS</button></div><div id="pauseVeil" class="pauseVeil"><div class="pauseVeilContent"><button type="button" id="bigResumeBtn" class="bigResumeBtn" title="Resume match" aria-label="Resume match"><img src="./assets/icons/play-icon.svg" class="iconImg" alt="" draggable="false"></button><div id="pauseVeilText">MATCH PAUSED</div><div id="pauseVeilSubtext"></div></div></div>
 <div id="toast" class="toast"></div>
 <div id="coinLayer" class="coinLayer"><div class="coinStage"><div id="coinHint" class="coinHint">TOSS</div><div id="coin" class="coin">NZ</div></div></div>
 <div id="firstBreakOverlay" class="firstBreakOverlay">
@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.19</div>
+<div class="version">BETA v3.20</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.19';
+const RACKMATE_VERSION='3.20';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -2124,6 +2124,11 @@ function updatePauseUI(){
     ps.classList.toggle('show',!!st.paused);
     ps.setAttribute('aria-label',st.paused?'Resume match':'Pause match');
     ps.title=st.paused?'Resume match':'Pause match';
+    // v3.20: two real icon images now (play alone / pause alone), swapped by visibility rather
+    // than one glyph that used to just sit there unchanged — shows the action tapping it will
+    // take, same convention as any media player, matching what was actually agreed on.
+    const pauseImg=ps.querySelector('.pauseIconPause'), playImg=ps.querySelector('.pauseIconPlay');
+    if(pauseImg && playImg){ pauseImg.style.display=st.paused?'none':''; playImg.style.display=st.paused?'':'none'; }
   }
 }
 function updateMatchClock(){
@@ -5056,7 +5061,7 @@ body{
       openPauseReasonPopup() (and removed again by close(), so it can only ever affect this one
       popup), taken out of that flex flow and placed the same way. */
 .pauseVeil{position:absolute!important}
-.pauseVeilContent{position:absolute;left:var(--tbl-cx);top:60%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;text-align:center;width:max-content;max-width:90vw}
+.pauseVeilContent{position:absolute;left:var(--tbl-cx);top:14%;bottom:13%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:max-content;max-width:90vw}
 .pauseVeil.show{display:block!important}
 
 #modalWrap.pauseWhyModal{justify-content:flex-start!important}
@@ -5150,7 +5155,7 @@ body{
 /* Header 8-ball: its own dedicated white ring (border:2px solid #eee, separate from the other
    balls' shared base style) — same leftover-decoration pattern already removed everywhere else,
    just never got to this one. Also sized up alongside the bigger title text next to it. */
-#matchTitleBall,#matchTitleBall2{border:0!important;width:clamp(58px,6.1vw,110px)!important}
+#matchTitleBall,#matchTitleBall2{border:0!important;width:clamp(42px,4.4vw,80px)!important}
 
 /* Player zone: the breaker ball used to be a normal member of the same centred flex column as
    the name, score and hill text — fine on its own, but it reserves real height (and a margin)
@@ -5282,14 +5287,48 @@ body{
   border:2px solid rgba(242,196,77,.75);
   color:var(--gold);
   box-shadow:0 0 22px rgba(242,196,77,.45),0 4px 14px rgba(0,0,0,.5);
-  margin-bottom:.15em;
+  margin-bottom:9vh;
   position:relative;
   z-index:110;
 }
 .bigResumeBtn:active{transform:scale(.95)}
 
 /* The reason's fun line, now living inside the veil's own text stack instead of the floating
-   banter bubble (see setPauseReason() for why) — smaller than "MATCH PAUSED" itself, since it's
-   a secondary aside, not the headline. */
-#pauseVeilSubtext{font-size:clamp(14px,1.7vw,28px)!important;font-weight:700!important;letter-spacing:normal!important;color:#f3e9c9;margin-top:.35em;text-shadow:0 2px 8px #000}
+   banter bubble (see setPauseReason() for why) — restored to look like an actual speech bubble
+   (cream background, dark text, Comic Sans MS, same voice as every other banter line in the
+   app), just sized as a secondary aside beneath "MATCH PAUSED" rather than the headline. */
+#pauseVeilSubtext{
+  display:none;
+  margin-top:.5em;
+  background:#f8f2df;
+  color:#151515;
+  border:3px solid #171717;
+  border-radius:22px;
+  padding:.45em .9em;
+  font-family:'Comic Sans MS','Trebuchet MS',sans-serif;
+  font-size:clamp(14px,1.7vw,28px);
+  font-weight:900;
+  letter-spacing:normal;
+  line-height:1.2;
+  text-shadow:none;
+  box-shadow:0 10px 26px rgba(0,0,0,.5);
+}
+#pauseVeilSubtext:not(:empty){display:inline-block}
+</style>
+
+<style id="rackmate-v320-custom-icon-art">
+/* v3.20: the real brush-stroke icon set is in — 4 as recoloured (black to the app's own gold)
+   PNGs, Play and Pause as true SVGs using currentColor so they pick up the same gold/active
+   states the rest of the icon row already has. Every header-row button, End Match, and the big
+   Resume button now hold an <img> instead of a text glyph or plain-line SVG, so they all need
+   explicit centring and sizing — the buttons never relied on flex centring before because a
+   single inline glyph/SVG centres itself by default; a real image doesn't. */
+.icon,.bigResumeBtn{display:flex!important;align-items:center;justify-content:center}
+.iconImg{width:68%;height:68%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;user-select:none}
+#pausedStatus{position:relative!important}
+#pausedStatus .iconImg{position:absolute}
+.bigResumeBtn .iconImg{width:58%;height:58%}
+/* The pause icon's own gold ring is already part of the artwork; drop the button's separate
+   background highlight so paused doesn't show two overlapping gold treatments at once. */
+#pausedStatus.show{background:transparent!important;box-shadow:none!important}
 </style>
