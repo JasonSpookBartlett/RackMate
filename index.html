@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.20</div>
+<div class="version">BETA v3.21</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.20';
+const RACKMATE_VERSION='3.21';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -2181,6 +2181,7 @@ function resumeMatch(){
   st.paused=false;
   st.pausedAt=0;
   const pvt=$('#pauseVeilText'); if(pvt) pvt.textContent='MATCH PAUSED';
+  clearTimeout(pauseSubtextTimer);
   const pvs=$('#pauseVeilSubtext'); if(pvs) pvs.textContent='';
   updateMatchClock();
 }
@@ -2188,17 +2189,28 @@ function togglePause(){ st.paused?resumeMatch():pauseMatch(); }
 // v3.08: the centre-strip pause button pauses instantly (never make someone who's genuinely
 // bursting wait on a menu first), then asks — purely for a laugh, changes nothing functionally.
 // Closing the popup without picking either one just leaves the plain "MATCH PAUSED" message.
+let pauseSubtextTimer=null;
 function setPauseReason(reason){
   const pvt=$('#pauseVeilText'), sub=$('#pauseVeilSubtext');
   if(!pvt) return;
   // v3.19: the fun line used to go through showBanter() — the same floating bubble that shows
   // during normal play — but that bubble sits at a fixed spot on the table that the new, much
-  // bigger Resume button now needs for itself. Rather than fight over the same real estate,
-  // this folds the line into the veil's own text stack instead: same personality, no collision,
-  // and it naturally disappears with the rest of the veil on resume rather than needing its own
-  // separate timeout to clear.
-  if(reason==='toilet'){ pvt.textContent='TOILET BREAK'; if(sub) sub.textContent="Nature's calling. The rack will wait."; }
-  else if(reason==='meal'){ pvt.textContent='REFUEL BREAK'; if(sub) sub.textContent="Snack run. Don't get sauce on the felt."; }
+  // bigger Resume button now needs for itself. Folded into the veil's own text stack instead:
+  // same personality, no collision. v3.21: it was staying on screen indefinitely though — the
+  // floating bubble always auto-hid after a few seconds, and this should too, even though
+  // "MATCH PAUSED"/"TOILET BREAK" itself stays up for as long as the match stays paused. Reuses
+  // the exact same length-based duration formula showBanter() already uses, for consistency.
+  let text='';
+  if(reason==='toilet'){ pvt.textContent='TOILET BREAK'; text="Nature's calling. The rack will wait."; }
+  else if(reason==='meal'){ pvt.textContent='REFUEL BREAK'; text="Snack run. Don't get sauce on the felt."; }
+  if(sub){
+    clearTimeout(pauseSubtextTimer);
+    sub.textContent=text;
+    if(text){
+      const ms=Math.max(2500,Math.min(6500,1700+text.length*48));
+      pauseSubtextTimer=setTimeout(()=>{ sub.textContent=''; },ms);
+    }
+  }
 }
 function openPauseReasonPopup(){
   modal('I really want to play pool, why are we stopping?',
@@ -5127,13 +5139,21 @@ body{
    felt itself, matching the mock-up. --tbl-cx is 46.4% (left of screen-centre) rather than 50% —
    matches the mock-up's own table position, not an eyeballed guess. REPLACES the v3.17 block. */
 .app{
-  --tbl-x0:1.900%;   --tbl-x1:90.885%;
-  --tbl-y0:11.500%;  --tbl-y1:107.900%;
-  --tbl-cx:46.392%;
-  --felt-x0:5.612%;  --felt-x1:86.972%;
-  --felt-y0:19.651%; --felt-y1:97.684%;
+  --tbl-x0:1.900%;   --tbl-x1:80.823%;
+  --tbl-y0:11.500%;  --tbl-y1:97.000%;
+  --tbl-cx:41.362%;
+  --felt-x0:5.192%;  --felt-x1:77.353%;
+  --felt-y0:18.729%; --felt-y1:87.939%;
 }
-#tableLayer{position:absolute!important;z-index:0!important;pointer-events:none!important;left:-2.614%!important;top:6.066%!important;width:98.013%!important;height:113.789%!important}
+#tableLayer{position:absolute!important;z-index:0!important;pointer-events:none!important;left:-2.104%!important;top:6.680%!important;width:86.931%!important;height:100.923%!important}
+</style>
+<style id="rackmate-v321-table-shrunk-for-bottom-margin">
+/* v3.21: a real phone showed the table's bottom rail running clean off the visible screen, with
+   zero background showing beneath it — not a translation issue, a sizing one. tbl-y0 (11.5%) is
+   kept exactly as it was (that top clearance already worked fine), and tbl-y1 is pulled in from
+   107.9% to 97%, revealing a small sliver of the bar scene below the table as asked. Since the
+   table's own image has a fixed 2:1 aspect ratio, shrinking its height means its width has to
+   shrink to match (not just squeeze vertically) — table_x1 and --tbl-cx move with it. */
 </style>
 <style id="rackmate-v315-table-img-and-mark">
 #tableLayer img{display:block;width:100%;height:100%;-webkit-user-drag:none;user-select:none}
@@ -5255,15 +5275,15 @@ body{
    same ~9.5% growth in both directions, so everything grows and repositions together rather than
    some pieces catching up and others not. Name inputs, swap and Start Match already tracked
    --tbl-cx directly, so only their offsets/sizes needed this scaling, not their whole position. */
-#setupScreen{--rm-player-offset-x:18.623%!important;--rm-player-w:18.842%!important}
-#setupScreen .setupGameType{left:15.025%!important;top:48.352%!important;width:13.328%!important;height:39.683%!important}
-#setupScreen .setupMatchLength{left:67.270%!important;top:42.222%!important;width:15.646%!important;height:41.289%!important}
-#setupScreen .setupName{top:29.589%!important;width:24.929%!important;height:10.142%!important}
-#setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - 12.459%)!important}
-#setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - 12.459%)!important}
-#setupScreen .setupSwap{left:calc(var(--rm-table-centre-x) - 4.347%)!important;top:30.058%!important;width:8.692%!important;height:8.983%!important}
-#setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 10.866%)!important;top:45.612%!important;width:21.731%!important;height:13.039%!important}
-#setupScreen .startMatchBtn{top:74.095%!important}
+#setupScreen{--rm-player-offset-x:16.517%!important;--rm-player-w:16.712%!important}
+#setupScreen .setupGameType{left:13.541%!important;top:44.185%!important;width:11.821%!important;height:35.196%!important}
+#setupScreen .setupMatchLength{left:59.879%!important;top:38.748%!important;width:13.877%!important;height:36.621%!important}
+#setupScreen .setupName{top:27.543%!important;width:22.110%!important;height:8.995%!important}
+#setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - 11.050%)!important}
+#setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - 11.050%)!important}
+#setupScreen .setupSwap{left:calc(var(--rm-table-centre-x) - 3.856%)!important;top:27.959%!important;width:7.709%!important;height:7.967%!important}
+#setupScreen .setupBreakFormat{left:calc(var(--rm-table-centre-x) - 9.637%)!important;top:41.755%!important;width:19.274%!important;height:11.565%!important}
+#setupScreen .startMatchBtn{top:67.017%!important}
 </style>
 
 <style id="rackmate-v319-big-resume-button">
@@ -5283,10 +5303,10 @@ body{
   width:min(11.68cqw,23.36cqh);
   height:min(11.68cqw,23.36cqh);
   border-radius:50%;
-  background:rgba(242,196,77,.16);
-  border:2px solid rgba(242,196,77,.75);
+  background:rgba(242,196,77,.38);
+  border:3px solid rgba(242,196,77,.95);
   color:var(--gold);
-  box-shadow:0 0 22px rgba(242,196,77,.45),0 4px 14px rgba(0,0,0,.5);
+  box-shadow:0 0 34px rgba(242,196,77,.75),0 0 60px rgba(242,196,77,.4),0 4px 14px rgba(0,0,0,.5);
   margin-bottom:9vh;
   position:relative;
   z-index:110;
