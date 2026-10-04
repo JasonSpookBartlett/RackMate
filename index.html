@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.22</div>
+<div class="version">BETA v3.23</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.22';
+const RACKMATE_VERSION='3.23';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -5143,13 +5143,13 @@ body{
    felt itself, matching the mock-up. --tbl-cx is 46.4% (left of screen-centre) rather than 50% —
    matches the mock-up's own table position, not an eyeballed guess. REPLACES the v3.17 block. */
 .app{
-  --tbl-x0:1.900%;   --tbl-x1:80.823%;
+  --tbl-x0:10.138%;   --tbl-x1:89.061%;
   --tbl-y0:11.500%;  --tbl-y1:97.000%;
-  --tbl-cx:41.362%;
-  --felt-x0:5.192%;  --felt-x1:77.353%;
+  --tbl-cx:49.600%;
+  --felt-x0:13.430%;  --felt-x1:85.591%;
   --felt-y0:18.729%; --felt-y1:87.939%;
 }
-#tableLayer{position:absolute!important;z-index:0!important;pointer-events:none!important;left:-2.104%!important;top:6.680%!important;width:86.931%!important;height:100.923%!important}
+#tableLayer{position:absolute!important;z-index:0!important;pointer-events:none!important;left:6.134%!important;top:6.680%!important;width:86.931%!important;height:100.923%!important}
 </style>
 <style id="rackmate-v321-table-shrunk-for-bottom-margin">
 /* v3.21: a real phone showed the table's bottom rail running clean off the visible screen, with
@@ -5280,8 +5280,8 @@ body{
    some pieces catching up and others not. Name inputs, swap and Start Match already tracked
    --tbl-cx directly, so only their offsets/sizes needed this scaling, not their whole position. */
 #setupScreen{--rm-player-offset-x:16.517%!important;--rm-player-w:16.712%!important}
-#setupScreen .setupGameType{left:13.541%!important;top:44.185%!important;width:11.821%!important;height:35.196%!important}
-#setupScreen .setupMatchLength{left:59.879%!important;top:38.748%!important;width:13.877%!important;height:36.621%!important}
+#setupScreen .setupGameType{left:21.779%!important;top:44.185%!important;width:11.821%!important;height:35.196%!important}
+#setupScreen .setupMatchLength{left:68.117%!important;top:38.748%!important;width:13.877%!important;height:36.621%!important}
 #setupScreen .setupName{top:27.543%!important;width:22.110%!important;height:8.995%!important}
 #setupScreen .setupNameP1{left:calc(var(--rm-table-centre-x) - var(--rm-player-offset-x) - 11.050%)!important}
 #setupScreen .setupNameP2{left:calc(var(--rm-table-centre-x) + var(--rm-player-offset-x) - 11.050%)!important}
