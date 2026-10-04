@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.21</div>
+<div class="version">BETA v3.22</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.21';
+const RACKMATE_VERSION='3.22';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -4081,25 +4081,29 @@ body{align-items:flex-start!important;justify-content:center!important}
 <script id="rackmate-v2-runtime">
 (function(){
  const q=s=>document.querySelector(s);
- let fullscreenTried=false;
+ let fullscreenBusy=false;
  async function requestRackMateFullscreen(){
-  if(fullscreenTried || document.fullscreenElement) return;
-  fullscreenTried=true;
+  if(fullscreenBusy || document.fullscreenElement || document.webkitFullscreenElement) return;
+  fullscreenBusy=true;
   const el=document.documentElement;
   try{
    if(el.requestFullscreen) await el.requestFullscreen({navigationUI:'hide'});
    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-  }catch(_){ fullscreenTried=false; }
+   // Best effort: once immersive, hold landscape (only permitted while fullscreen).
+   try{ if(screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape'); }catch(_){}
+  }catch(_){ /* refused (no valid gesture yet) — the next tap simply tries again */ }
+  fullscreenBusy=false;
  }
- // v3.16: re-enabled. This function has been fully working this whole time — v2.87 removed
- // only the listener that ever called it, "during development", and it was never reconnected.
- // Browsers only grant fullscreen from inside a real user gesture, so this listens for the
- // very first tap/click on the page and asks then; it removes itself either way, since
- // fullscreenTried above already stops requestRackMateFullscreen() running a second time.
- document.addEventListener('pointerdown', function firstGesture(){
-   document.removeEventListener('pointerdown', firstGesture);
-   requestRackMateFullscreen();
- }, {once:true});
+ // v3.22: fullscreen trigger rewritten. The v3.16 version listened for 'pointerdown' ONCE and
+ // then removed itself. On Android touch screens Chrome does not treat pointerdown as a real
+ // user gesture for fullscreen (only pointerup / touchend / click qualify), so the request was
+ // refused and, being one-shot, never retried — hence the status bar always staying visible.
+ // Now it listens for the gestures that DO qualify, and keeps trying on every tap until it
+ // succeeds. It also re-arms itself: if fullscreen is left (back gesture, swipe from the edge,
+ // app switch), the next tap anywhere takes the phone straight back into it.
+ ['click','touchend','pointerup'].forEach(function(evt){
+   document.addEventListener(evt, requestRackMateFullscreen, {capture:true, passive:true});
+ });
  function syncV2(){
   const rm=window.__rmState; if(!rm) return;
   const mt=q('#matchTimeDisplay'),mf=q('#matchTimeFloor'),af=q('#avgFrameDisplay'),aff=q('#avgFrameFloor');
