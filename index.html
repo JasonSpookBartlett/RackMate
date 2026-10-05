@@ -1649,7 +1649,7 @@ html,body{background:#050506}
 .setupBreakFormat .breakFormatSuffix{color:#fff;opacity:.92;text-shadow:0 2px 5px #000;letter-spacing:.14em;font-size:clamp(14px,1.34vw,22px);font-weight:900;font-family:Arial,Helvetica,sans-serif;white-space:nowrap}
 </style>
 </head>
-<body><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.69" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
+<body data-screen="setup"><div id="rackmateBuildIdentity" aria-label="RackMate build version"><img src="./icons/icon-192.png?v=2.69" alt=""><div class="rmName"><span class="rmRack">Rack</span><span class="rmMate">Mate</span></div><div class="rmBuild" data-rackmate-version></div></div>
 <div class="app"><div id="tableLayer" aria-hidden="true"><img src="./assets/table.webp" alt="" draggable="false"></div><div id="brandLockup" aria-hidden="true"><img src="./icons/icon-192.png" alt="" draggable="false"><span class="bl-name"><span class="bl-rack">Rack</span><span class="bl-mate">Mate</span></span></div><img id="makersMark" src="./assets/makers-mark.svg" alt="" draggable="false">
 <header class="header">
 <div class="brand"><button class="menu" id="menuBtn">☰</button><div class="mini8" aria-hidden="true">8</div><div class="brandName"><span class="rackWord">Rack</span><span class="mateWord">Mate</span><span class="headerVersion" data-rackmate-version></span></div></div>
@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.23</div>
+<div class="version">BETA v3.24</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.23';
+const RACKMATE_VERSION='3.24';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -2023,6 +2023,7 @@ function show(n){
   st.screen=n;
   $('#screenTitle').textContent={setup:'MATCH SETUP',play:'MATCH',winner:'MATCH COMPLETE',help:'HELP'}[n];
   document.body.classList.toggle('playMode',n==='play');
+  document.body.dataset.screen=n;   // v3.24: CSS decides which side buttons exist on each screen from this
   $('#matchTitleBall').style.display=n==='play'?'grid':'none';
   const mtb2=$('#matchTitleBall2'); if(mtb2) mtb2.style.display=n==='play'?'grid':'none';
   $('#settingsBtn').style.visibility=n==='setup'?'visible':'hidden';
@@ -2239,6 +2240,7 @@ function openPauseReasonPopup(){
   $('#modalCancel').onclick=()=>{resumeMatch();close();$('#modalCancel').onclick=close;};
 }
 $('#pausedStatus').onclick=()=>{
+  if(st.screen!=='play') return;   // v3.24: pause only exists on the match screen
   if(st.paused){ resumeMatch(); return; }
   pauseMatch();
   openPauseReasonPopup();
@@ -3554,7 +3556,7 @@ function openMatchMenu(){
   }
 }
 $('#menuBtn').onclick=openMatchMenu;
-$('#endMatchBtn').onclick=openMatchMenu;
+$('#endMatchBtn').onclick=()=>{ if(st.screen==='play') openMatchMenu(); };
 $('#helpBtn').onclick=()=>{
   // Never allow Help to become its own return destination.
   if(st.screen!=='help') helpReturn=st.screen;
@@ -4116,7 +4118,7 @@ body{align-items:flex-start!important;justify-content:center!important}
  // element already has its real togglePause click handler bound directly. The old forwarding
  // shim here used to look for a *second*, nonexistent #pauseBtn and (once IDs were unified) would
  // have made the button click itself in an infinite loop, so it's removed rather than "fixed".
- const tub=q('#topUndoBtn'); if(tub) tub.onclick=()=>{const u=q('#undoBtn');if(u)u.click();};
+ const tub=q('#topUndoBtn'); if(tub) tub.onclick=()=>{ if((window.__rmState||{}).screen!=='play') return; const u=q('#undoBtn');if(u)u.click();};   // this block can't see 'st', so it reads the shared window.__rmState
  const teb=q('#topEditBtn'); if(teb) teb.onclick=()=>{const e=q('#editBtn');if(e)e.click();};
  // v2.88 fix: the old "wrap show()" hook referenced a bare `show`/`st` that only exist inside the
  // main script's own IIFE, so this always threw ReferenceErrors and never actually ran. The
@@ -5347,12 +5349,64 @@ body{
    Resume button now hold an <img> instead of a text glyph or plain-line SVG, so they all need
    explicit centring and sizing — the buttons never relied on flex centring before because a
    single inline glyph/SVG centres itself by default; a real image doesn't. */
-.icon,.bigResumeBtn{display:flex!important;align-items:center;justify-content:center}
-.iconImg{width:68%;height:68%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;user-select:none}
+.bigResumeBtn{display:flex!important;align-items:center;justify-content:center}
+.iconImg{width:86%;height:86%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;user-select:none}
 #pausedStatus{position:relative!important}
 #pausedStatus .iconImg{position:absolute}
 .bigResumeBtn .iconImg{width:58%;height:58%}
 /* The pause icon's own gold ring is already part of the artwork; drop the button's separate
    background highlight so paused doesn't show two overlapping gold treatments at once. */
 #pausedStatus.show{background:transparent!important;box-shadow:none!important}
+</style>
+
+<style id="rackmate-v324-side-button-column">
+/* v3.24 — the six control buttons: which screens they exist on, and where they sit.
+
+   VISIBILITY. Each button is hidden everywhere by default and then switched on only for the
+   screens that should have it (body[data-screen] is set by show()). Because this is done in the
+   stylesheet rather than by poking inline styles, nothing can accidentally switch a button back
+   on — which is exactly how Pause/Undo/Match Settings/Exit ended up on the Setup, Help and
+   Winner screens in v3.20-v3.23.
+       Match screen : Pause, Undo, Match Settings, Help, End Match
+       Setup screen : App Settings, Help
+       Winner screen: Help
+       Help screen  : none                                                                      */
+#pausedStatus#pausedStatus,#topUndoBtn#topUndoBtn,#topEditBtn#topEditBtn,
+#helpBtn#helpBtn,#settingsBtn#settingsBtn,#endMatchBtn#endMatchBtn{display:none!important}
+body[data-screen="play"] #pausedStatus#pausedStatus,
+body[data-screen="play"] #topUndoBtn#topUndoBtn,
+body[data-screen="play"] #topEditBtn#topEditBtn,
+body[data-screen="play"] #helpBtn#helpBtn,
+body[data-screen="play"] #endMatchBtn#endMatchBtn,
+body[data-screen="setup"] #settingsBtn#settingsBtn,
+body[data-screen="setup"] #helpBtn#helpBtn,
+body[data-screen="winner"] #helpBtn#helpBtn{display:flex!important}
+
+/* LAYOUT. One column down the right-hand side, outside the table, in fixed slots so a given
+   button is always in the same place (Settings and Help never move between screens):
+       slot 1 Pause   slot 2 Undo   slot 3 Settings   slot 4 Help      ...      End Match (bottom)
+   End Match is deliberately kept apart at the bottom corner so it can't be hit by accident.
+   All six share one size (about 1.5x the old header buttons) and one round shape.          */
+.app{--side-btn:min(5.5cqw,11cqh);--side-gap:1.4cqh;--side-right:1.3%;--side-top:3%}
+#pausedStatus#pausedStatus,#topUndoBtn#topUndoBtn,#topEditBtn#topEditBtn,
+#helpBtn#helpBtn,#settingsBtn#settingsBtn,#endMatchBtn#endMatchBtn{
+  position:absolute!important; left:auto!important; right:var(--side-right)!important; bottom:auto!important;
+  width:var(--side-btn)!important; height:var(--side-btn)!important; margin:0!important; padding:0!important;
+  transform:none!important; border-radius:50%!important;
+  align-items:center; justify-content:center;
+}
+#pausedStatus#pausedStatus{top:var(--side-top)!important}
+#topUndoBtn#topUndoBtn{top:calc(var(--side-top) + 1*(var(--side-btn) + var(--side-gap)))!important}
+#topEditBtn#topEditBtn,#settingsBtn#settingsBtn{top:calc(var(--side-top) + 2*(var(--side-btn) + var(--side-gap)))!important}
+#helpBtn#helpBtn{top:calc(var(--side-top) + 3*(var(--side-btn) + var(--side-gap)))!important}
+#endMatchBtn#endMatchBtn{top:auto!important; bottom:3.3%!important}
+
+/* The Help page has its own big "RackMate Help" heading; the header's "HELP" label was printing
+   on top of it. */
+body[data-screen="help"] .header .title{display:none!important}
+
+/* Pop-ups (Settings, "why are we stopping?", menus) sit above everything. The Start Match button
+   used z-index 500 against the pop-ups' 100, so it painted straight through the Settings window
+   and could still be pressed. */
+#modalWrap.modalWrap{z-index:9500!important}
 </style>
