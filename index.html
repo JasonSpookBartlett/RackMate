@@ -1792,11 +1792,11 @@ html,body{background:#050506}
 
     <h4>Lag</h4>
     <p>Lag at the table as normal. On the 0-0 gameplay screen, drag the white cue ball from the centre to the player who won the lag. RackMate will use that player as the first breaker.</p>
-    <p>Before the first frame is scored, you can drag the cue ball to the other player if the opening breaker was assigned incorrectly.</p>
+    <p>Before the first frame is scored, you can drag the cue ball to the other player if the opening breaker was assigned incorrectly, or tap Undo to put the ball back in the middle and start again.</p>
 
     <h4>Coin Toss</h4>
     <p>Call Heads or Tails verbally, then tap the coin to toss it. Once the result is shown, drag the coin to the player who won the toss.</p>
-    <p>RackMate then assigns that player as the opening breaker. Before the first frame is scored, the breaker can still be corrected if necessary.</p>
+    <p>RackMate then assigns that player as the opening breaker. Before the first frame is scored, the breaker can still be corrected if necessary, or tap Undo to put the coin back in the middle and drag it again.</p>
 
     <h4>Just Play</h4>
     <p>Don't care who breaks first? Choose Just Play.</p>
@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.24</div>
+<div class="version">BETA v3.26</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.24';
+const RACKMATE_VERSION='3.26';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -2239,8 +2239,19 @@ function openPauseReasonPopup(){
   // paused with no reason picked.
   $('#modalCancel').onclick=()=>{resumeMatch();close();$('#modalCancel').onclick=close;};
 }
+// v3.26: pressing Pause before anyone has been given the break (Lag/Coin still undecided) used to
+// open the "why are we stopping?" pop-up for a match that hasn't started — pauseMatch() itself
+// quietly refused, but the pop-up still appeared. Now it gets a telling-off instead.
+function pauseBeforeStartReply(){
+  if(st.matchStartedAt) return false;
+  if(st.lagAssign) banter('pauseBeforeLag');
+  else if($('#coinLayer').classList.contains('show')) banter('pauseBeforeCoin');
+  else banter('pauseBeforeStart');
+  return true;
+}
 $('#pausedStatus').onclick=()=>{
   if(st.screen!=='play') return;   // v3.24: pause only exists on the match screen
+  if(!st.paused && pauseBeforeStartReply()) return;
   if(st.paused){ resumeMatch(); return; }
   pauseMatch();
   openPauseReasonPopup();
@@ -2809,6 +2820,51 @@ const BANTER={
     "Simple mode engaged. Don’t make it complicated.",
     "No ceremony, just consequences."
   ],
+  pauseBeforeLag: [
+    "Pause what? Nobody's even been given the break yet.",
+    "You can't pause a match that hasn't started. Who won the lag, again?",
+    "Ah, taking a break before the break. Who won the lag?",
+    "The clock isn't even running. What exactly are you pausing, the suspense?",
+    "Nice try. Drag the ball to whoever won the lag, then you can pause all you like.",
+    "Pause what, exactly? Nothing's started. Do try to remember who won the lag.",
+    "Stalling already? Who won the lag? It's not a trick question.",
+    "Pausing before the lag's even been settled. Bold. Who won it?"
+  ],
+  pauseBeforeCoin: [
+    "Pause what? The coin's still sitting there. Who called it?",
+    "You can't pause a match that hasn't started. Who won the toss?",
+    "Taking a break before the toss has even been settled? Bold.",
+    "The clock isn't running. What are you pausing, the coin?",
+    "Nice try. Drag the coin to whoever called it, then pause all you like.",
+    "Pause what, exactly? Nothing's started. Do try to remember who called the toss.",
+    "Stalling already? Who called it, heads or tails? It's not a trick question.",
+    "Not even the coin's been decided and you want a rest already."
+  ],
+  pauseBeforeStart: [
+    "Pause what? You haven't started anything.",
+    "Nothing's running. There's nothing to pause, pal.",
+    "Pause what, exactly? The match hasn't even begun."
+  ],
+  undoLagAssign: [
+    "Ah. Forgotten who won the lag already? It was only a minute ago. Have another go.",
+    "Right, ball's back in the middle. Try to remember who actually won it this time.",
+    "Two of you watched that lag and somehow still got it wrong. Impressive.",
+    "No worries. Remembering who won a lag is a very advanced skill. Try again, slowly.",
+    "The cue ball's back. Drag it to whoever really won, and do give it a moment's thought.",
+    "Take your time. I know deciding who won a lag is terribly taxing.",
+    "Apparently the lag is a mystery. I've put the ball back so you can solve it.",
+    "I'd ask who won the lag, but clearly that's too much to expect. Go again."
+  ],
+  undoCoinAssign: [
+    "Heads, tails, two people, one coin... and you still gave it to the wrong one.",
+    "Who called the toss? It's a tough one, I know. Have another go.",
+    "Coin's back in the middle. Do try to remember who actually called it.",
+    "It's one coin and two people. I'm amazed there's any confusion at all.",
+    "Right, let's pretend that never happened. Drag the coin to whoever really won it.",
+    "Don't worry, calling a coin toss is a lot to remember. Try again, nice and slowly.",
+    "The coin has spoken, and apparently you weren't listening. Go again.",
+    "Somebody called it correctly and it wasn't who you picked. Drag it again."
+  ],
   openingBreakerCorrected: [
     "Oh, come on, make your mind up, who’s breaking?",
     "Geez if you’re not sure who’s breaking, just say so!",
@@ -3180,6 +3236,14 @@ function start(p){
   show('play');startMatchClock();play();
 }
 
+// v3.26: the ball you drag to the lag winner is now a plain CUE ball (it used to be the numbered
+// 8/9/10 game ball). It uses the same 'breaker playerBreakerBall' look as the ball that later sits
+// under the breaker, so it's the same object in two sizes. The hidden #breakerArrow span has to
+// stay inside it — play() looks that element up and used to crash without it (see v3.10).
+function setLagBallLook(el){
+  el.className='breaker playerBreakerBall lagCueBall lagAssign';
+  el.innerHTML='<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
+}
 function beginLagAssignment(){
   $('#firstBreakOverlay').classList.remove('show');
   st.justPlay=false;
@@ -3206,7 +3270,7 @@ function beginLagAssignment(){
   // that no longer existed — silently breaking the breaker-ball display and hill-status text for
   // the remainder of the match. Using innerHTML with the arrow re-included (just hidden) keeps
   // that element alive for play() to find again once normal breaker display resumes.
-  cue.className='breaker gameBreaker b'+st.game+' lagAssign';cue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
+  setLagBallLook(cue);
   cue.style.transform='';
   $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
   $('#frameValue').textContent='1 OF '+st.best;
@@ -3454,7 +3518,7 @@ function finishOpeningBreakerDrag(e){
     if(stillAssigning){
       st.lagAssign=true;
       $('.centre').appendChild(breakerCue);
-      breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
+      setLagBallLook(breakerCue);
       $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
     }
     return;
@@ -3482,12 +3546,57 @@ breakerCue.addEventListener('pointercancel',()=>{
   if(stillAssigning){
     st.lagAssign=true;
     $('.centre').appendChild(breakerCue);
-    breakerCue.className='breaker gameBreaker b'+st.game+' lagAssign';breakerCue.innerHTML=st.game+'<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';
+    setLagBallLook(breakerCue);
     $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
   }
 });
 
-$('#undoBtn').onclick=()=>{if(st.paused){showBanter("Mate, you paused the bloody match!");return;}const e=st.history.at(-1);if(e){restore(e.before);haptic(12);sound('undo');banter('undo');}else banter('pointlessUndo');};
+// v3.25: Undo with nothing left to take back USED to just say "UNDO WHAT?". But if the opening
+// breaker has been handed to a player by Lag or Coin Toss and no frame has been scored yet, there
+// IS something to take back: that hand-over. Undo puts the cue ball (Lag) or the coin (Coin Toss)
+// back in the middle to be dragged to the right player again, and the match clock goes back to
+// 0 because the match doesn't really start until someone has been given the break.
+// Just Play has no hand-over, so it still gets the old "nothing to undo" reply.
+function openingAssignmentIsUndoable(){
+  return st.screen==='play' && !st.lagAssign && !$('#coinLayer').classList.contains('show') &&
+         (st.openingMethod==='lag' || st.openingMethod==='coin') &&
+         st.history.length===0 && st.score1===0 && st.score2===0 && !!st.matchStartedAt;
+}
+function reopenOpeningAssignment(){
+  const method=st.openingMethod;
+  st.history=[]; st.score1=0; st.score2=0;
+  st.openingBreakerEditable=false;
+  resetMatchClock();
+  if(method==='lag'){
+    st.lagAssign=true;
+    play();
+    const cue=$('#breakerCue');
+    $('.centre').appendChild(cue);                      // same set-up beginLagAssignment() uses
+    setLagBallLook(cue);
+    cue.style.transform='';
+    $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
+    $('#frameValue').textContent='1 OF '+st.best;
+    banter('undoLagAssign');
+  }else{
+    play();
+    $('#playScreen').classList.add('coinMode');
+    $('#coinLayer').classList.add('show');
+    coinFlipped=true;                                   // the toss already happened — don't toss again
+    coinResultSide=lastCoinResultSide||(Math.random()<.5?'HEADS':'TAILS');
+    coin.classList.remove('flipping');
+    coin.textContent=coinResultSide==='HEADS'?'H':'T';
+    $('#coinHint').textContent='DRAG COIN TO WINNER';
+    resetCoinDragVisual();
+    banter('undoCoinAssign');
+  }
+}
+$('#undoBtn').onclick=()=>{
+  if(st.paused){showBanter("Mate, you paused the bloody match!");return;}
+  const e=st.history.at(-1);
+  if(e){restore(e.before);haptic(12);sound('undo');banter('undo');}
+  else if(openingAssignmentIsUndoable()){haptic(12);sound('undo');reopenOpeningAssignment();}
+  else banter('pointlessUndo');
+};
 function openMatchMenu(){
   const restoreCancel=()=>{$('#modalCancel').style.display='inline-block';};
 
@@ -3903,6 +4012,7 @@ swipe($('#leftZone'),()=>st.displaySwapped?2:1);swipe($('#rightZone'),()=>st.dis
 let coinFlipped=false;
 let coinDragging=null;
 let coinResultSide=null;
+let lastCoinResultSide=null;   // v3.25: kept after the coin is assigned so Undo can bring the same result back
 const coin=$('#coin');
 
 function resetCoinDragVisual(){
@@ -3996,6 +4106,7 @@ function finishCoinDrag(e){
   // Invalid drop: coin returns to centre and remains ready to drag again.
   if(!p){banter('invalidCoin');return;}
 
+  lastCoinResultSide=coinResultSide;
   coinFlipped=false;
   coinResultSide=null;
   coin.textContent='NZ';
@@ -5384,7 +5495,7 @@ body[data-screen="winner"] #helpBtn#helpBtn{display:flex!important}
 
 /* LAYOUT. One column down the right-hand side, outside the table, in fixed slots so a given
    button is always in the same place (Settings and Help never move between screens):
-       slot 1 Pause   slot 2 Undo   slot 3 Settings   slot 4 Help      ...      End Match (bottom)
+       slot 1 Settings   slot 2 Help   slot 3 Pause   slot 4 Undo      ...      End Match (bottom)
    End Match is deliberately kept apart at the bottom corner so it can't be hit by accident.
    All six share one size (about 1.5x the old header buttons) and one round shape.          */
 .app{--side-btn:min(5.5cqw,11cqh);--side-gap:1.4cqh;--side-right:1.3%;--side-top:3%}
@@ -5395,10 +5506,10 @@ body[data-screen="winner"] #helpBtn#helpBtn{display:flex!important}
   transform:none!important; border-radius:50%!important;
   align-items:center; justify-content:center;
 }
-#pausedStatus#pausedStatus{top:var(--side-top)!important}
-#topUndoBtn#topUndoBtn{top:calc(var(--side-top) + 1*(var(--side-btn) + var(--side-gap)))!important}
-#topEditBtn#topEditBtn,#settingsBtn#settingsBtn{top:calc(var(--side-top) + 2*(var(--side-btn) + var(--side-gap)))!important}
-#helpBtn#helpBtn{top:calc(var(--side-top) + 3*(var(--side-btn) + var(--side-gap)))!important}
+#topEditBtn#topEditBtn,#settingsBtn#settingsBtn{top:var(--side-top)!important}
+#helpBtn#helpBtn{top:calc(var(--side-top) + 1*(var(--side-btn) + var(--side-gap)))!important}
+#pausedStatus#pausedStatus{top:calc(var(--side-top) + 2*(var(--side-btn) + var(--side-gap)))!important}
+#topUndoBtn#topUndoBtn{top:calc(var(--side-top) + 3*(var(--side-btn) + var(--side-gap)))!important}
 #endMatchBtn#endMatchBtn{top:auto!important; bottom:3.3%!important}
 
 /* The Help page has its own big "RackMate Help" heading; the header's "HELP" label was printing
@@ -5409,4 +5520,24 @@ body[data-screen="help"] .header .title{display:none!important}
    used z-index 500 against the pop-ups' 100, so it painted straight through the Settings window
    and could still be pressed. */
 #modalWrap.modalWrap{z-index:9500!important}
+</style>
+
+<style id="rackmate-v325-coin-mode-hides-breaker-ball">
+/* While the coin is on the table nobody has been given the break yet, so no cue ball should be
+   showing under either player. (Since v3.12 moved the ball under the scores, it had been left
+   sitting under Player 1 during the toss, which wrongly suggested Player 1 was breaking.) */
+#playScreen.coinMode .playerBreakerSlot{visibility:hidden!important}
+</style>
+
+<style id="rackmate-v326-cue-ball-sizes">
+/* v3.26 — cue ball sizes.
+   1) The ball sitting under the breaking player is 25% bigger: clamp(34px,4.4vw,64px) became
+      clamp(42.5px,5.5vw,80px) (all three numbers x1.25). The slot reserves the same height.
+   2) The ball in the middle of the table that you drag to the lag winner is now a cue ball and
+      twice its old size (it was 62px, so 124px). It keeps the 'playerBreakerBall' cue-ball art,
+      and is centred on the strip the same way the old numbered ball was. */
+.playerBreakerSlot{min-height:clamp(42.5px,5.5vw,80px)!important}
+.playerBreakerBall{width:clamp(42.5px,5.5vw,80px);height:clamp(42.5px,5.5vw,80px)}
+.breaker.playerBreakerBall.lagCueBall{width:124px!important;height:124px!important;cursor:grab}
+.centre>.breaker.lagCueBall{position:absolute!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;z-index:10!important}
 </style>
