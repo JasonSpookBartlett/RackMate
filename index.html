@@ -1792,11 +1792,11 @@ html,body{background:#050506}
 
     <h4>Lag</h4>
     <p>Lag at the table as normal. On the 0-0 gameplay screen, drag the white cue ball from the centre to the player who won the lag. RackMate will use that player as the first breaker.</p>
-    <p>Before the first frame is scored, you can drag the cue ball to the other player if the opening breaker was assigned incorrectly, or tap Undo to put the ball back in the middle and start again.</p>
+    <p>Before the first frame is scored, you can drag the cue ball to the other player if the opening breaker was assigned incorrectly.</p>
 
     <h4>Coin Toss</h4>
     <p>Call Heads or Tails verbally, then tap the coin to toss it. Once the result is shown, drag the coin to the player who won the toss.</p>
-    <p>RackMate then assigns that player as the opening breaker. Before the first frame is scored, the breaker can still be corrected if necessary, or tap Undo to put the coin back in the middle and drag it again.</p>
+    <p>RackMate then assigns that player as the opening breaker. Before the first frame is scored, the breaker can still be corrected if necessary.</p>
 
     <h4>Just Play</h4>
     <p>Don't care who breaks first? Choose Just Play.</p>
@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.26</div>
+<div class="version">BETA v3.27</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.26';
+const RACKMATE_VERSION='3.27';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -2845,26 +2845,6 @@ const BANTER={
     "Nothing's running. There's nothing to pause, pal.",
     "Pause what, exactly? The match hasn't even begun."
   ],
-  undoLagAssign: [
-    "Ah. Forgotten who won the lag already? It was only a minute ago. Have another go.",
-    "Right, ball's back in the middle. Try to remember who actually won it this time.",
-    "Two of you watched that lag and somehow still got it wrong. Impressive.",
-    "No worries. Remembering who won a lag is a very advanced skill. Try again, slowly.",
-    "The cue ball's back. Drag it to whoever really won, and do give it a moment's thought.",
-    "Take your time. I know deciding who won a lag is terribly taxing.",
-    "Apparently the lag is a mystery. I've put the ball back so you can solve it.",
-    "I'd ask who won the lag, but clearly that's too much to expect. Go again."
-  ],
-  undoCoinAssign: [
-    "Heads, tails, two people, one coin... and you still gave it to the wrong one.",
-    "Who called the toss? It's a tough one, I know. Have another go.",
-    "Coin's back in the middle. Do try to remember who actually called it.",
-    "It's one coin and two people. I'm amazed there's any confusion at all.",
-    "Right, let's pretend that never happened. Drag the coin to whoever really won it.",
-    "Don't worry, calling a coin toss is a lot to remember. Try again, nice and slowly.",
-    "The coin has spoken, and apparently you weren't listening. Go again.",
-    "Somebody called it correctly and it wasn't who you picked. Drag it again."
-  ],
   openingBreakerCorrected: [
     "Oh, come on, make your mind up, who’s breaking?",
     "Geez if you’re not sure who’s breaking, just say so!",
@@ -3551,52 +3531,7 @@ breakerCue.addEventListener('pointercancel',()=>{
   }
 });
 
-// v3.25: Undo with nothing left to take back USED to just say "UNDO WHAT?". But if the opening
-// breaker has been handed to a player by Lag or Coin Toss and no frame has been scored yet, there
-// IS something to take back: that hand-over. Undo puts the cue ball (Lag) or the coin (Coin Toss)
-// back in the middle to be dragged to the right player again, and the match clock goes back to
-// 0 because the match doesn't really start until someone has been given the break.
-// Just Play has no hand-over, so it still gets the old "nothing to undo" reply.
-function openingAssignmentIsUndoable(){
-  return st.screen==='play' && !st.lagAssign && !$('#coinLayer').classList.contains('show') &&
-         (st.openingMethod==='lag' || st.openingMethod==='coin') &&
-         st.history.length===0 && st.score1===0 && st.score2===0 && !!st.matchStartedAt;
-}
-function reopenOpeningAssignment(){
-  const method=st.openingMethod;
-  st.history=[]; st.score1=0; st.score2=0;
-  st.openingBreakerEditable=false;
-  resetMatchClock();
-  if(method==='lag'){
-    st.lagAssign=true;
-    play();
-    const cue=$('#breakerCue');
-    $('.centre').appendChild(cue);                      // same set-up beginLagAssignment() uses
-    setLagBallLook(cue);
-    cue.style.transform='';
-    $('#breakerText').textContent='DRAG CUE BALL TO LAG WINNER';
-    $('#frameValue').textContent='1 OF '+st.best;
-    banter('undoLagAssign');
-  }else{
-    play();
-    $('#playScreen').classList.add('coinMode');
-    $('#coinLayer').classList.add('show');
-    coinFlipped=true;                                   // the toss already happened — don't toss again
-    coinResultSide=lastCoinResultSide||(Math.random()<.5?'HEADS':'TAILS');
-    coin.classList.remove('flipping');
-    coin.textContent=coinResultSide==='HEADS'?'H':'T';
-    $('#coinHint').textContent='DRAG COIN TO WINNER';
-    resetCoinDragVisual();
-    banter('undoCoinAssign');
-  }
-}
-$('#undoBtn').onclick=()=>{
-  if(st.paused){showBanter("Mate, you paused the bloody match!");return;}
-  const e=st.history.at(-1);
-  if(e){restore(e.before);haptic(12);sound('undo');banter('undo');}
-  else if(openingAssignmentIsUndoable()){haptic(12);sound('undo');reopenOpeningAssignment();}
-  else banter('pointlessUndo');
-};
+$('#undoBtn').onclick=()=>{if(st.paused){showBanter("Mate, you paused the bloody match!");return;}const e=st.history.at(-1);if(e){restore(e.before);haptic(12);sound('undo');banter('undo');}else banter('pointlessUndo');};
 function openMatchMenu(){
   const restoreCancel=()=>{$('#modalCancel').style.display='inline-block';};
 
@@ -4012,7 +3947,6 @@ swipe($('#leftZone'),()=>st.displaySwapped?2:1);swipe($('#rightZone'),()=>st.dis
 let coinFlipped=false;
 let coinDragging=null;
 let coinResultSide=null;
-let lastCoinResultSide=null;   // v3.25: kept after the coin is assigned so Undo can bring the same result back
 const coin=$('#coin');
 
 function resetCoinDragVisual(){
@@ -4106,7 +4040,6 @@ function finishCoinDrag(e){
   // Invalid drop: coin returns to centre and remains ready to drag again.
   if(!p){banter('invalidCoin');return;}
 
-  lastCoinResultSide=coinResultSide;
   coinFlipped=false;
   coinResultSide=null;
   coin.textContent='NZ';
