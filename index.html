@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.27</div>
+<div class="version">BETA v3.28</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.27';
+const RACKMATE_VERSION='3.28';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -4300,6 +4300,8 @@ body{align-items:flex-start!important;justify-content:center!important}
   text-shadow:0 2px 5px #000,0 0 8px rgba(0,0,0,.82)!important;
 }
 </style>
+
+
 </body>
 <style id="rackmate-v239-unified-design-plane">
 /* v2.40 — unified 2048 x 1024 design plane.
@@ -5473,4 +5475,22 @@ body[data-screen="help"] .header .title{display:none!important}
 .playerBreakerBall{width:clamp(42.5px,5.5vw,80px);height:clamp(42.5px,5.5vw,80px)}
 .breaker.playerBreakerBall.lagCueBall{width:124px!important;height:124px!important;cursor:grab}
 .centre>.breaker.lagCueBall{position:absolute!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;z-index:10!important}
+</style>
+
+<style id="rackmate-v328-strip-in-cushions">
+/* v3.28 — the dark strip now hugs its text and sits wholly inside the green rubber cushions.
+   Cushion inner edges (measured from table.webp): y 22.2%-84.0% of the screen height.
+   .centre spans the felt box (18.729%-87.939%), so the strip is inset 5.6% top / 6.3% bottom of it.
+   Width is just the widest text plus a buffer (padding in em, so it grows if the text does). */
+.centreStack{
+  position:absolute!important; top:5.6%!important; bottom:6.3%!important; left:0!important; right:0!important; margin:0 auto!important;
+  transform:none!important; height:auto!important; width:max-content!important; min-width:0!important;
+  justify-content:space-evenly!important; gap:0!important; padding:.5em 1.5em!important; box-sizing:border-box!important;
+}
+.centre{height:100%!important;align-self:stretch!important}
+.centreStack .centreLabel{font-size:min(1.05vw,2cqh)!important}
+.centreStack .centreItem b{font-size:min(2.6vw,4.4cqh)!important}
+.centreStack #matchTimeCentre{font-size:min(2.2vw,3.9cqh)!important}
+.centreGroup{gap:.35em!important}
+#makersMark{height:12.4%!important}
 </style>
