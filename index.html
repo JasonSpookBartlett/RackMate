@@ -1925,10 +1925,10 @@ html,body{background:#050506}
 
 <div id="modalWrap" class="modalWrap"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions"><button class="choice" id="modalCancel">CANCEL</button><button class="choice active" id="modalSave">SAVE</button></div></div></div>
 <div id="banterBubble" class="banterBubble" role="status" aria-live="polite"></div>
-<div class="version">BETA v3.28</div>
+<div class="version">BETA v3.29</div>
 </div></div></div>
 <script>
-const RACKMATE_VERSION='3.28';
+const RACKMATE_VERSION='3.29';
 function applyRackMateVersion(){
   document.title='RackMate BETA v'+RACKMATE_VERSION;
   document.querySelectorAll('[data-rackmate-version]').forEach(el=>el.textContent=`v${RACKMATE_VERSION}`);
@@ -3002,19 +3002,34 @@ let banterUsedText=new Set();
 let banterTimer=null;
 let liveBanterLastAt=0;
 let liveBanterNextAt=0;
+let liveBanterStage=0;
 function resetLiveBanterClock(){
   liveBanterLastAt=Date.now();
-  liveBanterNextAt=5*60*1000 + Math.floor(Math.random()*3*60*1000);
+  liveBanterStage=0;
+}
+// v3.29: "this frame is taking forever" heckling is now relative to how long THIS match's frames
+// usually take. First heckle once the current frame passes 1.75 x the average finished-frame time,
+// but never sooner than 6 minutes (so a lucky quick opening frame doesn't make the app twitchy).
+// Before any frame has finished there is no average, so it waits 12 minutes. A second, spicier
+// one lands at 2.5 x the average (at least 3 minutes after the first), then every ~4 minutes.
+// Uses the pause-aware frame clock, so a paused match never counts as slow play.
+function liveBanterThresholds(){
+  const done=st.score1+st.score2;
+  const avg=done>0?(st.completedFramesMs/done):0;
+  const first=done>0?Math.max(1.75*avg,6*60000):12*60000;
+  const second=done>0?Math.max(2.5*avg,first+3*60000):first+4*60000;
+  return {first,second};
 }
 function maybeLiveTableBanter(){
   if(st.screen!=='play'||st.paused||st.matchEndedAt||!st.frameStartedAt||!appSettings.banter) return;
-  const now=Date.now();
-  if(!liveBanterLastAt) resetLiveBanterClock();
-  if(now-liveBanterLastAt < liveBanterNextAt) return;
+  const t=liveBanterThresholds(), fm=elapsedFrameMs();
+  let due=false;
+  if(liveBanterStage===0 && fm>=t.first){due=true;liveBanterStage=1;}
+  else if(liveBanterStage===1 && fm>=t.second){due=true;liveBanterStage=2;liveBanterNextAt=fm+4*60000;}
+  else if(liveBanterStage>=2 && fm>=liveBanterNextAt){due=true;liveBanterNextAt=fm+4*60000;}
+  if(!due) return;
   banter('liveTable',{voiceChannel:'live'});
-  liveBanterLastAt=now;
-  // Sparse, irregular heckling after the first eligibility point.
-  liveBanterNextAt=3*60*1000 + Math.floor(Math.random()*5*60*1000);
+  liveBanterLastAt=Date.now();
 }
 setInterval(maybeLiveTableBanter,15000);
 
@@ -3124,7 +3139,7 @@ function selectMatchBanter(winner,reason){
 // everything else to fit. As a bonus this retires the position-tracking function from last time
 // entirely — a ball simply sitting in-flow inside a normal slot doesn't need its position synced
 // to anything, which is a smaller, more robust thing than needing to keep that in sync at all.
-function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const tb2=$('#matchTitleBall2');if(tb2){tb2.className='titleBall b'+st.game;tb2.textContent=st.game;}const breakerOnLeft=(st.breaker===1)!==sw;$('#breakerText').textContent='';const cue=$('#breakerCue');const cleanArrowHTML='<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';if(st.justPlay&&st.score1===0&&st.score2===0){cue.className='breaker playerBreakerBall';cue.style.display='none';cue.innerHTML=cleanArrowHTML;}else{cue.className='breaker playerBreakerBall';cue.style.display='';cue.innerHTML=cleanArrowHTML;const targetSlot=breakerOnLeft?$('#p1BreakerSlot'):$('#p2BreakerSlot');if(targetSlot&&cue.parentElement!==targetSlot){cue.style.position='';cue.style.top='';cue.style.left='';cue.style.marginTop='';cue.style.transform='';targetSlot.appendChild(cue);}}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;}
+function play(){ updateMatchClock();const sw=!!st.displaySwapped;const leftName=sw?st.p2:st.p1,rightName=sw?st.p1:st.p2,leftScore=sw?st.score2:st.score1,rightScore=sw?st.score1:st.score2;$('#p1Name').textContent=leftName;$('#p2Name').textContent=rightName;$('#p1Score').textContent=leftScore;$('#p2Score').textContent=rightScore;$('#raceValue').textContent=st.race;$('#frameValue').textContent=Math.min(st.score1+st.score2+1,st.best)+' OF '+st.best;const tb=$('#matchTitleBall');tb.className='titleBall b'+st.game;tb.textContent=st.game;const tb2=$('#matchTitleBall2');if(tb2){tb2.className='titleBall b'+st.game;tb2.textContent=st.game;}const breakerOnLeft=(st.breaker===1)!==sw;$('#breakerText').textContent='';const cue=$('#breakerCue');const cleanArrowHTML='<span id="breakerArrow" class="breakerArrow" style="visibility:hidden">◀</span>';if(st.justPlay&&st.score1===0&&st.score2===0){cue.className='breaker playerBreakerBall';cue.style.display='none';cue.innerHTML=cleanArrowHTML;}else{cue.className='breaker playerBreakerBall';cue.style.display='';cue.innerHTML=cleanArrowHTML;const targetSlot=breakerOnLeft?$('#p1BreakerSlot'):$('#p2BreakerSlot');if(targetSlot&&cue.parentElement!==targetSlot){cue.style.position='';cue.style.top='';cue.style.left='';cue.style.marginTop='';cue.style.transform='';targetSlot.appendChild(cue);}}const hh=st.score1===st.race-1&&st.score2===st.race-1;const h1=hh?'HILL-HILL MATCH':(st.score1===st.race-1?'ON THE HILL':'');const h2=hh?'HILL-HILL MATCH':(st.score2===st.race-1?'ON THE HILL':'');$('#p1Hill').textContent=sw?h2:h1;$('#p2Hill').textContent=sw?h1:h2;{const lz=$('#leftZone'),rz=$('#rightZone');if(lz)lz.classList.toggle('onHill',!!(sw?h2:h1));if(rz)rz.classList.toggle('onHill',!!(sw?h1:h2));}}
 function snap(){return{score1:st.score1,score2:st.score2,breaker:st.breaker,history:[...st.history],justPlay:st.justPlay,openingBreakerEditable:st.openingBreakerEditable,lagAssign:st.lagAssign,matchStartedAt:st.matchStartedAt,matchEndedAt:st.matchEndedAt,frameStartedAt:st.frameStartedAt,finalFrameMs:st.finalFrameMs,completedFramesMs:st.completedFramesMs,lastFrameMs:st.lastFrameMs,paused:st.paused,pausedAt:st.pausedAt,totalPausedMs:st.totalPausedMs,framePausedMs:st.framePausedMs}}function restore(s){st.score1=s.score1;st.score2=s.score2;st.breaker=s.breaker;st.history=[...s.history];st.justPlay=!!s.justPlay;st.openingBreakerEditable=!!s.openingBreakerEditable;st.lagAssign=!!s.lagAssign;st.matchStartedAt=s.matchStartedAt||st.matchStartedAt;st.matchEndedAt=s.matchEndedAt||0;st.frameStartedAt=s.frameStartedAt||st.frameStartedAt;st.finalFrameMs=s.finalFrameMs||0;st.completedFramesMs=s.completedFramesMs||0;st.lastFrameMs=s.lastFrameMs||0;st.paused=!!s.paused;st.pausedAt=s.pausedAt||0;st.totalPausedMs=s.totalPausedMs||0;st.framePausedMs=s.framePausedMs||0;if(st.screen==='play'&&st.matchStartedAt&&!st.matchEndedAt)startMatchClock();play()}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1000)}
 function add(p){
@@ -5493,4 +5508,21 @@ body[data-screen="help"] .header .title{display:none!important}
 .centreStack #matchTimeCentre{font-size:min(2.2vw,3.9cqh)!important}
 .centreGroup{gap:.35em!important}
 #makersMark{height:12.4%!important}
+</style>
+
+<style id="rackmate-v329-hill-and-sizes">
+/* v3.29 — names/scores 15% bigger; the small ON THE HILL / HILL-HILL text under the score is
+   replaced by a big gold glowing HILL behind the name and score. */
+.pname{font-size:calc(clamp(26px,3vw,52px)*1.15)!important}
+.score{font-size:calc(clamp(72px,9vw,150px)*1.15)!important}
+.hill{display:none!important}
+#leftZone>*,#rightZone>*{position:relative;z-index:1}
+#leftZone>.playerBreakerSlot,#rightZone>.playerBreakerSlot{position:absolute!important}
+#leftZone.onHill::before,#rightZone.onHill::before{
+  content:'HILL';position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);z-index:0;pointer-events:none;
+  font-weight:900;letter-spacing:.04em;line-height:1;font-size:min(13.5cqw,25cqh);color:#f2c44d;opacity:.62;
+  text-shadow:0 0 14px rgba(242,196,77,.85),0 0 40px rgba(242,196,77,.55),0 4px 10px rgba(0,0,0,.7);
+  animation:rmHillGlow 2.4s ease-in-out infinite;
+}
+@keyframes rmHillGlow{0%,100%{opacity:.5}50%{opacity:.72}}
 </style>
